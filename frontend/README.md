@@ -1,4 +1,5 @@
-# Frontend side for angular-sailsjs-boilerplate
+frontend
+============
 This is an example AngularJS application to demonstrate how to use separate back- and frontend applications. Currently
 this demo contains following features:
 
@@ -25,6 +26,8 @@ This frontend application uses following 3rd party libraries to make all this ma
 * Font Awesome (https://github.com/FortAwesome/Font-Awesome)
 * noty - A jQuery Notification Plugin (https://github.com/needim/noty)
 * Sails JavaScript Client SDK (https://github.com/balderdashy/sails.io.js)
+
+Note that this list may not be complete.
 
 ## Development
 
@@ -77,6 +80,3 @@ gulp production
 ```
 
 Then head to `http://localhost:3000` in your browser.
-
-## License
-The MIT License (MIT)

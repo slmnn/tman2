@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose readDependencies loading dependencies from c:\Users\salmiart\Source\Repos\tman\package.json
+5 verbose install where, deps [ 'c:\\Users\\salmiart\\Source\\Repos\\tman', [] ]
+6 verbose install where, peers [ 'c:\\Users\\salmiart\\Source\\Repos\\tman', [] ]
+7 verbose installManyTop reading for lifecycle c:\Users\salmiart\Source\Repos\tman\package.json
+8 info preinstall angular-sailsjs-boilerplate@1.0.0
+9 verbose readDependencies loading dependencies from c:\Users\salmiart\Source\Repos\tman\package.json
+10 silly install resolved []
+11 info build c:\Users\salmiart\Source\Repos\tman
+12 info linkStuff angular-sailsjs-boilerplate@1.0.0
+13 silly linkStuff angular-sailsjs-boilerplate@1.0.0 has c:\Users\salmiart\Source\Repos as its parent node_modules
+14 verbose linkBins angular-sailsjs-boilerplate@1.0.0
+15 verbose linkMans angular-sailsjs-boilerplate@1.0.0
+16 verbose rebuildBundles angular-sailsjs-boilerplate@1.0.0
+17 info install angular-sailsjs-boilerplate@1.0.0
+18 verbose unsafe-perm in lifecycle true
+19 info angular-sailsjs-boilerplate@1.0.0 Failed to exec install script
+20 verbose stack Error: angular-sailsjs-boilerplate@1.0.0 install: `git submodule update --init --recursive && cd backend && npm install && cd ../frontend && npm install`
+20 verbose stack Exit status 1
+20 verbose stack     at EventEmitter.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\lib\utils\lifecycle.js:213:16)
+20 verbose stack     at EventEmitter.emit (events.js:110:17)
+20 verbose stack     at ChildProcess.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\lib\utils\spawn.js:24:14)
+20 verbose stack     at ChildProcess.emit (events.js:110:17)
+20 verbose stack     at maybeClose (child_process.js:1015:16)
+20 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
+21 verbose pkgid angular-sailsjs-boilerplate@1.0.0
+22 verbose cwd c:\Users\salmiart\Source\Repos\tman
+23 error Windows_NT 6.3.9600
+24 error argv "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+25 error node v0.12.7
+26 error npm  v2.11.3
+27 error code ELIFECYCLE
+28 error angular-sailsjs-boilerplate@1.0.0 install: `git submodule update --init --recursive && cd backend && npm install && cd ../frontend && npm install`
+28 error Exit status 1
+29 error Failed at the angular-sailsjs-boilerplate@1.0.0 install script 'git submodule update --init --recursive && cd backend && npm install && cd ../frontend && npm install'.
+29 error This is most likely a problem with the angular-sailsjs-boilerplate package,
+29 error not with npm itself.
+29 error Tell the author that this fails on your system:
+29 error     git submodule update --init --recursive && cd backend && npm install && cd ../frontend && npm install
+29 error You can get their info via:
+29 error     npm owner ls angular-sailsjs-boilerplate
+29 error There is likely additional logging output above.
+30 verbose exit [ 1, true ]
