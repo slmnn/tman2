@@ -5,7 +5,7 @@
  */
 
 module.exports = {
-  appName: 'angular-sailsjs-boilerplate'
+  appName: 'tmanv2'
 };
 
 Object.defineProperty(global, '__stack', {

@@ -37,10 +37,18 @@ module.exports = {
       database: '',
       charset: 'utf8',
       collation: 'utf8_swedish_ci'
+    },
+    azureMongodbServer: {
+      adapter: 'sails-mongo',
+      host: 'slmnn.cloudapp.net',
+      port: 27017,
+      user: 'tmanv2',
+      password: 'tF44vc5Xbf3hGa',
+      database: 'tmanv2'
     }
   },
   models: {
-    connection: 'mysql' // Change this to be one of your connections key
+    connection: 'azureMongodbServer' // Change this to be one of your connections key
   },
   session: {
     secret: '' // Add your own SECRET string here
