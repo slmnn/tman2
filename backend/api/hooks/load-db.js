@@ -46,7 +46,9 @@ module.exports = function hook(sails) {
       var self = this;
 
       // Wait for sails orm hook to be loaded
+      sails.log.info("Waiting for orm hook to be loaded...");
       sails.after('hook:orm:loaded', function onAfter() {
+        sails.log.info("Orm hook is now ready.");
         self.process(next);
       });
     }
