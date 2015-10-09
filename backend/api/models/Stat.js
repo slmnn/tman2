@@ -16,7 +16,7 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   	averageHoldingTime: 'integer',
   	totalCount: 'integer',
   	notCoveredCount: 'integer',
-  	availableCount: 'integer'
+  	availableCount: 'integer',
 
     user: {
       model: "user"

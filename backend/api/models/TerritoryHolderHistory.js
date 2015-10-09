@@ -23,7 +23,7 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     // This history belongs to a holder.
     holder: {
       model: 'holder',
-    }
+    },
 
     // This history belongs to a territory.
     territory: {

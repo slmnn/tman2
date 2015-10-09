@@ -27,7 +27,7 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     emailValid : {
       type : "boolean",
       required : true
-    }
+    },
 
     // Telephone number of the holder
     telephone: {

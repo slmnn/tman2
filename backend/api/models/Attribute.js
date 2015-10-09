@@ -21,7 +21,7 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     type: "string",
 
     // Value as string
-    value: "string"
+    value: "string",
 
     // Below is all specification for relations to another models
 

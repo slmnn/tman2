@@ -60,7 +60,7 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     // Author of the book
     holder: {
       model: 'holder'
-    }
+    },
 
     // Link to coordinates pointing to territory center.
     center: {
