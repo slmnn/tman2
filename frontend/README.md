@@ -1,14 +1,5 @@
 frontend
 ============
-This is an example AngularJS application to demonstrate how to use separate back- and frontend applications. Currently
-this demo contains following features:
-
-* Login with backend
-* JWT token authentication after login
-* Simple list view (Books / Authors) to demonstrate socket communications
-* Generic error handler which is attached to $http and $sailsSocket
-* Message service to show specified messages to users
-* Live chat to demonstrate subscribe actions
 
 ## Used components
 This frontend application uses following 3rd party libraries to make all this magic happen.
