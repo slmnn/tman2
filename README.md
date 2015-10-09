@@ -1,11 +1,8 @@
 # Aluehallintasovellus v2
 
-Also note that these 'directories' are just submodules to another repos
-
 ## Backend
 For backend side this boilerplate uses Sails.js (imho awesome). See more info at https://github.com/balderdashy/sails
-I have just done some small tweaks to generic workflow of sails nothing else. Backend side of this 'boilerplate' is
-served on separate repository https://github.com/tarlepp/angular-sailsjs-boilerplate-backend
+I have just done some small tweaks to generic workflow of sails nothing else.
 
 ## Frontend
 Boilerplate uses slush-angular for frontend (AngularJS using Google Angular App Structure Recommendations).
@@ -137,19 +134,6 @@ Below is small list of possible failures that can occur while trying this POC.
         </ul>        
     </li>
 </ol>
-
-## Demo
-This might be up and running... or not. http://wunder.sytes.net:3000/
-
-## Who is using this?
-* All in my own projects, @tarlepp
-* [Liukko-POC](https://github.com/ProtaconSolutions/Liukko-POC)
-* [switch168](https://github.com/switch168)
-
-If you're using this please make PR and add your project to this list.
-
-## Author
-Tarmo Leppänen
 
 ## License
 The MIT License (MIT)

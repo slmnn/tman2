@@ -1,9 +1,4 @@
 # Frontend side for angular-sailsjs-boilerplate
-[![Dependency Status](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend.svg)](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend)
-[![devDependency Status](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend/dev-status.svg)](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend#info=devDependencies)
-
-This frontend code is used on [angular-sailsjs-boilerplate](https://github.com/tarlepp/angular-sailsjs-boilerplate)
-
 This is an example AngularJS application to demonstrate how to use separate back- and frontend applications. Currently
 this demo contains following features:
 
@@ -85,5 +80,3 @@ Then head to `http://localhost:3000` in your browser.
 
 ## License
 The MIT License (MIT)
-
-Copyright (c) 2015 Tarmo Leppänen
