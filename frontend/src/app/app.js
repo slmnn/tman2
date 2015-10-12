@@ -159,6 +159,8 @@
             error: error
           };
 
+          console.log(error);
+
           return $state.go('error');
         });
       }

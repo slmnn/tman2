@@ -19,7 +19,7 @@
          *
          * @type  {{
          *          author: *[],
-         *          book: *[]
+         *          holder: *[]
          *        }}
          */
         var titleItems = {
@@ -34,7 +34,7 @@
               inTitle: true
             },
             {
-              title: 'Books',
+              title: 'Holders',
               column: false,
               class: 'text-right col-xs-1',
               searchable: false,
@@ -43,10 +43,10 @@
               inTitle: true
             }
           ],
-          book: [
+          holder: [
             {
-              title: 'Title',
-              column: 'title',
+              title: 'Name',
+              column: 'name',
               class: 'col-xs-8',
               searchable: true,
               sortable: true,

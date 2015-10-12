@@ -3,7 +3,7 @@
  *
  *  frontend.examples.about
  *  frontend.examples.author
- *  frontend.examples.book
+ *  frontend.examples.holder
  *  frontend.examples.chat
  *  frontend.examples.messages
  *
@@ -16,7 +16,7 @@
   angular.module('frontend.examples', [
     'frontend.examples.about',
     'frontend.examples.author',
-    'frontend.examples.book',
+    'frontend.examples.holder',
     'frontend.examples.chat',
     'frontend.examples.messages'
   ]);
@@ -37,7 +37,7 @@
                 controller: [
                   '$state',
                   function($state) {
-                    $state.go('examples.books');
+                    $state.go('examples.holder');
                   }
                 ]
               },

@@ -1,21 +1,21 @@
-<div data-ng-show="!book">
-    <h3>Requested book not found</h3>
+<div data-ng-show="!holder">
+    <h3>Requested holder not found</h3>
 </div>
 
-<div data-ng-show="book">
+<div data-ng-show="holder">
     <form class="form-vertical" role="form"
         data-editable-form name="editableForm"
-        data-onaftersave="saveBook()"
+        data-onaftersave="saveHolder()"
     >
         <div class="row">
             <div class="col-lg-8">
                 <h3>
                     <span style="width: 100%;"
-                        data-editable-text="book.title"
-                        data-e-name="book.title"
+                        data-editable-text="holder.name"
+                        data-e-name="holder.name"
                         data-e-required
                     >
-                        {{book.title}}
+                        {{holder.name}}
                     </span>
 
                     <span class="pull-right"
@@ -31,11 +31,11 @@
                 </h3>
 
                 <p style="white-space: pre-line"
-                   data-editable-textarea="book.description"
-                   data-e-name="book.description"
+                   data-editable-textarea="holder.email"
+                   data-e-name="holder.email"
                    data-e-required
                 >
-                    {{book.description}}
+                    {{holder.email}}
                 </p>
 
                 <div class="visible-lg">
@@ -53,7 +53,7 @@
                         </button>
                         <button type="button" class="btn btn-danger pull-right"
                             data-ng-bootbox-title="Danger - Danger - Danger"
-                            data-ng-bootbox-custom-dialog="Are you sure about the <strong>{{book.title}}</strong> book delete?"
+                            data-ng-bootbox-custom-dialog="Are you sure about the <strong>{{holder.name}}</strong> holder delete?"
                             data-ng-bootbox-buttons="confirmButtonsDelete"
                         >
                             Delete
@@ -66,7 +66,7 @@
                 <h4 class="text-muted">Information</h4>
                 <table class="table">
                     <tr>
-                        <th style="vertical-align: middle;">Author</th>
+                        <th style="vertical-align: middle;">Territories</th>
                         <td>
                             <a
                                 data-ui-sref="examples.author({id: book.author.id})"
@@ -76,24 +76,8 @@
                                 data-e-required
                                 data-e-ng-options="a.id as a.name for a in authors"
                             >
-                                {{book.author.name}}
+                                {{holder.territories.length}}
                             </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Released</th>
-                        <td>
-                            <div data-ng-show="!editableForm.$visible">
-                                {{book.releaseDate | amDateFormat: 'YYYY'}}
-                            </div>
-
-                            <div data-ng-show="editableForm.$visible">
-                                <datepicker
-                                    data-ng-model="book.releaseDate"
-                                    data-min-mode="year"
-                                    data-datepicker-mode="'year'"
-                                ></datepicker>
-                            </div>
                         </td>
                     </tr>
                 </table>
@@ -112,8 +96,8 @@
                             Cancel
                         </button>
                         <button type="button" class="btn btn-danger pull-right"
-                            data-ng-bootbox-confirm="Are you sure about the book delete?"
-                            data-ng-bootbox-confirm-action="deleteBook()"
+                            data-ng-bootbox-confirm="Are you sure about the holder delete?"
+                            data-ng-bootbox-confirm-action="deleteHolder()"
                         >
                             Delete
                         </button>

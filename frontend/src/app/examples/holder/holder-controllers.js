@@ -1,47 +1,46 @@
 /**
- * This file contains all necessary Angular controller definitions for 'frontend.examples.book' module.
+ * This file contains all necessary Angular controller definitions for 'frontend.examples.holder' module.
  *
  * Note that this file should only contain controllers and nothing else.
  */
 (function() {
   'use strict';
 
-  // Controller for new book creation.
-  angular.module('frontend.examples.book')
-    .controller('BookAddController', [
+  // Controller for new holder creation.
+  angular.module('frontend.examples.holder')
+    .controller('HolderAddController', [
       '$scope', '$state',
       'MessageService',
-      'BookModel',
-      '_authors',
+      'HolderModel',
+      '_territories',
       function controller(
         $scope, $state,
         MessageService,
-        BookModel,
-        _authors
+        HolderModel,
+        _territories
       ) {
         // Store authors
-        $scope.authors = _authors;
+        $scope.territories = _territories;
 
-        // Initialize book model
-        $scope.book = {
-          title: '',
-          description: '',
-          author: '',
-          releaseDate: new Date()
+        // Initialize holder model
+        $scope.holder = {
+          name: '',
+          email: '',
+          territories: []
         };
 
         /**
-         * Scope function to store new book to database. After successfully save user will be redirected
-         * to view that new created book.
+         * Scope function to store new holder to database. After successfully save user will be redirected
+         * to view that new created holder.
          */
-        $scope.addBook = function addBook() {
-          BookModel
-            .create(angular.copy($scope.book))
+        $scope.addHolder = function addHolder() {
+          HolderModel
+            .create(angular.copy($scope.holder))
             .then(
               function onSuccess(result) {
-                MessageService.success('New book added successfully');
+                MessageService.success('New holder added successfully');
 
-                $state.go('examples.book', {id: result.data.id});
+                $state.go('examples.holder', {id: result.data.id});
               }
             )
           ;
@@ -50,35 +49,34 @@
     ])
   ;
 
-  // Controller to show single book on GUI.
-  angular.module('frontend.examples.book')
-    .controller('BookController', [
+  // Controller to show single holder on GUI.
+  angular.module('frontend.examples.holder')
+    .controller('HolderController', [
       '$scope', '$state',
       'UserService', 'MessageService',
-      'BookModel', 'AuthorModel',
-      '_book',
+      'HolderModel', 'AuthorModel',
+      '_holder',
       function controller(
         $scope, $state,
         UserService, MessageService,
-        BookModel, AuthorModel,
-        _book
+        HolderModel, AuthorModel,
+        _holder
       ) {
         // Set current scope reference to model
-        BookModel.setScope($scope, 'book');
+        HolderModel.setScope($scope, 'holder');
 
         // Initialize scope data
         $scope.user = UserService.user();
-        $scope.book = _book;
-        $scope.authors = [];
-        $scope.selectAuthor = _book.author ? _book.author.id : null;
+        $scope.holder = _holder;
+        $scope.territories = [];
 
-        // Book delete dialog buttons configuration
+        // Holder delete dialog buttons configuration
         $scope.confirmButtonsDelete = {
           ok: {
             label: 'Delete',
             className: 'btn-danger',
             callback: function callback() {
-              $scope.deleteBook();
+              $scope.deleteHolder();
             }
           },
           cancel: {
@@ -88,38 +86,38 @@
         };
 
         /**
-         * Scope function to save the modified book. This will send a
+         * Scope function to save the modified holder. This will send a
          * socket request to the backend server with the modified object.
          */
-        $scope.saveBook = function saveBook() {
-          var data = angular.copy($scope.book);
+        $scope.saveHolder = function saveHolder() {
+          var data = angular.copy($scope.holder);
 
           // Set author id to update data
           data.author = $scope.selectAuthor;
 
           // Make actual data update
-          BookModel
+          HolderModel
             .update(data.id, data)
             .then(
               function onSuccess() {
-                MessageService.success('Book "' + $scope.book.title + '" updated successfully');
+                MessageService.success('Holder "' + $scope.holder.title + '" updated successfully');
               }
             )
           ;
         };
 
         /**
-         * Scope function to delete current book. This will send DELETE query to backend via web socket
-         * query and after successfully delete redirect user back to book list.
+         * Scope function to delete current holder. This will send DELETE query to backend via web socket
+         * query and after successfully delete redirect user back to holder list.
          */
-        $scope.deleteBook = function deleteBook() {
-          BookModel
-            .delete($scope.book.id)
+        $scope.deleteHolder = function deleteHolder() {
+          HolderModel
+            .delete($scope.holder.id)
             .then(
               function onSuccess() {
-                MessageService.success('Book "' + $scope.book.title + '" deleted successfully');
+                MessageService.success('holder "' + $scope.holder.title + '" deleted successfully');
 
-                $state.go('examples.books');
+                $state.go('examples.holders');
               }
             )
           ;
@@ -127,7 +125,7 @@
 
         /**
          * Scope function to fetch author data when needed, this is triggered whenever user starts to edit
-         * current book.
+         * current holder.
          *
          * @returns {null|promise}
          */
@@ -149,23 +147,23 @@
     ])
   ;
 
-  // Controller which contains all necessary logic for book list GUI on boilerplate application.
-  angular.module('frontend.examples.book')
-    .controller('BookListController', [
+  // Controller which contains all necessary logic for holder list GUI on boilerplate application.
+  angular.module('frontend.examples.holder')
+    .controller('HolderListController', [
       '$scope', '$q', '$timeout',
       '_',
       'ListConfig', 'SocketHelperService',
-      'UserService', 'BookModel', 'AuthorModel',
+      'UserService', 'HolderModel', 'AuthorModel',
       '_items', '_count', '_authors',
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig, SocketHelperService,
-        UserService, BookModel, AuthorModel,
+        UserService, HolderModel, AuthorModel,
         _items, _count, _authors
       ) {
         // Set current scope reference to models
-        BookModel.setScope($scope, false, 'items', 'itemCount');
+        HolderModel.setScope($scope, false, 'items', 'itemCount');
         AuthorModel.setScope($scope, false, 'authors');
 
         // Add default list configuration variable to current scope
@@ -178,7 +176,7 @@
         $scope.user = UserService.user();
 
         // Initialize used title items
-        $scope.titleItems = ListConfig.getTitleItems(BookModel.endpoint);
+        $scope.titleItems = ListConfig.getTitleItems(HolderModel.endpoint);
 
         // Initialize default sort data
         $scope.sort = {
@@ -228,7 +226,7 @@
         };
 
         /**
-         * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch book data
+         * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch holder data
          * from server.
          */
         $scope.$watch('currentPage', function watcher(valueNew, valueOld) {
@@ -238,7 +236,7 @@
         });
 
         /**
-         * Simple watcher for 'itemsPerPage' scope variable. If this is changed we need to fetch book data
+         * Simple watcher for 'itemsPerPage' scope variable. If this is changed we need to fetch holder data
          * from server.
          */
         $scope.$watch('itemsPerPage', function watcher(valueNew, valueOld) {
@@ -295,7 +293,7 @@
          *  1) Data count by given filter parameters
          *  2) Actual data fetch for current page with filter parameters
          *
-         * These are fetched via 'BookModel' service with promises.
+         * These are fetched via 'HolderModel' service with promises.
          *
          * @private
          */
@@ -315,7 +313,7 @@
           };
 
           // Fetch data count
-          var count = BookModel
+          var count = HolderModel
             .count(commonParameters)
             .then(
               function onSuccess(response) {
@@ -325,7 +323,7 @@
           ;
 
           // Fetch actual data
-          var load = BookModel
+          var load = HolderModel
             .load(_.merge({}, commonParameters, parameters))
             .then(
               function onSuccess(response) {

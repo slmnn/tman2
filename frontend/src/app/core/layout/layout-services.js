@@ -40,8 +40,8 @@
         var items = {
           'examples': [
             {
-              state: 'examples.books',
-              title: 'Books',
+              state: 'examples.holders',
+              title: 'Holders',
               access: AccessLevels.user
             },
             {
@@ -228,42 +228,42 @@
          * @type    {{}}
          */
         var data = {
-          'examples.books': {
+          'examples.holders': {
             'Backend': [
               {
-                url: repository + 'backend/api/models/Book.js',
+                url: repository + 'backend/api/models/Holder.js',
                 title: 'Book.js',
                 info: types.generic.model
               },
               {
-                url: repository + 'backend/api/controllers/BookController.js',
-                title: 'BookController.js',
+                url: repository + 'backend/api/controllers/HolderController.js',
+                title: 'HolderController.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'backend/test/fixtures/Book.json',
-                title: 'Book.json',
+                url: repository + 'backend/test/fixtures/Holder.json',
+                title: 'Holder.json',
                 info: types.generic.data
               }
             ],
             'Frontend': [
               {
-                url: repository + 'frontend/src/app/examples/book/book.js',
-                title: 'book.js',
+                url: repository + 'frontend/src/app/examples/holder/holder.js',
+                title: 'holder.js',
                 info: types.frontend.module
               },
               {
-                url: repository + 'frontend/src/app/examples/book/book-controllers.js',
-                title: 'book-controllers.js',
+                url: repository + 'frontend/src/app/examples/holder/holder-controllers.js',
+                title: 'holder-controllers.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'frontend/src/app/examples/book/book-models.js',
-                title: 'book-models.js',
+                url: repository + 'frontend/src/app/examples/holder/holder-models.js',
+                title: 'holder-models.js',
                 info: types.generic.model
               },
               {
-                url: repository + 'frontend/src/app/examples/book/list.html',
+                url: repository + 'frontend/src/app/examples/holder/list.html',
                 title: 'list.html',
                 info: types.generic.template
               }
@@ -409,7 +409,7 @@
             var files = data[state];
 
             switch (state) {
-              case 'examples.books':
+              case 'examples.holders':
               case 'examples.authors':
               case 'examples.chat':
                 files = _.merge(files, generic.backend, generic.frontend);
