@@ -36,6 +36,7 @@
                       var config = ListConfig.getConfig();
 
                       var parameters = {
+                        populate: 'territories',
                         limit: config.itemsPerPage,
                         sort: 'releaseDate DESC'
                       };
@@ -48,14 +49,13 @@
                     function resolve(HolderModel) {
                       return HolderModel.count();
                     }
+                  ],
+                  _territories: [
+                    'TerritoryModel',
+                    function resolve(TerritoryModel) {
+                      return TerritoryModel.load();
+                    }
                   ]
-                  // ,
-                  // _territories: [
-                  //   'TerritoryModel',
-                  //   function resolve(TerritoryModel) {
-                  //     return TerritoryModel.load();
-                  //   }
-                  // ]
                 }
               }
             }
@@ -78,6 +78,12 @@
                     ) {
                       return HolderModel.fetch($stateParams.id, {populate: 'territories'});
                     }
+                  ],
+                  _territories: [
+                    'TerritoryModel',
+                    function resolve(TerritoryModel) {
+                      return TerritoryModel.load();
+                    }
                   ]
                 }
               }
@@ -95,12 +101,12 @@
                 templateUrl: '/frontend/examples/holder/add.html',
                 controller: 'HolderAddController',
                 resolve: {
-                  // _territories: [
-                  //   'TerritoryModel',
-                  //   function resolve(TerritoryModel) {
-                  //     return TerritoryModel.load();
-                  //   }
-                  // ]
+                  _territories: [
+                    'TerritoryModel',
+                    function resolve(TerritoryModel) {
+                      return TerritoryModel.load();
+                    }
+                  ]
                 }
               }
             }

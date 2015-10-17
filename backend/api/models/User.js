@@ -73,6 +73,26 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     updatedHolders: {
       collection: 'Holder',
       via: 'updatedUser'
+    },
+
+    // Stats
+    createdStats: {
+      collection: 'Stat',
+      via: 'createdUser'
+    },
+    updatedStats: {
+      collection: 'Stat',
+      via: 'updatedUser'
+    },
+
+    // Stats
+    createdTerritoryHolderHistory: {
+      collection: 'TerritoryHolderHistory',
+      via: 'createdUser'
+    },
+    updatedTerritoryHolderHistory: {
+      collection: 'TerritoryHolderHistory',
+      via: 'updatedUser'
     }
   }
 });

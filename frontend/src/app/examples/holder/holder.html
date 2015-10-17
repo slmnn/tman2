@@ -8,7 +8,7 @@
         data-onaftersave="saveHolder()"
     >
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-sm-8">
                 <h3>
                     <span style="width: 100%;"
                         data-editable-text="holder.name"
@@ -17,6 +17,8 @@
                     >
                         {{holder.name}}
                     </span>
+
+
 
                     <span class="pull-right"
                         data-ng-show="!editableForm.$visible && user.admin"
@@ -29,16 +31,43 @@
                         </a>
                     </span>
                 </h3>
-
-                <p style="white-space: pre-line"
-                   data-editable-textarea="holder.email"
-                   data-e-name="holder.email"
-                   data-e-required
-                >
-                    {{holder.email}}
-                </p>
-
-                <div class="visible-lg">
+                <dl>
+                    <dt>Email</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="holder.email"
+                            data-e-name="holder.email"
+                            data-e-required
+                        >
+                            {{holder.email}}
+                        </span>
+                    </dd>
+                    <dt>Email in use</dt>
+                    <dd>
+                        <span data-editable-checkbox="holder.emailValid"
+                            data-e-title="Email address is in use">
+                            {{holder.emailValid ? 'Yes' : 'No'}}
+                        </span>
+                    </dd>
+                    <dt>Telephone</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="holder.telephone"
+                            data-e-name="holder.telephone"
+                        >
+                            {{holder.telephone}}
+                        </span>
+                    <dd>
+                    <dt>Description</dt>
+                    <dd>
+                        <p data-editable-textarea="holder.description"
+                           data-e-name="holder.description"
+                        >
+                            {{holder.description}}
+                        </p>
+                    </dd>
+                <dl>
+                <div>
                     <div data-ng-show="editableForm.$visible">
                         <button type="submit" class="btn btn-primary"
                             data-ng-disabled="editableForm.$waiting"
@@ -62,47 +91,11 @@
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <h4 class="text-muted">Information</h4>
-                <table class="table">
-                    <tr>
-                        <th style="vertical-align: middle;">Territories</th>
-                        <td>
-                            <a
-                                data-ui-sref="examples.author({id: book.author.id})"
-                                data-editable-select="selectAuthor"
-                                data-onshow="loadAuthors()"
-                                data-e-name="book.author"
-                                data-e-required
-                                data-e-ng-options="a.id as a.name for a in authors"
-                            >
-                                {{holder.territories.length}}
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-
-                <div class="hidden-lg">
-                    <div data-ng-show="editableForm.$visible">
-                        <button type="submit" class="btn btn-primary"
-                            data-ng-disabled="editableForm.$waiting"
-                        >
-                            Save
-                        </button>
-                        <button type="button" class="btn btn-default"
-                            data-ng-disabled="editableForm.$waiting"
-                            data-ng-click="editableForm.$cancel()"
-                        >
-                            Cancel
-                        </button>
-                        <button type="button" class="btn btn-danger pull-right"
-                            data-ng-bootbox-confirm="Are you sure about the holder delete?"
-                            data-ng-bootbox-confirm-action="deleteHolder()"
-                        >
-                            Delete
-                        </button>
-                    </div>
-                </div>
+            <div class="col-sm-4">
+                <h4 class="text-muted">{{holder.territories.length ? 'Territories' : 'The holder does not have any territories'}}</h4>
+                <ul>
+                    <li data-ng-repeat="t in holder.territories">{{t.territoryCode}}</li>
+                </ul>
             </div>
         </div>
     </form>

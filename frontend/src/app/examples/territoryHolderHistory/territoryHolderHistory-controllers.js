@@ -1,38 +1,40 @@
 /**
- * This file contains all necessary Angular controller definitions for 'frontend.examples.author' module.
+ * This file contains all necessary Angular controller definitions for 'frontend.examples.territory
+' module.
  *
  * Note that this file should only contain controllers and nothing else.
  */
 (function() {
   'use strict';
 
-  // Controller for new author creation.
-  angular.module('frontend.examples.author')
-    .controller('AuthorAddController', [
+  // Controller for new territory creation.
+  angular.module('frontend.examples.territoryHolderHistory')
+    .controller('TerritoryHolderHistoryAddController', [
       '$scope', '$state',
-      'MessageService', 'AuthorModel',
+      'MessageService', 'TerritoryHolderHistoryModel',
       function controller(
         $scope, $state,
-        MessageService, AuthorModel
+        MessageService, TerritoryHolderHistoryModel
       ) {
-        // Initialize author model
-        $scope.author = {
+
+        // Initialize territory model
+        $scope.territoryHolderHistory = {
           name: '',
           description: ''
         };
 
         /**
-         * Scope function to store new author to database. After successfully save user will be redirected
-         * to view that new created author.
+         * Scope function to store new territory to database. After successfully save user will be redirected
+         * to view that new created territory Holder History.
          */
-        $scope.addAuthor = function addAuthor() {
-          AuthorModel
-            .create(angular.copy($scope.author))
+        $scope.addTerritoryHolderHistory = function addTerritoryHolderHistory() {
+          TerritoryHolderHistoryModel
+            .create(angular.copy($scope.territory))
             .then(
               function onSuccess(result) {
-                MessageService.success('New author added successfully');
+                MessageService.success('New territory holder history added successfully');
 
-                $state.go('examples.author', {id: result.data.id});
+                $state.go('examples.territoryHolderHistories', {id: result.data.id});
               }
             )
           ;
@@ -41,36 +43,37 @@
     ])
   ;
 
-  // Controller to show single author on GUI.
-  angular.module('frontend.examples.author')
-    .controller('AuthorController', [
+  // Controller to show single territory on GUI.
+  angular.module('frontend.examples.territoryHolderHistory')
+    .controller('TerritoryHolderHistoryController', [
       '$scope', '$state',
       'UserService', 'MessageService',
-      'AuthorModel', 'BookModel',
-      '_author', '_books', '_booksCount',
+      'TerritoryHolderHistoryModel', 'HolderModel',
+      '_territoryHolderHistory', '_holders', '_holdersCount',
       function controller(
         $scope, $state,
         UserService, MessageService,
-        AuthorModel, BookModel,
-        _author, _books, _booksCount
+        TerritoryHolderHistoryModel, HolderModel,
+        _territoryHolderHistory, _holders, _holdersCount
       ) {
+
         // Set current scope reference to models
-        AuthorModel.setScope($scope, 'author');
-        BookModel.setScope($scope, false, 'books', 'booksCount');
+        TerritoryHolderHistoryModel.setScope($scope, 'territoryHolderHistory');
+        HolderModel.setScope($scope, false, 'holders', 'holdersCount');
 
         // Expose necessary data
         $scope.user = UserService.user();
-        $scope.author = _author;
-        $scope.books = _books;
-        $scope.booksCount = _booksCount.count;
+        $scope.territoryHolderHistory = _territoryHolderHistory;
+        $scope.holders = _holders;
+        $scope.holdersCount = _holdersCount.count;
 
-        // Author delete dialog buttons configuration
+        // Territory delete dialog buttons configuration
         $scope.confirmButtonsDelete = {
           ok: {
             label: 'Delete',
             className: 'btn-danger',
             callback: function callback() {
-              $scope.deleteAuthor();
+              $scope.deleteTerritoryHolderHistory();
             }
           },
           cancel: {
@@ -79,30 +82,35 @@
           }
         };
 
-        // Scope function to save modified author.
-        $scope.saveAuthor = function saveAuthor() {
-          var data = angular.copy($scope.author);
+        // Scope function to save modified territory.
+        $scope.saveTerritoryHolderHistory = function saveTerritoryHolderHistory() {
+          var data = angular.copy($scope.territoryHolderHistory);
+
+          //data.holder = $scope.selectHolder;
+
+          console.log(data);
 
           // Make actual data update
-          AuthorModel
+          TerritoryHolderHistoryModel
             .update(data.id, data)
             .then(
               function onSuccess() {
-                MessageService.success('Author "' + $scope.author.name + '" updated successfully');
+                MessageService.success('Territory holder history "' + $scope.territoryHolderHistory.name + '" updated successfully');
               }
             )
           ;
         };
 
-        // Scope function to delete author
-        $scope.deleteAuthor = function deleteAuthor() {
-          AuthorModel
-            .delete($scope.author.id)
+        // Scope function to delete territory
+
+        $scope.deleteTerritoryHolderHistory = function deleteTerritoryHolderHistory() {
+          TerritoryHolderHistoryModel
+            .delete($scope.territory.id)
             .then(
               function onSuccess() {
-                MessageService.success('Author "' + $scope.author.name + '" deleted successfully');
+                MessageService.success('Territory Holder History "' + $scope.territoryHolderHistory.name + '" deleted successfully');
 
-                $state.go('examples.authors');
+                $state.go('examples.territories');
               }
             )
           ;
@@ -111,23 +119,23 @@
     ])
   ;
 
-  // Controller which contains all necessary logic for author list GUI on boilerplate application.
-  angular.module('frontend.examples.author')
-    .controller('AuthorListController', [
+  // Controller which contains all necessary logic for territory list GUI on boilerplate application.
+  angular.module('frontend.examples.territoryHolderHistory')
+    .controller('TerritoryHolderHistoryListController', [
       '$scope', '$q', '$timeout',
       '_',
       'ListConfig',
-      'SocketHelperService', 'UserService', 'AuthorModel',
-      '_items', '_count',
+      'SocketHelperService', 'UserService', 'TerritoryHolderHistoryModel',
+      '_items', '_count', 
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig,
-        SocketHelperService, UserService, AuthorModel,
+        SocketHelperService, UserService, TerritoryHolderHistoryModel,
         _items, _count
       ) {
         // Set current scope reference to model
-        AuthorModel.setScope($scope, false, 'items', 'itemCount');
+        TerritoryHolderHistoryModel.setScope($scope, false, 'items', 'itemCount');
 
         // Add default list configuration variable to current scope
         $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
@@ -138,7 +146,7 @@
         $scope.user = UserService.user();
 
         // Initialize used title items
-        $scope.titleItems = ListConfig.getTitleItems(AuthorModel.endpoint);
+        $scope.titleItems = ListConfig.getTitleItems(TerritoryHolderHistoryModel.endpoint);
 
         // Initialize default sort data
         $scope.sort = {
@@ -167,7 +175,7 @@
         };
 
         /**
-         * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch author data
+         * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch territory data
          * from server.
          */
         $scope.$watch('currentPage', function watcher(valueNew, valueOld) {
@@ -177,7 +185,7 @@
         });
 
         /**
-         * Simple watcher for 'itemsPerPage' scope variable. If this is changed we need to fetch author data
+         * Simple watcher for 'itemsPerPage' scope variable. If this is changed we need to fetch territory data
          * from server.
          */
         $scope.$watch('itemsPerPage', function watcher(valueNew, valueOld) {
@@ -234,7 +242,7 @@
          *  1) Data count by given filter parameters
          *  2) Actual data fetch for current page with filter parameters
          *
-         * These are fetched via 'AuthorModel' service with promises.
+         * These are fetched via 'TerritoryModel' service with promises.
          *
          * @private
          */
@@ -248,14 +256,14 @@
 
           // Data query specified parameters
           var parameters = {
-            populate: 'books',
+            populate: 'holders',
             limit: $scope.itemsPerPage,
             skip: ($scope.currentPage - 1) * $scope.itemsPerPage,
             sort: $scope.sort.column + ' ' + ($scope.sort.direction ? 'ASC' : 'DESC')
           };
 
           // Fetch data count
-          var count = AuthorModel
+          var count = TerritoryHolderHistoryModel
             .count(commonParameters)
             .then(
               function onSuccess(response) {
@@ -265,7 +273,7 @@
           ;
 
           // Fetch actual data
-          var load = AuthorModel
+          var load = TerritoryHolderHistoryModel
             .load(_.merge({}, commonParameters, parameters))
             .then(
               function onSuccess(response) {

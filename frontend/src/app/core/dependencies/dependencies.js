@@ -22,6 +22,7 @@
     'toastr',
     'xeditable',
     'sails.io',
+    'uiGmapgoogle-maps',
     'highcharts-ng'
   ]);
 }());

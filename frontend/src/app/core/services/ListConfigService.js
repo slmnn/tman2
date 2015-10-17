@@ -18,25 +18,70 @@
          * List title item configuration.
          *
          * @type  {{
-         *          author: *[],
+         *          territory: *[],
          *          holder: *[]
          *        }}
          */
         var titleItems = {
-          author: [
+          territory: [
             {
-              title: 'Author',
-              column: 'name',
-              class: 'col-xs-11',
+              title: 'Territory',
+              column: 'territoryCode',
+              class: 'col-xs-1',
               searchable: true,
               sortable: true,
               inSearch: true,
               inTitle: true
             },
             {
-              title: 'Holders',
+              title: 'Type',
+              column: 'type',
+              class: 'col-xs-1',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Covered',
+              column: 'covered',
+              class: 'col-xs-1',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Taken',
+              column: 'taken',
+              class: 'col-xs-1',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Description',
+              column: 'description',
+              class: 'col-xs-5',
+              searchable: true,
+              sortable: false,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Holder',
               column: false,
-              class: 'text-right col-xs-1',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Select',
+              column: false,
+              class: 'col-xs-1',
               searchable: false,
               sortable: false,
               inSearch: false,
@@ -47,15 +92,15 @@
             {
               title: 'Name',
               column: 'name',
-              class: 'col-xs-8',
+              class: 'col-xs-3',
               searchable: true,
               sortable: true,
               inSearch: true,
               inTitle: true
             },
             {
-              title: 'Author',
-              column: false,
+              title: 'Email',
+              column: 'email',
               class: 'col-xs-3',
               searchable: false,
               sortable: false,
@@ -63,9 +108,27 @@
               inTitle: true
             },
             {
-              title: 'Year',
-              column: 'releaseDate',
-              class: 'col-xs-1 text-right',
+              title: 'Phone',
+              column: 'telephone',
+              class: 'col-xs-2',
+              searchable: false,
+              sortable: false,
+              inSearch: false,
+              inTitle: true
+            },
+            {
+              title: 'Description',
+              column: false,
+              class: 'col-xs-4 text-left',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Territory Count',
+              column: false,
+              class: 'col-xs-1 text-left',
               searchable: true,
               sortable: true,
               inSearch: true,

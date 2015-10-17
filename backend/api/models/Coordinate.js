@@ -12,8 +12,8 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   attributes: {
 
     // Location
-    lat: "FLOAT",
-    lng: "FLOAT",
+    latitude: "FLOAT",
+    longitude: "FLOAT",
 
     // Type of coordinate
     type: "STRING",

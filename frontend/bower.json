@@ -5,9 +5,9 @@
     "/dist/frontend.min.css"
   ],
   "version": "0.1.0",
-  "description": "Frontend application for angular-sailsjs-boilerplate",
+  "description": "Aluehallintasovellus",
   "authors": [
-    "Tarmo Leppänen"
+    "Arto Salminen"
   ],
   "ignore": [
     "**/.*",
@@ -29,6 +29,7 @@
     "angular-ui-router": "0.2.13",
     "angular-ui-bootstrap-bower": "0.12.1",
     "angular-ui-utils": "0.2.2",
+    "angular-google-maps": "2.2.X",
     "angular-moment": "0.9.0",
     "angular-bootstrap-show-errors": "2.3.0",
     "angular-sanitize": "1.3.13",

@@ -45,8 +45,8 @@
               access: AccessLevels.user
             },
             {
-              state: 'examples.authors',
-              title: 'Authors',
+              state: 'examples.territories',
+              title: 'Territories',
               access: AccessLevels.user
             },
             {
@@ -232,7 +232,7 @@
             'Backend': [
               {
                 url: repository + 'backend/api/models/Holder.js',
-                title: 'Book.js',
+                title: 'Holder.js',
                 info: types.generic.model
               },
               {
@@ -269,44 +269,101 @@
               }
             ]
           },
-          'examples.authors': {
+          'examples.territories': {
             'Backend': [
               {
-                url: repository + 'backend/api/models/Author.js',
-                title: 'Author.js',
+                url: repository + 'backend/api/models/Territory.js',
+                title: 'Territory.js',
                 info: types.generic.model
               },
               {
-                url: repository + 'backend/api/controllers/AuthorController.js',
-                title: 'AuthorController.js',
+                url: repository + 'backend/api/controllers/TerritoryController.js',
+                title: 'TerritoryController.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'backend/test/fixtures/Author.json',
-                title: 'Author.json',
+                url: repository + 'backend/test/fixtures/Territory.json',
+                title: 'Territory.json',
                 info: types.generic.data
               }
             ],
             'Frontend': [
               {
-                url: repository + 'frontend/src/app/examples/author/author.js',
-                title: 'author.js',
+                url: repository + 'frontend/src/app/examples/territory/territory.js',
+                title: 'territory.js',
                 info: types.frontend.module
               },
               {
-                url: repository + 'frontend/src/app/examples/author/author-controllers.js',
-                title: 'author-controllers.js',
+                url: repository + 'frontend/src/app/examples/territory/territory-controllers.js',
+                title: 'territory-controllers.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'frontend/src/app/examples/author/author-models.js',
-                title: 'author-models.js',
+                url: repository + 'frontend/src/app/examples/territory/territory-models.js',
+                title: 'territory-models.js',
                 info: types.generic.model
               },
               {
-                url: repository + 'frontend/src/app/examples/author/list.html',
+                url: repository + 'frontend/src/app/examples/territory/list.html',
                 title: 'list.html',
                 info: types.generic.template
+              }
+            ]
+          },
+          'examples.territoryHolderHistories': {
+            'Backend': [
+              {
+                url: repository + 'backend/api/models/TerritoryHolderHistory.js',
+                title: 'TerritoryHolderHistory.js',
+                info: types.generic.model
+              },
+              {
+                url: repository + 'backend/api/controllers/TerritoryHolderHistoryController.js',
+                title: 'TerritoryHolderHistoryController.js',
+                info: types.generic.controller
+              }
+            ],
+            'Frontend': [
+              {
+                url: repository + 'frontend/src/app/examples/territoryHolderHistory/TerritoryHolderHistory.js',
+                title: 'territoryHolderHistory.js',
+                info: types.frontend.module
+              },
+              {
+                url: repository + 'frontend/src/app/examples/territoryHolderHistory/territoryHolderHistory-controllers.js',
+                title: 'territoryHolderHistory-controllers.js',
+                info: types.generic.controller
+              },
+              {
+                url: repository + 'frontend/src/app/examples/territoryHolderHistory/territoryHolderHistory-models.js',
+                title: 'territoryHolderHistory-models.js',
+                info: types.generic.model
+              }
+            ]
+          },
+          'examples.coordinate': {
+            'Backend': [
+              {
+                url: repository + 'backend/api/models/Coordinate.js',
+                title: 'Coordinate.js',
+                info: types.generic.model
+              },
+              {
+                url: repository + 'backend/api/controllers/Coordinate.js',
+                title: 'Coordinate.js',
+                info: types.generic.controller
+              }
+            ],
+            'Frontend': [
+              {
+                url: repository + 'frontend/src/app/examples/coordinate/coordinate.js',
+                title: 'coordinate.js',
+                info: types.frontend.module
+              },
+              {
+                url: repository + 'frontend/src/app/examples/coordinate/coordinate-models.js',
+                title: 'coordinate-models.js',
+                info: types.generic.model
               }
             ]
           },
@@ -410,7 +467,7 @@
 
             switch (state) {
               case 'examples.holders':
-              case 'examples.authors':
+              case 'examples.territories':
               case 'examples.chat':
                 files = _.merge(files, generic.backend, generic.frontend);
                 break;

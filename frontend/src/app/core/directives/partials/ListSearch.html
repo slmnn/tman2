@@ -6,32 +6,12 @@
                     data-ng-model="filters.searchWord"
                 />
 
-                <ul class="dropdown-menu pull-right dropdown-menu-arrow" role="menu">
-                    <li class="title">Columns where filter affects</li>
-                    <li class="divider"></li>
-                    <li data-ng-repeat="column in filters.columns | filter: inSearch">
-                        <a href="#" data-ng-click="column.inSearch = !column.inSearch; $event.preventDefault(); $event.stopPropagation();">
-                            <i class="fa fa-fw"
-                                data-ng-class="{'fa-check': column.inSearch}"
-                            ></i>
-
-                            <span
-                                data-ng-if="column.titleSearch"
-                                data-ng-bind="column.titleSearch"
-                            ></span>
-
-                            <span
-                                data-ng-if="!column.titleSearch"
-                                data-ng-bind="column.title"
-                            ></span>
-                        </a>
-                    </li>
-                </ul>
-
-                <span class="input-group-addon search dropdown-toggle"
+                <span 
+                    data-ng-click="filters.searchWord = ''"
+                    class="input-group-addon search dropdown-toggle"
                     data-tooltip="Click to select columns where search filter affects."
                 >
-                    <i class="fa fa-search text-info"></i>
+                    <i class="fa fa-times text-info"></i>
                 </span>
             </div>
 

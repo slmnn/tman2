@@ -13,16 +13,47 @@
             </div>
 
             <div class="form-group">
-                <input type="email" class="form-control" required="required" name="email" placeholder="Enter holder email"
+                <input type="email" 
+                    class="form-control" 
+                    required="required" 
+                    name="email" 
+                    placeholder="Enter holder email"
                     data-ng-model="holder.email"/>
             </div>
 
-            <div class="visible-lg">
+            <div class="form-group">
+                <input type="text" 
+                    class="form-control" 
+                    name="telephone" 
+                    placeholder="Enter holder telephone"
+                    data-ng-model="holder.telephone"/>
+            </div>
+
+            <div class="form-group">
+                <input type="text" 
+                    class="form-control" 
+                    name="description" 
+                    placeholder="Enter holder description"
+                    data-ng-model="holder.description"/>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input                     
+                        type="checkbox" 
+                        name="emailValid" 
+                        data-ng-model="holder.emailValid"
+                    > Email address is in use
+                </label>
+            </div>
+
+            <div>
                 <button type="submit" class="btn btn-primary"
-                    data-ng-disabled="!emailForm.$valid">
+                    data-ng-disabled="!holderForm.$valid">
                     Save
                 </button>
             </div>
         </div>
     </div>
 </form>
+

@@ -15,8 +15,10 @@
   // Define frontend.admin module
   angular.module('frontend.examples', [
     'frontend.examples.about',
-    'frontend.examples.author',
+    'frontend.examples.territory',
+    'frontend.examples.territoryHolderHistory',
     'frontend.examples.holder',
+    'frontend.examples.coordinate',
     'frontend.examples.chat',
     'frontend.examples.messages'
   ]);
@@ -37,7 +39,7 @@
                 controller: [
                   '$state',
                   function($state) {
-                    $state.go('examples.holder');
+                    $state.go('examples.holders');
                   }
                 ]
               },

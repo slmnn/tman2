@@ -1,0 +1,280 @@
+<div data-ng-show="!territory">
+    <h3>Requested territory not found</h3>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div data-ng-show="territory">
+            <form 
+                class="form-vertical" 
+                role="form"
+                data-editable-form 
+                name="editableForm"
+                data-onaftersave="saveTerritory()"
+            >
+
+                <h3>
+                    <span style="width: 100%;"
+                        data-editable-text="territory.territoryCode"
+                        data-e-name="territory.territoryCode"
+                        data-e-required
+                    >
+                        {{territory.territoryCode}}
+                    </span>
+
+                    <span class="pull-right"
+                        data-ng-show="!editableForm.$visible && user.admin"
+                    >
+                        <a href="#"
+                            data-ng-click="editableForm.$show()"
+                            data-tooltip="Toggle edit mode"
+                        >
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </span>
+                </h3>
+
+                <dl>
+                    <dt>Holder</dt>
+                    <dd>
+                        <span data-editable-select="territory.holder.id"
+                            data-e-name="holder.id"
+                            data-e-ng-options="holder.id as holder.name for holder in holders"
+                            data-e-required>
+                            {{territory.holder.name}}
+                        </span>
+                    </dd>
+                    <dt>Covered</dt>
+                    <dd>
+                        <span 
+                            data-editable-bsdate="territory.covered" 
+                            data-e-ng-click="coveredDateOpened = !coveredDateOpened" 
+                            data-e-is-open="coveredDateOpened" 
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-name= "date" 
+                        >
+                            {{territory.covered | date : 'dd.MM.yyyy'}}
+                        </span>
+                    </dd>
+                    <dt>Taken</dt>
+                    <dd>
+                        <span 
+                            data-editable-bsdate="territory.taken" 
+                            data-e-ng-click="takenDateOpened = !takenDateOpened" 
+                            data-e-is-open="takenDateOpened" 
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-name= "date" 
+                        >
+                            {{territory.taken | date : 'dd.MM.yyyy'}}
+                        </span>
+                    </dd>
+                    <dt>Type</dt>
+                    <dd>
+                        <span data-editable-text="territory.type"
+                                data-e-name="territory.type"
+                                data-e-required>
+                            {{territory.type}}
+                        </span>
+                    </dd>
+                    <dt>Archived</dt>
+                    <dd>
+                        <span data-editable-checkbox="territory.archived"
+                            data-e-title="is archived?">
+                            {{territory.archived ? 'Yes' : 'No'}}
+                        </span>
+                    </dd>
+                    <dt>Description</dt>
+                    <dd>
+                        <pre style="white-space: pre-line"
+                            data-editable-textarea="territory.description"
+                            data-e-name="territory.description"
+                            data-e-required
+                        >
+                            {{territory.description}}
+                        </pre>
+                    </dd>
+                    <dt>Map</dt>       
+                    <dd>
+                        <a 
+                            data-ng-show="editableForm.$visible" 
+                            class="btn btn-primary" 
+                            data-ng-click="toggleMapEditable()"
+                        >
+                            Edit map
+                        </a>
+                        <a 
+                            data-ng-show="editableForm.$visible && editableMap" 
+                            class="btn btn-primary" 
+                            data-ng-click="replacePolylineWithDefault()"
+                        >
+                            Delete border
+                        </a>
+                        <a 
+                            data-ng-show="editableForm.$visible && editableMap" 
+                            class="btn btn-primary" 
+                            data-ng-click="saveMap(map)"
+                        >
+                            Save map
+                        </a>
+                        <ui-gmap-google-map 
+                            center='map.center' 
+                            zoom='map.zoom'
+                        >
+                            <ui-gmap-marker 
+                                coords="map.territoryCenterMarker.coords" 
+                                idkey="map.territoryCenterMarker.id"
+                                options="map.territoryCenterMarker.options"
+                                events="map.territoryCenterMarker.events"
+                            >
+                            </ui-gmap-marker>
+                            <!-- polygon example -->
+                            <ui-gmap-polygon 
+                                editable="editableMap" 
+                                static="false" 
+                                ng-repeat="p in map.polygons track by p.id" 
+                                path="p.path" 
+                                stroke="p.stroke" 
+                                visible="p.visible"
+                                geodesic="p.geodesic" 
+                                fill="p.fill" 
+                                fit="false" 
+                                draggable="p.draggable" 
+                                events="map.polygonEvents"
+                            >
+                            </ui-gmap-polygon>
+                        </ui-gmap-google-map>
+                    </dd> 
+                </dl>
+
+                <div>
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger pull-right"
+                            data-ng-bootbox-title="Danger - Danger - Danger"
+                            data-ng-bootbox-custom-dialog="Are you sure about the <strong>{{territory.name}}</strong> territory delete?"
+                            data-ng-bootbox-buttons="confirmButtonsDelete"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <h4>
+            History ({{territory.territoryHolderHistory.length}})
+            <span class="pull-right"
+                data-ng-show="!editableHistoryForm.$visible && user.admin"
+            >
+                <a href="#"
+                    data-ng-click="editableHistoryForm.$show()"
+                    data-tooltip="Toggle edit mode"
+                >
+                    <i class="fa fa-wrench"></i>
+                </a>
+            </span>
+        </h4>
+        <form class="form-vertical" role="form"
+            data-editable-form name="editableHistoryForm"
+            data-onaftersave="saveTerritoryHistory()"
+        >
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-xs-4">
+                            Holder
+                        </th>
+                        <th class="col-xs-1 text-nowrap">
+                            Start date
+                        </th>
+                        <th class="col-xs-1 text-nowrap">
+                            End date
+                        </th>
+                        <th data-ng-class="editableHistoryForm.$visible ? 'col-xs-4 text-nowrap' : 'col-xs-6 text-nowrap'">
+                            Additional info
+                        </th>
+                        <th data-ng-if="editableHistoryForm.$visible" class="col-xs-2 text-nowrap">
+                            <!-- empty for buttons in edit mode -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="thh in territory.territoryHolderHistory">
+                        <td>
+                            <span data-editable-select="thh.holder"
+                                data-e-name="thh.holder.id"
+                                data-e-ng-options="holder.id as holder.name for holder in holders"
+                                data-e-required>
+                                <a data-ui-sref="examples.holder({id: thh.holder})">{{getHolderNameWithId(thh.holder)}}</a>
+                            </span>
+                        </td>
+                        <td>
+                            <span 
+                                data-editable-bsdate="thh.startDate" 
+                                data-e-ng-click="thhStartDateOpened = !thhStartDateOpened" 
+                                data-e-is-open="thhStartDateOpened" 
+                                data-e-datepicker-popup = "dd.MM.yyyy" 
+                                data-e-name= "date" 
+                            >
+                                {{thh.startDate |date: 'dd.MM.yyyy'}}
+                            </span>
+                        </td>
+                        <td>
+                            <span 
+                                data-editable-bsdate="thh.endDate" 
+                                data-e-ng-click="thhEndDateOpened = !thhEndDateOpened" 
+                                data-e-is-open="thhEndDateOpened" 
+                                data-e-datepicker-popup = "dd.MM.yyyy" 
+                                data-e-name= "date" 
+                            >
+                                {{thh.endDate |date: 'dd.MM.yyyy'}}
+                            </span>
+                        </td>
+                        <td>
+                            <span data-editable-text="thh.description"
+                                    data-e-name="thh.description"
+                            >
+                                {{thh.description || ''}}
+                            </span>
+                        </td>
+                        <td data-ng-show="editableHistoryForm.$visible">
+                            <a 
+                                data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)"
+                                data-ng-bootbox-title="You are about to delete a territory history row"
+                                data-ng-bootbox-custom-dialog="Are you sure about the territory history row delete?"
+                                data-ng-bootbox-buttons="confirmHistoryButtonsDelete"
+                            >
+                                <span class="fa fa-trash fa-2x"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <div data-ng-show="editableHistoryForm.$visible">
+                    <button type="submit" class="btn btn-primary"
+                        data-ng-disabled="editableHistoryForm.$waiting"
+                    >
+                        Save
+                    </button>
+                    <button type="button" class="btn btn-default"
+                        data-ng-disabled="editableHistoryForm.$waiting"
+                        data-ng-click="editableHistoryForm.$cancel()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

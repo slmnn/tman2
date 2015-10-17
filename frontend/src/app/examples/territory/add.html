@@ -1,0 +1,90 @@
+<form class="form-vertical" role="form" name="territoryForm"
+    data-ng-submit="addTerritory()"
+>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group" style="margin-top: 10px;">
+                Territory code:
+                <input type="text" class="form-control" name="territory.territoryCode" required="required" placeholder="Enter territory code"
+                    data-ng-model="territory.territoryCode"
+                />
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                Type:
+                <input type="text" class="form-control" name="territory.type" required="required" placeholder="Enter territory type"
+                    data-ng-model="territory.type"
+                />
+            </div>
+
+            <div class="form-group">
+                Description:
+                <textarea name="territory.description" class="form-control" required="required" placeholder="Enter territory description"
+                    data-ng-model="territory.description"
+                >{territory.description}</textarea>
+            </div>
+
+            <div class="form-group">
+                Covered date:
+                <p class="input-group">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        data-datepicker-popup="dd.MM.yyyy" 
+                        data-is-open="coveredDatePickerIsOpen" 
+                        data-ng-click="datePickerOpened($event); coveredDatePickerIsOpen = true;" 
+                        data-ng-model="territory.covered"
+                    >
+                    </input>
+                    <span class="input-group-btn">
+                        <button 
+                            type="button" 
+                            class="btn btn-default" 
+                            data-ng-click="datePickerOpened($event); coveredDatePickerIsOpen = true;">
+                        <span class="fa fa-calendar"></span>
+                      </button>
+                    </span>
+                </p>
+            </div>
+
+            <div class="form-group">
+                Taken date:
+                <p class="input-group">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        data-datepicker-popup="dd.MM.yyyy" 
+                        data-is-open="takenDatePickerIsOpen" 
+                        data-ng-click="datePickerOpened($event); takenDatePickerIsOpen = true;" 
+                        data-ng-model="territory.taken"
+                    >
+                    </input>
+                    <span class="input-group-btn">
+                        <button 
+                            type="button" 
+                            class="btn btn-default" 
+                            data-ng-click="datePickerOpened($event); coveredDatePickerIsOpen = true;">
+                        <span class="fa fa-calendar"></span>
+                      </button>
+                    </span>
+                </p>
+            </div>
+
+            <div class="form-group">
+                Initial holder:
+                <select 
+                    class="form-control"
+                    data-ng-model="selectedHolder"
+                    data-ng-options="holder.id as holder.name for holder in holders"
+                >
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                data-ng-disabled="!territoryForm.$valid"
+            >
+                Save
+            </button>
+        </div>
+    </div>
+</form>

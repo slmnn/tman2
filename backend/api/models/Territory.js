@@ -11,17 +11,6 @@ var _ = require('lodash');
 module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   attributes: {
 
-    /* Tells the rough direction of a territory */
-  	territoryLetter : {
-  		type : "STRING"
-  	},
-
-  	/* Identifies the territory */
-  	territoryNumber : {
-  		type : "INTEGER",
-  		min : 0
-  	},
-
   	/* Territory code (letter+number) */
   	territoryCode : {
   		type : "STRING"
@@ -36,9 +25,6 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   	/* When the territory is "taken" to a holder */
     taken : "DATE",
 
-    /* When the holder was really changed last time? */
-  	reallyTaken : "DATE",
-
     /* When the territory is "covered" by a holder */
     covered : "DATE",
 
@@ -47,10 +33,6 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
 
     /* type: normal, phone, business */
     type : "STRING",
-
-    /* Coordinates */
-    lat : "FLOAT",
-  	lng : "FLOAT",
 
     /* Description */
     description : "STRING",
@@ -68,7 +50,7 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     },
 
     // Link to number of coodinates indicating territory border.
-    territories: {
+    coordinates: {
       collection: 'coordinate',
       via: 'territory'
     },
@@ -76,7 +58,12 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     attributes: {
       collection: 'attribute',
       via: 'territory'
-    }
+    },
+
+    territoryHolderHistory: {
+      collection: 'territoryHolderHistory',
+      via: 'territory'
+    },
 
   }
 });

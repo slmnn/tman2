@@ -19,28 +19,32 @@
         HolderModel,
         _territories
       ) {
-        // Store authors
+        // Store territorys
         $scope.territories = _territories;
 
         // Initialize holder model
-        $scope.holder = {
-          name: '',
-          email: '',
-          territories: []
+        var initScope = function() {
+          $scope.holder = {
+            name: '',
+            email: '',
+            emailValid: true,
+            territories: []
+          };
         };
+        initScope();
 
         /**
          * Scope function to store new holder to database. After successfully save user will be redirected
          * to view that new created holder.
          */
         $scope.addHolder = function addHolder() {
+          var data = angular.copy($scope.holder)
           HolderModel
-            .create(angular.copy($scope.holder))
+            .create(data)
             .then(
-              function onSuccess(result) {
+              function onSuccess() {
                 MessageService.success('New holder added successfully');
-
-                $state.go('examples.holder', {id: result.data.id});
+                initScope();
               }
             )
           ;
@@ -54,13 +58,13 @@
     .controller('HolderController', [
       '$scope', '$state',
       'UserService', 'MessageService',
-      'HolderModel', 'AuthorModel',
-      '_holder',
+      'HolderModel', 'TerritoryModel',
+      '_holder', '_territories',
       function controller(
         $scope, $state,
         UserService, MessageService,
-        HolderModel, AuthorModel,
-        _holder
+        HolderModel, TerritoryModel,
+        _holder, _territories
       ) {
         // Set current scope reference to model
         HolderModel.setScope($scope, 'holder');
@@ -92,8 +96,8 @@
         $scope.saveHolder = function saveHolder() {
           var data = angular.copy($scope.holder);
 
-          // Set author id to update data
-          data.author = $scope.selectAuthor;
+          // Set territory id to update data
+          data.territory = $scope.selectTerritory;
 
           // Make actual data update
           HolderModel
@@ -124,20 +128,20 @@
         };
 
         /**
-         * Scope function to fetch author data when needed, this is triggered whenever user starts to edit
+         * Scope function to fetch territory data when needed, this is triggered whenever user starts to edit
          * current holder.
          *
          * @returns {null|promise}
          */
-        $scope.loadAuthors = function loadAuthors() {
-          if ($scope.authors.length) {
+        $scope.loadTerritorys = function loadTerritorys() {
+          if ($scope.territorys.length) {
             return null;
           } else {
-            return AuthorModel
+            return TerritoryModel
               .load()
               .then(
                 function onSuccess(data) {
-                  $scope.authors = data;
+                  $scope.territorys = data;
                 }
               )
             ;
@@ -153,18 +157,18 @@
       '$scope', '$q', '$timeout',
       '_',
       'ListConfig', 'SocketHelperService',
-      'UserService', 'HolderModel', 'AuthorModel',
-      '_items', '_count', '_authors',
+      'UserService', 'HolderModel', 'TerritoryModel',
+      '_items', '_count', '_territories',
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig, SocketHelperService,
-        UserService, HolderModel, AuthorModel,
-        _items, _count, _authors
+        UserService, HolderModel, TerritoryModel,
+        _items, _count, _territories
       ) {
         // Set current scope reference to models
         HolderModel.setScope($scope, false, 'items', 'itemCount');
-        AuthorModel.setScope($scope, false, 'authors');
+        TerritoryModel.setScope($scope, false, 'territories');
 
         // Add default list configuration variable to current scope
         $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
@@ -172,7 +176,7 @@
         // Set initial data
         $scope.items = _items;
         $scope.itemCount = _count.count;
-        $scope.authors = _authors;
+        $scope.territories = _territories;
         $scope.user = UserService.user();
 
         // Initialize used title items
@@ -180,7 +184,7 @@
 
         // Initialize default sort data
         $scope.sort = {
-          column: 'releaseDate',
+          column: 'name',
           direction: false
         };
 
@@ -205,24 +209,24 @@
         };
 
         /**
-         * Helper function to fetch specified author property.
+         * Helper function to fetch specified territory property.
          *
-         * @param   {Number}    authorId        Author id to search
-         * @param   {String}    [property]      Property to return, if not given returns whole author object
-         * @param   {String}    [defaultValue]  Default value if author or property is not founded
+         * @param   {Number}    territoryId     Territory id to search
+         * @param   {String}    [property]      Property to return, if not given returns whole territory object
+         * @param   {String}    [defaultValue]  Default value if territory or property is not founded
          *
          * @returns {*}
          */
-        $scope.getAuthor = function getAuthor(authorId, property, defaultValue) {
+        $scope.getTerritory = function getTerritory(territoryId, property, defaultValue) {
           defaultValue = defaultValue || 'Unknown';
           property = property || true;
 
-          // Find author
-          var author = _.find($scope.authors, function iterator(author) {
-            return parseInt(author.id, 10) === parseInt(authorId.toString(), 10);
+          // Find territory
+          var territory = _.find($scope.territorys, function iterator(territory) {
+            return parseInt(territory.id, 10) === parseInt(territoryId.toString(), 10);
           });
 
-          return author ? (property === true ? author : author[property]) : defaultValue;
+          return territory ? (property === true ? territory : territory[property]) : defaultValue;
         };
 
         /**
@@ -307,6 +311,7 @@
 
           // Data query specified parameters
           var parameters = {
+            populate: 'territories',
             limit: $scope.itemsPerPage,
             skip: ($scope.currentPage - 1) * $scope.itemsPerPage,
             sort: $scope.sort.column + ' ' + ($scope.sort.direction ? 'ASC' : 'DESC')

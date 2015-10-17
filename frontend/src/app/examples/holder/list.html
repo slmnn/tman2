@@ -49,11 +49,21 @@
         </tr>
     </thead>
     <tbody>
-        <tr
-            data-ng-repeat="holder in items"
-        >
-            <td class="col-md-9">
+        <tr data-ng-repeat="holder in items">
+            <td class="col-md-3">
                 <a data-ui-sref="examples.holder({id: holder.id})">{{holder.name}}</a>
+            </td>
+            <td class="col-md-3">
+                {{holder.email}}
+            </td>
+            <td class="col-md-2">
+                {{holder.telephone}}
+            </td>
+            <td class="col-md-3">
+                {{holder.description}}
+            </td>
+            <td class="col-md-1">
+                {{holder.territories.length}}
             </td>
         </tr>
 

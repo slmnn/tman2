@@ -90,6 +90,7 @@ passport.connect = function connect(request, query, profile, next) {
   if (!Object.keys(user).length) {
     next(new Error('Neither a username or email was available', null));
   } else {
+
     sails.models.passport
       .findOne({
         provider: profile.provider,
