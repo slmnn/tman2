@@ -19,6 +19,7 @@
     'frontend.examples.territoryHolderHistory',
     'frontend.examples.holder',
     'frontend.examples.coordinate',
+    'frontend.examples.app',
     'frontend.examples.chat',
     'frontend.examples.messages'
   ]);

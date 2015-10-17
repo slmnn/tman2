@@ -8,6 +8,9 @@
 (function() {
   'use strict';
 
+  // Define frontend.examples.coordinate angular module
+  angular.module('frontend.examples.app', []);
+
   /**
    * Model for Territory API, this is used to wrap all Territory objects specified actions and data change actions.
    */

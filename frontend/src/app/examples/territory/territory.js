@@ -63,6 +63,16 @@
                     function resolve(TerritoryModel) {
                       return TerritoryModel.count();
                     }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
                   ]
                 }
               }
@@ -117,6 +127,16 @@
                       HolderModel
                     ) {
                       return HolderModel.count({territory: $stateParams.id});
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
                     }
                   ]
                 }

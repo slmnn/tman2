@@ -396,14 +396,14 @@
       'ListConfig',
       'TerritoryHolderHistoryModel',
       'SocketHelperService', 'UserService', 'TerritoryModel',
-      '_items', '_count', '_holders',
+      '_items', '_count', '_holders', '_app',
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig,
         TerritoryHolderHistoryModel,
         SocketHelperService, UserService, TerritoryModel,
-        _items, _count, _holders
+        _items, _count, _holders, _app
       ) {
         // Set current scope reference to model
         TerritoryModel.setScope($scope, false, 'items', 'itemCount');
