@@ -287,6 +287,7 @@
                 function onSuccess() {
                   MessageService.success('Territory holder history row deleted successfully');
                   territoryHolderHistoryItemToBeDeletedId = null;
+                  $scope.deleteTerritoryHolderHistoryItemVisible = false;
                   $state.go($state.current, {id: _territory.id}, {reload: true});
                 }
               );

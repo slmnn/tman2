@@ -182,107 +182,111 @@
         <h4>
             History ({{territory.territoryHolderHistory.length}})
             <span class="pull-right"
-                data-ng-show="!editableHistoryForm.$visible && user.admin"
+                data-ng-show="!deleteTerritoryHolderHistoryItemVisible && user.admin"
             >
                 <a href="#"
-                    data-ng-click="editableHistoryForm.$show()"
+                    data-ng-click="deleteTerritoryHolderHistoryItemVisible = true"
                     data-tooltip="Toggle edit mode"
                 >
                     <i class="fa fa-wrench"></i>
                 </a>
             </span>
         </h4>
-        <form class="form-vertical" role="form"
-            data-editable-form name="editableHistoryForm"
-            data-onaftersave="saveTerritoryHistory()"
-        >
-            <table class="table table-condensed table-hover">
-                <thead>
-                    <tr>
-                        <th class="col-xs-4">
-                            Holder
-                        </th>
-                        <th class="col-xs-1 text-nowrap">
-                            Start date
-                        </th>
-                        <th class="col-xs-1 text-nowrap">
-                            End date
-                        </th>
-                        <th data-ng-class="editableHistoryForm.$visible ? 'col-xs-4 text-nowrap' : 'col-xs-6 text-nowrap'">
-                            Additional info
-                        </th>
-                        <th data-ng-if="editableHistoryForm.$visible" class="col-xs-2 text-nowrap">
-                            <!-- empty for buttons in edit mode -->
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-ng-repeat="thh in territory.territoryHolderHistory">
-                        <td>
-                            <span data-editable-select="thh.holder"
-                                data-e-name="thh.holder.id"
-                                data-e-ng-options="holder.id as holder.name for holder in holders"
-                                data-e-required>
-                                <a data-ui-sref="examples.holder({id: thh.holder})">{{getHolderNameWithId(thh.holder)}}</a>
-                            </span>
-                        </td>
-                        <td>
-                            <span 
-                                data-editable-bsdate="thh.startDate" 
-                                data-e-ng-click="thhStartDateOpened = !thhStartDateOpened" 
-                                data-e-is-open="thhStartDateOpened" 
-                                data-e-datepicker-popup = "dd.MM.yyyy" 
-                                data-e-name= "date" 
-                            >
-                                {{thh.startDate |date: 'dd.MM.yyyy'}}
-                            </span>
-                        </td>
-                        <td>
-                            <span 
-                                data-editable-bsdate="thh.endDate" 
-                                data-e-ng-click="thhEndDateOpened = !thhEndDateOpened" 
-                                data-e-is-open="thhEndDateOpened" 
-                                data-e-datepicker-popup = "dd.MM.yyyy" 
-                                data-e-name= "date" 
-                            >
-                                {{thh.endDate |date: 'dd.MM.yyyy'}}
-                            </span>
-                        </td>
-                        <td>
-                            <span data-editable-text="thh.description"
-                                    data-e-name="thh.description"
-                            >
-                                {{thh.description || ''}}
-                            </span>
-                        </td>
-                        <td data-ng-show="editableHistoryForm.$visible">
-                            <a 
-                                data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)"
-                                data-ng-bootbox-title="You are about to delete a territory history row"
-                                data-ng-bootbox-custom-dialog="Are you sure about the territory history row delete?"
-                                data-ng-bootbox-buttons="confirmHistoryButtonsDelete"
-                            >
-                                <span class="fa fa-trash fa-2x"></span>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div>
-                <div data-ng-show="editableHistoryForm.$visible">
-                    <button type="submit" class="btn btn-primary"
-                        data-ng-disabled="editableHistoryForm.$waiting"
-                    >
-                        Save
-                    </button>
-                    <button type="button" class="btn btn-default"
-                        data-ng-disabled="editableHistoryForm.$waiting"
-                        data-ng-click="editableHistoryForm.$cancel()"
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        </form>
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="col-xs-3">
+                        Holder
+                    </th>
+                    <th class="col-xs-2 text-nowrap">
+                        Start date
+                    </th>
+                    <th class="col-xs-2 text-nowrap">
+                        End date
+                    </th>
+                    <th class="col-xs-4 text-nowrap">
+                        Additional info
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        <!-- empty for buttons in edit mode -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-ng-repeat="thh in territory.territoryHolderHistory">
+                <tr>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-select="thh.holder"
+                            data-e-name="thh.holder.id"
+                            data-e-ng-options="holder.id as holder.name for holder in holders"
+                            data-e-required
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                        >
+                            {{getHolderNameWithId(thh.holder)}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            <a data-ui-sref="examples.holder({id: thh.holder.id})">{{getHolderNameWithId(thh.holder)}}</a>
+                        </span>
+                    </td>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-bsdate="thh.startDate" 
+                            data-e-ng-click="thhStartDateOpened = !thhStartDateOpened" 
+                            data-e-is-open="thhStartDateOpened" 
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-name= "date" 
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                        >
+                            {{thh.startDate |date: 'dd.MM.yyyy'}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            {{thh.startDate |date: 'dd.MM.yyyy'}}
+                        </span>
+                    </td>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-bsdate="thh.endDate" 
+                            data-e-ng-click="thhEndDateOpened = !thhEndDateOpened" 
+                            data-e-is-open="thhEndDateOpened" 
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                            data-e-name= "date" 
+                        >
+                            {{thh.endDate |date: 'dd.MM.yyyy'}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            {{thh.endDate |date: 'dd.MM.yyyy'}}
+                        </span>
+                    </td>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-text="thh.description"
+                            data-e-name="thh.description"
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                        >
+                            {{thh.description || 'No description'}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            {{thh.description}}
+                        </span>
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-show="deleteTerritoryHolderHistoryItemVisible"
+                            data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)"
+                            data-ng-bootbox-title="You are about to delete a territory history row"
+                            data-ng-bootbox-custom-dialog="Are you sure about the territory history row delete?"
+                            data-ng-bootbox-buttons="confirmHistoryButtonsDelete"
+                        >
+                            <span class="fa fa-trash fa-2x"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

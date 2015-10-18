@@ -21,7 +21,7 @@
 -->
 
 <div data-ng-show="attributes.length">
-    <table class="table">
+    <table class="table  table-condensed table-hover">
         <thead>
             <tr>
                 <th>Name</th>
@@ -32,48 +32,42 @@
             </tr>
         </thead>
         <tbody data-ng-repeat="a in attributes">
-            <form 
-                role="form"
-                data-editable-form 
-                name="editableForm_{{$index}}"
-            >
-                <tr>
-                    <td>
-                        <span
-                            data-editable-text="a.name"
-                            data-e-name="a.name"
-                            data-e-required
-                            data-onaftersave="updateAttribute(a)"
-                        >
-                            {{a.name}}
-                        </span>
-                    </td>
-                    <td>
-                        <span
-                            data-editable-text="a.description"
-                            data-e-name="a.description"
-                            data-e-required
-                            data-onaftersave="updateAttribute(a)"
-                        >
-                            {{a.description}}
-                        </span>
-                    </td>
-                    <td>
-                        <span
-                            data-editable-text="a.icon"
-                            data-e-name="a.icon"
-                            data-e-required
-                            data-onaftersave="updateAttribute(a)"
-                        >
-                            {{a.icon}}
-                        </span>
-                    </td>
-                    <td><span class="fa fa-{{a.icon}}"></span></td>
-                    <td>
-                        <a data-ng-click="deleteAttribute(a)"><span title="Remove attribute" class="fa fa-trash"></span></a>
-                    </td>
-                </tr>
-            </form>
+            <tr>
+                <td>
+                    <span
+                        data-editable-text="a.name"
+                        data-e-name="a.name"
+                        data-e-required
+                        data-onaftersave="updateAttribute(a)"
+                    >
+                        {{a.name}}
+                    </span>
+                </td>
+                <td>
+                    <span
+                        data-editable-text="a.description"
+                        data-e-name="a.description"
+                        data-e-required
+                        data-onaftersave="updateAttribute(a)"
+                    >
+                        {{a.description}}
+                    </span>
+                </td>
+                <td>
+                    <span
+                        data-editable-text="a.icon"
+                        data-e-name="a.icon"
+                        data-e-required
+                        data-onaftersave="updateAttribute(a)"
+                    >
+                        {{a.icon}}
+                    </span>
+                </td>
+                <td><span class="fa fa-{{a.icon}}"></span></td>
+                <td>
+                    <a data-ng-click="deleteAttribute(a)"><span title="Remove attribute" class="fa fa-trash"></span></a>
+                </td>
+            </tr>
         </tbody>
     </table>
 
