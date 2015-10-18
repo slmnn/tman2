@@ -1,0 +1,129 @@
+<div data-ng-show="!attributes.length">
+    <h3>Attributes not found</h3>
+</div>
+
+
+<!--     
+    // Description of the attribute
+    description: "string",
+
+    // Name of the attribute
+    name: "string",
+
+    // Type of the attribute
+    type: "string",
+
+    // Icon class
+    icon: "string",
+
+    // Value as string
+    value: "string" 
+-->
+
+<div data-ng-show="attributes.length">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Icon</th>
+                <th>Icon example</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody data-ng-repeat="a in attributes">
+            <form 
+                role="form"
+                data-editable-form 
+                name="editableForm_{{$index}}"
+            >
+                <tr>
+                    <td>
+                        <span
+                            data-editable-text="a.name"
+                            data-e-name="a.name"
+                            data-e-required
+                            data-onaftersave="updateAttribute(a)"
+                        >
+                            {{a.name}}
+                        </span>
+                    </td>
+                    <td>
+                        <span
+                            data-editable-text="a.description"
+                            data-e-name="a.description"
+                            data-e-required
+                            data-onaftersave="updateAttribute(a)"
+                        >
+                            {{a.description}}
+                        </span>
+                    </td>
+                    <td>
+                        <span
+                            data-editable-text="a.icon"
+                            data-e-name="a.icon"
+                            data-e-required
+                            data-onaftersave="updateAttribute(a)"
+                        >
+                            {{a.icon}}
+                        </span>
+                    </td>
+                    <td><span class="fa fa-{{a.icon}}"></span></td>
+                    <td>
+                        <a data-ng-click="deleteAttribute(a)"><span title="Remove attribute" class="fa fa-trash"></span></a>
+                    </td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+
+
+</div>    
+
+<h3>Create new attribute</h3>
+<form 
+    class="form-verical col-md-4" 
+    name="newAttributeForm"
+    data-ng-submit="createAttribute(newAttribute)"
+>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input 
+            type="text" 
+            data-ng-model="newAttribute.name" 
+            required="required" 
+            class="form-control" 
+            id="name" 
+            placeholder="Elevator"
+        >
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input 
+            type="text" 
+            data-ng-model="newAttribute.description" 
+            max-length="100" 
+            required="required" 
+            class="form-control" 
+            id="description" 
+            placeholder="The territory has elevator"
+        >
+    </div>
+    <div class="form-group">
+        <label for="icon">Icon</label>
+        <input 
+            type="text" 
+            data-ng-model="newAttribute.icon" 
+            required="required" 
+            class="form-control" 
+            id="icon" 
+            placeholder="Font Awesome icon, e.g. arrows-v"
+        >
+    </div>
+    <input 
+        type="submit" 
+        id="submit" 
+        value="Create" 
+        class="btn btn-primary" 
+    />
+</form>

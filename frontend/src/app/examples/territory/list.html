@@ -50,8 +50,8 @@
                 </th>
             </tr>
             </thead>
-            <tbody>
-                <tr data-ng-repeat="territory in items">
+            <tbody data-ng-repeat="territory in items">
+                <tr data-ng-class="territory.checked ? 'bg-info' : ''">
                     <td class="col-md-1">
                         <a data-ui-sref="examples.territory({id: territory.id})">
                             <strong>{{territory.territoryCode || territory.id}}</strong>
@@ -93,9 +93,6 @@
                     </td>
                 </tr>
             </tbody>
-            <tfoot>
-
-            </tfoot>
         </table>
   </div>
 </div>

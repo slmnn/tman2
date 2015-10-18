@@ -11,19 +11,13 @@ var _ = require('lodash');
 module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   attributes: {
 
-    // Description of the attribute
-    description: "string",
+    territory: {
+      model: "territory"
+    },
 
-    // Name of the attribute
-    name: "string",
+    attribute: {
+      model: "attribute"
+    }
 
-    // Type of the attribute
-    type: "string",
-
-    // Icon class
-    icon: "string",
-
-    // Value as string
-    value: "string"
   }
 });

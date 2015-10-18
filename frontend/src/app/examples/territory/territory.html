@@ -75,6 +75,14 @@
                             {{territory.type}}
                         </span>
                     </dd>
+                    <dt>Number of apartments</dt>
+                    <dd>
+                        <span data-editable-number="territory.apartmentCount"
+                                data-e-name="territory.apartmentCount"
+                                data-e-required>
+                            {{territory.apartmentCount}}
+                        </span>
+                    </dd>
                     <dt>Archived</dt>
                     <dd>
                         <span data-editable-checkbox="territory.archived"
@@ -95,7 +103,7 @@
                     <dt>Map</dt>       
                     <dd>
                         <a 
-                            data-ng-show="editableForm.$visible" 
+                            data-ng-show="editableForm.$visible && !editableMap" 
                             class="btn btn-primary" 
                             data-ng-click="toggleMapEditable()"
                         >
@@ -103,7 +111,7 @@
                         </a>
                         <a 
                             data-ng-show="editableForm.$visible && editableMap" 
-                            class="btn btn-primary" 
+                            class="btn btn-danger pull-right" 
                             data-ng-click="replacePolylineWithDefault()"
                         >
                             Delete border
@@ -154,7 +162,7 @@
                         </button>
                         <button type="button" class="btn btn-default"
                             data-ng-disabled="editableForm.$waiting"
-                            data-ng-click="editableForm.$cancel()"
+                            data-ng-click="editableForm.$cancel(); editableMap = false;"
                         >
                             Cancel
                         </button>
@@ -170,7 +178,7 @@
             </div>
         </form>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6" data-ng-if="territory.territoryHolderHistory.length > 0">
         <h4>
             History ({{territory.territoryHolderHistory.length}})
             <span class="pull-right"

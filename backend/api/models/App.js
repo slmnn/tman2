@@ -11,12 +11,27 @@ var _ = require('lodash');
 module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   attributes: {
     lastBackup : "DATE",
+
   	backupInterval : "INTEGER",
-  	backupEmail : "string",
+
+    backupEmail : "string",
+  	
+    name : "string",
 
   	lastStats : "DATE",
 
   	notCoveredLimit : "INTEGER",
-  	notCoveredWarningEmailLimit : "INTEGER"
+
+  	notCoveredWarningEmailLimit : "INTEGER",
+
+  	holderNotChangedWarningLimit : "INTEGER",
+
+  	holderChangePreventedIfLimitExeeded : "BOOLEAN",
+  	
+  	holderChangeToDefaultIfLimitExeeded : "BOOLEAN",
+
+  	defaultHolder : {
+    	model: 'holder'
+    }
   }
 });

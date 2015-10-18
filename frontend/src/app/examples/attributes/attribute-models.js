@@ -1,5 +1,5 @@
 /**
- * This file contains all necessary Angular model definitions for 'frontend.examples.app
+ * This file contains all necessary Angular model definitions for 'frontend.examples.attribute
 ' module.
  *
  * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
@@ -11,11 +11,11 @@
   /**
    * Model for Territory API, this is used to wrap all Territory objects specified actions and data change actions.
    */
-  angular.module('frontend.examples.app')
-    .service('AppModel', [
+  angular.module('frontend.examples.attribute')
+    .service('AttributeModel', [
       'DataModel',
       function(DataModel) {
-        return new DataModel('app');
+        return new DataModel('attribute');
       }
     ])
   ;

@@ -55,6 +55,16 @@
                     function resolve(TerritoryModel) {
                       return TerritoryModel.load();
                     }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
                   ]
                 }
               }
@@ -83,6 +93,16 @@
                     'TerritoryModel',
                     function resolve(TerritoryModel) {
                       return TerritoryModel.load();
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
                     }
                   ]
                 }

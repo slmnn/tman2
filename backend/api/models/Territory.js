@@ -37,9 +37,12 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     /* Description */
     description : "STRING",
 
+    /* Apartmetn count */
+    apartmentCount : "INTEGER",
+
     // Below is all specification for relations to another models
 
-    // Author of the book
+    // Holder of the territory
     holder: {
       model: 'holder'
     },
@@ -55,8 +58,8 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
       via: 'territory'
     },
 
-    attributes: {
-      collection: 'attribute',
+    territoryLinkAttribute: {
+      collection: 'territoryLinkAttribute',
       via: 'territory'
     },
 

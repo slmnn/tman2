@@ -40,14 +40,24 @@
         var items = {
           'examples': [
             {
+              state: 'examples.territories',
+              title: 'Territories',
+              access: AccessLevels.user
+            },
+            {
               state: 'examples.holders',
               title: 'Holders',
               access: AccessLevels.user
             },
             {
-              state: 'examples.territories',
-              title: 'Territories',
-              access: AccessLevels.user
+              state: 'examples.attributes',
+              title: 'Attributes',
+              access: AccessLevels.admin
+            },
+            {
+              state: 'examples.app',
+              title: 'App',
+              access: AccessLevels.admin
             },
             {
               state: 'examples.messages',
@@ -307,63 +317,6 @@
                 url: repository + 'frontend/src/app/examples/territory/list.html',
                 title: 'list.html',
                 info: types.generic.template
-              }
-            ]
-          },
-          'examples.territoryHolderHistories': {
-            'Backend': [
-              {
-                url: repository + 'backend/api/models/TerritoryHolderHistory.js',
-                title: 'TerritoryHolderHistory.js',
-                info: types.generic.model
-              },
-              {
-                url: repository + 'backend/api/controllers/TerritoryHolderHistoryController.js',
-                title: 'TerritoryHolderHistoryController.js',
-                info: types.generic.controller
-              }
-            ],
-            'Frontend': [
-              {
-                url: repository + 'frontend/src/app/examples/territoryHolderHistory/TerritoryHolderHistory.js',
-                title: 'territoryHolderHistory.js',
-                info: types.frontend.module
-              },
-              {
-                url: repository + 'frontend/src/app/examples/territoryHolderHistory/territoryHolderHistory-controllers.js',
-                title: 'territoryHolderHistory-controllers.js',
-                info: types.generic.controller
-              },
-              {
-                url: repository + 'frontend/src/app/examples/territoryHolderHistory/territoryHolderHistory-models.js',
-                title: 'territoryHolderHistory-models.js',
-                info: types.generic.model
-              }
-            ]
-          },
-          'examples.coordinate': {
-            'Backend': [
-              {
-                url: repository + 'backend/api/models/Coordinate.js',
-                title: 'Coordinate.js',
-                info: types.generic.model
-              },
-              {
-                url: repository + 'backend/api/controllers/Coordinate.js',
-                title: 'Coordinate.js',
-                info: types.generic.controller
-              }
-            ],
-            'Frontend': [
-              {
-                url: repository + 'frontend/src/app/examples/coordinate/coordinate.js',
-                title: 'coordinate.js',
-                info: types.frontend.module
-              },
-              {
-                url: repository + 'frontend/src/app/examples/coordinate/coordinate-models.js',
-                title: 'coordinate-models.js',
-                info: types.generic.model
               }
             ]
           },

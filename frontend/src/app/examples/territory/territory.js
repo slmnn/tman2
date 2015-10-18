@@ -166,6 +166,16 @@
                       // Load all holders, later add isActive param.
                       return HolderModel.load();
                     }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
                   ]
                 }
               }

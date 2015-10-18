@@ -13,14 +13,17 @@
       '$scope', '$state', 
       'HolderModel', 
       '_holders',
+      '_app',
       'MessageService', 'TerritoryModel',
       function controller(
         $scope, $state,
         HolderModel, 
-        holders_,
+        _holders,
+        _app,
         MessageService, TerritoryModel
       ) {
-        $scope.holders = holders_;
+        $scope.holders = _holders;
+        $scope.app = _app[0];
 
         // Initialize territory model
         var initModel = function() {
@@ -29,9 +32,9 @@
             description: '',
             type: '',
             covered: new Date(),
-            taken: new Date(),
+            taken: new Date()
           };
-          $scope.selectedHolder = null;
+          $scope.selectedHolder = $scope.app.defaultHolder;
         };
         initModel();
 
@@ -51,7 +54,7 @@
           if($scope.selectedHolder) {
             data.holder = {id: $scope.selectedHolder};
           } else {
-            // data.holder = 'defaultholderid'
+            data.holder = $scope.app.defaultHolder;
           }
           TerritoryModel
             .create(data)
@@ -74,14 +77,14 @@
       '$scope', '$state', '_', '$timeout',
       'UserService', 'MessageService',
       'TerritoryModel', 'HolderModel',
-      '_territory', '_holders', '_holdersCount', 
+      '_territory', '_holders', '_app',
       'TerritoryHolderHistoryModel',
       'CoordinateModel', 'uiGmapGoogleMapApi',
       function controller(
         $scope, $state, _, $timeout,
         UserService, MessageService,
         TerritoryModel, HolderModel,
-        _territory, _holders, _holdersCount,
+        _territory, _holders, _app,
         TerritoryHolderHistoryModel,
         CoordinateModel, uiGmapGoogleMapApi
       ) {
@@ -93,7 +96,7 @@
         $scope.user = UserService.user();
         $scope.territory = _territory;
         $scope.holders = _holders;
-        $scope.holdersCount = _holdersCount.count;
+        $scope.app = _app[0];
 
         // Create Google Map settings for showing the center and border of the territory.
         // Copy the border path from territory.
@@ -197,7 +200,9 @@
 
           // Save the marker either by updating or creating a new one.
           var coords = $scope.map.territoryCenterMarker.coords;
-          if($scope.map.territoryCenterMarker && $scope.map.territoryCenterMarker.id && $scope.map.territoryCenterMarker.id !== 0) {
+          if($scope.map.territoryCenterMarker && 
+            $scope.map.territoryCenterMarker.id && 
+            $scope.map.territoryCenterMarker.id !== 0) {
             coords.type = 'center';
             CoordinateModel.update($scope.map.territoryCenterMarker.id, coords);
           } else {
@@ -256,7 +261,7 @@
             startDate: historyItem.startDate,
             endDate: historyItem.endDate,
             description: historyItem.description,
-            holder: {id: historyItem.holder}
+            holder: historyItem.holder
           })            
           .then(
             function onSuccess() {
@@ -315,25 +320,16 @@
         $scope.saveTerritory = function saveTerritory() {
           var data = angular.copy($scope.territory);
 
-          data.holder = {
-            id: data.holder.id
-          };
+          data.holder = data.holder.id || $scope.app.defaultHolder;
 
-          // Make actual data update
-          TerritoryModel
-            .update(data.id, data)
-            .then(
-              function onSuccess() {
-                MessageService.success('Territory "' + $scope.territory.territoryCode + '" updated successfully');
-              }
-            )
-          ;
-
-          // Add holder history if the holder was changed.
-          if(data.holder.id !== _territory.holder) {
+          // Add holder history item
+          if(data.holder !== _territory.holder.id) {
             var now = new Date();
 
-            if(data.territoryHolderHistory && data.territoryHolderHistory.length > 0 && !_.last(data.territoryHolderHistory).endTime) {
+            // Update the last row with end time
+            if(data.territoryHolderHistory && 
+              data.territoryHolderHistory.length > 0 && 
+              !_.last(data.territoryHolderHistory).endTime) {
               TerritoryHolderHistoryModel
               .update(
                 _.last(data.territoryHolderHistory).id,
@@ -343,21 +339,37 @@
               );
             }
 
-            var holderHistoryData = {
-              startDate: now,
-              holder: data.holder.id,
-              territory: data.id
-            };
+            // If the new holder is not default holder, add new row.
+            if(data.holder !== $scope.app.defaultHolder) {
+              var holderHistoryData = {
+                startDate: now,
+                holder: data.holder,
+                territory: data.id
+              };
 
-            TerritoryHolderHistoryModel
-              .create(holderHistoryData)
-              .then(
-                function onSuccess() {
-                  MessageService.success('Territory history for "' + $scope.territory.territoryCode + '" created successfully');
-                }
-              )
-            ;            
+              TerritoryHolderHistoryModel
+                .create(holderHistoryData)
+                .then(
+                  function onSuccess() {
+                    MessageService.success('Territory history for "' + $scope.territory.territoryCode + '" created successfully');
+                  }
+                )
+              ;  
+            }          
           }
+
+          data.territoryHolderHistory = null;
+
+          // Make territory data update
+          TerritoryModel
+            .update(data.id, data)
+            .then(
+              function onSuccess() {
+                MessageService.success('Territory "' + $scope.territory.territoryCode + '" updated successfully');
+                $state.go($state.current, {id: _territory.id}, {reload: true});
+              }
+            )
+          ;
 
         };
 
@@ -414,6 +426,7 @@
         // Set initial data
         $scope.items = _items;
         $scope.holders = _holders;
+        $scope.app = _app[0];
         $scope.itemCount = _count.count;
         $scope.user = UserService.user();
 
@@ -452,16 +465,16 @@
           });
         };
 
-        var makeHolderHistoryUpdate = function(territory, comment) {
+        var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {
 
           // If the holder change was anything else but return to the default
           // holder, add also row into history.
-          if(territory.holder.id !== 'TODO: insert default holder id here') {
+          if(newHolderId !== $scope.app.defaultHolder) {
             TerritoryHolderHistoryModel
             .create(
               {
                 startDate: new Date(),
-                holder: territory.holder.id,
+                holder: newHolderId,
                 territory: territory.id,
                 description: comment
               }
@@ -493,7 +506,7 @@
               }
             );
 
-            makeHolderHistoryUpdate(t, comment);
+            makeHolderHistoryUpdate(t, comment, t.holder.id);
           });
         };
 
@@ -501,7 +514,7 @@
           _.each(territories, function(t) {
             var data = {
               taken: new Date(),
-              holder: { id: newHolderId }
+              holder: newHolderId
             };
             if(markAsCovered) {
               data.covered = new Date();
@@ -509,7 +522,7 @@
             TerritoryModel
             .update(t.id, data);
 
-            makeHolderHistoryUpdate(t, comment);
+            makeHolderHistoryUpdate(t, comment, newHolderId);
           });
         };
 
@@ -609,7 +622,7 @@
 
           // Data query specified parameters
           var parameters = {
-            populate: 'holders',
+            populate: ['holder', 'territoryHolderHistory'],
             limit: $scope.itemsPerPage,
             skip: ($scope.currentPage - 1) * $scope.itemsPerPage,
             sort: $scope.sort.column + ' ' + ($scope.sort.direction ? 'ASC' : 'DESC')

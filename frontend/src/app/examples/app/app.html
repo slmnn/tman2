@@ -1,0 +1,127 @@
+<div data-ng-show="!app">
+    <h3>App not found</h3>
+</div>
+
+<!-- 
+              lastBackup : new Date(),
+              backupInterval : 7,
+              backupEmail : 'example.email.address@example.com',
+              lastStats : new Date(),
+              notCoveredLimit : 365,
+              notCoveredWarningEmailLimit : 100,  
+              holderNotChangedWarningLimit : 200,
+              holderChangePreventedIfLimitExeeded : false,
+              holderChangeToDefaultIfLimitExeeded : false,
+-->
+
+<div data-ng-show="app">
+    <form class="form-vertical" role="form"
+        data-editable-form name="editableForm"
+        data-onaftersave="saveApp()"
+    >
+        <div class="row">
+            <div class="col-sm-8">
+                <h3>
+                    <span style="width: 100%;"
+                        data-editable-text="app.name"
+                        data-e-name="app.name"
+                        data-e-required
+                    >
+                        {{app.name}}
+                    </span>
+
+                    <span class="pull-right"
+                        data-ng-show="!editableForm.$visible && user.admin"
+                    >
+                        <a href="#"
+                           data-ng-click="editableForm.$show()"
+                           data-tooltip="Toggle edit mode"
+                        >
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </span>
+                </h3>
+                <dl>
+                    <dt>Default holder</dt>
+                    <dd>
+                        <span data-editable-select="app.defaultHolder.id"
+                            data-e-name="defaultHolder.id"
+                            data-e-ng-options="holder.id as holder.name for holder in holders"
+                            data-e-required>
+                            {{app.defaultHolder.name}}
+                        </span>
+                    </dd>
+                    <dt>Backup email</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.backupEmail"
+                            data-e-name="app.backupEmail"
+                            data-e-required
+                        >
+                            {{app.backupEmail}}
+                        </span>
+                    </dd>
+                    <dt>Backup interval (days)</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-number="app.backupInterval"
+                            data-e-min="1"
+                            data-e-name="app.backupInterval"
+                            data-e-required
+                        >
+                            {{app.backupInterval}}
+                        </span>
+                    </dd>
+                    <dt>Limit for not covered territories (days)</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-number="app.notCoveredLimit"
+                            data-e-min="1"
+                            data-e-name="app.notCoveredLimit"
+                            data-e-required
+                        >
+                            {{app.notCoveredLimit}}
+                        </span>
+                    </dd>
+                    <dt>Limit for warning email about not covered territories (days)</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-number="app.notCoveredWarningEmailLimit"
+                            data-e-min="1"
+                            data-e-name="app.notCoveredWarningEmailLimit"
+                            data-e-required
+                        >
+                            {{app.notCoveredWarningEmailLimit}}
+                        </span>
+                    </dd>
+                    <dt>Limit for warning about not changed holder (days)</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-number="app.holderNotChangedWarningLimit"
+                            data-e-min="1"
+                            data-e-name="app.holderNotChangedWarningLimit"
+                            data-e-required
+                        >
+                            {{app.holderNotChangedWarningLimit}}
+                        </span>
+                    </dd>
+                <dl>
+                <div>
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

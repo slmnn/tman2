@@ -12,7 +12,7 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   attributes: {
 
     // Time period indicating how long the ownership was.
-    startDate: "DATE",
+    startDate: { type: "DATE", required: true},
     endDate: "DATE",
 
     // Brief description
@@ -23,11 +23,13 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     // This history belongs to a holder.
     holder: {
       model: 'holder',
+      required: true
     },
 
     // This history belongs to a territory.
     territory: {
       model: 'territory',
+      required: true
     }
   }
 });
