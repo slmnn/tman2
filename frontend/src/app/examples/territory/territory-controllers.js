@@ -77,15 +77,17 @@
       '$scope', '$state', '_', '$timeout',
       'UserService', 'MessageService',
       'TerritoryModel', 'HolderModel',
-      '_territory', '_holders', '_app',
+      '_territory', '_holders', '_app', '_attributes',
       'TerritoryHolderHistoryModel',
+      'TerritoryLinkAttributeModel',
       'CoordinateModel', 'uiGmapGoogleMapApi',
       function controller(
         $scope, $state, _, $timeout,
         UserService, MessageService,
         TerritoryModel, HolderModel,
-        _territory, _holders, _app,
+        _territory, _holders, _app, _attributes,
         TerritoryHolderHistoryModel,
+        TerritoryLinkAttributeModel,
         CoordinateModel, uiGmapGoogleMapApi
       ) {
         // Set current scope reference to models
@@ -96,6 +98,7 @@
         $scope.user = UserService.user();
         $scope.territory = _territory;
         $scope.holders = _holders;
+        $scope.attributes = _attributes;
         $scope.app = _app[0];
 
         // Create Google Map settings for showing the center and border of the territory.
@@ -397,6 +400,56 @@
               'name'
             );
         };
+
+        $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
+          return _.find(attributes, function(a) {
+            return a.id === id;
+          });
+        };
+
+        $scope.addNewAttribute = function addNewAttribute(attribute) {
+          TerritoryLinkAttributeModel.create({
+            attribute: attribute.id,
+            territory: _territory.id
+          })
+          .then(function onSuccess(){
+            MessageService.success('Attribute "' + attribute.name + '" added successfully');
+            $scope.deleteTerritoryLinkAttributeItemVisible = false;
+            $state.go($state.current, {id: _territory.id}, {reload: true});
+          });
+        };
+
+        var territoryLinkAttributeItemToBeDeletedId = null;
+        $scope.setTerritoryLinkAttributeToBeDeleted = function setTerritoryLinkAttributeToBeDeleted(item) {
+          territoryLinkAttributeItemToBeDeletedId = item.id;
+        };
+
+        // Territory delete dialog buttons configuration
+        $scope.confirmAttributeButtonsDelete = {
+          ok: {
+            label: 'Delete',
+            className: 'btn-danger',
+            callback: function callback() {
+              TerritoryLinkAttributeModel
+              .delete(territoryLinkAttributeItemToBeDeletedId)            
+              .then(
+                function onSuccess() {
+                  MessageService.success('Territory attribute deleted successfully');
+                  territoryLinkAttributeItemToBeDeletedId = null;
+                  $scope.deleteTerritoryLinkAttributeItemVisible = false;
+                  $state.go($state.current, {id: _territory.id}, {reload: true});
+                }
+              );
+            }
+          },
+          cancel: {
+            label: 'Cancel',
+            className: 'btn-default pull-left',
+            callback: function callback() {
+              territoryLinkAttributeItemToBeDeletedId = null;
+            }
+          }
+        };
       }
     ])
   ;
@@ -409,14 +462,14 @@
       'ListConfig',
       'TerritoryHolderHistoryModel',
       'SocketHelperService', 'UserService', 'TerritoryModel',
-      '_items', '_count', '_holders', '_app',
+      '_items', '_count', '_holders', '_app', '_attributes',
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig,
         TerritoryHolderHistoryModel,
         SocketHelperService, UserService, TerritoryModel,
-        _items, _count, _holders, _app
+        _items, _count, _holders, _app, _attributes
       ) {
         // Set current scope reference to model
         TerritoryModel.setScope($scope, false, 'items', 'itemCount');
@@ -427,6 +480,7 @@
         // Set initial data
         $scope.items = _items;
         $scope.holders = _holders;
+        $scope.attributes = _attributes;
         $scope.app = _app[0];
         $scope.itemCount = _count.count;
         $scope.user = UserService.user();
@@ -463,6 +517,12 @@
         $scope.clearSelected = function clearSelected(territories) {
           _.each(territories, function(t) {
             t.checked = false;
+          });
+        };
+
+        $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
+          return _.find(attributes, function(a) {
+            return a.id === id;
           });
         };
 

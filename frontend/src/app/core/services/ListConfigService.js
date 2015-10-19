@@ -61,11 +61,29 @@
               inTitle: true
             },
             {
-              title: 'Description',
-              column: 'description',
-              class: 'col-xs-5',
+              title: 'Attributes',
+              column: 'territoryLinkAttributes',
+              class: 'col-xs-1',
               searchable: true,
               sortable: false,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Description',
+              column: 'description',
+              class: 'col-xs-3',
+              searchable: true,
+              sortable: false,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Comment',
+              column: false,
+              class: 'col-xs-1',
+              searchable: true,
+              sortable: true,
               inSearch: true,
               inTitle: true
             },

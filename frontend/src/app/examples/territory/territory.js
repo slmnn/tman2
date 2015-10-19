@@ -38,7 +38,7 @@
                       var config = ListConfig.getConfig();
 
                       var parameters = {
-                        populate: ['holder', 'territoryHolderHistory'],
+                        populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
                         limit: config.itemsPerPage,
                         sort: 'name ASC'
                       };
@@ -56,6 +56,16 @@
 
                       // Load all holders, later add isActive param.
                       return HolderModel.load();
+                    }
+                  ],
+                  _attributes: [
+                    '$stateParams',
+                    'AttributeModel',
+                    function resolve(
+                      $stateParams,
+                      AttributeModel
+                    ) {
+                      return AttributeModel.load();
                     }
                   ],
                   _count: [
@@ -94,7 +104,18 @@
                       $stateParams,
                       TerritoryModel
                     ) {
-                      return TerritoryModel.fetch($stateParams.id, {populate: ['holder', 'territoryHolderHistory', 'center', 'coordinates']});
+                      return TerritoryModel.fetch(
+                        $stateParams.id, 
+                        {
+                          populate: [
+                            'holder', 
+                            'territoryHolderHistory', 
+                            'center', 
+                            'coordinates', 
+                            'territoryLinkAttribute'
+                          ]
+                        }
+                      );
                     }
                   ],
                   _territoryHolderHistory: [
@@ -105,6 +126,16 @@
                       TerritoryHolderHistoryModel
                     ) {
                       return TerritoryHolderHistoryModel.load();
+                    }
+                  ],
+                  _attributes: [
+                    '$stateParams',
+                    'AttributeModel',
+                    function resolve(
+                      $stateParams,
+                      AttributeModel
+                    ) {
+                      return AttributeModel.load();
                     }
                   ],
                   _holders: [

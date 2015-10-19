@@ -289,4 +289,90 @@
             </tbody>
         </table>
     </div>
+
+    <div class="col-sm-6" data-ng-if="territory.territoryLinkAttribute.length === 0">
+        <h4>
+            No attributes has been set for this territory
+            <span class="pull-right"
+                data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"
+            >
+                <a href="#"
+                    data-ng-click="deleteTerritoryLinkAttributeItemVisible = true"
+                    data-tooltip="Toggle edit mode"
+                >
+                    <i class="fa fa-wrench"></i>
+                </a>
+            </span>
+        </h4>
+        <div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible">
+            <label>Add new Attribute:
+                <select ng-model="newAttribute" ng-options="a.name for a in attributes"></select>
+            </label>
+            <a class="btn btn-primary btn-xs" data-ng-click="addNewAttribute(newAttribute);">Add</a>
+        </div>
+    </div>
+
+    <div class="col-sm-6" data-ng-if="territory.territoryLinkAttribute.length > 0">
+        <h4>
+            Attributes ({{territory.territoryLinkAttribute.length}})
+            <span class="pull-right"
+                data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"
+            >
+                <a href="#"
+                    data-ng-click="deleteTerritoryLinkAttributeItemVisible = true"
+                    data-tooltip="Toggle edit mode"
+                >
+                    <i class="fa fa-wrench"></i>
+                </a>
+            </span>
+        </h4>
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="col-xs-1">
+                        <!-- icon -->
+                    </th>
+                    <th class="col-xs-3 text-nowrap">
+                        Name
+                    </th>
+                    <th class="col-xs-7 text-nowrap">
+                        Description
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        <!-- empty for buttons in edit mode -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-ng-repeat="tla in territory.territoryLinkAttribute">
+                <tr>
+                    <td>
+                        <span class="fa fa-{{getAttributeWithId(attributes, tla.attribute).icon}}"></span>
+                    </td>                    
+                    <td>
+                        {{getAttributeWithId(attributes, tla.attribute).name}}
+                    </td>
+                    <td>
+                        {{getAttributeWithId(attributes, tla.attribute).description}}
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-show="deleteTerritoryLinkAttributeItemVisible"
+                            data-ng-click="setTerritoryLinkAttributeToBeDeleted(tla)"
+                            data-ng-bootbox-title="You are about to delete a territory attribute"
+                            data-ng-bootbox-custom-dialog="Are you sure about the territory attribute delete?"
+                            data-ng-bootbox-buttons="confirmAttributeButtonsDelete"
+                        >
+                            <span class="fa fa-trash fa-2x"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible">
+            <label>Add new Attribute:
+                <select ng-model="newAttribute" ng-options="a.name for a in attributes"></select>
+            </label>
+            <a class="btn btn-primary btn-xs" data-ng-click="addNewAttribute(newAttribute);">Add</a>
+        </div>
+    </div>
 </div>

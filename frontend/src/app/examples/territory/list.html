@@ -66,16 +66,31 @@
                     <td class="col-md-1">
                         {{territory.taken | date : 'dd.MM.yyyy'}}
                     </td>
-                    <td class="col-md-6">
+                    <td class="col-md-1">
+                        <ul class="list-inline">
+                            <li data-ng-repeat="tla in territory.territoryLinkAttribute">
+                                <span 
+                                    class="fa fa-{{getAttributeWithId(attributes, tla.attribute).icon}}"
+                                    data-tooltip="{{getAttributeWithId(attributes, tla.attribute).name}} - {{getAttributeWithId(attributes, tla.attribute).description}}"
+                                >
+                                </span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="col-md-3">
                         {{territory.description | limitTo : 40}}
                         {{territory.description.length > 40 ? '...' : ''}}
+                    </td>
+                    <td class="col-md-1">
+                        {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description | limitTo : 20}}
+                        {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description.length > 20 ? '...' : ''}}
                     </td>
                     <td class="col-md-2">
                         <a data-ui-sref="examples.holder({id: territory.holder.id})">
                             {{territory.holder.name}}
                         </a>
                     </td>
-                    <td class="col-md-2">
+                    <td class="col-md-1">
                         <label class="whitespace-label">
                             <input type="checkbox" 
                                 class="big-checkbox"
