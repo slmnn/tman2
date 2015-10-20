@@ -31,6 +31,9 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     /* Not active anymore */
     archived : "BOOLEAN",
 
+    /* Not active anymore */
+    notCountedWhenCalculatingCoveredDuringLastYearTotal : "BOOLEAN",
+
     /* type: normal, phone, business */
     type : "STRING",
 
