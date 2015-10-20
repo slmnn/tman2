@@ -49,6 +49,34 @@ header .navbar-nav {
   height: 14px;
 }
 
+.s13 { 
+  border: 1px solid black; 
+  float:left; 
+  min-height:500px; 
+  width: 124px;
+  overflow: hidden;
+  white-space:nowrap;
+  display: inline-block;
+  text-align: center;
+  font-size: 1em;
+}
+
+.s13 .small {
+  font-size: 0.82em;
+  width: 50%;
+}
+
+.force-break :nth-of-type(5n) {
+  page-break-after : always; page-break-inside: avoid; display : inline-block;
+}
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
 .ng-hide-add         { animation:0.5s lightSpeedOut ease; }
 
 .ng-hide-remove      { animation:0.5s flipInX ease; }

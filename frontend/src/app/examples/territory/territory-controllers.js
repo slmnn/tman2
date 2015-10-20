@@ -723,4 +723,43 @@
       }
     ])
   ;
+
+    // Controller which contains all necessary logic for territory list GUI on boilerplate application.
+  angular.module('frontend.examples.territory')
+    .controller('TerritoryS13Controller', [
+      '$scope', '$q',
+      '_',
+      'ListConfig',
+      'SocketHelperService', 'UserService',
+      '_items', '_holders',
+      function controller(
+        $scope, $q,
+        _,
+        ListConfig,
+        SocketHelperService, UserService,
+        _items, _holders
+      ) {
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+        // Set initial data
+        $scope.territories = _items;
+        $scope.holders = _holders;
+        $scope.user = UserService.user();
+
+        _.each($scope.territories, function(t) {
+          t.emptyArray = Array.apply(null, Array(20 - t.territoryHolderHistory.length)).map(function (x, i) { return i; });
+        });
+
+        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
+          return  _.result(
+              _.find(_holders, function(h) {
+                return h.id === holderId;
+              }), 
+              'name'
+            );
+        };
+      }
+    ])
+  ;
 }());

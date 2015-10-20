@@ -89,6 +89,49 @@
             }
           })
 
+          // Territorys list
+          .state('examples.territories.s13', {
+            url: '/examples/territories/s13',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/examples/territory/s13.html',
+                controller: 'TerritoryS13Controller',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
+                        limit: config.itemsPerPage,
+                        sort: 'name ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+
+                      // Load all holders, later add isActive param.
+                      return HolderModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
           // Single territory
           .state('examples.territory', {
             url: '/examples/territory/:id',

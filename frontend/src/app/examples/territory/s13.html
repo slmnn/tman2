@@ -1,0 +1,29 @@
+<div data-ng-repeat="t in territories">
+  <div data-ng-if="$index !== 0 && $index % 5 === 0" style="page-break-after: always;">
+  </div>
+  <h3 data-ng-if="$index === 0 || $index % 5 === 0" class="col-xs-12" >Territory list</h3>
+  <table border="1px" class="s13">
+    <thead>
+      <tr>
+        <th colspan="2" width="124px" class="text-center">{{t.territoryCode}}</th>
+      </tr>
+    </thead>
+    <tbody data-ng-repeat="thh in t.territoryHolderHistory">
+      <tr style="height: 21px">
+        <td colspan="2">{{getHolderNameWithId(thh.holder)}}</td>
+      </tr>
+      <tr style="height: 21px">
+        <td class="small">
+          {{thh.startDate | date: 'dd.MM.yyyy'}}
+        </td>
+        <td class="small">
+          {{thh.endDate | date: 'dd.MM.yyyy'}}
+        </td>
+      </tr>
+    </tbody>
+    <tbody data-ng-repeat="x in t.emptyArray">
+      <tr style="height: 21px"><td colspan="2">&emsp;</td></tr>
+      <tr style="height: 21px"><td>&emsp;</td><td>&emsp;</td></tr>
+    </tbody>
+  </table>
+</div>

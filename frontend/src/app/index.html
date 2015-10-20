@@ -13,14 +13,14 @@
         <!-- endinject -->
     </head>
     <body data-ng-cloak class="ng-cloak">
-        <div data-ui-view="header"></div>
+        <div data-ui-view="header" class="no-print"></div>
 
         <div id="container" class="container main-container">
-            <div data-ui-view="pageNavigation"></div>
+            <div data-ui-view="pageNavigation" class="no-print"></div>
             <div data-ui-view="content"></div>
         </div>
 
-        <div data-ui-view="footer"></div>
+        <div data-ui-view="footer" class="no-print"></div>
 
         <script>
             (function onLoad() {
