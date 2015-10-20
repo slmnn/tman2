@@ -8,7 +8,7 @@
         data-onaftersave="saveHolder()"
     >
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-4">
                 <h3>
                     <span style="width: 100%;"
                         data-editable-text="holder.name"
@@ -91,15 +91,45 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-8">
                 <h4 class="text-muted">{{holder.territories.length ? 'Territories' : 'The holder does not have any territories'}}</h4>
-                <ul>
-                    <li data-ng-repeat="t in holder.territories">
-                        <a data-ui-sref="examples.territory({id: territory.id})">
-                            {{t.territoryCode}}
-                        </a>
-                    </li>
-                </ul>
+                <table data-ng-if="holder.territories.length" class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-2">
+                                Territory
+                            </th>
+                            <th class="col-xs-2 text-nowrap">
+                                Covered
+                            </th>
+                            <th class="col-xs-2 text-nowrap">
+                                Taken
+                            </th>
+                            <th class="col-xs-6 text-nowrap">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-ng-repeat="t in holder.territories">
+                        <tr>
+                            <td>
+                                <a data-ui-sref="examples.territory({id: t.id})">
+                                    {{t.territoryCode}}
+                                </a>
+                            </td>                    
+                            <td>
+                                {{t.covered | date : 'dd.MM.yyyy'}}
+                            </td>
+                            <td>
+                                {{t.taken | date : 'dd.MM.yyyy'}}
+                            </td>
+                            <td>
+                                {{t.description | limitTo: 40}}
+                                {{t.description.length > 40 ? '...' : ''}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </form>
