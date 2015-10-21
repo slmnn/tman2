@@ -762,4 +762,71 @@
       }
     ])
   ;
+
+    // Controller which contains all necessary logic for territory list GUI on boilerplate application.
+  angular.module('frontend.examples.territory')
+    .controller('TerritoryMapController', [
+      '$scope', '$q', '$filter',
+      '_',
+      'ListConfig',
+      'SocketHelperService', 'UserService',
+      '_items', '_holders', '_app',
+      function controller(
+        $scope, $q, $filter,
+        _,
+        ListConfig,
+        SocketHelperService, UserService,
+        _items, _holders, _app
+      ) {
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+        // Set initial data
+        $scope.map = {
+          center: {
+            latitude: 61, // TODO Use app default lat and lng
+            longitude: 23
+          },
+          zoom: 10
+        }
+        $scope.territories = _items;
+        $scope.holders = _holders;
+        $scope.app = _app[0];
+        $scope.user = UserService.user();
+
+
+        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
+          return  _.result(
+              _.find(_holders, function(h) {
+                return h.id === holderId;
+              }), 
+              'name'
+            );
+        };
+
+        $scope.onClick = function onClick(marker) {
+          $scope.selectedMarker = marker.model;
+        };
+
+        var getIconUrl = function getIconUrl(territory) {
+          if(isTerritoryNotCoveredRecently(territory)) {
+            return '/assets/images/red.png'
+          }
+          return '/assets/images/green.png'
+        };
+
+        var isTerritoryNotCoveredRecently = function isTerritoryNotCoveredRecently(territory) {
+          return $filter('amTimeAgo')(territory.covered) < $scope.app.notCoveredLimit;
+        };
+
+        _.each($scope.territories, function(t) {
+          t.markerOptions = {
+            icon: { url: getIconUrl(t) }
+          }
+        })
+
+
+      }
+    ])
+  ;
 }());

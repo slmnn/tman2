@@ -89,7 +89,7 @@
             }
           })
 
-          // Territorys list
+          // S-13
           .state('examples.territories.s13', {
             url: '/examples/territories/s13',
             views: {
@@ -125,6 +125,59 @@
 
                       // Load all holders, later add isActive param.
                       return HolderModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          // Map
+          .state('examples.territories.map', {
+            url: '/examples/territories/map',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/examples/territory/map.html',
+                controller: 'TerritoryMapController',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['holder', 'center'],
+                        limit: config.itemsPerPage,
+                        sort: 'name ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+
+                      // Load all holders, later add isActive param.
+                      return HolderModel.load();
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
                     }
                   ]
                 }
