@@ -781,19 +781,19 @@
         // Add default list configuration variable to current scope
         $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
 
-        // Set initial data
-        $scope.map = {
-          center: {
-            latitude: 61, // TODO Use app default lat and lng
-            longitude: 23
-          },
-          zoom: 10
-        }
         $scope.territories = _items;
         $scope.holders = _holders;
         $scope.app = _app[0];
         $scope.user = UserService.user();
 
+        // Set initial data
+        $scope.map = {
+          center: {
+            latitude: $scope.app.defaultLatitude || 61,
+            longitude: $scope.app.defaultLongitude || 23
+          },
+          zoom: 10
+        }
 
         $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
           return  _.result(
@@ -809,10 +809,21 @@
         };
 
         var getIconUrl = function getIconUrl(territory) {
-          if(isTerritoryNotCoveredRecently(territory)) {
-            return '/assets/images/red.png'
+          try {
+            if(isTerritoryNotCoveredRecently(territory)) {
+              if(territory.holder.id !== $scope.app.defaultHolder) {
+                return '/assets/images/red.png';
+              }
+              return '/assets/images/red-dot.png';
+            }
+            if(territory.holder.id !== $scope.app.defaultHolder) {
+              return '/assets/images/green-dot.png';
+            }
+            return '/assets/images/green.png';           
+          } catch(err) {
+            return '/assets/images/yellow.png';
           }
-          return '/assets/images/green.png'
+
         };
 
         var isTerritoryNotCoveredRecently = function isTerritoryNotCoveredRecently(territory) {

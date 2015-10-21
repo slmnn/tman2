@@ -30,6 +30,9 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   	
   	holderChangeToDefaultIfLimitExeeded : "BOOLEAN",
 
+    defaultLatitude : "FLOAT",
+    defaultLongitude : "FLOAT",
+
   	defaultHolder : {
     	model: 'holder'
     }

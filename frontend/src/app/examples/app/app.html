@@ -105,6 +105,32 @@
                             {{app.holderNotChangedWarningLimit}}
                         </span>
                     </dd>
+                    <dt>Default latitude</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-number="app.defaultLatitude"
+                            data-e-min="-90"
+                            data-e-max="90"
+                            data-e-step="any"
+                            data-e-name="app.defaultLatitude"
+                            data-e-required
+                        >
+                            {{app.defaultLatitude}}
+                        </span>
+                    </dd>
+                    <dt>Default longitude</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-number="app.defaultLongitude"
+                            data-e-min="-180"
+                            data-e-max="180"
+                            data-e-step="any"
+                            data-e-name="app.defaultLongitude"
+                            data-e-required
+                        >
+                            {{app.defaultLongitude}}
+                        </span>
+                    </dd>
                 <dl>
                 <div>
                     <div data-ng-show="editableForm.$visible">

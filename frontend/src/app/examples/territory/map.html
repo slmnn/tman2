@@ -1,4 +1,8 @@
+<style>
+.angular-google-map-container { height: 800px; }
+</style>
 <ui-gmap-google-map 
+    class="bigMap"
     center='map.center' 
     zoom='map.zoom'
 >
@@ -6,15 +10,15 @@
         data-ng-repeat="t in territories"
         coords="t.center" 
         idkey="t.center.id"
+        icon="t.markerOptions.icon"
     >
-    <ui-gmap-window coords="t.center" icon="t.markerOptions.icon" show="windowOptions.show" closeClick="closeClick()">
-        <div>
-            <h4>
-                <a href="/examples/territory/{{t.id}}">{{t.territoryCode}}</a>
-            </h4>
-            <p>Covered <span data-am-time-ago="t.covered"></span></p>
-        </div>
-    </ui-gmap-window>
+        <ui-gmap-window coords="t.center" show="windowOptions.show" closeClick="closeClick()">
+            <div>
+                <h4>
+                    <a href="/examples/territory/{{t.id}}">{{t.territoryCode}}</a>
+                </h4>
+                <p>Covered <span data-am-time-ago="t.covered"></span></p>
+            </div>
+        </ui-gmap-window>
     </ui-gmap-marker>
 </ui-gmap-google-map>
-<pre>{{territories | json}}</pre>
