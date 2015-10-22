@@ -53,8 +53,6 @@
                       $stateParams,
                       HolderModel
                     ) {
-
-                      // Load all holders, later add isActive param.
                       return HolderModel.load();
                     }
                   ],
@@ -165,8 +163,57 @@
                       $stateParams,
                       HolderModel
                     ) {
+                      return HolderModel.load();
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
 
-                      // Load all holders, later add isActive param.
+          // Map
+          .state('examples.territories.quickview', {
+            url: '/examples/territories/quickview',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/examples/territory/quickview.html',
+                controller: 'TerritoryQuickViewController',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['holder', 'center'],
+                        limit: config.itemsPerPage,
+                        sort: 'name ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
                       return HolderModel.load();
                     }
                   ],

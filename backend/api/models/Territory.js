@@ -40,6 +40,9 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     /* Description */
     description : "STRING",
 
+    /* Url to PDF file */
+    pdfUrl : "STRING",
+
     /* Apartmetn count */
     apartmentCount : "INTEGER",
 

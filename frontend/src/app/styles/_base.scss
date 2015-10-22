@@ -16,6 +16,23 @@ h1, h2, h3, h4, h5, h5 {
   }
 }
 
+.text-danger {
+  color: red;
+}
+
+.table tbody>tr>td.valign{
+    vertical-align: middle;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.bg-tuned-down {
+  background-color: rgba(218,218,218, 0.5);
+}
+
 .container {
   min-width: 100%;
   max-width: 100%;
@@ -33,6 +50,15 @@ header .navbar-nav {
 }
 
 .top-buffer { margin-top:20px; }
+
+.strong-text {
+  font-weight: bold;
+}
+
+.vertical-list-condensed
+{
+  width: 50px; // adjust
+}
 
 .vertical-list
 {

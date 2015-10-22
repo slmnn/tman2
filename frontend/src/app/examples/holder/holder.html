@@ -66,6 +66,13 @@
                             {{holder.description}}
                         </p>
                     </dd>
+                    <dt>Is archived</dt>
+                    <dd>
+                        <span data-editable-checkbox="holder.isArchived"
+                            data-e-title="Holder is not in use">
+                            {{holder.isArchived ? 'Yes' : 'No'}}
+                        </span>
+                    </dd>
                 <dl>
                 <div>
                     <div data-ng-show="editableForm.$visible">
@@ -117,11 +124,17 @@
                                     {{t.territoryCode}}
                                 </a>
                             </td>                    
-                            <td>
-                                {{t.covered | date : 'dd.MM.yyyy'}}
+                            <td data-ng-class="isNotCoveredLimitExeeded(t, app) ? 'bg-danger' : ''">
+                                <a
+                                    data-tooltip="{{t.covered | amTimeAgo}}">
+                                    {{t.covered | date : 'dd.MM.yyyy'}}
+                                </a>
                             </td>
-                            <td>
-                                {{t.taken | date : 'dd.MM.yyyy'}}
+                            <td data-ng-class="isHolderNotChangedLimitExeeded(t, app) ? 'bg-danger': ''">
+                                <a
+                                    data-tooltip="{{t.taken | amTimeAgo}}">
+                                    {{t.taken | date : 'dd.MM.yyyy'}}
+                                </a>
                             </td>
                             <td>
                                 {{t.description | limitTo: 40}}

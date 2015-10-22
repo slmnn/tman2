@@ -20,6 +20,9 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     // Type of the attribute
     type: "string",
 
+    // True if the attribute raises the territory to special attention list
+    needsAttention: "boolean",
+
     // Icon class
     icon: "string",
 

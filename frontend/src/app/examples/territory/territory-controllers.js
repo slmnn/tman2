@@ -96,7 +96,7 @@
 
         // Expose necessary data to the scope.
         $scope.user = UserService.user();
-        $scope.territory = _territory;
+        $scope.territory = angular.copy(_territory);
         $scope.holders = _holders;
         $scope.attributes = _attributes;
         $scope.app = _app[0];
@@ -258,6 +258,10 @@
           }, 2000);
         };
 
+        $scope.onlyActiveHolders = function onlyActiveHolders(holder) {
+          return holder.isArchived ? false : true;
+        };
+
         $scope.saveTerritoryHistoryItem = function saveTerritoryHistoryItem(historyItem) {
           TerritoryHolderHistoryModel
           .update(historyItem.id, {
@@ -327,7 +331,7 @@
           data.holder = data.holder.id || $scope.app.defaultHolder;
 
           // Add holder history item
-          if(data.holder !== _territory.holder.id) {
+          if(!_territory.holder || data.holder !== _territory.holder.id) {
             var now = new Date();
 
             // Update the last row with end time
@@ -460,6 +464,7 @@
       '$scope', '$q', '$timeout',
       '_',
       'ListConfig',
+      'TerritoryHelper',
       'TerritoryHolderHistoryModel',
       'SocketHelperService', 'UserService', 'TerritoryModel',
       '_items', '_count', '_holders', '_app', '_attributes',
@@ -467,6 +472,7 @@
         $scope, $q, $timeout,
         _,
         ListConfig,
+        TerritoryHelper,
         TerritoryHolderHistoryModel,
         SocketHelperService, UserService, TerritoryModel,
         _items, _count, _holders, _app, _attributes
@@ -501,10 +507,16 @@
         };
 
         // Initialize checked rows data.
-        $scope.foo = {};
-        $scope.foo.checkedTerritories = [];
         $scope.onlyCheckedTerritories = function onlyCheckedTerritories(territory) {
           return territory.checked;
+        };
+
+        $scope.onlyActiveHolders = function onlyActiveHolders(holder) {
+          return holder.isArchived ? false : true;
+        };
+
+        $scope.isDefaultHolder = function isDefaultHolder(holderId) {
+          return holderId === $scope.app.defaultHolder;
         };
 
         $scope.selectedHolder = null; // Add default holder ID when available
@@ -585,6 +597,14 @@
 
             makeHolderHistoryUpdate(t, comment, newHolderId);
           });
+        };
+
+        $scope.isNotCoveredLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isNotCoveredRecently(territory, app);
+        };
+
+        $scope.isHolderNotChangedLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isHolderNotChangedLimitExeeded(territory, app);
         };
 
         // Function to change sort column / direction on list
@@ -765,16 +785,64 @@
 
     // Controller which contains all necessary logic for territory list GUI on boilerplate application.
   angular.module('frontend.examples.territory')
+    .controller('TerritoryQuickViewController', [
+      '$scope', '$q',
+      '_',
+      'ListConfig',
+      'TerritoryHelper',
+      'SocketHelperService', 'UserService',
+      '_items', '_holders', '_app',
+      function controller(
+        $scope, $q,
+        _,
+        ListConfig,
+        TerritoryHelper,
+        SocketHelperService, UserService,
+        _items, _holders, _app
+      ) {
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+        // Set initial data
+        $scope.territories = _items;
+        $scope.holders = _holders;
+        $scope.app = _app[0];
+        $scope.user = UserService.user();
+
+        $scope.isNotCoveredRecently = function isNotCoveredRecently(territory, app) {
+          return TerritoryHelper.isNotCoveredRecently(territory, app);
+        };
+
+        $scope.isDefaultHolder = function isDefaultHolder(holderId) {
+          return holderId === $scope.app.defaultHolder;
+        };
+
+        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
+          return  _.result(
+              _.find(_holders, function(h) {
+                return h.id === holderId;
+              }), 
+              'name'
+            );
+        };
+      }
+    ])
+  ;
+
+  // Controller which contains all necessary logic for territory list GUI on boilerplate application.
+  angular.module('frontend.examples.territory')
     .controller('TerritoryMapController', [
       '$scope', '$q', '$filter',
       '_',
       'ListConfig',
+      'TerritoryHelper',
       'SocketHelperService', 'UserService',
       '_items', '_holders', '_app',
       function controller(
         $scope, $q, $filter,
         _,
         ListConfig,
+        TerritoryHelper,
         SocketHelperService, UserService,
         _items, _holders, _app
       ) {
@@ -810,7 +878,7 @@
 
         var getIconUrl = function getIconUrl(territory) {
           try {
-            if(isTerritoryNotCoveredRecently(territory)) {
+            if(TerritoryHelper.isNotCoveredRecently(territory, $scope.app)) {
               if(territory.holder.id !== $scope.app.defaultHolder) {
                 return '/assets/images/red.png';
               }
@@ -824,10 +892,6 @@
             return '/assets/images/yellow.png';
           }
 
-        };
-
-        var isTerritoryNotCoveredRecently = function isTerritoryNotCoveredRecently(territory) {
-          return $filter('amTimeAgo')(territory.covered) < $scope.app.notCoveredLimit;
         };
 
         _.each($scope.territories, function(t) {

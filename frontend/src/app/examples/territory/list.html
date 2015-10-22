@@ -17,6 +17,14 @@
                     Map
                 </a>
             </li>
+            <li>
+                <a
+                    data-ui-sref="examples.territories.quickview"
+                    data-tooltip="Quick view"
+                >
+                    Quick view
+                </a>
+            </li>
         </ul>
 
     </div>
@@ -76,45 +84,51 @@
             </thead>
             <tbody data-ng-repeat="territory in items">
                 <tr data-ng-class="territory.checked ? 'bg-info' : ''">
-                    <td class="col-md-1">
+                    <td class="col-md-1 valign">
                         <a data-ui-sref="examples.territory({id: territory.id})">
-                            <strong>{{territory.territoryCode || territory.id}}</strong>
+                            <h4><strong>{{territory.territoryCode || territory.id}}</strong></h4>
                         </a>
                     </td>
-                    <td class="col-md-1">
+                    <td class="col-md-1 valign">
                         {{territory.type}}
                     </td>
-                    <td class="col-md-1">
-                        {{territory.covered | date : 'dd.MM.yyyy'}}
+                    <td data-ng-class="isNotCoveredLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign' : 'col-md-1 valign'">
+                        <a
+                            data-tooltip="{{territory.covered | amTimeAgo}}">
+                            {{territory.covered | date : 'dd.MM.yyyy'}}
+                        </a>
                     </td>
-                    <td class="col-md-1">
-                        {{territory.taken | date : 'dd.MM.yyyy'}}
+                    <td data-ng-class="isHolderNotChangedLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign': 'col-md-1 valign'">
+                        <a
+                            data-tooltip="{{territory.taken | amTimeAgo}}">
+                            {{territory.taken | date : 'dd.MM.yyyy'}}
+                        </a>
                     </td>
-                    <td class="col-md-1">
+                    <td class="col-md-1 valign">
                         <ul class="list-inline">
                             <li data-ng-repeat="tla in territory.territoryLinkAttribute">
                                 <span 
                                     class="fa fa-{{getAttributeWithId(attributes, tla.attribute).icon}}"
-                                    data-tooltip="{{getAttributeWithId(attributes, tla.attribute).name}} - {{getAttributeWithId(attributes, tla.attribute).description}}"
+                                    data-tooltip="{{getAttributeWithId(attributes, tla.attribute).description}}"
                                 >
                                 </span>
                             </li>
                         </ul>
                     </td>
-                    <td class="col-md-3">
+                    <td class="col-md-3 valign">
                         {{territory.description | limitTo : 40}}
                         {{territory.description.length > 40 ? '...' : ''}}
                     </td>
-                    <td class="col-md-1">
+                    <td class="col-md-1 valign">
                         {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description | limitTo : 20}}
                         {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description.length > 20 ? '...' : ''}}
                     </td>
-                    <td class="col-md-2">
+                    <td data-ng-class="!isDefaultHolder(territory.holder.id) ? 'bg-tuned-down col-md-2 valign' : 'col-md-2 valign'">
                         <a data-ui-sref="examples.holder({id: territory.holder.id})">
                             {{territory.holder.name}}
                         </a>
                     </td>
-                    <td class="col-md-1">
+                    <td data-ng-class="!isDefaultHolder(territory.holder.id) ? 'bg-tuned-down col-md-1 valign text-center' : 'col-md-1 valign text-center'">
                         <label class="whitespace-label">
                             <input type="checkbox" 
                                 class="big-checkbox"
@@ -220,7 +234,7 @@
                         <select 
                             class="form-control"
                             data-ng-model="selectedHolder"
-                            data-ng-options="holder.id as holder.name for holder in holders"
+                            data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
                         >
                         </select>
                         <button 

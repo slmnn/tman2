@@ -58,13 +58,15 @@
     .controller('HolderController', [
       '$scope', '$state',
       'UserService', 'MessageService',
+      'TerritoryHelper',
       'HolderModel', 'TerritoryModel',
-      '_holder', '_territories',
+      '_holder', '_territories', '_app',
       function controller(
         $scope, $state,
         UserService, MessageService,
+        TerritoryHelper,
         HolderModel, TerritoryModel,
-        _holder, _territories
+        _holder, _territories, _app
       ) {
         // Set current scope reference to model
         HolderModel.setScope($scope, 'holder');
@@ -72,7 +74,16 @@
         // Initialize scope data
         $scope.user = UserService.user();
         $scope.holder = _holder;
+        $scope.app = _app[0];
         $scope.territories = [];
+
+        $scope.isNotCoveredLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isNotCoveredRecently(territory, app);
+        };
+
+        $scope.isHolderNotChangedLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isHolderNotChangedLimitExeeded(territory, app);
+        };
 
         // Holder delete dialog buttons configuration
         $scope.confirmButtonsDelete = {

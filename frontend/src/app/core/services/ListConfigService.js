@@ -99,7 +99,7 @@
             {
               title: 'Select',
               column: false,
-              class: 'col-xs-1',
+              class: 'text-center',
               searchable: false,
               sortable: false,
               inSearch: false,

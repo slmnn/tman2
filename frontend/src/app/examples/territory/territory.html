@@ -38,7 +38,7 @@
                     <dd>
                         <span data-editable-select="territory.holder.id"
                             data-e-name="holder.id"
-                            data-e-ng-options="holder.id as holder.name for holder in holders"
+                            data-e-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
                             data-e-required>
                             {{territory.holder.name}}
                         </span>
@@ -134,10 +134,10 @@
             </div>
         </form>
     </div>
-    <div class="col-sm-6" data-ng-if="territory.territoryHolderHistory.length === 0">
+    <div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length === 0">
         <h4>Holder history is not available</h4>
     </div>
-    <div class="col-sm-6" data-ng-if="territory.territoryHolderHistory.length > 0">
+    <div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length > 0">
         <h4>
             History ({{territory.territoryHolderHistory.length}})
             <span class="pull-right"

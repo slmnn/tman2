@@ -29,6 +29,12 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
       required : true
     },
 
+    // Is the holder active
+    isArchived : {
+      type : "boolean",
+      required : false
+    },
+
     // Telephone number of the holder
     telephone: {
       type: 'string',
