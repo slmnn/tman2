@@ -77,12 +77,11 @@ exports.login = function login(request, identifier, password, next) {
   } else {
     query.username = identifier;
   }
+  query.archived = false;
 
   sails.models.user
     .findOne(query)
     .exec(function onExec(error, user) {
-
-      console.log(user, user.id);
 
       if (error) {
         next(error);
@@ -95,8 +94,6 @@ exports.login = function login(request, identifier, password, next) {
             user: user.id // TODO: FIX ID BUG IN FIXTURES, USE "1" to make Admin to log in
           })
           .exec(function onExec(error, passport) {
-
-            console.log(error, passport);
 
             if (passport) {
               passport.validatePassword(password, function callback(error, response) {

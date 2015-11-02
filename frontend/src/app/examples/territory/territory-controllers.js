@@ -583,7 +583,7 @@
           });
         };
 
-        $scope.changeHolder = function markTerritoriesAsCovered(territories, markAsCovered, newHolderId, comment) {
+        $scope.changeHolder = function changeHolder(territories, markAsCovered, newHolderId, comment) {
           _.each(territories, function(t) {
             var data = {
               taken: new Date(),

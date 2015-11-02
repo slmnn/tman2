@@ -1,0 +1,65 @@
+<form class="form-vertical" role="form" name="userForm"
+    data-ng-submit="addUser()"
+>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group" style="margin-top: 10px;">
+                First name:
+                <input type="text" class="form-control" name="user.firstName" required="required" placeholder="Enter user's first name"
+                    data-ng-model="user.firstName"
+                />
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                Last name:
+                <input type="text" class="form-control" name="user.lastName" required="required" placeholder="Enter user's last name"
+                    data-ng-model="user.lastName"
+                />
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                Username:
+                <input type="text" class="form-control" name="user.username" required="required" placeholder="Enter user's username"
+                    data-ng-model="user.username"
+                />
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                Password:
+                <input type="text" class="form-control" name="user.password1" required="required" placeholder="Enter user's password" minlength="8"
+                    data-ng-model="user.password1"
+                />
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                Repeat password:
+                <input type="text" class="form-control" name="user.password2" required="required" placeholder="Enter user's password, again"
+                    data-ng-model="user.password2"
+                />
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                Email:
+                <input type="text" class="form-control" name="user.email" required="required" placeholder="Enter user's email"
+                    data-ng-model="user.email"
+                />
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input                     
+                        type="checkbox" 
+                        name="user.admin" 
+                        data-ng-model="user.admin"
+                    > User is admin
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                data-ng-disabled="!userForm.$valid && user.password1 != user.password2"
+            >
+                Save
+            </button>
+        </div>
+    </div>
+</form>

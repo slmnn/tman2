@@ -31,6 +31,11 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
       defaultsTo: false
     },
 
+    archived: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
     // Below is all specification for relations to another models
 
     // Passport configurations

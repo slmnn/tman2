@@ -119,8 +119,9 @@ var AuthController = {
       };
 
       sails.models['passport']
-        .findOne(where)
+        .findOne(where).populate('user')
         .exec(function callback(error, passport) {
+          console.log("passport", passport);
           if (error) {
             next(error);
           } else if (!passport) {
