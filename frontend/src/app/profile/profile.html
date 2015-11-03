@@ -1,0 +1,91 @@
+<div data-ng-show="!user">
+    <h3>Requested user not found</h3>
+</div>
+
+<div data-ng-show="user">
+    <form class="form-vertical" role="form"
+        data-editable-form name="editableForm"
+        data-onaftersave="saveUser()"
+    >
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>
+
+                    {{user.firstName}}
+
+                    {{user.lastName}}
+
+                    <span class="pull-right"
+                        data-ng-show="!editableForm.$visible && user.admin"
+                    >
+                        <a href="#"
+                           data-ng-click="editableForm.$show()"
+                           data-tooltip="Toggle edit mode"
+                        >
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </span>
+                </h3>
+                <dl>
+                    <dt>Email</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="user.email"
+                            data-e-name="user.email"
+                            data-e-required
+                        >
+                            {{user.email}}
+                        </span>
+                    </dd>
+                <dl>
+                <div>
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-vertical" role="form"
+        name="passwordForm"
+        data-ng-submit="saveNewPassword()"
+    >
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group" style="margin-top: 10px;">
+                    New password:
+                    <input type="password" class="form-control" name="password1" required="required" placeholder="Enter user's password" minlength="8"
+                        data-ng-model="password1"
+                    />
+                </div>
+
+                <div class="form-group" style="margin-top: 10px;">
+                    Repeat new password:
+                    <input type="password" class="form-control" name="password2" required="required" placeholder="Enter user's password, again"
+                        data-ng-model="password2"
+                    />
+                </div>
+
+                <div>
+                    <input type="submit" 
+                        class="btn btn-primary"
+                        data-ng-disabled="password1 == null || password1 != password2"
+                        value="Save new password"
+                    >
+                    </input>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

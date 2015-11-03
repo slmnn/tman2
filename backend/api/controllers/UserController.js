@@ -37,6 +37,27 @@ module.exports = _.merge(_.cloneDeep(require('../base/Controller')), {
 	  		}
 	  	}
 	  );
+	},
+
+	updatePassword : function updatePassword(req, res) {
+
+		var User = sails.models.user;
+		var Passport = sails.models.passport;
+
+		Passport.update(
+			{
+				user: req.body.userid,
+				protocol: 'local'
+			}, 
+			{
+				password: req.body.password1
+			}
+		)
+		.exec(function(err, created) {
+			if(err) return res.serverError();
+			return res.json({data: 'password updated'});
+		});
+
 	}
 
 });

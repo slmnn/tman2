@@ -32,5 +32,6 @@ module.exports.routes = {
   'POST /login': 'AuthController.callback',
   'POST /login/:action': 'AuthController.callback',
   'POST /auth/local': 'AuthController.callback',
-  'POST /auth/local/:action': 'AuthController.callback'
+  'POST /auth/local/:action': 'AuthController.callback',
+  'POST /user/password' : 'UserController.updatePassword'
 };

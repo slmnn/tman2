@@ -11,6 +11,7 @@
     'frontend-templates',
     'frontend.core',
     'frontend.examples',
+    'frontend.profile',
     'frontend.admin'
   ]);
 
@@ -80,14 +81,32 @@
           .state('profile', {
             abstract: true,
             template: '<ui-view/>',
+            parent: 'frontend',
             data: {
               access: AccessLevels.user
             }
           })
           .state('profile.edit', {
-            url: '/profile',
-            templateUrl: '/frontend/profile/profile.html',
-            controller: 'ProfileController'
+            url: '/profile/:id',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/profile/profile.html',
+                controller: 'ProfileController',
+                resolve: {
+                  _user: [
+                    '$stateParams',
+                    'UserModel',
+                    function resolve(
+                      $stateParams,
+                      UserModel
+                    ) {
+                      return UserModel.fetch($stateParams.id);
+                    }
+                  ]
+                }
+              }
+            }
+
           })
         ;
 
