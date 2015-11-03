@@ -39,12 +39,35 @@
               }
             }
           })
+
+          // Single user
           .state('admin.user', {
-            url: '/admin/user/',
+            url: '/examples/user/:id',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/admin/user/user.html',
+                controller: 'UserController',
+                resolve: {
+                  _user: [
+                    '$stateParams',
+                    'UserModel',
+                    function resolve(
+                      $stateParams,
+                      UserModel
+                    ) {
+                      return UserModel.fetch($stateParams.id);
+                    }
+                  ]
+                }
+              }
+            }
+          })
+          .state('admin.users', {
+            url: '/admin/users/',
             views: {
               'content@': {
                 templateUrl: '/frontend/admin/user/index.html',
-                controller: 'UserController',
+                controller: 'UsersController',
                 resolve: {
                   _items: [
                     'ListConfig',

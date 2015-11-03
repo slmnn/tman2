@@ -199,6 +199,62 @@
               inSearch: false,
               inTitle: true
             }
+          ],
+          user: [
+            {
+              title: 'First name',
+              column: 'firstName',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Last name',
+              column: 'lastName',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Username',
+              column: 'username',
+              class: 'col-xs-1',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Email',
+              column: 'email',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Type',
+              column: 'admin',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Created',
+              column: 'createdAt',
+              class: 'col-xs-3',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            }
           ]
         };
 

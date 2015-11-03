@@ -57,28 +57,20 @@
                 {{item.lastName}}
             </td>
             <td class="col-xs-1">
+                <a data-ui-sref="admin.user({id: item.id})">
                 <span style="{{item.archived ? 'text-decoration: line-through':''}}">{{item.username}}</span>
+                </a>
             </td>
             <td class="col-xs-2">
                 {{item.email}}
             </td>
-            <td class="col-xs-1">
+            <td class="col-xs-2">
                 {{item.admin ? 'admin':'regular user'}}
                 <span data-ng-if="item.archived">(archived)</span>
             </td>
             <td class="col-xs-3">
                 {{item.createdAt | date : 'dd.MM.yyyy'}},
                 <span data-am-time-ago="item.createdAt"></span>
-            </td>
-            <td class="col-xs-1">
-                <label class="whitespace-label">
-                    <input type="checkbox" 
-                        class="big-checkbox"
-                        id="checkbox_{{item.id}}"
-                        data-ng-model="item.checked" 
-                        data-ng-change="userChecked(item)">
-                    </input>
-                </label>
             </td>
         </tr>
 
@@ -98,49 +90,3 @@
     data-boundary-links="true"
     data-rotate="false"
 ></pagination>
-
-<div class="clearfix"></div>
-
-
-<div class="row top-buffer">
-    <div class="col-sm-12">
-        <div class="panel panel-primary" data-ng-show="filteredItems.length > 0">
-          <div class="panel-heading">
-            Operations for {{filteredItems.length}} selected users
-            <button 
-                class="btn btn-xs btn-primary pull-right" 
-                data-ng-click="clearSelected(items)"
-            >
-                Clear selection
-            </button>
-          </div>
-          <div class="panel-body">    
-            <ul class="list-inline">
-                <li class="vertical-list" data-ng-repeat="t in filteredItems = (items | filter : onlyCheckedItems)">
-                    
-                    <h3>{{t.username || t.id}}</h3>
-                    
-                </li>
-            </ul>
-            <hr>
-            <form>
-                <div class="row top-buffer">
-                    <div class="col-md-6 col-md-offset-1">
-                        <button 
-                            class="btn btn-primary btn-sm" 
-                            data-ng-click="archiveUsers(filteredItems)"
-                        >
-                            Toggle user(s) archived
-                        </button>
-                    </div>
-                    <div class="col-md-4 bg-info">
-                        <p>
-                            A user can be archived, which makes logging in not possible for the user.
-                        </p>
-                    </div>
-                </div>
-            </form>
-          </div>
-        </div>
-  </div>
-</div>

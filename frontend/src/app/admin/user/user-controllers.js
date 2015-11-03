@@ -54,8 +54,48 @@
     ])
   ;
 
-  angular.module('frontend.admin.user')
+  // Controller to show single holder on GUI.
+  angular.module('frontend.examples.holder')
     .controller('UserController', [
+      '$scope', '$state',
+      'UserService', 'MessageService',
+      'UserModel',
+      '_user',
+      function controller(
+        $scope, $state,
+        UserService, MessageService,
+        UserModel, _user
+      ) {
+        // Set current scope reference to model
+        UserModel.setScope($scope, 'user');
+
+        // Initialize scope data
+        $scope.currentUser = UserService.user();
+        $scope.user = _user;
+
+        /**
+         * Scope function to save the modified holder. This will send a
+         * socket request to the backend server with the modified object.
+         */
+        $scope.saveUser = function saveUser() {
+          var data = angular.copy($scope.user);
+
+          // Make actual data update
+          UserModel
+            .update(data.id, data)
+            .then(
+              function onSuccess() {
+                MessageService.success('User "' + $scope.user.username + '" updated successfully');
+              }
+            )
+          ;
+        };
+      }
+    ])
+  ;
+
+  angular.module('frontend.admin.user')
+    .controller('UsersController', [
       '$scope', '$timeout', '$q', '$filter',
       '_',
       'ListConfig',
@@ -85,25 +125,6 @@
         $scope.sort = {
           column: 'createdAt',
           direction: false
-        };
-
-        $scope.onlyCheckedItems = function onlyCheckedItems(item) {
-          return item.checked;
-        };
-
-        $scope.archiveUsers = function archiveUsers(users) {
-          _.each(users, function(t) {
-            var data = {
-              archived: !t.archived
-            };
-            UserModel
-            .update(t.id, data)
-            .then(
-              function onSuccess() {
-                MessageService.success('User "' + t.username + '" archived status toggled.');
-              }
-            );
-          });
         };
 
         // Initialize filters
