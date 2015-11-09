@@ -4,35 +4,35 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group" style="margin-top: 10px;">
-                Territory code:
+                {{'TERRITORY_CODE' | translate}}:
                 <input type="text" class="form-control" name="territory.territoryCode" required="required" placeholder="Enter territory code"
                     data-ng-model="territory.territoryCode"
                 />
             </div>
 
             <div class="form-group" style="margin-top: 10px;">
-                Type:
+                {{'TYPE' | translate}}:
                 <input type="text" class="form-control" name="territory.type" required="required" placeholder="Enter territory type"
                     data-ng-model="territory.type"
                 />
             </div>
 
             <div class="form-group" style="margin-top: 10px;">
-                Number of apartments:
+                {{'NUMBER_OF_APARTMENTS' | translate}}:
                 <input type="number" min="0" class="form-control" name="territory.apartmentCount" required="required" placeholder="Enter number of apartments at the territory"
                     data-ng-model="territory.apartmentCount"
                 />
             </div>
 
             <div class="form-group">
-                Description:
+                {{'DESCRIPTION' | translate}}:
                 <textarea name="territory.description" class="form-control" required="required" placeholder="Enter territory description"
                     data-ng-model="territory.description"
                 >{territory.description}</textarea>
             </div>
 
             <div class="form-group">
-                Covered date:
+                {{'COVERED' | translate}}:
                 <p class="input-group">
                     <input 
                         type="text" 
@@ -55,7 +55,7 @@
             </div>
 
             <div class="form-group">
-                Taken date:
+                {{'TAKEN' | translate}}:
                 <p class="input-group">
                     <input 
                         type="text" 
@@ -78,7 +78,7 @@
             </div>
 
             <div class="form-group">
-                Initial holder:
+                {{'INITIAL_HOLDER' | translate}}:
                 <select 
                     class="form-control"
                     data-ng-model="selectedHolder"
@@ -90,7 +90,7 @@
             <button type="submit" class="btn btn-primary"
                 data-ng-disabled="!territoryForm.$valid"
             >
-                Save
+                {{'SAVE' | translate}}
             </button>
         </div>
     </div>

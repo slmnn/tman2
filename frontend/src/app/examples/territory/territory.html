@@ -1,5 +1,5 @@
 <div data-ng-show="!territory">
-    <h3>Requested territory not found</h3>
+    <h3>{{'TERRITORY_NOT_FOUND' | translate}}</h3>
 </div>
 <div class="row">
     <div class="col-sm-6">
@@ -26,7 +26,7 @@
                     >
                         <a href="#"
                             data-ng-click="editableForm.$show()"
-                            data-tooltip="Toggle edit mode"
+                            data-tooltip="{{'EDIT' | translate}}"
                         >
                             <i class="fa fa-wrench"></i>
                         </a>
@@ -34,7 +34,7 @@
                 </h3>
 
                 <dl>
-                    <dt>Holder</dt>
+                    <dt>{{'HOLDER' | translate}}</dt>
                     <dd>
                         <span data-editable-select="territory.holder.id"
                             data-e-name="holder.id"
@@ -43,7 +43,7 @@
                             {{territory.holder.name}}
                         </span>
                     </dd>
-                    <dt>Covered</dt>
+                    <dt>{{'COVERED' | translate}}</dt>
                     <dd>
                         <span 
                             data-editable-bsdate="territory.covered" 
@@ -55,7 +55,7 @@
                             {{territory.covered | date : 'dd.MM.yyyy'}}
                         </span>
                     </dd>
-                    <dt>Taken</dt>
+                    <dt>{{'TAKEN' | translate}}</dt>
                     <dd>
                         <span 
                             data-editable-bsdate="territory.taken" 
@@ -67,7 +67,7 @@
                             {{territory.taken | date : 'dd.MM.yyyy'}}
                         </span>
                     </dd>
-                    <dt>Type</dt>
+                    <dt>{{'TYPE' | translate}}</dt>
                     <dd>
                         <span data-editable-text="territory.type"
                                 data-e-name="territory.type"
@@ -75,7 +75,7 @@
                             {{territory.type}}
                         </span>
                     </dd>
-                    <dt>Number of apartments</dt>
+                    <dt>{{'NUMBER_OF_APARTMENTS' | translate}}</dt>
                     <dd>
                         <span data-editable-number="territory.apartmentCount"
                                 data-e-name="territory.apartmentCount"
@@ -83,21 +83,21 @@
                             {{territory.apartmentCount}}
                         </span>
                     </dd>
-                    <dt>Archived</dt>
+                    <dt>{{'ARCHIVED' | translate}}</dt>
                     <dd>
                         <span data-editable-checkbox="territory.archived"
                             data-e-title="is archived?">
                             {{territory.archived ? 'Yes' : 'No'}}
                         </span>
                     </dd>
-                    <dt>Not counted in when calculating territories that are not covered recently</dt>
+                    <dt>{{'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED' | translate}}</dt>
                     <dd>
                         <span data-editable-checkbox="territory.notCountedWhenCalculatingCoveredDuringLastYearTotal"
-                            data-e-title="is not counted in when calculating territories that are not covered recently?">
+                            data-e-title="{{'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2' | translate}}">
                             {{territory.notCountedWhenCalculatingCoveredDuringLastYearTotal ? 'Yes' : 'No'}}
                         </span>
                     </dd>
-                    <dt>Description</dt>
+                    <dt>{{'DESCRIPTION' | translate}}</dt>
                     <dd>
                         <pre style="white-space: pre-line"
                             data-editable-textarea="territory.description"
@@ -114,20 +114,20 @@
                         <button type="submit" class="btn btn-primary"
                             data-ng-disabled="editableForm.$waiting"
                         >
-                            Save
+                            {{'SAVE' | translate}}
                         </button>
                         <button type="button" class="btn btn-default"
                             data-ng-disabled="editableForm.$waiting"
                             data-ng-click="editableForm.$cancel(); editableMap = false;"
                         >
-                            Cancel
+                            {{'CANCEL' | translate}}
                         </button>
                         <button type="button" class="btn btn-danger pull-right"
                             data-ng-bootbox-title="Danger - Danger - Danger"
-                            data-ng-bootbox-custom-dialog="Are you sure about the <strong>{{territory.name}}</strong> territory delete?"
+                            data-ng-bootbox-custom-dialog="{{'DELETING_TERRITORY' | translate}} <strong>{{territory.territoryCode}}</strong>. {{'ARE_YOU_SURE' | translate}}"
                             data-ng-bootbox-buttons="confirmButtonsDelete"
                         >
-                            Delete
+                            {{'DELETE' | translate}}
                         </button>
                     </div>
                 </div>
@@ -135,17 +135,17 @@
         </form>
     </div>
     <div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length === 0">
-        <h4>Holder history is not available</h4>
+        <h4>{{'NO_HOLDER_HISTORY' | translate}}</h4>
     </div>
     <div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length > 0">
         <h4>
-            History ({{territory.territoryHolderHistory.length}})
+            {{'HISTORY' | translate}} ({{territory.territoryHolderHistory.length}})
             <span class="pull-right"
                 data-ng-show="!deleteTerritoryHolderHistoryItemVisible && user.admin"
             >
                 <a href="#"
                     data-ng-click="deleteTerritoryHolderHistoryItemVisible = true"
-                    data-tooltip="Toggle edit mode"
+                    data-tooltip="{{'EDIT' | translate}}"
                 >
                     <i class="fa fa-wrench"></i>
                 </a>
@@ -155,16 +155,16 @@
             <thead>
                 <tr>
                     <th class="col-xs-3">
-                        Holder
+                        {{'HOLDER' | translate}}
                     </th>
                     <th class="col-xs-2 text-nowrap">
-                        Start date
+                        {{'START_DATE' | translate}}
                     </th>
                     <th class="col-xs-2 text-nowrap">
-                        End date
+                        {{'END_DATE' | translate}}
                     </th>
                     <th class="col-xs-4 text-nowrap">
-                        Additional info
+                        {{'ADDITIONAL_INFO' | translate}}
                     </th>
                     <th class="col-xs-1 text-nowrap">
                         <!-- empty for buttons in edit mode -->
@@ -237,8 +237,8 @@
                         <a 
                             data-ng-show="deleteTerritoryHolderHistoryItemVisible"
                             data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)"
-                            data-ng-bootbox-title="You are about to delete a territory history row"
-                            data-ng-bootbox-custom-dialog="Are you sure about the territory history row delete?"
+                            data-ng-bootbox-title="{{'DELETING_TERRITORY_HISTORY_ROW' | translate}}"
+                            data-ng-bootbox-custom-dialog="{{ARE_YOU_SURE | translate}}"
                             data-ng-bootbox-buttons="confirmHistoryButtonsDelete"
                         >
                             <span class="fa fa-trash fa-2x"></span>
@@ -251,35 +251,37 @@
 
     <div class="col-sm-6" data-ng-if="territory.territoryLinkAttribute.length === 0">
         <h4>
-            No attributes has been set for this territory
+            {{'NO_TERRITORY_ATTRIBUTES' | translate}}
             <span class="pull-right"
                 data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"
             >
                 <a href="#"
                     data-ng-click="deleteTerritoryLinkAttributeItemVisible = true"
-                    data-tooltip="Toggle edit mode"
+                    data-tooltip="{{'EDIT' | translate}}"
                 >
                     <i class="fa fa-wrench"></i>
                 </a>
             </span>
         </h4>
         <div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible">
-            <label>Add new Attribute:
+            <label>{{'ADD_ATTRIBUTE' | translate}}:
                 <select ng-model="newAttribute" ng-options="a.name for a in attributes"></select>
             </label>
-            <a class="btn btn-primary btn-xs" data-ng-click="addNewAttribute(newAttribute);">Add</a>
+            <a class="btn btn-primary btn-xs" data-ng-click="addNewAttribute(newAttribute);">   
+                {{'ADD' | translate}}
+            </a>
         </div>
     </div>
 
     <div class="col-sm-6" data-ng-if="territory.territoryLinkAttribute.length > 0">
         <h4>
-            Attributes ({{territory.territoryLinkAttribute.length}})
+            {{'ATTRIBUTES' | translate}} ({{territory.territoryLinkAttribute.length}})
             <span class="pull-right"
                 data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"
             >
                 <a href="#"
                     data-ng-click="deleteTerritoryLinkAttributeItemVisible = true"
-                    data-tooltip="Toggle edit mode"
+                    data-tooltip="{{'EDIT' | translate}}"
                 >
                     <i class="fa fa-wrench"></i>
                 </a>
@@ -292,10 +294,10 @@
                         <!-- icon -->
                     </th>
                     <th class="col-xs-3 text-nowrap">
-                        Name
+                        {{'NAME' | translate}}
                     </th>
                     <th class="col-xs-7 text-nowrap">
-                        Description
+                        {{'ATTRIBUTE_DESCRIPTION' | translate}}
                     </th>
                     <th class="col-xs-1 text-nowrap">
                         <!-- empty for buttons in edit mode -->
@@ -328,7 +330,7 @@
             </tbody>
         </table>
         <div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible">
-            <label>Add new Attribute:
+            <label>{{'ADD_ATTRIBUTE' | translate}}:
                 <select ng-model="newAttribute" ng-options="a.name for a in attributes"></select>
             </label>
             <a class="btn btn-primary btn-xs" data-ng-click="addNewAttribute(newAttribute);">Add</a>
@@ -345,7 +347,7 @@
         >
             <a href="#"
                 data-ng-click="toggleMapEditable()"
-                data-tooltip="Toggle edit mode"
+                data-tooltip="{{'EDIT' | translate}}"
             >
                 <i class="fa fa-wrench"></i>
             </a>
@@ -356,14 +358,14 @@
         class="btn btn-danger pull-right" 
         data-ng-click="replacePolylineWithDefault()"
     >
-        Delete border
+        {{'DELETE_BORDER' | translate}}
     </a>
     <a 
         data-ng-show="editableMap" 
         class="btn btn-primary" 
         data-ng-click="saveMap(map)"
     >
-        Save map
+        {{'SAVE_MAP' | translate}}
     </a>
     <ui-gmap-google-map 
         center='map.center' 

@@ -1,7 +1,7 @@
 <div data-ng-repeat="t in territories">
   <div data-ng-if="$index !== 0 && $index % 5 === 0" style="page-break-after: always;">
   </div>
-  <h3 data-ng-if="$index === 0 || $index % 5 === 0" class="col-xs-12" >Territory list</h3>
+  <h3 data-ng-if="$index === 0 || $index % 5 === 0" class="col-xs-12" >{{'TERRITORY_LIST' | translate}}</h3>
   <table border="1px" class="s13">
     <thead>
       <tr>

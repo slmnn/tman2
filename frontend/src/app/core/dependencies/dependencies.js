@@ -23,6 +23,7 @@
     'xeditable',
     'sails.io',
     'uiGmapgoogle-maps',
-    'highcharts-ng'
+    'highcharts-ng',
+    'pascalprecht.translate'
   ]);
 }());

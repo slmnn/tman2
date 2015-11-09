@@ -10,12 +10,16 @@
   // Controller for new territory creation.
   angular.module('frontend.examples.territoryHolderHistory')
     .controller('TerritoryHolderHistoryAddController', [
-      '$scope', '$state',
+      '$scope', '$state', '$translate',
       'MessageService', 'TerritoryHolderHistoryModel',
       function controller(
-        $scope, $state,
+        $scope, $state, $translate,
         MessageService, TerritoryHolderHistoryModel
       ) {
+
+        $translate(['NEW_HOLDER_HISTORY_ADDED_SUCCESS']).then(function (translations) {
+          $scope.NEW_HOLDER_HISTORY_ADDED_SUCCESS = translations.NEW_HOLDER_HISTORY_ADDED_SUCCESS;
+        });
 
         // Initialize territory model
         $scope.territoryHolderHistory = {
@@ -32,7 +36,7 @@
             .create(angular.copy($scope.territory))
             .then(
               function onSuccess(result) {
-                MessageService.success('New territory holder history added successfully');
+                MessageService.success($scope.NEW_HOLDER_HISTORY_ADDED_SUCCESS);
 
                 $state.go('examples.territoryHolderHistories', {id: result.data.id});
               }
@@ -46,12 +50,12 @@
   // Controller to show single territory on GUI.
   angular.module('frontend.examples.territoryHolderHistory')
     .controller('TerritoryHolderHistoryController', [
-      '$scope', '$state',
+      '$scope', '$state', '$translate',
       'UserService', 'MessageService',
       'TerritoryHolderHistoryModel', 'HolderModel',
       '_territoryHolderHistory', '_holders', '_holdersCount',
       function controller(
-        $scope, $state,
+        $scope, $state, $translate,
         UserService, MessageService,
         TerritoryHolderHistoryModel, HolderModel,
         _territoryHolderHistory, _holders, _holdersCount
@@ -70,14 +74,14 @@
         // Territory delete dialog buttons configuration
         $scope.confirmButtonsDelete = {
           ok: {
-            label: 'Delete',
+            label: $translate.instant('SAVE'),
             className: 'btn-danger',
             callback: function callback() {
               $scope.deleteTerritoryHolderHistory();
             }
           },
           cancel: {
-            label: 'Cancel',
+            label: $translate.instant('CANCEL'),
             className: 'btn-default pull-left'
           }
         };
@@ -95,7 +99,10 @@
             .update(data.id, data)
             .then(
               function onSuccess() {
-                MessageService.success('Territory holder history "' + $scope.territoryHolderHistory.name + '" updated successfully');
+                MessageService.success(
+                  $translate.instant('HOLDER_HISTORY_UPDATED_SUCCESS_1') + 
+                  $scope.territoryHolderHistory.name + 
+                  $translate.instant('HOLDER_HISTORY_UPDATED_SUCCESS_2'));
               }
             )
           ;
@@ -108,7 +115,10 @@
             .delete($scope.territory.id)
             .then(
               function onSuccess() {
-                MessageService.success('Territory Holder History "' + $scope.territoryHolderHistory.name + '" deleted successfully');
+                MessageService.success(
+                  $translate.instant('HOLDER_HISTORY_UPDATED_SUCCESS_1') + 
+                  $scope.territoryHolderHistory.name + 
+                  $translate.instant('HOLDER_HISTORY_REMOVED_SUCCESS_2'));
 
                 $state.go('examples.territories');
               }
@@ -122,13 +132,13 @@
   // Controller which contains all necessary logic for territory list GUI on boilerplate application.
   angular.module('frontend.examples.territoryHolderHistory')
     .controller('TerritoryHolderHistoryListController', [
-      '$scope', '$q', '$timeout',
+      '$scope', '$q', '$timeout', '$translate',
       '_',
       'ListConfig',
       'SocketHelperService', 'UserService', 'TerritoryHolderHistoryModel',
       '_items', '_count', 
       function controller(
-        $scope, $q, $timeout,
+        $scope, $q, $timeout, $translate,
         _,
         ListConfig,
         SocketHelperService, UserService, TerritoryHolderHistoryModel,

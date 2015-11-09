@@ -101,6 +101,9 @@
         $scope.attributes = _attributes;
         $scope.app = _app[0];
 
+        $scope.thhEndDateOpened = false;
+        $scope.thhStartDateOpened = false;
+
         // Create Google Map settings for showing the center and border of the territory.
         // Copy the border path from territory.
         var path = [];

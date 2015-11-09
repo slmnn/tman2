@@ -14,7 +14,7 @@
                     data-ui-sref="examples.territories.map"
                     data-tooltip="Map"
                 >
-                    Map
+                    {{'MAP' | translate}}
                 </a>
             </li>
             <li>
@@ -22,7 +22,7 @@
                     data-ui-sref="examples.territories.quickview"
                     data-tooltip="Quick view"
                 >
-                    Quick view
+                    {{'QUICK_VIEW' | translate}}
                 </a>
             </li>
         </ul>
@@ -31,7 +31,7 @@
 </div>
 
 <h3>
-    Territories ({{itemCount}})
+    {{'TERRITORIES' | translate}} ({{itemCount}})
 
     <div class="col-xs-6 pull-right list-search">
         <a
@@ -53,6 +53,10 @@
             data-max-size="10"
             data-boundary-links="true"
             data-rotate="false"
+            data-first-text="{{'FIRST' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+            data-next-text="{{'NEXT' | translate}}"
+            data-last-text="{{'LAST' | translate}}"
         ></pagination>
     </div>
 </h3>
@@ -73,8 +77,9 @@
                     <span
                         data-ng-show="!item.column"
                         data-ng-bind-html="item.title"
-                    ></span>
-
+                    >
+                        {{item.title | translate}}
+                    </span>
                     <i class="fa"
                         data-ng-show="sort.column == item.column"
                         data-ng-class="{'fa-angle-down': !sort.direction, 'fa-angle-up': sort.direction}"
@@ -159,6 +164,10 @@
             data-max-size="10"
             data-boundary-links="true"
             data-rotate="false"
+            data-first-text="{{'FIRST' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+            data-next-text="{{'NEXT' | translate}}"
+            data-last-text="{{'LAST' | translate}}"
         ></pagination>
   </div>
 </div>
@@ -168,12 +177,12 @@
     <div class="col-sm-12">
         <div class="panel panel-primary" data-ng-show="filteredItems.length > 0">
           <div class="panel-heading">
-            Operations for {{filteredItems.length}} selected territories
+            {{'OPERATIONS_FOR_SELECTED_TERRITORIES' | translate}} ({{filteredItems.length}})
             <button 
                 class="btn btn-xs btn-primary pull-right" 
                 data-ng-click="clearSelected(items)"
             >
-                Clear selection
+                {{'CLEAR_SELECTION' | translate}}
             </button>
           </div>
           <div class="panel-body">    
@@ -191,7 +200,7 @@
                 <div class="row">
                     <div class="col-md-6 col-md-offset-1">
                         <label>
-                            Additional info:
+                            {{'ADDITIONAL_INFO' | translate}}:
                         </label>
                         <textarea 
                             class="form-control"
@@ -199,16 +208,12 @@
                             maxlength="300"
                             rows="3"
                             data-ng-model="territoryChangeComment"
-                            placeholder="Additional comment"
+                            placeholder="{{'ADDITIONAL_COMMENT' | translate}}"
                         ></textarea>
                     </div>
                     <div class="col-md-4 bg-info">
                         <p>
-                            To complete the operation you may want to add an additional 
-                            comment regarding the change. For example, it might be useful 
-                            to comment about territories covered in memorial invitation campaign etc.
-                            Please, write your comment in the input below. Commenting is optional.
-
+                            {{'TERRITORY_HELP_1' | translate}}
                         </p>
                     </div>
                 </div>
@@ -218,13 +223,12 @@
                             class="btn btn-primary btn-sm" 
                             data-ng-click="markTerritoriesAsCovered(filteredItems, territoryChangeComment)"
                         >
-                            Mark as covered without changing holder
+                            {{'MARK_COVERED_NO_HOLDER_CHANGE' | translate}}
                         </button>
                     </div>
                     <div class="col-md-4 bg-info">
                         <p>
-                            You might want to just mark the territories as covered without changing their holders. 
-                            Do so, by clicking the "Mark as covered without changing holder" button.
+                            {{'TERRITORY_HELP_2' | translate}}
                         </p>
                     </div>
                 </div>
@@ -242,25 +246,22 @@
                             data-ng-disable="!selectedHolder"
                             data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
                         >
-                            Change holder and mark as coverd
+                            {{'CHANGE_HOLDER_MARK_COVERED' | translate}}
                         </button>
                         <button 
                             class="btn btn-primary btn-sm top-buffer" 
                             data-ng-disable="!selectedHolder"
                             data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
                         >
-                            Change holder without marking as covered
+                            {{'CHANGE_HOLDER_NOT_MARK_COVERED' | translate}}
                         </button>
                     </div>
                     <div class="col-md-4 bg-info">
                         <p>
-                            To change territory holder, continue as follows:
+                            {{'TERRITORY_HELP_3' | translate}}
                             <ol>
-                                <li>Select the new holder from the dropdown.</li> 
-                                <li>Change the holder and mark the territories as covered by 
-                                    clicking "Change holder and mark as coverd" button. If you do not want
-                                    to mark the territories as covered, you should click the 
-                                    "Change holder without marking as covered" button.</li>
+                                <li>{{'TERRITORY_LI_1' | translate}}</li> 
+                                <li>{{'TERRITORY_LI_2' | translate}}</li>
                             </ol>
                         </p>
                     </div>

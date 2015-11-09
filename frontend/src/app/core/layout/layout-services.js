@@ -14,17 +14,17 @@
         return [
           {
             state: 'examples.about',
-            title: 'About',
+            title: 'Perustiedot',
             access: AccessLevels.anon
           },
           {
             state: 'examples',
-            title: 'Examples',
+            title: 'Aluehallinta',
             access: AccessLevels.user
           },
           {
             state: 'admin',
-            title: 'Admin',
+            title: 'Pääkäyttäjä',
             access: AccessLevels.admin
           }
         ];
@@ -41,27 +41,27 @@
           'examples': [
             {
               state: 'examples.territories',
-              title: 'Territories',
+              title: 'Alueet',
               access: AccessLevels.user
             },
             {
               state: 'examples.holders',
-              title: 'Holders',
+              title: 'Alueomistajat',
               access: AccessLevels.user
             },
             {
               state: 'examples.attributes',
-              title: 'Attributes',
+              title: 'Attribuutit',
               access: AccessLevels.admin
             },
             {
               state: 'examples.app',
-              title: 'App',
+              title: 'Aluehallinnan asetukset',
               access: AccessLevels.admin
             },
             {
               state: 'examples.messages',
-              title: 'Messages',
+              title: 'Viestit',
               access: AccessLevels.user
             },
             {
@@ -73,17 +73,12 @@
           'admin': [
             {
               state: 'admin.users',
-              title: 'Users',
-              access: AccessLevels.admin
-            },
-            {
-              state: '',
-              title: 'Request log',
+              title: 'Käyttäjät',
               access: AccessLevels.admin
             },
             {
               state: 'admin.login-history',
-              title: 'Login history',
+              title: 'Kirjautumiset',
               access: AccessLevels.admin
             }
           ]

@@ -25,7 +25,7 @@
         var titleItems = {
           territory: [
             {
-              title: 'Territory',
+              title: 'Aluekoodi',
               column: 'territoryCode',
               class: 'col-xs-1',
               searchable: true,
@@ -34,7 +34,7 @@
               inTitle: true
             },
             {
-              title: 'Type',
+              title: 'Tyyppi',
               column: 'type',
               class: 'col-xs-1',
               searchable: true,
@@ -43,7 +43,7 @@
               inTitle: true
             },
             {
-              title: 'Covered',
+              title: 'Käyty',
               column: 'covered',
               class: 'col-xs-1',
               searchable: true,
@@ -52,7 +52,7 @@
               inTitle: true
             },
             {
-              title: 'Taken',
+              title: 'Omistajalle',
               column: 'taken',
               class: 'col-xs-1',
               searchable: true,
@@ -61,7 +61,7 @@
               inTitle: true
             },
             {
-              title: 'Attributes',
+              title: 'Attribuutit',
               column: 'territoryLinkAttributes',
               class: 'col-xs-1',
               searchable: true,
@@ -70,7 +70,7 @@
               inTitle: true
             },
             {
-              title: 'Description',
+              title: 'Kuvaus',
               column: 'description',
               class: 'col-xs-3',
               searchable: true,
@@ -79,7 +79,7 @@
               inTitle: true
             },
             {
-              title: 'Comment',
+              title: 'Kommentti',
               column: false,
               class: 'col-xs-1',
               searchable: true,
@@ -88,7 +88,7 @@
               inTitle: true
             },
             {
-              title: 'Holder',
+              title: 'Omistaja',
               column: false,
               class: 'col-xs-2',
               searchable: true,
@@ -97,7 +97,7 @@
               inTitle: true
             },
             {
-              title: 'Select',
+              title: 'Valinta',
               column: false,
               class: 'text-center',
               searchable: false,
@@ -108,7 +108,7 @@
           ],
           holder: [
             {
-              title: 'Name',
+              title: 'Nimi',
               column: 'name',
               class: 'col-xs-3',
               searchable: true,
@@ -117,7 +117,7 @@
               inTitle: true
             },
             {
-              title: 'Email',
+              title: 'Sähköposti',
               column: 'email',
               class: 'col-xs-3',
               searchable: false,
@@ -126,7 +126,7 @@
               inTitle: true
             },
             {
-              title: 'Phone',
+              title: 'Puhelin',
               column: 'telephone',
               class: 'col-xs-2',
               searchable: false,
@@ -135,7 +135,7 @@
               inTitle: true
             },
             {
-              title: 'Description',
+              title: 'Kuvaus',
               column: false,
               class: 'col-xs-4 text-left',
               searchable: true,
@@ -144,7 +144,7 @@
               inTitle: true
             },
             {
-              title: 'Territory Count',
+              title: 'Alueita',
               column: false,
               class: 'col-xs-1 text-left',
               searchable: true,
@@ -202,7 +202,7 @@
           ],
           user: [
             {
-              title: 'First name',
+              title: 'Etunimi',
               column: 'firstName',
               class: 'col-xs-2',
               searchable: true,
@@ -211,7 +211,7 @@
               inTitle: true
             },
             {
-              title: 'Last name',
+              title: 'Sukunimi',
               column: 'lastName',
               class: 'col-xs-2',
               searchable: true,
@@ -220,7 +220,7 @@
               inTitle: true
             },
             {
-              title: 'Username',
+              title: 'Käyttäjänimi',
               column: 'username',
               class: 'col-xs-1',
               searchable: true,
@@ -229,7 +229,7 @@
               inTitle: true
             },
             {
-              title: 'Email',
+              title: 'Sähköposti',
               column: 'email',
               class: 'col-xs-2',
               searchable: true,
@@ -238,7 +238,7 @@
               inTitle: true
             },
             {
-              title: 'Type',
+              title: 'Tyyppi',
               column: 'admin',
               class: 'col-xs-2',
               searchable: true,
@@ -247,7 +247,7 @@
               inTitle: true
             },
             {
-              title: 'Created',
+              title: 'Luotu',
               column: 'createdAt',
               class: 'col-xs-3',
               searchable: true,
