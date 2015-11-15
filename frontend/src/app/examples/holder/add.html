@@ -8,7 +8,7 @@
                 class="form-control" 
                 required="required" 
                 name="name" 
-                placeholder="Enter holder name"
+                placeholder="{{'HOLDER_NAME' | translate}}"
                 data-ng-model="holder.name"/>
             </div>
 
@@ -17,7 +17,7 @@
                     class="form-control" 
                     required="required" 
                     name="email" 
-                    placeholder="Enter holder email"
+                    placeholder="{{'HOLDER_EMAIL' | translate}}"
                     data-ng-model="holder.email"/>
             </div>
 
@@ -25,7 +25,7 @@
                 <input type="text" 
                     class="form-control" 
                     name="telephone" 
-                    placeholder="Enter holder telephone"
+                    placeholder="{{'HOLDER_TELEPHONE' | translate}}"
                     data-ng-model="holder.telephone"/>
             </div>
 
@@ -33,7 +33,7 @@
                 <input type="text" 
                     class="form-control" 
                     name="description" 
-                    placeholder="Enter holder description"
+                    placeholder="{{'HOLDER_DESCRIPTION' | translate}}"
                     data-ng-model="holder.description"/>
             </div>
 
@@ -43,14 +43,14 @@
                         type="checkbox" 
                         name="emailValid" 
                         data-ng-model="holder.emailValid"
-                    > Email address is in use
+                    > {{'EMAIL_ADDRESS_IS_IN_USE' | translate}}
                 </label>
             </div>
 
             <div>
                 <button type="submit" class="btn btn-primary"
                     data-ng-disabled="!holderForm.$valid">
-                    Save
+                    {{'SAVE' | translate}}
                 </button>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <div data-ng-show="!holder">
-    <h3>Requested holder not found</h3>
+    <h3>{{'HOLDER_NOT_FOUND' | translate}}</h3>
 </div>
 
 <div data-ng-show="holder">
@@ -25,14 +25,14 @@
                     >
                         <a href="#"
                            data-ng-click="editableForm.$show()"
-                           data-tooltip="Toggle edit mode"
+                           data-tooltip="{{'EDIT' | translate}}"
                         >
                             <i class="fa fa-wrench"></i>
                         </a>
                     </span>
                 </h3>
                 <dl>
-                    <dt>Email</dt>
+                    <dt>{{'EMAIL' | translate}}</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-text="holder.email"
@@ -42,14 +42,14 @@
                             {{holder.email}}
                         </span>
                     </dd>
-                    <dt>Email in use</dt>
+                    <dt>{{'HOLDER_EMAIL_IN_USE' | translate}}</dt>
                     <dd>
                         <span data-editable-checkbox="holder.emailValid"
-                            data-e-title="Email address is in use">
-                            {{holder.emailValid ? 'Yes' : 'No'}}
+                            data-e-title="{{'HOLDER_EMAIL_IN_USE' | translate}}">
+                            {{holder.emailValid ? 'Kyllä' : 'Ei'}}
                         </span>
                     </dd>
-                    <dt>Telephone</dt>
+                    <dt>{{'HOLDER_TELEPHONE' | translate}}</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-text="holder.telephone"
@@ -58,7 +58,7 @@
                             {{holder.telephone}}
                         </span>
                     <dd>
-                    <dt>Description</dt>
+                    <dt>{{'HOLDER_DESCRIPTION' | translate}}</dt>
                     <dd>
                         <p data-editable-textarea="holder.description"
                            data-e-name="holder.description"
@@ -66,10 +66,10 @@
                             {{holder.description}}
                         </p>
                     </dd>
-                    <dt>Is archived</dt>
+                    <dt>{{'ARCHIVED' | translate}}</dt>
                     <dd>
                         <span data-editable-checkbox="holder.isArchived"
-                            data-e-title="Holder is not in use">
+                            data-e-title="Alueomistaja ei ole käytössä">
                             {{holder.isArchived ? 'Yes' : 'No'}}
                         </span>
                     </dd>
@@ -79,41 +79,41 @@
                         <button type="submit" class="btn btn-primary"
                             data-ng-disabled="editableForm.$waiting"
                         >
-                            Save
+                            {{'SAVE' | translate}}
                         </button>
                         <button type="button" class="btn btn-default"
                             data-ng-disabled="editableForm.$waiting"
                             data-ng-click="editableForm.$cancel()"
                         >
-                            Cancel
+                            {{'CANCEL' | translate}}
                         </button>
                         <button type="button" class="btn btn-danger pull-right"
-                            data-ng-bootbox-title="Danger - Danger - Danger"
-                            data-ng-bootbox-custom-dialog="Are you sure about the <strong>{{holder.name}}</strong> holder delete?"
+                            data-ng-bootbox-title="Olet poistamassa alueomistajaa"
+                            data-ng-bootbox-custom-dialog="Oletko varma, että haluat poistaa <strong>{{holder.name}}</strong> nimisen alueomistajan?"
                             data-ng-bootbox-buttons="confirmButtonsDelete"
                         >
-                            Delete
+                            {{'DELETE' | translate}}
                         </button>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-8">
-                <h4 class="text-muted">{{holder.territories.length ? 'Territories' : 'The holder does not have any territories'}}</h4>
+                <h4 class="text-muted">{{holder.territories.length ? 'Alueomistajan alueet' : 'Alueomistajalla ei ole yhtään aluetta'}}</h4>
                 <table data-ng-if="holder.territories.length" class="table table-condensed table-hover">
                     <thead>
                         <tr>
                             <th class="col-xs-2">
-                                Territory
+                                {{'TERRITORY' | translate}}
                             </th>
                             <th class="col-xs-2 text-nowrap">
-                                Covered
+                                {{'COVERED' | translate}}
                             </th>
                             <th class="col-xs-2 text-nowrap">
-                                Taken
+                                {{'TAKEN' | translate}}
                             </th>
                             <th class="col-xs-6 text-nowrap">
-                                Description
+                                {{'DESCRIPTION' | translate}}
                             </th>
                         </tr>
                     </thead>

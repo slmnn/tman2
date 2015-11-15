@@ -24,6 +24,7 @@
       LAST: 'Viimeinen',
 
       EMAIL: 'Sähköpostiosoite',
+      EMAIL_ADDRESS_IS_IN_USE: 'Sähköpostiosoite on käytössä',
 
       // Profile.html
       USER_NOT_FOUND: 'Käyttäjää ei löydy',
@@ -71,6 +72,8 @@
       DELETE_BORDER: 'Aseta rajat alkutilaan',
       SAVE_MAP: 'Tallenna kartta',
 
+      TERRITORY : 'Alue',
+
       TERRITORY_LIST: 'Aluekorttiluettelo',
       MAP: 'Kartta',
       QUICK_VIEW: 'Pikatarkastelu',
@@ -95,6 +98,14 @@
       'Jos haluat vaihtaa alueomistajan, toimi seuraavasti:',
       TERRITORY_LI_1: 'Valitse uusi alueomistaja alasvetovalikosta.',
       TERRITORY_LI_2: 'Vaihda alueomistaja ja merkitse alue käydyksi valitsemalla \'Vaihda alueomistajaa ja merkitse merkitse alue käydyksi\' -painike. Jos et halua että alue merkitään samalla käydyksi, valitse \'Vaihda alueomistajaa merkitsemättä aluetta käydyksi\'-painike.',
+
+      HOLDER_DESCRIPTION: 'Alueomistajaan liittyvät lisätiedot',
+      HOLDER_TELEPHONE: 'Alueomistajan puhelinnumero',
+      HOLDER_EMAIL: 'Alueomistajan sähköpostiosoite',
+      HOLDER_EMAIL_IN_USE: 'Alueomistajan sähköpostiosoite on käytössä',
+      HOLDER_NAME: 'Alueomistajan nimi',
+
+      HOLDER_NOT_FOUND: 'Alueomistajaa ei löydy',
 
     });
     $translateProvider.preferredLanguage('fi');

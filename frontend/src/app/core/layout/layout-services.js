@@ -14,7 +14,7 @@
         return [
           {
             state: 'examples.about',
-            title: 'Perustiedot',
+            title: 'Etusivu',
             access: AccessLevels.anon
           },
           {

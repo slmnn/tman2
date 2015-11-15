@@ -43,7 +43,7 @@
             .create(data)
             .then(
               function onSuccess() {
-                MessageService.success('New holder added successfully');
+                MessageService.success('Uusi alueomistaja lisättiin!');
                 initScope();
               }
             )
@@ -88,14 +88,14 @@
         // Holder delete dialog buttons configuration
         $scope.confirmButtonsDelete = {
           ok: {
-            label: 'Delete',
+            label: 'Poista',
             className: 'btn-danger',
             callback: function callback() {
               $scope.deleteHolder();
             }
           },
           cancel: {
-            label: 'Cancel',
+            label: 'Peruuta',
             className: 'btn-default pull-left'
           }
         };

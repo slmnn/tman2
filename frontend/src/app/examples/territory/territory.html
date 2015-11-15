@@ -87,14 +87,14 @@
                     <dd>
                         <span data-editable-checkbox="territory.archived"
                             data-e-title="is archived?">
-                            {{territory.archived ? 'Yes' : 'No'}}
+                            {{territory.archived ? 'Kyllä' : 'Ei'}}
                         </span>
                     </dd>
                     <dt>{{'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED' | translate}}</dt>
                     <dd>
                         <span data-editable-checkbox="territory.notCountedWhenCalculatingCoveredDuringLastYearTotal"
                             data-e-title="{{'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2' | translate}}">
-                            {{territory.notCountedWhenCalculatingCoveredDuringLastYearTotal ? 'Yes' : 'No'}}
+                            {{territory.notCountedWhenCalculatingCoveredDuringLastYearTotal ? 'Kyllä' : 'Ei'}}
                         </span>
                     </dd>
                     <dt>{{'DESCRIPTION' | translate}}</dt>
@@ -238,7 +238,7 @@
                             data-ng-show="deleteTerritoryHolderHistoryItemVisible"
                             data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)"
                             data-ng-bootbox-title="{{'DELETING_TERRITORY_HISTORY_ROW' | translate}}"
-                            data-ng-bootbox-custom-dialog="{{ARE_YOU_SURE | translate}}"
+                            data-ng-bootbox-custom-dialog="{{'ARE_YOU_SURE' | translate}}"
                             data-ng-bootbox-buttons="confirmHistoryButtonsDelete"
                         >
                             <span class="fa fa-trash fa-2x"></span>

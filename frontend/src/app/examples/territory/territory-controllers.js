@@ -288,7 +288,7 @@
         // Territory delete dialog buttons configuration
         $scope.confirmHistoryButtonsDelete = {
           ok: {
-            label: 'Delete',
+            label: 'Poista',
             className: 'btn-danger',
             callback: function callback() {
               TerritoryHolderHistoryModel
@@ -304,7 +304,7 @@
             }
           },
           cancel: {
-            label: 'Cancel',
+            label: 'Peruuta',
             className: 'btn-default pull-left',
             callback: function callback() {
               territoryHolderHistoryItemToBeDeletedId = null;
@@ -315,14 +315,14 @@
         // Territory delete dialog buttons configuration
         $scope.confirmButtonsDelete = {
           ok: {
-            label: 'Delete',
+            label: 'Poista',
             className: 'btn-danger',
             callback: function callback() {
               $scope.deleteTerritory();
             }
           },
           cancel: {
-            label: 'Cancel',
+            label: 'Peruuta',
             className: 'btn-default pull-left'
           }
         };
@@ -420,7 +420,7 @@
             territory: _territory.id
           })
           .then(function onSuccess(){
-            MessageService.success('Attribute "' + attribute.name + '" added successfully');
+            MessageService.success('Attribuutti "' + attribute.name + '" lisättiin.');
             $scope.deleteTerritoryLinkAttributeItemVisible = false;
             $state.go($state.current, {id: _territory.id}, {reload: true});
           });
@@ -441,7 +441,7 @@
               .delete(territoryLinkAttributeItemToBeDeletedId)            
               .then(
                 function onSuccess() {
-                  MessageService.success('Territory attribute deleted successfully');
+                  MessageService.success('Attribuutti poistettiin');
                   territoryLinkAttributeItemToBeDeletedId = null;
                   $scope.deleteTerritoryLinkAttributeItemVisible = false;
                   $state.go($state.current, {id: _territory.id}, {reload: true});
