@@ -255,7 +255,8 @@
                             'territoryHolderHistory', 
                             'center', 
                             'coordinates', 
-                            'territoryLinkAttribute'
+                            'territoryLinkAttribute',
+                            'specialAddress'
                           ]
                         }
                       );

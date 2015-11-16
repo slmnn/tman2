@@ -74,5 +74,10 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
       via: 'territory'
     },
 
+    specialAddress: {
+      collection: 'specialAddress',
+      via: 'territory'
+    },
+
   }
 });

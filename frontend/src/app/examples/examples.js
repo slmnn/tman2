@@ -20,6 +20,7 @@
     'frontend.examples.holder',
     'frontend.examples.coordinate',
     'frontend.examples.territoryLinkAttribute',
+    'frontend.examples.specialAddress',
     'frontend.examples.attribute',
     'frontend.examples.app',
     'frontend.examples.chat',

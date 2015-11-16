@@ -76,7 +76,7 @@
     .controller('TerritoryController', [
       '$scope', '$state', '_', '$timeout',
       'UserService', 'MessageService',
-      'TerritoryModel', 'HolderModel',
+      'TerritoryModel', 'HolderModel', 'SpecialAddressModel',
       '_territory', '_holders', '_app', '_attributes',
       'TerritoryHolderHistoryModel',
       'TerritoryLinkAttributeModel',
@@ -84,7 +84,7 @@
       function controller(
         $scope, $state, _, $timeout,
         UserService, MessageService,
-        TerritoryModel, HolderModel,
+        TerritoryModel, HolderModel, SpecialAddressModel,
         _territory, _holders, _app, _attributes,
         TerritoryHolderHistoryModel,
         TerritoryLinkAttributeModel,
@@ -426,9 +426,51 @@
           });
         };
 
+        var specialAddressToBeDeletedId = null;
+        $scope.setSpecialAddressToBeDeleted = function setSpecialAddressToBeDeleted(item) {
+          specialAddressToBeDeletedId = item.id;
+        };
+
         var territoryLinkAttributeItemToBeDeletedId = null;
         $scope.setTerritoryLinkAttributeToBeDeleted = function setTerritoryLinkAttributeToBeDeleted(item) {
           territoryLinkAttributeItemToBeDeletedId = item.id;
+        };
+
+        $scope.addSpecialAddress = function addSpecialAddress(specialAddress) {
+          specialAddress.territory = _territory.id;
+          specialAddress.added = new Date();
+          SpecialAddressModel.create(specialAddress)
+          .then(function onSuccess(){
+            MessageService.success('Merkintä kieltopaikasta tai vieraskielisestä osoitteesta lisättiin.');
+            $scope.deleteSpecialAddressItemVisible = false;
+            $state.go($state.current, {id: _territory.id}, {reload: true});
+          });
+        };
+
+        $scope.confirmSpecialAddressButtonsDelete = {
+          ok: {
+            label: 'Poista',
+            className: 'btn-danger',
+            callback: function callback() {
+              SpecialAddressModel
+              .delete(specialAddressToBeDeletedId)            
+              .then(
+                function onSuccess() {
+                  MessageService.success('Merkintä poistettiin');
+                  specialAddressToBeDeletedId = null;
+                  $scope.deleteSpecialAddressItemVisible = false;
+                  $state.go($state.current, {id: _territory.id}, {reload: true});
+                }
+              );
+            }
+          },
+          cancel: {
+            label: 'Peruuta',
+            className: 'btn-default pull-left',
+            callback: function callback() {
+              specialAddressToBeDeletedId = null;
+            }
+          }
         };
 
         // Territory delete dialog buttons configuration
