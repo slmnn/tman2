@@ -27,7 +27,7 @@
       ) {
         // Already authenticated so redirect back to holders list
         if (AuthService.isAuthenticated()) {
-          $state.go('examples.holders');
+          $state.go('app.holders');
         }
 
         // Scope function to perform actual login request to server
@@ -36,7 +36,7 @@
             .login($scope.credentials)
             .then(
               function successCallback() {
-                $state.go('examples.holders');
+                $state.go('app.holders');
               },
               function errorCallback() {
                 _reset();

@@ -1,0 +1,149 @@
+<div data-ng-show="!holder">
+    <h3>{{'HOLDER_NOT_FOUND' | translate}}</h3>
+</div>
+
+<div data-ng-show="holder">
+    <form class="form-vertical" role="form"
+        data-editable-form name="editableForm"
+        data-onaftersave="saveHolder()"
+    >
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>
+                    <span style="width: 100%;"
+                        data-editable-text="holder.name"
+                        data-e-name="holder.name"
+                        data-e-required
+                    >
+                        {{holder.name}}
+                    </span>
+
+
+
+                    <span class="pull-right"
+                        data-ng-show="!editableForm.$visible && user.admin"
+                    >
+                        <a href="#"
+                           data-ng-click="editableForm.$show()"
+                           data-tooltip="{{'EDIT' | translate}}"
+                        >
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </span>
+                </h3>
+                <dl>
+                    <dt>{{'EMAIL' | translate}}</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="holder.email"
+                            data-e-name="holder.email"
+                            data-e-required
+                        >
+                            {{holder.email}}
+                        </span>
+                    </dd>
+                    <dt>{{'HOLDER_EMAIL_IN_USE' | translate}}</dt>
+                    <dd>
+                        <span data-editable-checkbox="holder.emailValid"
+                            data-e-title="{{'HOLDER_EMAIL_IN_USE' | translate}}">
+                            {{holder.emailValid ? 'Kyllä' : 'Ei'}}
+                        </span>
+                    </dd>
+                    <dt>{{'HOLDER_TELEPHONE' | translate}}</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="holder.telephone"
+                            data-e-name="holder.telephone"
+                        >
+                            {{holder.telephone}}
+                        </span>
+                    <dd>
+                    <dt>{{'HOLDER_DESCRIPTION' | translate}}</dt>
+                    <dd>
+                        <p data-editable-textarea="holder.description"
+                           data-e-name="holder.description"
+                        >
+                            {{holder.description}}
+                        </p>
+                    </dd>
+                    <dt>{{'ARCHIVED' | translate}}</dt>
+                    <dd>
+                        <span data-editable-checkbox="holder.isArchived"
+                            data-e-title="Alueomistaja ei ole käytössä">
+                            {{holder.isArchived ? 'Yes' : 'No'}}
+                        </span>
+                    </dd>
+                <dl>
+                <div>
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            {{'SAVE' | translate}}
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            {{'CANCEL' | translate}}
+                        </button>
+                        <button type="button" class="btn btn-danger pull-right"
+                            data-ng-bootbox-title="Olet poistamassa alueomistajaa"
+                            data-ng-bootbox-custom-dialog="Oletko varma, että haluat poistaa <strong>{{holder.name}}</strong> nimisen alueomistajan?"
+                            data-ng-bootbox-buttons="confirmButtonsDelete"
+                        >
+                            {{'DELETE' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <h4 class="text-muted">{{holder.territories.length ? 'Alueomistajan alueet' : 'Alueomistajalla ei ole yhtään aluetta'}}</h4>
+                <table data-ng-if="holder.territories.length" class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-2">
+                                {{'TERRITORY' | translate}}
+                            </th>
+                            <th class="col-xs-2 text-nowrap">
+                                {{'COVERED' | translate}}
+                            </th>
+                            <th class="col-xs-2 text-nowrap">
+                                {{'TAKEN' | translate}}
+                            </th>
+                            <th class="col-xs-6 text-nowrap">
+                                {{'DESCRIPTION' | translate}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-ng-repeat="t in holder.territories">
+                        <tr>
+                            <td>
+                                <a data-ui-sref="app.territory({id: t.id})">
+                                    {{t.territoryCode}}
+                                </a>
+                            </td>                    
+                            <td data-ng-class="isNotCoveredLimitExeeded(t, app) ? 'bg-danger' : ''">
+                                <a
+                                    data-tooltip="{{t.covered | amTimeAgo}}">
+                                    {{t.covered | date : 'dd.MM.yyyy'}}
+                                </a>
+                            </td>
+                            <td data-ng-class="isHolderNotChangedLimitExeeded(t, app) ? 'bg-danger': ''">
+                                <a
+                                    data-tooltip="{{t.taken | amTimeAgo}}">
+                                    {{t.taken | date : 'dd.MM.yyyy'}}
+                                </a>
+                            </td>
+                            <td>
+                                {{t.description | limitTo: 40}}
+                                {{t.description.length > 40 ? '...' : ''}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,273 @@
+<div data-ng-if="user.admin" class="row">
+    <div class="col-xs-12">
+        <ul class="list-inline pull-right">
+            <li>
+                <a
+                    data-ui-sref="app.territories.s13"
+                    data-tooltip="S-13"
+                >
+                    S-13
+                </a>
+            </li>
+            <li>
+                <a
+                    data-ui-sref="app.territories.map"
+                    data-tooltip="Map"
+                >
+                    {{'MAP' | translate}}
+                </a>
+            </li>
+            <li>
+                <a
+                    data-ui-sref="app.territories.quickview"
+                    data-tooltip="Quick view"
+                >
+                    {{'QUICK_VIEW' | translate}}
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<h3>
+    {{'TERRITORIES' | translate}} ({{itemCount}})
+
+    <div class="col-xs-6 pull-right list-search">
+        <a
+            data-ng-if="user.admin"
+            data-ui-sref="app.territory.add"
+            data-tooltip="Add new territory"
+        ><i class="fa fa-plus-circle"></i></a>
+
+        <list-search
+            data-filters="filters"
+            data-options="itemsPerPageOptions"
+            data-items="itemsPerPage"
+        ></list-search>
+
+        <pagination class="pagination-sm"
+            data-total-items="itemCount"
+            data-ng-model="currentPage"
+            data-items-per-page="itemsPerPage"
+            data-max-size="10"
+            data-boundary-links="true"
+            data-rotate="false"
+            data-first-text="{{'FIRST' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+            data-next-text="{{'NEXT' | translate}}"
+            data-last-text="{{'LAST' | translate}}"
+        ></pagination>
+    </div>
+</h3>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table">
+            <thead class="noSelect">
+            <tr>
+                <th class="text-nowrap {{item.class}}"
+                    data-ng-repeat="item in titleItems | filter:titleFilter"
+                >
+                    <a
+                        data-ng-show="item.column"
+                        data-ng-click="changeSort(item)"
+                        data-ng-bind-html="item.title"
+                    ></a>
+                    <span
+                        data-ng-show="!item.column"
+                        data-ng-bind-html="item.title"
+                    >
+                        {{item.title | translate}}
+                    </span>
+                    <i class="fa"
+                        data-ng-show="sort.column == item.column"
+                        data-ng-class="{'fa-angle-down': !sort.direction, 'fa-angle-up': sort.direction}"
+                    ></i>
+                </th>
+            </tr>
+            </thead>
+            <tbody data-ng-repeat="territory in items">
+                <tr data-ng-class="territory.checked ? 'bg-info' : ''">
+                    <td class="col-md-1 valign">
+                        <a data-ui-sref="app.territory({id: territory.id})">
+                            <h4><strong>{{territory.territoryCode || territory.id}}</strong></h4>
+                        </a>
+                    </td>
+                    <td class="col-md-1 valign">
+                        {{territory.type}}
+                    </td>
+                    <td data-ng-class="isNotCoveredLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign' : 'col-md-1 valign'">
+                        <a
+                            data-tooltip="{{territory.covered | amTimeAgo}}">
+                            {{territory.covered | date : 'dd.MM.yyyy'}}
+                        </a>
+                    </td>
+                    <td data-ng-class="isHolderNotChangedLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign': 'col-md-1 valign'">
+                        <a
+                            data-tooltip="{{territory.taken | amTimeAgo}}">
+                            {{territory.taken | date : 'dd.MM.yyyy'}}
+                        </a>
+                    </td>
+                    <td class="col-md-1 valign">
+                        <ul class="list-inline">
+                            <li data-ng-repeat="tla in territory.territoryLinkAttribute">
+                                <span 
+                                    class="fa fa-{{getAttributeWithId(attributes, tla.attribute).icon}}"
+                                    data-tooltip="{{getAttributeWithId(attributes, tla.attribute).description}}"
+                                >
+                                </span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="col-md-3 valign">
+                        {{territory.description | limitTo : 40}}
+                        {{territory.description.length > 40 ? '...' : ''}}
+                    </td>
+                    <td class="col-md-1 valign">
+                        {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description | limitTo : 20}}
+                        {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description.length > 20 ? '...' : ''}}
+                    </td>
+                    <td data-ng-class="!isDefaultHolder(territory.holder.id) ? 'bg-tuned-down col-md-2 valign' : 'col-md-2 valign'">
+                        <a data-ui-sref="app.holder({id: territory.holder.id})">
+                            {{territory.holder.name}}
+                        </a>
+                    </td>
+                    <td data-ng-class="!isDefaultHolder(territory.holder.id) ? 'bg-tuned-down col-md-1 valign text-center' : 'col-md-1 valign text-center'">
+                        <label class="whitespace-label">
+                            <input type="checkbox" 
+                                class="big-checkbox"
+                                id="checkbox_{{territory.id}}"
+                                data-ng-model="territory.checked" 
+                                data-ng-change="territoryChecked(territory)">
+                            </input>
+                        </label>
+                    </td>
+                </tr>
+
+                <tr data-ng-if="items.length === 0">
+                    <td colspan="100%" class="text-center text-muted">
+                        <em>no data found...</em>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <pagination class="pagination-sm pull-right"
+            data-total-items="itemCount"
+            data-ng-model="currentPage"
+            data-items-per-page="itemsPerPage"
+            data-max-size="10"
+            data-boundary-links="true"
+            data-rotate="false"
+            data-first-text="{{'FIRST' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+            data-next-text="{{'NEXT' | translate}}"
+            data-last-text="{{'LAST' | translate}}"
+        ></pagination>
+  </div>
+</div>
+
+
+<div class="row top-buffer">
+    <div class="col-sm-12">
+        <div class="panel panel-primary" data-ng-show="filteredItems.length > 0">
+          <div class="panel-heading">
+            {{'OPERATIONS_FOR_SELECTED_TERRITORIES' | translate}} ({{filteredItems.length}})
+            <button 
+                class="btn btn-xs btn-primary pull-right" 
+                data-ng-click="clearSelected(items)"
+            >
+                {{'CLEAR_SELECTION' | translate}}
+            </button>
+          </div>
+          <div class="panel-body">    
+            <ul class="list-inline">
+                <li class="vertical-list" data-ng-repeat="t in filteredItems = (items | filter : onlyCheckedTerritories)">
+                    
+                    <a data-ui-sref="app.territory({id: t.id})">
+                        <h3>{{t.territoryCode || t.id}}</h3>
+                    </a>
+                    
+                </li>
+            </ul>
+            <hr>
+            <form>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-1">
+                        <label>
+                            {{'ADDITIONAL_INFO' | translate}}:
+                        </label>
+                        <textarea 
+                            class="form-control"
+                            type="text" 
+                            maxlength="300"
+                            rows="3"
+                            data-ng-model="territoryChangeComment"
+                            placeholder="{{'ADDITIONAL_COMMENT' | translate}}"
+                        ></textarea>
+                    </div>
+                    <div class="col-md-4 bg-info">
+                        <p>
+                            {{'TERRITORY_HELP_1' | translate}}
+                        </p>
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-6 col-md-offset-1">
+                        <button 
+                            class="btn btn-primary btn-sm" 
+                            data-ng-click="markTerritoriesAsCovered(filteredItems, territoryChangeComment)"
+                        >
+                            {{'MARK_COVERED_NO_HOLDER_CHANGE' | translate}}
+                        </button>
+                    </div>
+                    <div class="col-md-4 bg-info">
+                        <p>
+                            {{'TERRITORY_HELP_2' | translate}}
+                        </p>
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-6 col-md-offset-1">
+                        <label>Select new holder:</label>
+                        <select 
+                            class="form-control"
+                            data-ng-model="selectedHolder"
+                            data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
+                        >
+                        </select>
+                        <button 
+                            class="btn btn-primary btn-sm top-buffer" 
+                            data-ng-disable="!selectedHolder"
+                            data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
+                        >
+                            {{'CHANGE_HOLDER_MARK_COVERED' | translate}}
+                        </button>
+                        <button 
+                            class="btn btn-primary btn-sm top-buffer" 
+                            data-ng-disable="!selectedHolder"
+                            data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
+                        >
+                            {{'CHANGE_HOLDER_NOT_MARK_COVERED' | translate}}
+                        </button>
+                    </div>
+                    <div class="col-md-4 bg-info">
+                        <p>
+                            {{'TERRITORY_HELP_3' | translate}}
+                            <ol>
+                                <li>{{'TERRITORY_LI_1' | translate}}</li> 
+                                <li>{{'TERRITORY_LI_2' | translate}}</li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+  </div>
+</div>

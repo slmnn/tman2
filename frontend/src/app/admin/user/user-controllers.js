@@ -55,7 +55,7 @@
   ;
 
   // Controller to show single holder on GUI.
-  angular.module('frontend.examples.holder')
+  angular.module('frontend.app.holder')
     .controller('UserController', [
       '$scope', '$state',
       'UserService', 'MessageService',

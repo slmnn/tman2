@@ -13,12 +13,12 @@
       function factory(AccessLevels) {
         return [
           {
-            state: 'examples.about',
+            state: 'app.about',
             title: 'Etusivu',
             access: AccessLevels.anon
           },
           {
-            state: 'examples',
+            state: 'app',
             title: 'Aluehallinta',
             access: AccessLevels.user
           },
@@ -38,34 +38,34 @@
       'AccessLevels',
       function factory(AccessLevels) {
         var items = {
-          'examples': [
+          'app': [
             {
-              state: 'examples.territories',
+              state: 'app.territories',
               title: 'Alueet',
               access: AccessLevels.user
             },
             {
-              state: 'examples.holders',
+              state: 'app.holders',
               title: 'Alueomistajat',
               access: AccessLevels.user
             },
             {
-              state: 'examples.attributes',
+              state: 'app.attributes',
               title: 'Attribuutit',
               access: AccessLevels.admin
             },
             {
-              state: 'examples.app',
+              state: 'app.app',
               title: 'Aluehallinnan asetukset',
               access: AccessLevels.admin
             },
             {
-              state: 'examples.messages',
+              state: 'app.messages',
               title: 'Viestit',
               access: AccessLevels.user
             },
             {
-              state: 'examples.chat',
+              state: 'app.chat',
               title: 'Chat',
               access: AccessLevels.user
             }
@@ -233,7 +233,7 @@
          * @type    {{}}
          */
         var data = {
-          'examples.holders': {
+          'app.holders': {
             'Backend': [
               {
                 url: repository + 'backend/api/models/Holder.js',
@@ -253,28 +253,28 @@
             ],
             'Frontend': [
               {
-                url: repository + 'frontend/src/app/examples/holder/holder.js',
+                url: repository + 'frontend/src/app/app/holder/holder.js',
                 title: 'holder.js',
                 info: types.frontend.module
               },
               {
-                url: repository + 'frontend/src/app/examples/holder/holder-controllers.js',
+                url: repository + 'frontend/src/app/app/holder/holder-controllers.js',
                 title: 'holder-controllers.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'frontend/src/app/examples/holder/holder-models.js',
+                url: repository + 'frontend/src/app/app/holder/holder-models.js',
                 title: 'holder-models.js',
                 info: types.generic.model
               },
               {
-                url: repository + 'frontend/src/app/examples/holder/list.html',
+                url: repository + 'frontend/src/app/app/holder/list.html',
                 title: 'list.html',
                 info: types.generic.template
               }
             ]
           },
-          'examples.territories': {
+          'app.territories': {
             'Backend': [
               {
                 url: repository + 'backend/api/models/Territory.js',
@@ -294,41 +294,41 @@
             ],
             'Frontend': [
               {
-                url: repository + 'frontend/src/app/examples/territory/territory.js',
+                url: repository + 'frontend/src/app/app/territory/territory.js',
                 title: 'territory.js',
                 info: types.frontend.module
               },
               {
-                url: repository + 'frontend/src/app/examples/territory/territory-controllers.js',
+                url: repository + 'frontend/src/app/app/territory/territory-controllers.js',
                 title: 'territory-controllers.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'frontend/src/app/examples/territory/territory-models.js',
+                url: repository + 'frontend/src/app/app/territory/territory-models.js',
                 title: 'territory-models.js',
                 info: types.generic.model
               },
               {
-                url: repository + 'frontend/src/app/examples/territory/list.html',
+                url: repository + 'frontend/src/app/app/territory/list.html',
                 title: 'list.html',
                 info: types.generic.template
               }
             ]
           },
-          'examples.messages': {
+          'app.messages': {
             'Frontend': [
               {
-                url: repository + 'frontend/src/app/examples/messages/messages.js',
+                url: repository + 'frontend/src/app/app/messages/messages.js',
                 title: 'messages.js',
                 info: types.frontend.module
               },
               {
-                url: repository + 'frontend/src/app/examples/messages/messages-controllers.js',
+                url: repository + 'frontend/src/app/app/messages/messages-controllers.js',
                 title: 'messages-controllers.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'frontend/src/app/examples/messages/messages.html',
+                url: repository + 'frontend/src/app/app/messages/messages.html',
                 title: 'messages.html',
                 info: types.generic.template
               }
@@ -351,7 +351,7 @@
               }
             ]
           },
-          'examples.chat': {
+          'app.chat': {
             'Backend': [
               {
                 url: repository + 'backend/api/models/Message.js',
@@ -366,27 +366,27 @@
             ],
             'Frontend': [
               {
-                url: repository + 'frontend/src/app/examples/chat/chat.js',
+                url: repository + 'frontend/src/app/app/chat/chat.js',
                 title: 'chat.js',
                 info: types.frontend.module
               },
               {
-                url: repository + 'frontend/src/app/examples/chat/chat-controllers.js',
+                url: repository + 'frontend/src/app/app/chat/chat-controllers.js',
                 title: 'chat-controllers.js',
                 info: types.generic.controller
               },
               {
-                url: repository + 'frontend/src/app/examples/chat/chat-directives.js',
+                url: repository + 'frontend/src/app/app/chat/chat-directives.js',
                 title: 'chat-directives.js',
                 info: types.frontend.directive
               },
               {
-                url: repository + 'frontend/src/app/examples/chat/chat-models.js',
+                url: repository + 'frontend/src/app/app/chat/chat-models.js',
                 title: 'chat-models.js',
                 info: types.generic.model
               },
               {
-                url: repository + 'frontend/src/app/examples/chat/chat.html',
+                url: repository + 'frontend/src/app/app/chat/chat.html',
                 title: 'chat.html',
                 info: types.generic.template
               }
@@ -414,9 +414,9 @@
             var files = data[state];
 
             switch (state) {
-              case 'examples.holders':
-              case 'examples.territories':
-              case 'examples.chat':
+              case 'app.holders':
+              case 'app.territories':
+              case 'app.chat':
                 files = _.merge(files, generic.backend, generic.frontend);
                 break;
               default:

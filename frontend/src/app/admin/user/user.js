@@ -42,7 +42,7 @@
 
           // Single user
           .state('admin.user', {
-            url: '/examples/user/:id',
+            url: '/app/user/:id',
             views: {
               'content@': {
                 templateUrl: '/frontend/admin/user/user.html',
