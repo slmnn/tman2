@@ -101,8 +101,24 @@
         $scope.attributes = _attributes;
         $scope.app = _app[0];
 
-        $scope.thhEndDateOpened = false;
-        $scope.thhStartDateOpened = false;
+        $scope.pickers = {};
+
+        $scope.pickers.thhEndDateOpened = false;
+        $scope.pickers.thhStartDateOpened = false;
+        $scope.pickers.coveredDateOpened = false;
+        $scope.pickers.takenDateOpened = false;
+
+        $scope.openPickers = function openPickers(key) {
+          $timeout(function() {
+            $scope.pickers[key] = true;
+          });
+        };
+        
+        $scope.closePickers = function closePickers(key) {
+          $timeout(function() {
+            $scope.pickers[key] = true;
+          });
+        };
 
         // Create Google Map settings for showing the center and border of the territory.
         // Copy the border path from territory.
@@ -510,6 +526,7 @@
       '_',
       'ListConfig',
       'TerritoryHelper',
+      'MessageService',
       'TerritoryHolderHistoryModel',
       'SocketHelperService', 'UserService', 'TerritoryModel',
       '_items', '_count', '_holders', '_app', '_attributes',
@@ -518,6 +535,7 @@
         _,
         ListConfig,
         TerritoryHelper,
+        MessageService,
         TerritoryHolderHistoryModel,
         SocketHelperService, UserService, TerritoryModel,
         _items, _count, _holders, _app, _attributes
@@ -629,18 +647,30 @@
         };
 
         $scope.changeHolder = function changeHolder(territories, markAsCovered, newHolderId, comment) {
+          var errorSelection = false;
           _.each(territories, function(t) {
-            var data = {
-              taken: new Date(),
-              holder: newHolderId
-            };
-            if(markAsCovered) {
-              data.covered = new Date();
+            if(t.holder && t.holder.id == newHolderId) {
+              MessageService.error('Yksi valituista alueista, ' + t.territoryCode + ', on jo merkitty tälle omistajalle.');
+              errorSelection = true;
             }
-            TerritoryModel
-            .update(t.id, data);
+          });
+          if(errorSelection) {
+            return;
+          }
+          _.each(territories, function(t) {
+            if(!t.holder || (t.holder != newHolderId && t.holder.id != newHolderId)) {
+              var data = {
+                taken: new Date(),
+                holder: newHolderId
+              };
+              if(markAsCovered) {
+                data.covered = new Date();
+              }
+              TerritoryModel
+              .update(t.id, data);
 
-            makeHolderHistoryUpdate(t, comment, newHolderId);
+              makeHolderHistoryUpdate(t, comment, newHolderId);
+            }
           });
         };
 
@@ -748,7 +778,7 @@
 
           // Data query specified parameters
           var parameters = {
-            populate: ['holder', 'territoryHolderHistory'],
+            populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
             limit: $scope.itemsPerPage,
             skip: ($scope.currentPage - 1) * $scope.itemsPerPage,
             sort: $scope.sort.column + ' ' + ($scope.sort.direction ? 'ASC' : 'DESC')
@@ -789,7 +819,100 @@
     ])
   ;
 
-    // Controller which contains all necessary logic for territory list GUI on boilerplate application.
+  angular.module('frontend.app.territory')
+    .controller('TerritoryStatsController', [
+      '$scope', '$q',
+      '_',
+      'ListConfig',
+      'SocketHelperService', 'UserService',
+      '_items',
+      '_app',
+      function controller(
+        $scope, $q,
+        _,
+        ListConfig,
+        SocketHelperService, UserService,
+        _items,
+        _app
+      ) {
+
+        var formDaysMonthsYearsObject = function(in_millisecs) {
+          var millisecondsPerDay = 1000 * 60 * 60 * 24;
+            var days = in_millisecs / millisecondsPerDay;
+            var months = days / 30;
+            var years = months / 12;
+            days = days % 30;
+            months = months % 12;
+            return {'days':Math.floor(days), 'months':Math.floor(months), 'years': Math.floor(years)};
+        }
+
+        // Set initial data
+        $scope.territories = _items;
+        $scope.app = _app[0];
+        $scope.user = UserService.user();
+
+        $scope.totalCount = 0;
+        $scope.notCoveredRecently = 0;
+        $scope.totalWithoutNotCountedWhenCalculatingCoveredDuringLastYearTotal = 0;
+        $scope.holderIsDefault = 0;
+        $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotal = 0;
+        $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotalNotCovered = 0;
+        $scope.averageCoveredTime = 0;
+        var totalCoveredTimeMs = 0;
+        var totalTimeOnSameHolder = 0;
+        var totalTimeOnSameHolderDivider = 0;
+        $scope.averageTimeBetweenHolderChange = 0;
+        $scope.holderChanges = 0;
+        $scope.territoryTypeCounts = [];
+        var now = new Date();
+        var NOT_COVERED_LIMIT_MS = 1000 * 60 * 60 * 24 * ($scope.app.notCoveredLimit || 365);
+        _.each($scope.territories, function(t) {
+
+          $scope.holderChanges += t.territoryHolderHistory ? t.territoryHolderHistory.length : 0;
+          _.each(t.territoryHolderHistory, function(thh) {
+            var start = new Date(Date.parse(thh.startDate || now));
+            var end = new Date(Date.parse(thh.endDate || now));
+            totalCoveredTimeMs += (end.getTime() - start.getTime());
+          });
+
+          if(t.holder !== $scope.app.defaultHolder && !t.archived) {
+            var taken = new Date(Date.parse(t.taken || now));
+            totalTimeOnSameHolder += (now.getTime() - taken.getTime());
+            totalTimeOnSameHolderDivider++;
+          }
+
+          var covered = new Date(Date.parse(t.covered));
+          if(now.getTime() - covered.getTime() > NOT_COVERED_LIMIT_MS 
+            && !t.notCountedWhenCalculatingCoveredDuringLastYearTotal
+            && !t.archived) {
+            $scope.notCoveredRecently++;
+          }
+           if(!t.archived) {
+            $scope.totalCount++;
+          }
+          if(t.notCountedWhenCalculatingCoveredDuringLastYearTotal
+            && !t.archived) {
+            $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotal++;
+            if(now.getTime() - covered.getTime() > NOT_COVERED_LIMIT_MS) {
+              $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotalNotCovered++;
+            }
+          }
+          if(t.holder === $scope.app.defaultHolder) {
+            $scope.holderIsDefault++;
+          }
+        });
+        var avCoveredTime = totalCoveredTimeMs / $scope.holderChanges;
+        var avCoveredObject = formDaysMonthsYearsObject(avCoveredTime);
+        $scope.averageCoveredTime = avCoveredObject.days + ' päivää, ' + avCoveredObject.months + ' kuukautta ja ' + avCoveredObject.years + ' vuotta.';
+
+        var avTimeSameHolder = totalTimeOnSameHolder / totalTimeOnSameHolderDivider;
+        var avTimeSameHolderObject = formDaysMonthsYearsObject(avTimeSameHolder);
+        $scope.averageTimeSameHolder = avTimeSameHolderObject.days + ' päivää, ' + avTimeSameHolderObject.months + ' kuukautta ja ' + avTimeSameHolderObject.years + ' vuotta.';
+
+      }
+    ])
+  ;
+
   angular.module('frontend.app.territory')
     .controller('TerritoryS13Controller', [
       '$scope', '$q',
@@ -804,8 +927,6 @@
         SocketHelperService, UserService,
         _items, _holders
       ) {
-        // Add default list configuration variable to current scope
-        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
 
         // Set initial data
         $scope.territories = _items;
@@ -828,7 +949,6 @@
     ])
   ;
 
-    // Controller which contains all necessary logic for territory list GUI on boilerplate application.
   angular.module('frontend.app.territory')
     .controller('TerritoryQuickViewController', [
       '$scope', '$q',

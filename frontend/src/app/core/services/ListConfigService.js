@@ -74,7 +74,7 @@
               column: 'description',
               class: 'col-xs-3',
               searchable: true,
-              sortable: false,
+              sortable: true,
               inSearch: true,
               inTitle: true
             },

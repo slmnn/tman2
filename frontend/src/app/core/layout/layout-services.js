@@ -62,12 +62,12 @@
             {
               state: 'app.messages',
               title: 'Viestit',
-              access: AccessLevels.user
+              access: AccessLevels.admin
             },
             {
               state: 'app.chat',
               title: 'Chat',
-              access: AccessLevels.user
+              access: AccessLevels.admin
             }
           ],
           'admin': [

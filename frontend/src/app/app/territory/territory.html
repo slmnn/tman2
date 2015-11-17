@@ -47,8 +47,8 @@
                     <dd>
                         <span 
                             data-editable-bsdate="territory.covered" 
-                            data-e-ng-click="coveredDateOpened = !coveredDateOpened" 
-                            data-e-is-open="coveredDateOpened" 
+                            data-e-ng-click="openPickers('coveredDateOpened')" 
+                            data-e-is-open="pickers.coveredDateOpened" 
                             data-e-datepicker-popup = "dd.MM.yyyy" 
                             data-e-name= "date" 
                         >
@@ -59,8 +59,8 @@
                     <dd>
                         <span 
                             data-editable-bsdate="territory.taken" 
-                            data-e-ng-click="takenDateOpened = !takenDateOpened" 
-                            data-e-is-open="takenDateOpened" 
+                            data-e-ng-click="openPickers('takenDateOpened')" 
+                            data-e-is-open="pickers.takenDateOpened" 
                             data-e-datepicker-popup = "dd.MM.yyyy" 
                             data-e-name= "date" 
                         >
@@ -192,24 +192,24 @@
                         <span 
                             data-ng-if="user.admin"
                             data-editable-bsdate="thh.startDate" 
-                            data-e-ng-click="thhStartDateOpened = !thhStartDateOpened" 
-                            data-e-is-open="thhStartDateOpened" 
+                            data-e-ng-click="openPickers('thhStartDateOpened')" 
+                            data-e-is-open="pickers.thhStartDateOpened" 
                             data-e-datepicker-popup = "dd.MM.yyyy" 
                             data-e-name= "date" 
                             data-onaftersave="saveTerritoryHistoryItem(thh)"
                         >
-                            {{thh.startDate |date: 'dd.MM.yyyy'}}
+                            {{thh.startDate | date : 'dd.MM.yyyy'}}
                         </span>
                         <span data-ng-if="!user.admin">
-                            {{thh.startDate |date: 'dd.MM.yyyy'}}
+                            {{thh.startDate | date : 'dd.MM.yyyy'}}
                         </span>
                     </td>
                     <td>
                         <span 
                             data-ng-if="user.admin"
                             data-editable-bsdate="thh.endDate" 
-                            data-e-ng-click="thhEndDateOpened = !thhEndDateOpened" 
-                            data-e-is-open="thhEndDateOpened" 
+                            data-e-ng-click="openPickers('thhEndDateOpened')" 
+                            data-e-is-open="pickers.thhEndDateOpened" 
                             data-e-datepicker-popup = "dd.MM.yyyy" 
                             data-onaftersave="saveTerritoryHistoryItem(thh)"
                             data-e-name= "date" 

@@ -3,6 +3,14 @@
         <ul class="list-inline pull-right">
             <li>
                 <a
+                    data-ui-sref="app.territories.stats"
+                    data-tooltip="Tilastot"
+                >
+                    Tilastot
+                </a>
+            </li>
+            <li>
+                <a
                     data-ui-sref="app.territories.s13"
                     data-tooltip="S-13"
                 >
@@ -243,14 +251,14 @@
                         </select>
                         <button 
                             class="btn btn-primary btn-sm top-buffer" 
-                            data-ng-disable="!selectedHolder"
+                            data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
                             data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
                         >
                             {{'CHANGE_HOLDER_MARK_COVERED' | translate}}
                         </button>
                         <button 
                             class="btn btn-primary btn-sm top-buffer" 
-                            data-ng-disable="!selectedHolder"
+                            data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
                             data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
                         >
                             {{'CHANGE_HOLDER_NOT_MARK_COVERED' | translate}}

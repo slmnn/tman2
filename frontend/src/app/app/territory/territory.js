@@ -105,9 +105,9 @@
                       var config = ListConfig.getConfig();
 
                       var parameters = {
-                        populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
-                        limit: config.itemsPerPage,
-                        sort: 'name ASC'
+                        populate: ['holder', 'territoryHolderHistory'],
+                        limit: 999,
+                        sort: 'territoryCode ASC'
                       };
 
                       return TerritoryModel.load(parameters);
@@ -123,6 +123,47 @@
 
                       // Load all holders, later add isActive param.
                       return HolderModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          // Stats
+          .state('app.territories.stats', {
+            url: '/app/territories/stats',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/territory/stats.html',
+                controller: 'TerritoryStatsController',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['territoryHolderHistory'],
+                        limit: 999,
+                        sort: 'territoryCode ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
                     }
                   ]
                 }
@@ -149,7 +190,7 @@
 
                       var parameters = {
                         populate: ['holder', 'center'],
-                        limit: config.itemsPerPage,
+                        limit: 999,
                         sort: 'name ASC'
                       };
 
