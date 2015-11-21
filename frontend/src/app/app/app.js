@@ -23,6 +23,7 @@
     'frontend.app.specialAddress',
     'frontend.app.attribute',
     'frontend.app.app',
+    'frontend.app.stat',
     'frontend.app.chat',
     'frontend.app.messages'
   ]);
