@@ -41,24 +41,32 @@
 <h3>
     {{'TERRITORIES' | translate}} ({{itemCount}})
 
-    <div class="col-xs-6 pull-right list-search">
-        <a
-            data-ng-if="user.admin"
-            data-ui-sref="app.territory.add"
-            data-tooltip="Add new territory"
-        ><i class="fa fa-plus-circle"></i></a>
+    <a
+        class="pull-right"
+        data-ng-if="user.admin"
+        data-ui-sref="app.territory.add"
+        data-tooltip="Add new territory"
+    ><i class="fa fa-plus-circle"></i></a>
+</h3>
 
+<div class="row">
+    <div class="col-sm-12 list-search">
         <list-search
             data-filters="filters"
             data-options="itemsPerPageOptions"
             data-items="itemsPerPage"
         ></list-search>
+    </div>
+</div>
 
-        <pagination class="pagination-sm"
+<div class="row">
+    <div class="col-sm-12">
+
+        <pagination class="pagination-sm pull-right mobile-hide"
             data-total-items="itemCount"
             data-ng-model="currentPage"
             data-items-per-page="itemsPerPage"
-            data-max-size="10"
+            data-max-size="5"
             data-boundary-links="true"
             data-rotate="false"
             data-first-text="{{'FIRST' | translate}}"
@@ -66,11 +74,14 @@
             data-next-text="{{'NEXT' | translate}}"
             data-last-text="{{'LAST' | translate}}"
         ></pagination>
-    </div>
-</h3>
 
-<div class="row">
-    <div class="col-sm-12">
+        <pager class="desktop-hide" 
+            total-items="itemCount" 
+            ng-model="currentPage"             
+            data-next-text="{{'NEXT' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+        ></pager>
+
         <table class="table">
             <thead class="noSelect">
             <tr>
@@ -165,11 +176,11 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <pagination class="pagination-sm pull-right"
+        <pagination class="pagination-sm pull-right mobile-hide"
             data-total-items="itemCount"
             data-ng-model="currentPage"
             data-items-per-page="itemsPerPage"
-            data-max-size="10"
+            data-max-size="5"
             data-boundary-links="true"
             data-rotate="false"
             data-first-text="{{'FIRST' | translate}}"
@@ -177,6 +188,12 @@
             data-next-text="{{'NEXT' | translate}}"
             data-last-text="{{'LAST' | translate}}"
         ></pagination>
+        <pager class="desktop-hide" 
+            total-items="itemCount" 
+            ng-model="currentPage"             
+            data-next-text="{{'NEXT' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+        ></pager>
   </div>
 </div>
 
