@@ -80,6 +80,11 @@
               state: 'admin.login-history',
               title: 'Kirjautumiset',
               access: AccessLevels.admin
+            },
+            {
+              state: 'admin.migrate',
+              title: 'Migraatio',
+              access: AccessLevels.admin
             }
           ]
         };

@@ -54,7 +54,7 @@
             {
               title: 'Omistajalle',
               column: 'taken',
-              class: 'col-xs-1',
+              class: 'col-xs-1 mobile-hide',
               searchable: true,
               sortable: true,
               inSearch: true,
@@ -72,7 +72,7 @@
             {
               title: 'Kuvaus',
               column: 'description',
-              class: 'col-xs-3',
+              class: 'col-xs-3 mobile-hide',
               searchable: true,
               sortable: true,
               inSearch: true,
@@ -81,7 +81,7 @@
             {
               title: 'Kommentti',
               column: false,
-              class: 'col-xs-1',
+              class: 'col-xs-1 mobile-hide',
               searchable: true,
               sortable: true,
               inSearch: true,
@@ -119,7 +119,7 @@
             {
               title: 'Sähköposti',
               column: 'email',
-              class: 'col-xs-3',
+              class: 'col-xs-3 mobile-hide',
               searchable: false,
               sortable: false,
               inSearch: false,
@@ -128,7 +128,7 @@
             {
               title: 'Puhelin',
               column: 'telephone',
-              class: 'col-xs-2',
+              class: 'col-xs-2 mobile-hide',
               searchable: false,
               sortable: false,
               inSearch: false,

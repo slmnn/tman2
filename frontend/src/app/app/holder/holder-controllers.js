@@ -12,15 +12,11 @@
       '$scope', '$state',
       'MessageService',
       'HolderModel',
-      '_territories',
       function controller(
         $scope, $state,
         MessageService,
-        HolderModel,
-        _territories
+        HolderModel
       ) {
-        // Store territorys
-        $scope.territories = _territories;
 
         // Initialize holder model
         var initScope = function() {
@@ -60,13 +56,13 @@
       'UserService', 'MessageService',
       'TerritoryHelper',
       'HolderModel', 'TerritoryModel',
-      '_holder', '_territories', '_app',
+      '_holder', '_app',
       function controller(
         $scope, $state,
         UserService, MessageService,
         TerritoryHelper,
         HolderModel, TerritoryModel,
-        _holder, _territories, _app
+        _holder, _app
       ) {
         // Set current scope reference to model
         HolderModel.setScope($scope, 'holder');
@@ -169,13 +165,13 @@
       '_',
       'ListConfig', 'SocketHelperService',
       'UserService', 'HolderModel', 'TerritoryModel',
-      '_items', '_count', '_territories',
+      '_items', '_count',
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig, SocketHelperService,
         UserService, HolderModel, TerritoryModel,
-        _items, _count, _territories
+        _items, _count
       ) {
         // Set current scope reference to models
         HolderModel.setScope($scope, false, 'items', 'itemCount');
@@ -187,7 +183,6 @@
         // Set initial data
         $scope.items = _items;
         $scope.itemCount = _count.count;
-        $scope.territories = _territories;
         $scope.user = UserService.user();
 
         // Initialize used title items

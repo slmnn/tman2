@@ -111,7 +111,7 @@
                             {{territory.covered | date : 'dd.MM.yyyy'}}
                         </a>
                     </td>
-                    <td data-ng-class="isHolderNotChangedLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign': 'col-md-1 valign'">
+                    <td data-ng-class="isHolderNotChangedLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign mobile-hide': 'col-md-1 valign mobile-hide'">
                         <a
                             data-tooltip="{{territory.taken | amTimeAgo}}">
                             {{territory.taken | date : 'dd.MM.yyyy'}}
@@ -128,11 +128,11 @@
                             </li>
                         </ul>
                     </td>
-                    <td class="col-md-3 valign">
+                    <td class="col-md-3 valign mobile-hide">
                         {{territory.description | limitTo : 40}}
                         {{territory.description.length > 40 ? '...' : ''}}
                     </td>
-                    <td class="col-md-1 valign">
+                    <td class="col-md-1 valign mobile-hide">
                         {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description | limitTo : 20}}
                         {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description.length > 20 ? '...' : ''}}
                     </td>
@@ -242,7 +242,7 @@
                 </div>
                 <div class="row top-buffer">
                     <div class="col-md-6 col-md-offset-1">
-                        <label>Select new holder:</label>
+                        <label>Valitse uusi alueomistaja:</label>
                         <select 
                             class="form-control"
                             data-ng-model="selectedHolder"

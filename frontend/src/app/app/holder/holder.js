@@ -50,12 +50,6 @@
                       return HolderModel.count();
                     }
                   ],
-                  _territories: [
-                    'TerritoryModel',
-                    function resolve(TerritoryModel) {
-                      return TerritoryModel.load();
-                    }
-                  ],
                   _app: [
                     '$stateParams',
                     'AppModel',
@@ -89,12 +83,6 @@
                       return HolderModel.fetch($stateParams.id, {populate: 'territories'});
                     }
                   ],
-                  _territories: [
-                    'TerritoryModel',
-                    function resolve(TerritoryModel) {
-                      return TerritoryModel.load();
-                    }
-                  ],
                   _app: [
                     '$stateParams',
                     'AppModel',
@@ -121,12 +109,6 @@
                 templateUrl: '/frontend/app/holder/add.html',
                 controller: 'HolderAddController',
                 resolve: {
-                  _territories: [
-                    'TerritoryModel',
-                    function resolve(TerritoryModel) {
-                      return TerritoryModel.load();
-                    }
-                  ],
                   _app: [
                     '$stateParams',
                     'AppModel',

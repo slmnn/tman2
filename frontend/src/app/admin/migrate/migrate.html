@@ -1,0 +1,51 @@
+
+<h1>Migraatio</h1>
+<p>Huom! Oletusalueomistaja täytyy luoda ja asettaa oletusomistajaksi ennen migraation ajamista.</p>
+<form 
+    class="form-vertical col-md-12" 
+    role="form" 
+    name="migrateForm"
+    data-ng-submit="parseMigrationHolders(migrationData)"
+>
+
+    Alueomistajadata    <br>
+    <textarea data-ng-model="migrationData.holders" cols="120" rows="10">
+
+    </textarea>
+
+    <br>
+    <button type="submit" class="btn btn-primary"
+    >
+        Tallenna
+    </button>
+
+</form>    
+
+<form 
+    class="form-vertical col-md-12" 
+    role="form" 
+    name="migrateForm"
+    data-ng-submit="parseMigrationTerritories(migrationData)"
+>
+
+    Aluedata    <br>
+    <textarea data-ng-model="migrationData.territories" cols="120" rows="10">
+
+    </textarea>
+
+    <br>
+
+    <button type="submit" class="btn btn-primary"
+    >
+        Tallenna
+    </button>
+
+</form>   
+
+<hr>
+<button 
+    data-ng-click="rollback()" 
+    class="btn btn-primary"
+>
+    Poista juuri luodut
+</button>

@@ -12,6 +12,7 @@
   // Define frontend.admin module
   angular.module('frontend.admin', [
     'frontend.admin.login-history',
+    'frontend.admin.migrate',
     'frontend.admin.user'
   ]);
 
