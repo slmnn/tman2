@@ -825,6 +825,7 @@
       '_',
       'ListConfig',
       'SocketHelperService', 'UserService',
+      'StatModel',
       '_items',
       '_app',
       function controller(
@@ -832,6 +833,7 @@
         _,
         ListConfig,
         SocketHelperService, UserService,
+        StatModel,
         _items,
         _app
       ) {
@@ -909,6 +911,14 @@
         var avTimeSameHolderObject = formDaysMonthsYearsObject(avTimeSameHolder);
         $scope.averageTimeSameHolder = avTimeSameHolderObject.days + ' päivää, ' + avTimeSameHolderObject.months + ' kuukautta ja ' + avTimeSameHolderObject.years + ' vuotta.';
 
+        StatModel.create({
+          statisticDate: new Date(),
+          averageCoveredTime: avCoveredTime,
+          averageHoldingTime: avTimeSameHolder,
+          totalCount: $scope.totalCount,
+          notCoveredCount: $scope.notCoveredRecently,
+          availableCount: $scope.holderIsDefault,
+        });
       }
     ])
   ;
