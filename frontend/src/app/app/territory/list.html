@@ -202,101 +202,115 @@
 </div>
 
 
-<div class="row top-buffer">
+<div class="row top-buffer" id="territoryOperations">
     <div class="col-sm-12">
         <div class="panel panel-primary" data-ng-show="filteredItems.length > 0">
-          <div class="panel-heading">
-            {{'OPERATIONS_FOR_SELECTED_TERRITORIES' | translate}} ({{filteredItems.length}})
-            <button 
-                class="btn btn-xs btn-primary pull-right" 
-                data-ng-click="clearSelected(items)"
-            >
-                {{'CLEAR_SELECTION' | translate}}
-            </button>
-          </div>
-          <div class="panel-body">    
-            <ul class="list-inline">
-                <li class="vertical-list" data-ng-repeat="t in filteredItems = (items | filter : onlyCheckedTerritories)">
-                    
-                    <a data-ui-sref="app.territory({id: t.id})">
-                        <h3>{{t.territoryCode || t.id}}</h3>
-                    </a>
-                    
-                </li>
-            </ul>
-            <hr>
-            <form>
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-1">
-                        <label>
-                            {{'ADDITIONAL_INFO' | translate}}:
-                        </label>
-                        <textarea 
-                            class="form-control"
-                            type="text" 
-                            maxlength="300"
-                            rows="3"
-                            data-ng-model="territoryChangeComment"
-                            placeholder="{{'ADDITIONAL_COMMENT' | translate}}"
-                        ></textarea>
-                    </div>
-                    <div class="col-md-4 bg-info">
-                        <p>
-                            {{'TERRITORY_HELP_1' | translate}}
-                        </p>
-                    </div>
+            <div class="panel-heading">
+                <button 
+                    class="btn btn-xs btn-primary pull-right" 
+                    data-ng-click="clearSelected(items)"
+                >
+                    {{'CLEAR_SELECTION' | translate}}
+                </button>
+                {{'OPERATIONS_FOR_SELECTED_TERRITORIES' | translate}} ({{filteredItems.length}})
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="panel-body">    
+                <ul class="list-inline">
+                    <li class="vertical-list" data-ng-repeat="t in filteredItems = (items | filter : onlyCheckedTerritories)">
+                        
+                        <a data-ui-sref="app.territory({id: t.id})">
+                            <h3>{{t.territoryCode || t.id}}</h3>
+                        </a>
+                        
+                    </li>
+                </ul>
+
+                <div data-collapse="isCollapsed">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-1 text-center">
+                                <label>
+                                    {{'ADDITIONAL_INFO' | translate}}:
+                                </label>
+                                <textarea 
+                                    class="form-control"
+                                    type="text" 
+                                    maxlength="300"
+                                    rows="3"
+                                    data-ng-model="territoryChangeComment"
+                                    placeholder="{{'ADDITIONAL_COMMENT' | translate}}"
+                                ></textarea>
+                            </div>
+                            <div class="col-md-4 bg-info">
+                                <p>
+                                    {{'TERRITORY_HELP_1' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row top-buffer">
+                            <div class="col-md-6 col-md-offset-1 text-center">
+                                <button 
+                                    class="btn btn-primary btn-sm" 
+                                    data-ng-click="markTerritoriesAsCovered(filteredItems, territoryChangeComment)"
+                                >
+                                    {{'MARK_COVERED_NO_HOLDER_CHANGE' | translate}}
+                                </button>
+                            </div>
+                            <div class="col-md-4 bg-info">
+                                <p>
+                                    {{'TERRITORY_HELP_2' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row top-buffer">
+                            <div class="col-md-6 col-md-offset-1 text-center">
+                                <label>Valitse uusi alueomistaja:</label>
+                                <select 
+                                    class="form-control"
+                                    data-ng-model="selectedHolder"
+                                    data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
+                                >
+                                </select>
+                                <button 
+                                    class="btn btn-primary btn-sm top-buffer" 
+                                    data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
+                                    data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
+                                >
+                                    {{'CHANGE_HOLDER_MARK_COVERED' | translate}}
+                                </button>
+                                <button 
+                                    class="btn btn-primary btn-sm top-buffer" 
+                                    data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
+                                    data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
+                                >
+                                    {{'CHANGE_HOLDER_NOT_MARK_COVERED' | translate}}
+                                </button>
+                            </div>
+                            <div class="col-md-4 bg-info">
+                                <p>
+                                    {{'TERRITORY_HELP_3' | translate}}
+                                    <ol>
+                                        <li>{{'TERRITORY_LI_1' | translate}}</li> 
+                                        <li>{{'TERRITORY_LI_2' | translate}}</li>
+                                    </ol>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="row top-buffer">
-                    <div class="col-md-6 col-md-offset-1">
-                        <button 
-                            class="btn btn-primary btn-sm" 
-                            data-ng-click="markTerritoriesAsCovered(filteredItems, territoryChangeComment)"
-                        >
-                            {{'MARK_COVERED_NO_HOLDER_CHANGE' | translate}}
-                        </button>
-                    </div>
-                    <div class="col-md-4 bg-info">
-                        <p>
-                            {{'TERRITORY_HELP_2' | translate}}
-                        </p>
-                    </div>
-                </div>
-                <div class="row top-buffer">
-                    <div class="col-md-6 col-md-offset-1">
-                        <label>Valitse uusi alueomistaja:</label>
-                        <select 
-                            class="form-control"
-                            data-ng-model="selectedHolder"
-                            data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
-                        >
-                        </select>
-                        <button 
-                            class="btn btn-primary btn-sm top-buffer" 
-                            data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
-                            data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
-                        >
-                            {{'CHANGE_HOLDER_MARK_COVERED' | translate}}
-                        </button>
-                        <button 
-                            class="btn btn-primary btn-sm top-buffer" 
-                            data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
-                            data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
-                        >
-                            {{'CHANGE_HOLDER_NOT_MARK_COVERED' | translate}}
-                        </button>
-                    </div>
-                    <div class="col-md-4 bg-info">
-                        <p>
-                            {{'TERRITORY_HELP_3' | translate}}
-                            <ol>
-                                <li>{{'TERRITORY_LI_1' | translate}}</li> 
-                                <li>{{'TERRITORY_LI_2' | translate}}</li>
-                            </ol>
-                        </p>
-                    </div>
-                </div>
-            </form>
-          </div>
+            </div>
+            <div class="panel-footer text-center">                
+                <button 
+                    class="btn btn-primary btn-sm" 
+                    data-ng-init="isCollapsed = true" 
+                    data-ng-click="isCollapsed = !isCollapsed"
+                >
+                    {{isCollapsed ? 'Tee muutoksia alueisiin' : 'Pienennä'}}
+                </button>
+                <div class="clearfix"></div>
+            </div>
         </div>
-  </div>
+    </div>
 </div>

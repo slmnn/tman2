@@ -84,7 +84,7 @@
       TERRITORIES: 'Alueet',
       CLEAR_SELECTION: 'Poista valinta kaikista',
 
-      OPERATIONS_FOR_SELECTED_TERRITORIES: 'Toiminnot alueille jotka olet valinnut',
+      OPERATIONS_FOR_SELECTED_TERRITORIES: 'Valitut alueet',
 
       MARK_COVERED_NO_HOLDER_CHANGE: 'Merkistse alue käydyksi vaihtamatta alueomistajaa',
       CHANGE_HOLDER_MARK_COVERED: 'Vaihda alueomistajaa ja merkitse merkitse alue käydyksi',

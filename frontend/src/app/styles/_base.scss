@@ -17,6 +17,13 @@ h1, h2, h3, h4, h5, h5 {
   }
 }
 
+#territoryOperations {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
 .desktop-hide { 
   display: none; 
 }
