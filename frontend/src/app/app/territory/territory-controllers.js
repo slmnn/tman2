@@ -1012,20 +1012,19 @@
       'ListConfig',
       'TerritoryHelper',
       'SocketHelperService', 'UserService',
-      '_items', '_holders', '_app',
+      '_items', '_app',
       function controller(
         $scope, $q, $filter,
         _,
         ListConfig,
         TerritoryHelper,
         SocketHelperService, UserService,
-        _items, _holders, _app
+        _items, _app
       ) {
         // Add default list configuration variable to current scope
         $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
 
         $scope.territories = _items;
-        $scope.holders = _holders;
         $scope.app = _app[0];
         $scope.user = UserService.user();
 
@@ -1037,15 +1036,6 @@
           },
           zoom: 10
         }
-
-        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
-          return  _.result(
-              _.find(_holders, function(h) {
-                return h.id === holderId;
-              }), 
-              'name'
-            );
-        };
 
         $scope.onClick = function onClick(marker) {
           $scope.selectedMarker = marker.model;
