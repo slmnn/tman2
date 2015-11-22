@@ -25,7 +25,7 @@
         var titleItems = {
           territory: [
             {
-              title: 'Aluekoodi',
+              title: 'Koodi',
               column: 'territoryCode',
               class: 'col-xs-1',
               searchable: true,
@@ -36,7 +36,7 @@
             {
               title: 'Tyyppi',
               column: 'type',
-              class: 'col-xs-1',
+              class: 'col-xs-1 mobile-hide',
               searchable: true,
               sortable: true,
               inSearch: true,
@@ -63,7 +63,7 @@
             {
               title: 'Attribuutit',
               column: 'territoryLinkAttributes',
-              class: 'col-xs-1',
+              class: 'col-xs-1 mobile-hide',
               searchable: true,
               sortable: false,
               inSearch: true,

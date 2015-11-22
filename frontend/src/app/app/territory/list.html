@@ -77,7 +77,9 @@
 
         <pager class="desktop-hide" 
             total-items="itemCount" 
-            ng-model="currentPage"             
+            data-ng-model="currentPage"
+            data-rotate="false"
+            data-items-per-page="itemsPerPage"
             data-next-text="{{'NEXT' | translate}}"
             data-previous-text="{{'PREVIOUS' | translate}}"
         ></pager>
@@ -113,7 +115,7 @@
                             <h4><strong>{{territory.territoryCode || territory.id}}</strong></h4>
                         </a>
                     </td>
-                    <td class="col-md-1 valign">
+                    <td class="col-md-1 valign mobile-hide">
                         {{territory.type}}
                     </td>
                     <td data-ng-class="isNotCoveredLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign' : 'col-md-1 valign'">
@@ -128,7 +130,7 @@
                             {{territory.taken | date : 'dd.MM.yyyy'}}
                         </a>
                     </td>
-                    <td class="col-md-1 valign">
+                    <td class="col-md-1 valign mobile-hide">
                         <ul class="list-inline">
                             <li data-ng-repeat="tla in territory.territoryLinkAttribute">
                                 <span 
@@ -190,7 +192,9 @@
         ></pagination>
         <pager class="desktop-hide" 
             total-items="itemCount" 
-            ng-model="currentPage"             
+            data-ng-model="currentPage"
+            data-rotate="false"
+            data-items-per-page="itemsPerPage"
             data-next-text="{{'NEXT' | translate}}"
             data-previous-text="{{'PREVIOUS' | translate}}"
         ></pager>
