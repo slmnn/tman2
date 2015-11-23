@@ -582,11 +582,11 @@
           return holderId === $scope.app.defaultHolder;
         };
 
-        $scope.selectedHolder = null; // Add default holder ID when available
+        $scope.selectedHolder = $scope.app.defaultHolder;
 
         // Callback that is evaluated when user toggles a territory checkbox.
         $scope.territoryChecked = function territoryChecked(changedTerritoryId) {
-          //$scope.checkedTerritories.push(changedTerritoryId);
+          $scope.territoryOperationChange();
         };
 
         $scope.clearSelected = function clearSelected(territories) {
@@ -599,6 +599,10 @@
           return _.find(attributes, function(a) {
             return a.id === id;
           });
+        };
+
+        $scope.territoryOperationChange = function territoryOperationChange(operation) {
+          $scope.selectedHolder = $scope.app.defaultHolder;
         };
 
         var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {

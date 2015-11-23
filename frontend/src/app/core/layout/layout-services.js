@@ -58,16 +58,6 @@
               state: 'app.app',
               title: 'Aluehallinnan asetukset',
               access: AccessLevels.admin
-            },
-            {
-              state: 'app.messages',
-              title: 'Viestit',
-              access: AccessLevels.admin
-            },
-            {
-              state: 'app.chat',
-              title: 'Chat',
-              access: AccessLevels.admin
             }
           ],
           'admin': [

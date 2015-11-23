@@ -111,9 +111,9 @@
             <tbody data-ng-repeat="territory in items">
                 <tr data-ng-class="territory.checked ? 'bg-info' : ''">
                     <td class="col-md-1 valign">
-                        <a data-ui-sref="app.territory({id: territory.id})">
-                            <h4><strong>{{territory.territoryCode || territory.id}}</strong></h4>
-                        </a>
+                        <h4><strong><a data-ui-sref="app.territory({id: territory.id})">
+                            {{territory.territoryCode || territory.id}}
+                        </a></strong></h4>
                     </td>
                     <td class="col-md-1 valign mobile-hide">
                         {{territory.type}}
@@ -202,9 +202,9 @@
 </div>
 
 
-<div class="row top-buffer" id="territoryOperations">
+<div class="row top-buffer" data-ng-show="filteredItems.length > 0">
     <div class="col-sm-12">
-        <div class="panel panel-primary" data-ng-show="filteredItems.length > 0">
+        <div class="panel panel-primary" id="territoryOperationsWrapper">
             <div class="panel-heading">
                 <button 
                     class="btn btn-xs btn-primary pull-right" 
@@ -216,7 +216,7 @@
                 <div class="clearfix"></div>
             </div>
 
-            <div class="panel-body">    
+            <div class="panel-body" id="territoryOperations">    
                 <ul class="list-inline">
                     <li class="vertical-list" data-ng-repeat="t in filteredItems = (items | filter : onlyCheckedTerritories)">
                         
@@ -228,76 +228,121 @@
                 </ul>
 
                 <div data-collapse="isCollapsed">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-1 text-center">
-                                <label>
-                                    {{'ADDITIONAL_INFO' | translate}}:
-                                </label>
-                                <textarea 
-                                    class="form-control"
-                                    type="text" 
-                                    maxlength="300"
-                                    rows="3"
-                                    data-ng-model="territoryChangeComment"
-                                    placeholder="{{'ADDITIONAL_COMMENT' | translate}}"
-                                ></textarea>
+
+                    <form class="form-horizontal">
+                        <fieldset class="fieldset-nomargins">
+
+                            <!-- Form Name -->
+                            <legend>Alueiden merkitseminen ja omistajan vaihtaminen</legend>
+
+                            <!-- Multiple Radios -->
+                            <div class="form-group row">
+                                <label class="col-lg-12 control-label text-left" for="operation">Valitse toiminto</label>
+                                <div class="col-lg-12">
+                                    <div class="radio">
+                                        <label for="operation-0">
+                                            <input 
+                                                type="radio" 
+                                                data-ng-model="operation" 
+                                                name="operation" 
+                                                id="operation-0" 
+                                                value="1"
+                                                checked="checked"
+                                                data-ng-change="territoryOperationChange(operation)"
+                                            >
+                                            Merkitse käydyksi (alueomistaja ei vaihdu)
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="operation-1">
+                                            <input 
+                                                type="radio" 
+                                                data-ng-model="operation" 
+                                                name="operation" 
+                                                id="operation-1" 
+                                                data-ng-change="territoryOperationChange(operation)"
+                                                value="2"
+                                            >
+                                            Merkitse käydyksi ja vaihda alueomistaja
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label for="operation-2">
+                                            <input 
+                                                type="radio" 
+                                                data-ng-model="operation" 
+                                                name="operation" 
+                                                id="operation-2" 
+                                                data-ng-change="territoryOperationChange(operation)"
+                                                value="3"
+                                            >
+                                            Vaihda alueomistaja (ei merkitä käydyksi)
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4 bg-info">
-                                <p>
-                                    {{'TERRITORY_HELP_1' | translate}}
-                                </p>
+
+                            <!-- Select Basic -->
+                            <div class="form-group row" data-ng-show="operation == 2 || operation == 3">
+                              <label class="col-lg-12 control-label text-left" for="selectbasic">Uusi alueomistaja</label>
+                              <div class="col-lg-12">
+                                    <select 
+                                        id="selectbasic"
+                                        class="form-control"
+                                        data-ng-model="selectedHolder"
+                                        data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
+                                    >
+                                    </select>
+                              </div>
                             </div>
-                        </div>
-                        <div class="row top-buffer">
-                            <div class="col-md-6 col-md-offset-1 text-center">
-                                <button 
-                                    class="btn btn-primary btn-sm" 
-                                    data-ng-click="markTerritoriesAsCovered(filteredItems, territoryChangeComment)"
-                                >
-                                    {{'MARK_COVERED_NO_HOLDER_CHANGE' | translate}}
-                                </button>
+
+                            <!-- Text input-->
+                            <div class="form-group row">
+                              <label class="col-lg-12 control-label text-left" for="textinput">Kommentti</label>  
+                              <div class="col-lg-12">
+                              <input 
+                                id="textinput" 
+                                data-ng-model="territoryChangeComment"
+                                name="textinput" 
+                                type="text" 
+                                maxlength="100"
+                                placeholder="Muutokseen liittyvä kommentti" 
+                                class="form-control input-md"
+                              >
+                              <span class="help-block">Voit kirjoittaa kommentin esim. jos alue on käyty kampanjan yhteydessä</span>  
+                              </div>
                             </div>
-                            <div class="col-md-4 bg-info">
-                                <p>
-                                    {{'TERRITORY_HELP_2' | translate}}
-                                </p>
+
+                            <!-- Button -->
+                            <div class="form-group text-center">
+                                <div class="col-lg-12 col-offset-">
+                                    <button 
+                                        data-ng-if="operation === '1'"
+                                        class="btn btn-success btn-md" 
+                                        data-ng-click="markTerritoriesAsCovered(filteredItems, territoryChangeComment)"
+                                    >
+                                        Tallenna
+                                    </button>
+                                    <button 
+                                        data-ng-if="operation === '2'"
+                                        class="btn btn-success btn-md top-buffer" 
+                                        data-ng-disabled="!selectedHolder"
+                                        data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
+                                    >
+                                        Tallenna
+                                    </button>
+                                    <button 
+                                        data-ng-if="operation === '3'"
+                                        class="btn btn-success btn-md top-buffer" 
+                                        data-ng-disabled="!selectedHolder"
+                                        data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
+                                    >
+                                        Tallenna
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row top-buffer">
-                            <div class="col-md-6 col-md-offset-1 text-center">
-                                <label>Valitse uusi alueomistaja:</label>
-                                <select 
-                                    class="form-control"
-                                    data-ng-model="selectedHolder"
-                                    data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
-                                >
-                                </select>
-                                <button 
-                                    class="btn btn-primary btn-sm top-buffer" 
-                                    data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
-                                    data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
-                                >
-                                    {{'CHANGE_HOLDER_MARK_COVERED' | translate}}
-                                </button>
-                                <button 
-                                    class="btn btn-primary btn-sm top-buffer" 
-                                    data-ng-disabled="!selectedHolder || isOneOfHoldersAlreadyAHolder(filteredItems, selectedHolder)"
-                                    data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
-                                >
-                                    {{'CHANGE_HOLDER_NOT_MARK_COVERED' | translate}}
-                                </button>
-                            </div>
-                            <div class="col-md-4 bg-info">
-                                <p>
-                                    {{'TERRITORY_HELP_3' | translate}}
-                                    <ol>
-                                        <li>{{'TERRITORY_LI_1' | translate}}</li> 
-                                        <li>{{'TERRITORY_LI_2' | translate}}</li>
-                                    </ol>
-                                </p>
-                            </div>
-                        </div>
+
+                        </fieldset>
                     </form>
                 </div>
             </div>
