@@ -24,7 +24,7 @@
           },
           {
             state: 'admin',
-            title: 'Pääkäyttäjä',
+            title: 'Käyttäjät',
             access: AccessLevels.admin
           }
         ];

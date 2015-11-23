@@ -1,20 +1,26 @@
 <h3>
     Alueomistajat ({{itemCount}})
+    <a
+        class="pull-right"
+        data-ng-if="user.admin"
+        data-ui-sref="app.holder.add"
+        data-tooltip="Add new holder"
+    ><i class="fa fa-plus-circle"></i></a>
+</h3>
 
-    <div class="col-xs-6 pull-right list-search">
-        <a
-            data-ng-if="user.admin"
-            data-ui-sref="app.holder.add"
-            data-tooltip="Add new holder"
-        ><i class="fa fa-plus-circle"></i></a>
-
+<div class="row">
+    <div class="col-sm-12 list-search">
         <list-search
             data-filters="filters"
             data-options="itemsPerPageOptions"
             data-items="itemsPerPage"
         ></list-search>
+    </div>
+</div>
 
-        <pagination class="pagination-sm"
+<div class="row">
+    <div class="col-sm-12">
+        <pagination class="pagination-sm pull-right mobile-hide"
             data-total-items="itemCount"
             data-ng-model="currentPage"
             data-items-per-page="itemsPerPage"
@@ -26,68 +32,87 @@
             data-next-text="{{'NEXT' | translate}}"
             data-last-text="{{'LAST' | translate}}"
         ></pagination>
+        <pager class="desktop-hide" 
+            total-items="itemCount" 
+            data-ng-model="currentPage"
+            data-rotate="false"
+            data-items-per-page="itemsPerPage"
+            data-next-text="{{'NEXT' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+        ></pager>
+
+        <table class="table">
+            <thead class="noSelect">
+                <tr>
+                    <th class="text-nowrap {{item.class}}"
+                        data-ng-repeat="item in titleItems"
+                    >
+                        <a
+                            data-ng-show="item.column"
+                            data-ng-click="changeSort(item)"
+                            data-ng-bind-html="item.title"
+                        ></a>
+                        <span
+                            data-ng-show="!item.column"
+                            data-ng-bind-html="item.title"
+                        ></span>
+
+                        <i class="fa"
+                            data-ng-show="sort.column == item.column"
+                            data-ng-class="{'fa-angle-down': !sort.direction, 'fa-angle-up': sort.direction}"
+                        ></i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="holder in items">
+                    <td class="col-md-3">
+                        <a data-ui-sref="app.holder({id: holder.id})">{{holder.name}}</a>
+                    </td>
+                    <td class="col-md-3 mobile-hide">
+                        {{holder.email}}
+                    </td>
+                    <td class="col-md-2 mobile-hide">
+                        {{holder.telephone}}
+                    </td>
+                    <td class="col-md-3">
+                        {{holder.description}}
+                    </td>
+                    <td class="col-md-1">
+                        {{holder.territories.length}}
+                    </td>
+                </tr>
+
+                <tr data-ng-if="items.length === 0">
+                    <td colspan="100%" class="text-center text-muted">
+                        <em>no data founded...</em>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-</h3>
-
-<table class="table">
-    <thead class="noSelect">
-        <tr>
-            <th class="text-nowrap {{item.class}}"
-                data-ng-repeat="item in titleItems"
-            >
-                <a
-                    data-ng-show="item.column"
-                    data-ng-click="changeSort(item)"
-                    data-ng-bind-html="item.title"
-                ></a>
-                <span
-                    data-ng-show="!item.column"
-                    data-ng-bind-html="item.title"
-                ></span>
-
-                <i class="fa"
-                    data-ng-show="sort.column == item.column"
-                    data-ng-class="{'fa-angle-down': !sort.direction, 'fa-angle-up': sort.direction}"
-                ></i>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr data-ng-repeat="holder in items">
-            <td class="col-md-3">
-                <a data-ui-sref="app.holder({id: holder.id})">{{holder.name}}</a>
-            </td>
-            <td class="col-md-3 mobile-hide">
-                {{holder.email}}
-            </td>
-            <td class="col-md-2 mobile-hide">
-                {{holder.telephone}}
-            </td>
-            <td class="col-md-3">
-                {{holder.description}}
-            </td>
-            <td class="col-md-1">
-                {{holder.territories.length}}
-            </td>
-        </tr>
-
-        <tr data-ng-if="items.length === 0">
-            <td colspan="100%" class="text-center text-muted">
-                <em>no data founded...</em>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<pagination class="pagination-sm pull-right"
-    data-total-items="itemCount"
-    data-ng-model="currentPage"
-    data-items-per-page="itemsPerPage"
-    data-max-size="5"
-    data-boundary-links="true"
-    data-rotate="false"
-    data-first-text="{{'FIRST' | translate}}"
-    data-previous-text="{{'PREVIOUS' | translate}}"
-    data-next-text="{{'NEXT' | translate}}"
-    data-last-text="{{'LAST' | translate}}"
-></pagination>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <pagination class="pagination-sm pull-right mobile-hide"
+            data-total-items="itemCount"
+            data-ng-model="currentPage"
+            data-items-per-page="itemsPerPage"
+            data-max-size="5"
+            data-boundary-links="true"
+            data-rotate="false"
+            data-first-text="{{'FIRST' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+            data-next-text="{{'NEXT' | translate}}"
+            data-last-text="{{'LAST' | translate}}"
+        ></pagination>
+        <pager class="desktop-hide" 
+            total-items="itemCount" 
+            data-ng-model="currentPage"
+            data-rotate="false"
+            data-items-per-page="itemsPerPage"
+            data-next-text="{{'NEXT' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+        ></pager>
+  </div>
+</div>
