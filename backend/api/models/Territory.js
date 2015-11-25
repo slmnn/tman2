@@ -14,8 +14,9 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   	/* Territory code (letter+number) */
   	territoryCode : {
   		type : "STRING",
-      required: true,
-      unique : true
+      required: true
+      /*,
+      unique : true*/
   	},
 
     /* How long it took to cover the territory */

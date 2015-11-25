@@ -15,10 +15,13 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
   	backupInterval : "INTEGER",
 
     backupEmail : "string",
+
+    smtpUsername : "string",
+    smtpPassword : "string",
   	
     name : "string",
 
-  	lastStats : "DATE",
+    lastStats : "DATE",
 
   	notCoveredLimit : "INTEGER",
 
@@ -32,6 +35,14 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
 
     defaultLatitude : "FLOAT",
     defaultLongitude : "FLOAT",
+
+    notificationEmailSenderAddress : "string",
+    notificationEmailNewTerritory : "string",
+    notificationEmailNewTerritoryTitle : "string",
+    notificationEmailNotCoveredTerritory : "string",
+    notificationEmailNotCoveredTerritoryTitle : "string",
+    notificationEmailRemovedTerritory : "string",
+    notificationEmailRemovedTerritoryTitle : "string",
 
   	defaultHolder : {
     	model: 'holder'

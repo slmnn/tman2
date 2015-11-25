@@ -1,3 +1,25 @@
+<div class="alert alert-info top-buffer" data-ng-show="mailsTotal > 0">
+    <h4>
+        <i class="fa fa-envelope"></i> Sähköpostimuistutukset
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </h4>
+    <span data-ng-class="mailsTotal > 5 ? 'badge badge-important' : 'badge badge-info'">
+        {{mailsTotal}}
+    </span> 
+    <span data-ng-if="mailsTotal == 1"> viesti odottaa lähettämistä.</span>
+    <span data-ng-if="mailsTotal > 1"> viestiä odottaa lähettämistä.</span>
+    <a class="btn btn-xs btn-primary" data-ng-click="sendNotificationEmails()">Lähetä</a>
+</div>
+
+<div class="alert alert-danger top-buffer" data-ng-show="suggestBackup">
+    <h4>
+        <i class="fa fa-exclamation-circle"></i> Varmuuskopiointi
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </h4>
+    Edellisen varmuuskopion ottamisesta on kulunut jo tovi
+    <a class="btn btn-xs btn-danger" data-ng-click="runBackup()">Varmuuskopioi</a>
+</div>
+
 <div data-ng-if="user.admin" class="row">
     <div class="col-xs-12">
         <ul class="list-inline pull-right">

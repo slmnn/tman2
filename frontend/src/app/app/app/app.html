@@ -14,6 +14,19 @@
               holderChangeToDefaultIfLimitExeeded : false,
 -->
 
+<!--
+  var subjectTxt = in_template.title.replace("_holderName", in_holder.name);
+  subjectTxt = subjectTxt.replace("_territoryCode", in_territory.territoryCode);
+  var bodyHTML = in_template.body.replace("_territoryCode", in_territory.territoryCode);
+  bodyHTML = bodyHTML.replace("_territoryLat", in_territory.lat);
+  bodyHTML = bodyHTML.replace("_territoryLng", in_territory.lng);
+  var taken = new Date(in_territory.taken);
+  bodyHTML = bodyHTML.replace("_taken", taken.getFullYear() + "-" + (taken.getMonth()+1) + "-" + taken.getDate());
+  bodyHTML = bodyHTML.replace("_holderName", in_holder.name);
+  bodyHTML = bodyHTML.replace("_territoryDetails", in_territory.description);
+  bodyHTML = bodyHTML.replace("_listAllTerritoryCodes", in_listOfTerritories);
+-->
+
 <div data-ng-show="app">
     <form class="form-vertical" role="form"
         data-editable-form name="editableForm"
@@ -129,6 +142,109 @@
                             data-e-required
                         >
                             {{app.defaultLongitude}}
+                        </span>
+                    </dd>
+                    <dt>Sähköposteissa toimivat avainkentät</dt>
+                    <dd>
+<pre>
+"_holderName" = alueomistajan nimi
+"_territoryCode" = alueen koodi
+"_territoryLat", = alueen koordinaatti
+"_territoryLng", = alueen koordinaatti
+"_taken", = aika jolloin alue on otettu
+"_covered" = aika jolloin alue on merkitty käydyksi
+"_territoryDetails", = alueen tarkempi kuvaus
+"_listAllTerritoryCodes" = kaikki alueomistajan alueiden koodit
+</pre>
+                    </dd>
+                    <dt>Sähköpostipohja: muistutus alueen käymisestä, viestin aihe</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.notificationEmailNotCoveredTerritoryTitle"
+                            data-e-name="app.notificationEmailNotCoveredTerritoryTitle"
+                            data-e-required
+                        >
+                            {{app.notificationEmailNotCoveredTerritoryTitle}}
+                        </span>
+                    </dd>
+                    <dt>Sähköpostipohja: muistutus alueen käymisestä</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-textarea="app.notificationEmailNotCoveredTerritory"
+                            data-e-name="app.notificationEmailNotCoveredTerritory"
+                            data-e-required
+                        >
+                            {{app.notificationEmailNotCoveredTerritory}}
+                        </span>
+                    </dd>
+                    <dt>Sähköpostipohja: uuden alueen ottaminen, viestin aihe</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.notificationEmailNewTerritoryTitle"
+                            data-e-name="app.notificationEmailNewTerritoryTitle"
+                            data-e-required
+                        >
+                            {{app.notificationEmailNewTerritoryTitle}}
+                        </span>
+                    </dd>
+                    <dt>Sähköpostipohja: uuden alueen ottaminen</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-textarea="app.notificationEmailNewTerritory"
+                            data-e-name="app.notificationEmailNewTerritory"
+                            data-e-required
+                        >
+                            {{app.notificationEmailNewTerritory}}
+                        </span>
+                    </dd>
+                    <dt>Sähköpostipohja: alueen palautus aluepöytään, viestin aihe</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.notificationEmailRemovedTerritoryTitle"
+                            data-e-name="app.notificationEmailRemovedTerritoryTitle"
+                            data-e-required
+                        >
+                            {{app.notificationEmailRemovedTerritoryTitle}}
+                        </span>
+                    </dd>
+                    <dt>Sähköpostipohja: alueen palautus aluepöytään</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-textarea="app.notificationEmailRemovedTerritory"
+                            data-e-name="app.notificationEmailRemovedTerritory"
+                            data-e-required
+                        >
+                            {{app.notificationEmailRemovedTerritory}}
+                        </span>
+                    </dd>
+                    <dt>Lähtevän sähköpostin osoite</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-email="app.notificationEmailSenderAddress"
+                            data-e-name="app.notificationEmailSenderAddress"
+                            data-e-required
+                        >
+                            {{app.notificationEmailSenderAddress}}
+                        </span>
+                    </dd>
+                    <dt>SMTP käyttäjänimi</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.smtpUsername"
+                            data-e-name="app.smtpUsername"
+                            data-e-required
+                        >
+                            {{app.smtpUsername}}
+                        </span>
+                    </dd>
+                    <dt>SMTP salasana</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.smtpPassword"
+                            data-e-name="app.smtpPassword"
+                            data-e-required
+                        >
+                            {{app.smtpPassword}}
                         </span>
                     </dd>
                 <dl>

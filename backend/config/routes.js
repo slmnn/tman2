@@ -33,5 +33,10 @@ module.exports.routes = {
   'POST /login/:action': 'AuthController.callback',
   'POST /auth/local': 'AuthController.callback',
   'POST /auth/local/:action': 'AuthController.callback',
-  'POST /user/password' : 'UserController.updatePassword'
+  'POST /user/password' : 'UserController.updatePassword',
+
+  // Mail
+  'POST /mail/send' : 'MailController.sendNotificationEmails',
+  'POST /mail/backup' : 'MailController.backupTerritoryData',
+  'GET /mail/count' : 'MailController.countNotificationEmails'
 };

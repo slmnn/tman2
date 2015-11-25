@@ -527,6 +527,7 @@
       'ListConfig',
       'TerritoryHelper',
       'MessageService',
+      'MailService',
       'TerritoryHolderHistoryModel',
       'SocketHelperService', 'UserService', 'TerritoryModel',
       '_items', '_count', '_holders', '_app', '_attributes',
@@ -536,6 +537,7 @@
         ListConfig,
         TerritoryHelper,
         MessageService,
+        MailService,
         TerritoryHolderHistoryModel,
         SocketHelperService, UserService, TerritoryModel,
         _items, _count, _holders, _app, _attributes
@@ -567,6 +569,40 @@
         $scope.filters = {
           searchWord: '',
           columns: $scope.titleItems
+        };
+
+        // Check if backup should be suggested
+        var updateBackupSuggestion = function updateBackupSuggestion() {
+          var lastBackup = new Date($scope.app.lastBackup);
+          var now = new Date();
+          $scope.suggestBackup = false;
+          if(now.getTime() - lastBackup.getTime() > $scope.app.backupInterval * 24 * 60 * 60 * 1000) {
+            $scope.suggestBackup = true;
+          }
+        };
+        $timeout(updateBackupSuggestion, 2500);
+
+        $scope.runBackup = function runBackup() {
+          MailService.backup().then(function() {
+            MessageService.success('Tiedot varmuuskopioitiin.');
+            updateBackupSuggestion();
+          });
+        };
+
+        var updateMailCount = function updateMailCount() {
+          MailService.count().then(function(data) {
+            $scope.mails = data.data;
+            $scope.mailsTotal = data.data.new_territory_taken_emails + data.data.territory_removed_emails + data.data.not_covered_territory_emails;
+          });
+        };
+        $timeout(updateMailCount, 5000);
+
+        $scope.sendNotificationEmails = function sendNotificationEmails() {
+          MailService.send(null).then(function(data) {
+            console.log(data);
+            MessageService.success('Sähköpostiviestit lähetettiin.');
+            updateMailCount();
+          });
         };
 
         // Initialize checked rows data.
@@ -648,6 +684,7 @@
 
             makeHolderHistoryUpdate(t, comment, t.holder.id);
           });
+          updateMailCount();
         };
 
         $scope.changeHolder = function changeHolder(territories, markAsCovered, newHolderId, comment) {
@@ -676,6 +713,7 @@
               makeHolderHistoryUpdate(t, comment, newHolderId);
             }
           });
+          updateMailCount();
         };
 
         $scope.isNotCoveredLimitExeeded = function(territory, app) {
