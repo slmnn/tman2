@@ -41,6 +41,8 @@
         restrict: 'E',
         scope: {
           filters: '=',
+          holders: '=',
+          attributes: '=',
           items: '=',
           options: '='
         },

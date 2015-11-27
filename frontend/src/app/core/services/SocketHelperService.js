@@ -35,7 +35,7 @@
             });
 
             // Determine search words
-            var words = _.filter(filters.searchWord.split(' '));
+            var words = (filters.searchWord && filters.searchWord.length > 0) ? _.filter(filters.searchWord.split(' ')) : [];
 
             // We have some search word(s) and column(s)
             if (columns.length > 0 && words.length > 0) {
@@ -43,6 +43,7 @@
 
               // Iterate each columns
               _.forEach(columns, function iteratorColumns(column) {
+
                 // Iterate each search word
                 _.forEach(words, function iteratorWords(word) {
                   var condition = {};

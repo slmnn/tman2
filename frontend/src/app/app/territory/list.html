@@ -72,12 +72,39 @@
 </h3>
 
 <div class="row">
-    <div class="col-sm-12 list-search">
+    <div class="col-sm-12">
         <list-search
+            data-holders="holders"
+            data-attributes="attributes"
             data-filters="filters"
             data-options="itemsPerPageOptions"
             data-items="itemsPerPage"
         ></list-search>
+        <ul class="list-inline" data-ng-if="filters.searchWord.length">
+            Hakutermit: 
+            <li data-ng-repeat="w in filters.searchWord.split(' ') track by $index">
+                <span 
+                    class="label label-primary" 
+                    data-ng-click="removeSearchWord(filters.searchWord, $index);"
+                >
+                    {{w}}
+                    <span class="fa fa-times"></span>
+                </span>
+            </li>
+        </ul>
+        <span data-ng-if="filters.holderId">
+            Ainoastaan omistaja:
+            <span class="label label-primary" data-ng-click="filters.holderId = null;">
+                {{getHolderNameWithId(holders, filters.holderId)}}
+                <span class="fa fa-times"></span>
+            </span>
+        </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
     </div>
 </div>
 

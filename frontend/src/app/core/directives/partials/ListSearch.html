@@ -1,26 +1,70 @@
-<div class="list-search-filters">
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <div class="input-group" dropdown>
-                <input class="form-control input-sm col-sm-10" type="text" placeholder="Hakutermit"
+<div>
+    <div class="list-search-filters list-search pull-right">
+        <form class="form-inline mobile-hide" role="form">
+            <div class="form-group">
+                <input 
+                    id="textFilters"
+                    class="form-control input-sm col-sm-12" 
+                    type="text" 
+                    placeholder="Hakutermit"
                     data-ng-model="filters.searchWord"
                 />
 
-                <span 
-                    data-ng-click="filters.searchWord = ''"
-                    class="input-group-addon search dropdown-toggle"
-                    data-tooltip="Click to select columns where search filter affects."
+                <select 
+                    data-ng-if="holders.length"
+                    id="filtersHolderSelect"
+                    class="form-control input-sm"
+                    data-ng-model="filters.holderId"
+                    data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
+                >
+                    <option value="">-- valitse omistaja --</option>
+                </select>
+
+                <button 
+                    data-ng-click="filters.searchWord = ''; filters.holderId = null; filters.attributeId = null"
+                    class="btn btn-xs"
+                    data-tooltip="Tyhjennä hakuehdot"
                 >
                     <i class="fa fa-times text-info"></i>
-                </span>
+                </button>
+                <label>
+                    Rivejä:
+                    <select class="form-control input-sm"
+                        data-ng-model="items"
+                        data-ng-options="page for page in options"
+                    >
+                    </select>
+                </label>
             </div>
+        </form>
+    </div>
+    <form class="desktop-hide" role="form">
+        <div class="form-group">
+            <input 
+                id="textFilters"
+                class="form-control" 
+                type="text" 
+                placeholder="Hakutermit"
+                data-ng-model="filters.searchWord"
+            />
 
-            <select class="form-control input-sm"
-                data-ng-model="items"
-                data-ng-options="page for page in options"
+            <select 
+                data-ng-if="holders.length"
+                id="filtersHolderSelect"
+                class="form-control"
+                data-ng-model="filters.holderId"
+                data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
             >
+                <option value="">-- valitse omistaja --</option>
             </select>
+            <label class="pull-right">
+                Rivejä:
+                <select class="input-sm"
+                    data-ng-model="items"
+                    data-ng-options="page for page in options"
+                >
+                </select>
+            </label>
         </div>
-    </form>
+    </form>    
 </div>
-

@@ -625,10 +625,23 @@
           $scope.territoryOperationChange();
         };
 
+        $scope.removeSearchWord = function removeSearchWord(word, index) {
+          var words = word.split(' ');
+          words.splice(index, 1);
+          $scope.filters.searchWord = words.join(' ');
+        }
+
         $scope.clearSelected = function clearSelected(territories) {
           _.each(territories, function(t) {
             t.checked = false;
           });
+        };
+
+        $scope.getHolderNameWithId = function getHolderWithId(holders, id) {
+          var result = _.find(holders, function(a) {
+            return a.id === id;
+          });
+          return result.name;
         };
 
         $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
@@ -818,6 +831,10 @@
             where: SocketHelperService.getWhere($scope.filters)
           };
 
+          if($scope.filters && $scope.filters.holderId) {
+            commonParameters.where = _.merge({}, commonParameters.where, {holder: $scope.filters.holderId});
+          }
+
           // Data query specified parameters
           var parameters = {
             populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
@@ -835,6 +852,8 @@
               }
             )
           ;
+
+          console.log(_.merge({}, commonParameters, parameters));
 
           // Fetch actual data
           var load = TerritoryModel
