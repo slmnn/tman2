@@ -1,3 +1,4 @@
+<div data-territory-sub-pages></div>
 <div class="content top-buffer">
   <ul class="list-inline">
     <li class="vertical-list" data-ng-repeat="t in territories | orderBy  : 'territoryCode'">
@@ -7,7 +8,7 @@
           data-ng-class="isDefaultHolder(t.holder.id) ? 'strong-text':''"
         >
         <span 
-          data-tooltip="{{t.holder.name}} / {{t.covered | amTimeAgo}}" 
+          data-tooltip="Omistaja {{t.holder.name}}. Käyty {{t.covered | amTimeAgo}}." 
           data-ng-class="isNotCoveredRecently(t, app) ? 'text-danger' : ''"
         >
         {{t.territoryCode}}

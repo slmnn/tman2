@@ -241,7 +241,6 @@
 
                       var parameters = {
                         populate: ['holder', 'center'],
-                        limit: config.itemsPerPage,
                         sort: 'name ASC'
                       };
 

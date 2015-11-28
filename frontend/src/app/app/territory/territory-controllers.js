@@ -1005,7 +1005,9 @@
         $scope.user = UserService.user();
 
         _.each($scope.territories, function(t) {
-          t.emptyArray = Array.apply(null, Array(20 - t.territoryHolderHistory.length)).map(function (x, i) { return i; });
+          var emptyHistoryLength = 20 - t.territoryHolderHistory.length;
+          emptyHistoryLength = emptyHistoryLength > 0 ? emptyHistoryLength : 0;
+          t.emptyArray = Array.apply(null, Array(emptyHistoryLength)).map(function (x, i) { return i; });
         });
 
         $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
@@ -1095,8 +1097,28 @@
             latitude: $scope.app.defaultLatitude || 61,
             longitude: $scope.app.defaultLongitude || 23
           },
-          zoom: 10
-        }
+          zoom: 10,
+          markersEvents: {},
+          window: {
+              marker: {},
+              show: false,
+              closeClick: function() {
+                  this.show = false;
+              },
+              options: {}, // define when map is ready
+              title: ''
+          }
+        };
+
+        var clickHandler = function clickHandler(marker, eventName, model) {
+            $scope.map.window.model = model;
+            $scope.map.window.title = model.title;
+            $scope.map.window.linkId = model.id;
+            $scope.map.window.covered = model.covered;
+            $scope.map.window.show = true;
+        };
+
+        $scope.map.markersEvents.click = clickHandler;
 
         $scope.onClick = function onClick(marker) {
           $scope.selectedMarker = marker.model;
@@ -1120,10 +1142,26 @@
 
         };
 
+        $scope.closeClick = function () {
+            this.window = false;
+        };
+
+        $scope.territoryMarkers = [];
         _.each($scope.territories, function(t) {
           t.markerOptions = {
             icon: { url: getIconUrl(t) }
           }
+          $scope.territoryMarkers.push({
+            id: t.id,
+            title: t.territoryCode,
+            covered: t.covered,
+            latitude: t.center ? t.center.latitude : 61,
+            longitude: t.center ? t.center.longitude: 23,
+            icon: t.markerOptions.icon,
+            onClick: function() {
+              console.log("Clicked", this);
+            }
+          })
         })
 
 

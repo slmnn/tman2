@@ -46,18 +46,18 @@
               title: 'Käyty',
               column: 'covered',
               class: 'col-xs-1',
-              searchable: true,
+              searchable: false,
               sortable: true,
-              inSearch: true,
+              inSearch: false,
               inTitle: true
             },
             {
               title: 'Omistajalle',
               column: 'taken',
               class: 'col-xs-1 mobile-hide',
-              searchable: true,
+              searchable: false,
               sortable: true,
-              inSearch: true,
+              inSearch: false,
               inTitle: true
             },
             {
@@ -80,20 +80,20 @@
             },
             {
               title: 'Kommentti',
-              column: false,
+              column: 'territoryHolderHistory.description',
               class: 'col-xs-1 mobile-hide',
-              searchable: true,
-              sortable: true,
-              inSearch: true,
+              searchable: false,
+              sortable: false,
+              inSearch: false,
               inTitle: true
             },
             {
               title: 'Omistaja',
-              column: false,
+              column: 'holder',
               class: 'col-xs-2',
-              searchable: true,
+              searchable: false,
               sortable: true,
-              inSearch: true,
+              inSearch: false,
               inTitle: true
             },
             {
