@@ -80,6 +80,11 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
       via: 'updatedUser'
     },
 
+    // User can be linked to a holder.
+    holder: {
+      model: 'holder'
+    },
+
     // Stats
     createdStats: {
       collection: 'Stat',
