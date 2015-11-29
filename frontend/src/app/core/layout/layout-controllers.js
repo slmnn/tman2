@@ -100,7 +100,7 @@
       ) {
         $scope.navigationItems = _items;
         $scope.auth = AuthService;
-        
+
         // Helper function to open information modal about current GUI.
         $scope.openInformation = function openInformation() {
           $modal.open({
@@ -109,7 +109,7 @@
             size: 'lg',
             resolve: {
               '_title': function resolve() {
-                return $state.current.name.toString();
+                return $state.current.views['content@'].name;
               },
               '_files': [
                 'NavigationInfoModalFiles',

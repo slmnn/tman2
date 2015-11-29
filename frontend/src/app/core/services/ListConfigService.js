@@ -62,11 +62,11 @@
             },
             {
               title: 'Attribuutit',
-              column: 'territoryLinkAttributes',
+              column: false,
               class: 'col-xs-1 mobile-hide',
-              searchable: true,
+              searchable: false,
               sortable: false,
-              inSearch: true,
+              inSearch: false,
               inTitle: true
             },
             {
@@ -80,7 +80,7 @@
             },
             {
               title: 'Kommentti',
-              column: 'territoryHolderHistory.description',
+              column: false,
               class: 'col-xs-1 mobile-hide',
               searchable: false,
               sortable: false,
@@ -89,10 +89,10 @@
             },
             {
               title: 'Omistaja',
-              column: 'holder',
+              column: false,
               class: 'col-xs-2',
               searchable: false,
-              sortable: true,
+              sortable: false,
               inSearch: false,
               inTitle: true
             },

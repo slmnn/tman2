@@ -27,6 +27,7 @@
               'content@': {
                 templateUrl: '/frontend/app/territory/list.html',
                 controller: 'TerritoryListController',
+                name: 'Aluelistaus',
                 resolve: {
                   _items: [
                     'ListConfig',
@@ -94,6 +95,7 @@
               'content@': {
                 templateUrl: '/frontend/app/territory/s13.html',
                 controller: 'TerritoryS13Controller',
+                name: 'S13-lomake',
                 resolve: {
                   _items: [
                     'ListConfig',
@@ -137,6 +139,7 @@
               'content@': {
                 templateUrl: '/frontend/app/territory/stats.html',
                 controller: 'TerritoryStatsController',
+                name: 'Tilastot',
                 resolve: {
                   _items: [
                     'ListConfig',
@@ -178,6 +181,7 @@
               'content@': {
                 templateUrl: '/frontend/app/territory/map.html',
                 controller: 'TerritoryMapController',
+                name: 'Kartta',
                 resolve: {
                   _items: [
                     'ListConfig',
@@ -229,6 +233,7 @@
               'content@': {
                 templateUrl: '/frontend/app/territory/quickview.html',
                 controller: 'TerritoryQuickViewController',
+                name: 'Pikatarkastelu',
                 resolve: {
                   _items: [
                     'ListConfig',
@@ -279,6 +284,7 @@
               'content@': {
                 templateUrl: '/frontend/app/territory/territory.html',
                 controller: 'TerritoryController',
+                name: 'Alueen tiedot',
                 resolve: {
                   _territory: [
                     '$stateParams',
@@ -369,6 +375,7 @@
               'content@': {
                 templateUrl: '/frontend/app/territory/add.html',
                 controller: 'TerritoryAddController',
+                name: 'Uusi alue',
                 resolve: {
                   _holders: [
                     '$stateParams',
