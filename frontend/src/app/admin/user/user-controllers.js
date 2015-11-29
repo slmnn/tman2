@@ -86,9 +86,10 @@
          */
         $scope.saveUser = function saveUser() {
           var data = angular.copy($scope.user);
-          if(data.holder.id) {
+          if(data.holder !== null && data.holder.id) {
             data.holder = data.holder.id;
           }
+
           // Make actual data update
           UserModel
             .update(data.id, data)

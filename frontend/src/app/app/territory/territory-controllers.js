@@ -667,17 +667,26 @@
 
         var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {
 
+          var p = [];
+
           // If the holder change was anything else but return to the default
           // holder, add also row into history.
           if(newHolderId !== $scope.app.defaultHolder) {
-            TerritoryHolderHistoryModel
-            .create(
-              {
-                startDate: new Date(),
-                holder: newHolderId,
-                territory: territory.id,
-                description: comment
-              }
+            p.push(
+              TerritoryHolderHistoryModel
+              .create(
+                {
+                  startDate: new Date(),
+                  holder: newHolderId,
+                  territory: territory.id,
+                  description: comment
+                }
+              )
+              .then(function(value) {
+                if(value.status != 201) {
+                  MessageService.error("Aluehistoriatiedon lisäys epäonnistui alueelle " + territory.territoryCode);
+                }
+              })
             );
           }
 
@@ -687,26 +696,40 @@
             territory.territoryHolderHistory.length > 0 && 
             !_.last(territory.territoryHolderHistory).endTime
           ) {
-            TerritoryHolderHistoryModel
-            .update(
-              _.last(territory.territoryHolderHistory).id,
-              {
-                endDate: new Date()
-              }
+            p.push(
+              TerritoryHolderHistoryModel
+              .update(
+                _.last(territory.territoryHolderHistory).id,
+                {
+                  endDate: new Date()
+                }
+              )
+              .then(function(value) {
+                if(value.status != 200) {
+                  MessageService.error("Aluehistoriatiedon muutos epäonnistui alueelle " + territory.territoryCode);
+                }
+              })
             );
           }
+
+          return p;
         };
 
         $scope.markTerritoriesAsCovered = function markTerritoriesAsCovered(territories, comment) {
+          var p = [];
           _.each(territories, function(t) {
-            TerritoryModel
-            .update(t.id, 
-              {
-                covered: new Date()
-              }
+            p.push(
+              TerritoryModel
+              .update(t.id, 
+                {
+                  covered: new Date()
+                }
+              )
             );
             makeHolderHistoryUpdate(t, comment, t.holder.id);
           });
+          handleTerritoryChangePromises(p);
+
           updateMailCount();
         };
 
@@ -721,6 +744,7 @@
           if(errorSelection) {
             return;
           }
+          var p = [];
           _.each(territories, function(t) {
             if(!t.holder || (t.holder != newHolderId && t.holder.id != newHolderId)) {
               var data = {
@@ -730,13 +754,41 @@
               if(markAsCovered) {
                 data.covered = new Date();
               }
-              TerritoryModel
-              .update(t.id, data);
+              p.push(
+                TerritoryModel
+                .update(t.id, data)
+              );
 
               makeHolderHistoryUpdate(t, comment, newHolderId);
             }
           });
+          handleTerritoryChangePromises(p);
           updateMailCount();
+        };
+
+        var handleTerritoryChangePromises = function handleTerritoryChangePromises(p) {
+          Promise.all(p).then(function(values) {
+            var msgPrefixSuccess = "Muutettiin alueita: ";
+            var msgPrefixFailed = "Muutos ei onnistunut alueille: ";
+            var msg = "";
+            _.each(values, function(v){
+              if(v.status == 200) {
+                msg += v.data.territoryCode + " ";
+              }
+            });
+            if(msg.length > 0) {
+              MessageService.success(msgPrefixSuccess + msg);
+            }
+            var msg2 = ""
+            _.each(values, function(v){
+              if(v.status != 200) {
+                msg2 += v.data.territoryCode + " ";
+              }
+            });
+            if(msg2.length > 0) {
+              MessageService.error(msgPrefixFailed + msg2);
+            }
+          });
         };
 
         $scope.isNotCoveredLimitExeeded = function(territory, app) {

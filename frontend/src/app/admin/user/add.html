@@ -46,13 +46,14 @@
             </div>
 
             <div class="form-group">
-                Tunnus liittyy alueomistajaan (rajoittaa toiminnot vain tälle omistajalle):
+                Tunnukseen liitetty alueomistaja (jos valittu, rajoittaa toiminnot vain tälle omistajalle):
                 <select 
                     class="form-control"
                     data-ng-model="selectedHolderId"
                     data-ng-options="holder.id as holder.name for holder in holders"
                     data-ng-change="user.admin = false"
                 >
+                    <option value="">-- tunnus ei liity alueomistajaan --</option>
                 </select>
             </div>
 
@@ -70,7 +71,7 @@
             <button type="submit" class="btn btn-primary"
                 data-ng-disabled="!userForm.$valid && user.password1 != user.password2"
             >
-                Tallenna
+                Lisää uusi käyttäjä
             </button>
         </div>
     </div>
