@@ -27,7 +27,7 @@
                     </span>
 
                     <span class="pull-right"
-                        data-ng-show="!editableForm.$visible && user.admin"
+                        data-ng-show="!editableForm.$visible && currentUser.admin"
                     >
                         <a href="#"
                            data-ng-click="editableForm.$show()"
@@ -46,6 +46,15 @@
                             data-e-required
                         >
                             {{user.email}}
+                        </span>
+                    </dd>
+                    <dt>{{'HOLDER' | translate}}</dt>
+                    <dd>
+                        <span data-editable-select="user.holder.id"
+                            data-e-name="holder.id"
+                            data-e-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
+                            data-e-required>
+                            {{user.holder.name || 'Käyttäjä ei liity alueomistajaan'}}
                         </span>
                     </dd>
                     <dt>Is archived</dt>

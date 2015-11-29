@@ -523,6 +523,7 @@
   angular.module('frontend.app.territory')
     .controller('TerritoryListController', [
       '$scope', '$q', '$timeout',
+      '$ngBootbox',
       '_',
       'ListConfig',
       'TerritoryHelper',
@@ -533,6 +534,7 @@
       '_items', '_count', '_holders', '_app', '_attributes',
       function controller(
         $scope, $q, $timeout,
+        $ngBootbox,
         _,
         ListConfig,
         TerritoryHelper,
@@ -654,6 +656,15 @@
           $scope.selectedHolder = $scope.app.defaultHolder;
         };
 
+        $scope.selectionDisabledFilter = function(territory) {
+          if($scope.user.holder 
+            && territory.holder.id !== $scope.app.defaultHolder 
+            && territory.holder.id !== $scope.user.holder) {
+            return true;
+          }
+          return false;
+        };
+
         var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {
 
           // If the holder change was anything else but return to the default
@@ -694,7 +705,6 @@
                 covered: new Date()
               }
             );
-
             makeHolderHistoryUpdate(t, comment, t.holder.id);
           });
           updateMailCount();
@@ -832,7 +842,11 @@
           };
 
           if($scope.filters && $scope.filters.holderId) {
-            commonParameters.where = _.merge({}, commonParameters.where, {holder: $scope.filters.holderId});
+            commonParameters.where = _.merge(
+              {}, 
+              commonParameters.where, 
+              {holder: $scope.filters.holderId}
+            );
           }
 
           // Data query specified parameters

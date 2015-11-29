@@ -34,6 +34,16 @@
                     ) {
                       return AppModel.load({populate: 'defaultHolder'});
                     }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+                      return HolderModel.load();
+                    }
                   ]
                 }
               }
@@ -55,7 +65,17 @@
                       $stateParams,
                       UserModel
                     ) {
-                      return UserModel.fetch($stateParams.id);
+                      return UserModel.fetch($stateParams.id, {populate: 'holder'});
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+                      return HolderModel.load();
                     }
                   ]
                 }
@@ -81,12 +101,18 @@
                       var parameters = {
                         limit: config.itemsPerPage,
                         sort: 'createdAt DESC',
-                        populate: ''
+                        populate: 'holder'
                       };
 
                       return UserModel.load(parameters);
                     }
-                  ]
+                  ],
+                  _count: [
+                    'UserModel',
+                    function resolve(UserModel) {
+                      return UserModel.count();
+                    }
+                  ],
                 }
               }
             }

@@ -65,59 +65,62 @@
                 </td>
                 <td><span class="fa fa-{{a.icon}}"></span></td>
                 <td>
-                    <a data-ng-click="deleteAttribute(a)"><span title="Remove attribute" class="fa fa-trash"></span></a>
+                    <a data-ng-click="deleteAttribute(a)"
+                        data-ng-if="user.admin">
+                        <span title="Remove attribute" class="fa fa-trash"></span>
+                    </a>
                 </td>
             </tr>
         </tbody>
     </table>
-
-
 </div>    
 
+<div data-ng-if="user.admin">
 <h3>Luo uusi attribuutti</h3>
-<form 
-    class="form-verical col-md-4" 
-    name="newAttributeForm"
-    data-ng-submit="createAttribute(newAttribute)"
->
-    <div class="form-group">
-        <label for="name">Nimi</label>
+    <form 
+        class="form-verical col-md-4" 
+        name="newAttributeForm"
+        data-ng-submit="createAttribute(newAttribute)"
+    >
+        <div class="form-group">
+            <label for="name">Nimi</label>
+            <input 
+                type="text" 
+                data-ng-model="newAttribute.name" 
+                required="required" 
+                class="form-control" 
+                id="name" 
+                placeholder="Esim. Hissi"
+            >
+        </div>
+        <div class="form-group">
+            <label for="description">Kuvaus</label>
+            <input 
+                type="text" 
+                data-ng-model="newAttribute.description" 
+                max-length="100" 
+                required="required" 
+                class="form-control" 
+                id="description" 
+                placeholder="Esim. Talossa on hissi"
+            >
+        </div>
+        <div class="form-group">
+            <label for="icon">Kuvakkeen nimi</label>
+            <input 
+                type="text" 
+                data-ng-model="newAttribute.icon" 
+                required="required" 
+                class="form-control" 
+                id="icon" 
+                placeholder="Font Awesome kuvake, esim. arrows-v"
+            >
+        </div>
         <input 
-            type="text" 
-            data-ng-model="newAttribute.name" 
-            required="required" 
-            class="form-control" 
-            id="name" 
-            placeholder="Esim. Hissi"
-        >
-    </div>
-    <div class="form-group">
-        <label for="description">Kuvaus</label>
-        <input 
-            type="text" 
-            data-ng-model="newAttribute.description" 
-            max-length="100" 
-            required="required" 
-            class="form-control" 
-            id="description" 
-            placeholder="Esim. Talossa on hissi"
-        >
-    </div>
-    <div class="form-group">
-        <label for="icon">Kuvakkeen nimi</label>
-        <input 
-            type="text" 
-            data-ng-model="newAttribute.icon" 
-            required="required" 
-            class="form-control" 
-            id="icon" 
-            placeholder="Font Awesome kuvake, esim. arrows-v"
-        >
-    </div>
-    <input 
-        type="submit" 
-        id="submit" 
-        value="Create" 
-        class="btn btn-primary" 
-    />
-</form>
+            type="submit" 
+            id="submit" 
+            value="Create" 
+            class="btn btn-primary" 
+        />
+    </form>
+</div>

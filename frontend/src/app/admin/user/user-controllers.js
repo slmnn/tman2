@@ -10,15 +10,20 @@
     .controller('UserAddController', [
       '$scope', '$state', 
       'UserModel', 
-      '_app',
+      '_app', '_holders',
       'MessageService',
       function controller(
         $scope, $state,
         UserModel, 
-        _app,
+        _app, _holders,
         MessageService
       ) {
+
+        // Set current scope reference to model
+        UserModel.setScope($scope, 'user');
+
         $scope.app = _app[0];
+        $scope.holders = _holders;
 
         // Initialize territory model
         var initModel = function() {
@@ -39,13 +44,16 @@
          */
         $scope.addUser = function addUser() {
           var data = angular.copy($scope.user);
+          if($scope.selectedHolderId) {
+            data.holder = $scope.selectedHolderId;
+          }
           UserModel
             .create(data)
             .then(
               function onSuccess() {
                 MessageService.success('New user added successfully');
 
-                $state.go('admin.user', {reload: true});
+                $state.go('admin.users', {reload: true});
               }
             )
           ;
@@ -54,24 +62,23 @@
     ])
   ;
 
-  // Controller to show single holder on GUI.
-  angular.module('frontend.app.holder')
+  // Controller to show single user on GUI.
+  angular.module('frontend.admin.user')
     .controller('UserController', [
       '$scope', '$state',
       'UserService', 'MessageService',
       'UserModel',
-      '_user',
+      '_user', '_holders',
       function controller(
         $scope, $state,
         UserService, MessageService,
-        UserModel, _user
+        UserModel, _user, _holders
       ) {
-        // Set current scope reference to model
-        UserModel.setScope($scope, 'user');
 
         // Initialize scope data
         $scope.currentUser = UserService.user();
         $scope.user = _user;
+        $scope.holders = _holders;
 
         /**
          * Scope function to save the modified holder. This will send a
@@ -79,13 +86,16 @@
          */
         $scope.saveUser = function saveUser() {
           var data = angular.copy($scope.user);
-
+          if(data.holder.id) {
+            data.holder = data.holder.id;
+          }
           // Make actual data update
           UserModel
             .update(data.id, data)
             .then(
               function onSuccess() {
                 MessageService.success('User "' + $scope.user.username + '" updated successfully');
+                $state.go($state.current, {reload: true});
               }
             )
           ;
@@ -101,22 +111,29 @@
       'ListConfig',
       'SocketHelperService',
       'MessageService',
+      'UserService',
       'UserModel',
-      '_items',
+      '_items', '_count',
       function controller(
         $scope, $timeout, $q, $filter,
         _,
         ListConfig,
         SocketHelperService,
         MessageService,
+        UserService,
         UserModel,
-        _items
+        _items, _count
       ) {
         // Set current scope reference to models
         UserModel.setScope($scope, false, 'items', 'itemCount');
 
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
         // Set initial data
         $scope.items = _items;
+        $scope.itemCount = _count.count;
+        $scope.user = UserService.user();
 
         // Initialize used title items
         $scope.titleItems = ListConfig.getTitleItems(UserModel.endpoint);

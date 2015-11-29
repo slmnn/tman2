@@ -92,12 +92,15 @@
     .controller('NavigationController', [
       '$scope', '$state', '$modal',
       '_items',
+      'AuthService',
       function controller(
         $scope, $state, $modal,
-        _items
+        _items,
+        AuthService
       ) {
         $scope.navigationItems = _items;
-
+        $scope.auth = AuthService;
+        
         // Helper function to open information modal about current GUI.
         $scope.openInformation = function openInformation() {
           $modal.open({

@@ -2,28 +2,47 @@
 <h3>
     Users ({{items.length}})
 
-    <div class="col-xs-6 pull-right list-search">
+    <div class="pull-right">
         <a
             data-ui-sref="admin.user.add"
             data-tooltip="Add new user"
         ><i class="fa fa-plus-circle"></i></a>
+    </div>
+</h3>
 
+<div class="row">
+    <div class="col-sm-12 list-search">
         <list-search
             data-filters="filters"
             data-options="itemsPerPageOptions"
             data-items="itemsPerPage"
         ></list-search>
-
-        <pagination class="pagination-sm"
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <pagination class="pagination-sm pull-right mobile-hide"
             data-total-items="itemCount"
             data-ng-model="currentPage"
             data-items-per-page="itemsPerPage"
             data-max-size="5"
             data-boundary-links="true"
             data-rotate="false"
+            data-first-text="{{'FIRST' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+            data-next-text="{{'NEXT' | translate}}"
+            data-last-text="{{'LAST' | translate}}"
         ></pagination>
+        <pager class="desktop-hide" 
+            total-items="itemCount" 
+            data-ng-model="currentPage"
+            data-rotate="false"
+            data-items-per-page="itemsPerPage"
+            data-next-text="{{'NEXT' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+        ></pager>
     </div>
-</h3>
+</div>
 
 <table class="table">
     <thead class="noSelect">
@@ -81,12 +100,27 @@
         </tr>
     </tbody>
 </table>
-
-<pagination class="pagination-sm pull-right"
-    data-total-items="itemCount"
-    data-ng-model="currentPage"
-    data-items-per-page="itemsPerPage"
-    data-max-size="5"
-    data-boundary-links="true"
-    data-rotate="false"
-></pagination>
+<div class="row">
+    <div class="col-sm-12">
+        <pagination class="pagination-sm pull-right mobile-hide"
+            data-total-items="itemCount"
+            data-ng-model="currentPage"
+            data-items-per-page="itemsPerPage"
+            data-max-size="5"
+            data-boundary-links="true"
+            data-rotate="false"
+            data-first-text="{{'FIRST' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+            data-next-text="{{'NEXT' | translate}}"
+            data-last-text="{{'LAST' | translate}}"
+        ></pagination>
+        <pager class="desktop-hide" 
+            total-items="itemCount" 
+            data-ng-model="currentPage"
+            data-rotate="false"
+            data-items-per-page="itemsPerPage"
+            data-next-text="{{'NEXT' | translate}}"
+            data-previous-text="{{'PREVIOUS' | translate}}"
+        ></pager>
+    </div>
+</div>

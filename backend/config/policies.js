@@ -64,7 +64,7 @@ module.exports.policies = {
     'count':    ['authenticated'],
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
-    'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
+    'create':   ['authenticated', 'addDataCreate'],
     'update':   ['authenticated', 'addDataUpdate'],
     'destroy':  ['authenticated', 'isAdmin'],
     'add':      ['authenticated', 'isAdmin'],

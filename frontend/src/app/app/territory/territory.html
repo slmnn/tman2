@@ -373,6 +373,7 @@
                     </td>
                     <td>
                         <a 
+                            data-ng-if="user.admin"
                             data-ng-show="deleteSpecialAddressItemVisible"
                             data-ng-click="setSpecialAddressToBeDeleted(sa)"
                             data-ng-bootbox-title="Vahvista toiminto"

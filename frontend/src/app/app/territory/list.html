@@ -173,7 +173,9 @@
                                 class="big-checkbox"
                                 id="checkbox_{{territory.id}}"
                                 data-ng-model="territory.checked" 
-                                data-ng-change="territoryChecked(territory)">
+                                data-ng-change="territoryChecked(territory)"
+                                data-ng-disabled="selectionDisabledFilter(territory)"
+                            >
                             </input>
                         </label>
                     </td>
