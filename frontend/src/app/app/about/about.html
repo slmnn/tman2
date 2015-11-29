@@ -12,18 +12,23 @@
             <li>Alueiden merkitseminen eri omistajille ja käydyksi</li>
             <li>Sopivien alueiden etsiminen eri attribuuttien mukaisesti</li>
             <li>Käyttäjäoikeustasot, joiden avulla eri käyttäjien toimia voidaan hallita</li>
-            <li>Alueiden antaminen julistajille sähköpostilla tai PDF-tiedostona</li>
             <li>Sähköpostimuistutukset alueiden käymisestä</li>
             <li>Seurakunnan alueiden esittäminen havainnollisena karttana</li>
             <li>S-13 -lomake</li>
+        </ul>
+
+        <h4>Suunnitteilla olevia ominaisuuksia</h4>
+        <ul>
+            <li>Alueiden antaminen julistajille linkkinä, sähköpostilla tai PDF-tiedostona</li>
         </ul>
     </div>
 </div>
 
 
-<p>
-    Use following credentials for login:
-    <pre>
-username: demo
-password: demodemodemo</pre>
-</p>
+<h4 data-ng-show="!auth.isAuthenticated()">
+    Jos sinulla on käyttäjätunnus, <a data-ui-sref="auth.login">kirjaudu sisään</a>.
+</h4>
+
+<h4 data-ng-show="auth.isAuthenticated()">
+    Olet kirjautunut sisään. Jatka <a data-ui-sref="app.territories">aluehallintaan</a>.
+</h4>

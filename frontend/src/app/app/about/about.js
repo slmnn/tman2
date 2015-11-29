@@ -21,12 +21,23 @@
             },
             views: {
               'content@': {
-                templateUrl: '/frontend/app/about/about.html'
+                templateUrl: '/frontend/app/about/about.html',
+                controller: 'AboutController'
               },
               'pageNavigation@': false
             }
           })
         ;
+      }
+    ])
+    .controller('AboutController', [
+      '$scope', '$state',
+      'AuthService',
+      function controller(
+        $scope, $state,
+        AuthService
+      ) {
+        $scope.auth = AuthService;
       }
     ])
   ;

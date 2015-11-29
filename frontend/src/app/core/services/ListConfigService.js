@@ -120,23 +120,23 @@
               title: 'Sähköposti',
               column: 'email',
               class: 'col-xs-3 mobile-hide',
-              searchable: false,
-              sortable: false,
-              inSearch: false,
+              searchable: true,
+              sortable: true,
+              inSearch: true,
               inTitle: true
             },
             {
               title: 'Puhelin',
               column: 'telephone',
               class: 'col-xs-2 mobile-hide',
-              searchable: false,
-              sortable: false,
-              inSearch: false,
+              searchable: true,
+              sortable: true,
+              inSearch: true,
               inTitle: true
             },
             {
               title: 'Kuvaus',
-              column: false,
+              column: 'description',
               class: 'col-xs-4 text-left',
               searchable: true,
               sortable: true,
@@ -147,9 +147,9 @@
               title: 'Alueita',
               column: false,
               class: 'col-xs-1 text-left',
-              searchable: true,
+              searchable: false,
               sortable: true,
-              inSearch: true,
+              inSearch: false,
               inTitle: true
             }
           ],
