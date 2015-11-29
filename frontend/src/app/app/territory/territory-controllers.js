@@ -637,6 +637,8 @@
           _.each(territories, function(t) {
             t.checked = false;
           });
+          $scope.isCollapsed = true;
+          $scope.isAllCollapsed = false;
         };
 
         $scope.getHolderNameWithId = function getHolderWithId(holders, id) {
@@ -729,7 +731,8 @@
             makeHolderHistoryUpdate(t, comment, t.holder.id);
           });
           handleTerritoryChangePromises(p);
-
+          $scope.isCollapsed = true;
+          $scope.isAllCollapsed = false;
           updateMailCount();
         };
 
@@ -763,6 +766,8 @@
             }
           });
           handleTerritoryChangePromises(p);
+          $scope.isCollapsed = true;
+          $scope.isAllCollapsed = false;
           updateMailCount();
         };
 

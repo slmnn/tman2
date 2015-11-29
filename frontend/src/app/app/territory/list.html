@@ -225,13 +225,29 @@
                     class="btn btn-xs btn-primary pull-right" 
                     data-ng-click="clearSelected(items)"
                 >
-                    {{'CLEAR_SELECTION' | translate}}
+                    <i style="color: white;" class="fa fa-times text-info"></i>
+                </button>
+                <button 
+                    style="margin-right: 2px;"
+                    class="btn btn-xs btn-primary pull-right" 
+                    class="btn btn-primary btn-sm" 
+                    data-ng-init="isAllCollapsed = false" 
+                    data-ng-click="isAllCollapsed = !isAllCollapsed"
+                >
+                    <i  data-ng-if="!isAllCollapsed"
+                        style="color: white;" 
+                        class="fa fa-minus text-info"
+                    ></i>
+                    <i  data-ng-if="isAllCollapsed"
+                        style="color: white;" 
+                        class="fa fa-square-o text-info"
+                    ></i>
                 </button>
                 {{'OPERATIONS_FOR_SELECTED_TERRITORIES' | translate}} ({{filteredItems.length}})
                 <div class="clearfix"></div>
             </div>
 
-            <div class="panel-body" id="territoryOperations">    
+            <div class="panel-body" id="territoryOperations" data-collapse="isAllCollapsed">    
                 <ul class="list-inline">
                     <li class="vertical-list" data-ng-repeat="t in filteredItems = (items | filter : onlyCheckedTerritories)">
                         
@@ -329,8 +345,15 @@
                             </div>
 
                             <!-- Button -->
-                            <div class="form-group text-center">
-                                <div class="col-lg-12 col-offset-">
+                            <div class="form-group top-buffer">
+                                <div class="col-lg-12">
+                                    <button 
+                                        data-ng-if="operation !== '1' && operation !== '2' && operation !== '3'"
+                                        class="btn btn-success btn-md" 
+                                        disabled
+                                    >
+                                        Tallenna
+                                    </button>
                                     <button 
                                         data-ng-if="operation === '1'"
                                         class="btn btn-success btn-md" 
@@ -340,7 +363,7 @@
                                     </button>
                                     <button 
                                         data-ng-if="operation === '2'"
-                                        class="btn btn-success btn-md top-buffer" 
+                                        class="btn btn-success btn-md" 
                                         data-ng-disabled="!selectedHolder"
                                         data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
                                     >
@@ -348,11 +371,17 @@
                                     </button>
                                     <button 
                                         data-ng-if="operation === '3'"
-                                        class="btn btn-success btn-md top-buffer" 
+                                        class="btn btn-success btn-md" 
                                         data-ng-disabled="!selectedHolder"
                                         data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
                                     >
                                         Tallenna
+                                    </button>
+                                    <button 
+                                        class="btn btn-danger btn-md pull-right" 
+                                        data-ng-click="clearSelected(items)"
+                                    >
+                                        Peruuta
                                     </button>
                                 </div>
                             </div>
@@ -361,9 +390,9 @@
                     </form>
                 </div>
             </div>
-            <div class="panel-footer text-center">                
+            <div class="panel-footer text-center" data-collapse="isAllCollapsed">                
                 <button 
-                    class="btn btn-primary btn-sm" 
+                    class="btn btn-primary btn-xs" 
                     data-ng-init="isCollapsed = true" 
                     data-ng-click="isCollapsed = !isCollapsed"
                 >
