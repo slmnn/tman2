@@ -7,14 +7,14 @@
           data-ui-sref="app.territory({id: t.id})" 
           data-ng-class="isDefaultHolder(t.holder.id) ? 'strong-text':''"
         >
-        <span 
-          data-tooltip="Omistaja {{t.holder.name}}. Käyty {{t.covered | amTimeAgo}}." 
-          data-ng-class="isNotCoveredRecently(t, app) ? 'text-danger' : ''"
-        >
-        {{t.territoryCode}}
-      </span>
-    </a>
-  </h4>
-</li>
-</ul>
+          <span 
+            data-tooltip="Omistaja {{t.holder.name}}. Käyty {{t.covered | amTimeAgo}}." 
+            data-ng-class="isNotCoveredRecently(t, app) ? 'text-danger' : ''"
+          >
+            {{t.territoryCode}}
+          </span>
+        </a>
+      </h4>
+    </li>
+  </ul>
 </div>

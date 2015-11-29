@@ -27,6 +27,12 @@ module.exports.policies = {
     'checkPassword':  ['authenticated']
   },
 
+  // Mail controller
+  MailController: {
+    '*':        ['authenticated']
+  },
+
+
   // Territory controller
   TerritoryController: {
     '*':        ['authenticated'],
@@ -34,7 +40,7 @@ module.exports.policies = {
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
     'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
+    'update':   ['authenticated', 'addDataUpdate'],
     'destroy':  ['authenticated', 'isAdmin'],
     'add':      ['authenticated', 'isAdmin'],
     'remove':   ['authenticated', 'isAdmin']
@@ -47,7 +53,7 @@ module.exports.policies = {
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
     'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
+    'update':   ['authenticated', 'addDataUpdate'],
     'destroy':  ['authenticated', 'isAdmin'],
     'add':      ['authenticated', 'isAdmin'],
     'remove':   ['authenticated', 'isAdmin']
@@ -59,7 +65,7 @@ module.exports.policies = {
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
     'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
+    'update':   ['authenticated', 'addDataUpdate'],
     'destroy':  ['authenticated', 'isAdmin'],
     'add':      ['authenticated', 'isAdmin'],
     'remove':   ['authenticated', 'isAdmin']
@@ -82,10 +88,10 @@ module.exports.policies = {
     'count':    ['authenticated'],
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
-    'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
+    'create':   ['authenticated', 'addDataCreate'],
+    'update':   ['authenticated', 'addDataUpdate'],
     'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
+    'add':      ['authenticated'],
     'remove':   ['authenticated', 'isAdmin']
   },
 
@@ -94,10 +100,10 @@ module.exports.policies = {
     'count':    ['authenticated'],
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
-    'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
+    'create':   ['authenticated', 'addDataCreate'],
     'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
     'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
+    'add':      ['authenticated'],
     'remove':   ['authenticated', 'isAdmin']
   },
 
@@ -118,11 +124,11 @@ module.exports.policies = {
     'count':    ['authenticated'],
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
-    'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
-    'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
-    'remove':   ['authenticated', 'isAdmin']
+    'create':   ['authenticated', 'addDataCreate'],
+    'update':   ['authenticated', 'addDataUpdate'],
+    'destroy':  ['authenticated'],
+    'add':      ['authenticated'],
+    'remove':   ['authenticated']
   },
 
   AppController: {
@@ -132,9 +138,9 @@ module.exports.policies = {
     'findOne':  ['authenticated'],
     'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
     'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
-    'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
-    'remove':   ['authenticated', 'isAdmin']
+    'destroy':  false,
+    'add':      false,
+    'remove':   false
   },
 
   // User controller
