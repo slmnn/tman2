@@ -129,14 +129,14 @@
 
         // Describe the map.
         $scope.map = { 
-          center: $scope.territory.center || { latitude: 61, longitude: 23},
+          center: $scope.territory.center || { latitude: $scope.app.defaultLatitude, longitude: $scope.app.defaultLongitude},
           zoom: 12, 
           territoryCenterMarker : { 
             id: $scope.territory.center ? $scope.territory.center.id : 0,
             options: {
               draggable: false
             },
-            coords: $scope.territory.center || { latitude: 61, longitude: 23},
+            coords: $scope.territory.center || { latitude: $scope.app.defaultLatitude, longitude: $scope.app.defaultLongitude},
             events: {
               dragend: function () {
                 $scope.map.territoryCenterMarker.options = {
@@ -1165,8 +1165,8 @@
         // Set initial data
         $scope.map = {
           center: {
-            latitude: $scope.app.defaultLatitude || 61,
-            longitude: $scope.app.defaultLongitude || 23
+            latitude: $scope.app.defaultLatitude || $scope.app.defaultLatitude,
+            longitude: $scope.app.defaultLongitude || $scope.app.defaultLongitude
           },
           zoom: 10,
           markersEvents: {},
