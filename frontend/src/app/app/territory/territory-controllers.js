@@ -616,6 +616,14 @@
           return holder.isArchived ? false : true;
         };
 
+        // Filter applies when the user is limited to one holder only
+        $scope.onlyAllowedHolders = function onlyAllowedHolders(holder) {
+          if($scope.user.holder && holder.id !== $scope.user.holder && !$scope.isDefaultHolder(holder.id)) {
+            return false;
+          }
+          return true;
+        };
+
         $scope.isDefaultHolder = function isDefaultHolder(holderId) {
           return holderId === $scope.app.defaultHolder;
         };

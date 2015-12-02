@@ -67,7 +67,7 @@ module.exports.policies = {
     'create':   ['authenticated', 'addDataCreate'],
     'update':   ['authenticated', 'addDataUpdate'],
     'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
+    'add':      ['authenticated'],
     'remove':   ['authenticated', 'isAdmin']
   },
 

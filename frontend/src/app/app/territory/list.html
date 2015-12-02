@@ -325,7 +325,7 @@
                                         id="selectbasic"
                                         class="form-control"
                                         data-ng-model="selectedHolder"
-                                        data-ng-options="holder.id as ((holder.id == selectedTerritoryHolderId ? '* ':'') + holder.name) for holder in holders | filter : onlyActiveHolders"
+                                        data-ng-options="holder.id as ((holder.id == selectedTerritoryHolderId ? '* ':'') + holder.name) for holder in holders | filter : onlyAllowedHolders | filter : onlyActiveHolders"
                                     >
                                     </select>
                               </div>
