@@ -31,7 +31,7 @@
         class="pull-right"
         data-ng-if="user.admin"
         data-ui-sref="app.territory.add"
-        data-tooltip="Add new territory"
+        data-tooltip="Lisää uusi alue"
     ><i class="fa fa-plus-circle"></i></a>
 </h3>
 
@@ -173,7 +173,7 @@
                                 class="big-checkbox"
                                 id="checkbox_{{territory.id}}"
                                 data-ng-model="territory.checked" 
-                                data-ng-change="territoryChecked(territory)"
+                                data-ng-change="territoryChecked(territory, items)"
                                 data-ng-disabled="selectionDisabledFilter(territory)"
                             >
                             </input>
@@ -258,6 +258,8 @@
                     </li>
                 </ul>
 
+                <span class="text-muted">Nykyinen omistaja {{getHolderNameWithId(holders, selectedTerritoryHolderId)}}</span>
+
                 <div data-collapse="isCollapsed">
 
                     <form class="form-horizontal">
@@ -279,6 +281,7 @@
                                                 id="operation-0" 
                                                 value="1"
                                                 checked="checked"
+                                                data-ng-disabled="isDefaultHolder(selectedTerritoryHolderId)"
                                                 data-ng-change="territoryOperationChange(operation)"
                                             >
                                             Merkitse käydyksi (alueomistaja ei vaihdu)
@@ -291,6 +294,7 @@
                                                 data-ng-model="operation" 
                                                 name="operation" 
                                                 id="operation-1" 
+                                                data-ng-disabled="isDefaultHolder(selectedTerritoryHolderId)"
                                                 data-ng-change="territoryOperationChange(operation)"
                                                 value="2"
                                             >
@@ -321,7 +325,7 @@
                                         id="selectbasic"
                                         class="form-control"
                                         data-ng-model="selectedHolder"
-                                        data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
+                                        data-ng-options="holder.id as ((holder.id == selectedTerritoryHolderId ? '* ':'') + holder.name) for holder in holders | filter : onlyActiveHolders"
                                     >
                                     </select>
                               </div>
@@ -364,7 +368,7 @@
                                     <button 
                                         data-ng-if="operation === '2'"
                                         class="btn btn-success btn-md" 
-                                        data-ng-disabled="!selectedHolder"
+                                        data-ng-disabled="!selectedHolder || selectedHolder === selectedTerritoryHolderId"
                                         data-ng-click="changeHolder(filteredItems, true, selectedHolder, territoryChangeComment)"
                                     >
                                         Tallenna
@@ -372,7 +376,7 @@
                                     <button 
                                         data-ng-if="operation === '3'"
                                         class="btn btn-success btn-md" 
-                                        data-ng-disabled="!selectedHolder"
+                                        data-ng-disabled="!selectedHolder || selectedHolder === selectedTerritoryHolderId"
                                         data-ng-click="changeHolder(filteredItems, false, selectedHolder, territoryChangeComment)"
                                     >
                                         Tallenna

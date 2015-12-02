@@ -623,8 +623,29 @@
         $scope.selectedHolder = $scope.app.defaultHolder;
 
         // Callback that is evaluated when user toggles a territory checkbox.
-        $scope.territoryChecked = function territoryChecked(changedTerritoryId) {
+        $scope.selectedTerritoryHolderId = null;
+        $scope.territoryChecked = function territoryChecked(territory, territories) {
           $scope.territoryOperationChange();
+          $scope.selectedTerritoryHolderId = territory.holder.id;
+
+          // When default holder is selected only operation 3 is possible
+          // Otherwise no operation is checked, to prevent mistakes.
+          if($scope.isDefaultHolder(territory.holder.id)) {
+            $scope.operation = "3";
+          } else {
+            $scope.operation = null;
+          }
+
+          // Check if this was last unchecked
+          var atLeastOneIsChecked = false;
+          _.each(territories, function(t) {
+            if(t.checked === true) {
+              atLeastOneIsChecked = true;
+            }
+          });
+          if(!atLeastOneIsChecked) {
+            $scope.selectedTerritoryHolderId = null;
+          }
         };
 
         $scope.removeSearchWord = function removeSearchWord(word, index) {
@@ -639,13 +660,17 @@
           });
           $scope.isCollapsed = true;
           $scope.isAllCollapsed = false;
+          $scope.selectedTerritoryHolderId = null;
         };
 
         $scope.getHolderNameWithId = function getHolderWithId(holders, id) {
-          var result = _.find(holders, function(a) {
-            return a.id === id;
-          });
-          return result.name;
+          if(holders && id) {
+            var result = _.find(holders, function(a) {
+              return a.id === id;
+            });
+            return result.name;
+          }
+          return '';
         };
 
         $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
@@ -658,13 +683,27 @@
           $scope.selectedHolder = $scope.app.defaultHolder;
         };
 
+        // Filter disables all territories that have different holder than the
+        // initial selection. It also disables territories if the user has limited
+        // user right to territories.
         $scope.selectionDisabledFilter = function(territory) {
-          if($scope.user.holder 
-            && territory.holder.id !== $scope.app.defaultHolder 
-            && territory.holder.id !== $scope.user.holder) {
+          if($scope.selectedTerritoryHolderId !== null && $scope.selectedTerritoryHolderId == territory.holder.id) {
+            if($scope.user.holder 
+              && territory.holder.id !== $scope.app.defaultHolder 
+              && territory.holder.id !== $scope.user.holder) {
+              return true;
+            }
+            return false;
+          } else if ($scope.selectedTerritoryHolderId === null) {
+            if($scope.user.holder 
+              && territory.holder.id !== $scope.app.defaultHolder 
+              && territory.holder.id !== $scope.user.holder) {
+              return true;
+            }
+            return false;
+          } else {
             return true;
           }
-          return false;
         };
 
         var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {
@@ -731,9 +770,7 @@
             makeHolderHistoryUpdate(t, comment, t.holder.id);
           });
           handleTerritoryChangePromises(p);
-          $scope.isCollapsed = true;
-          $scope.isAllCollapsed = false;
-          updateMailCount();
+
         };
 
         $scope.changeHolder = function changeHolder(territories, markAsCovered, newHolderId, comment) {
@@ -766,9 +803,6 @@
             }
           });
           handleTerritoryChangePromises(p);
-          $scope.isCollapsed = true;
-          $scope.isAllCollapsed = false;
-          updateMailCount();
         };
 
         var handleTerritoryChangePromises = function handleTerritoryChangePromises(p) {
@@ -794,6 +828,10 @@
               MessageService.error(msgPrefixFailed + msg2);
             }
           });
+          $scope.isCollapsed = true;
+          $scope.isAllCollapsed = false;
+          $scope.selectedTerritoryHolderId = null;
+          updateMailCount();
         };
 
         $scope.isNotCoveredLimitExeeded = function(territory, app) {
@@ -868,6 +906,7 @@
          * @private
          */
         function _triggerFetchData() {
+          $scope.clearSelected($scope.items);
           if ($scope.currentPage === 1) {
             _fetchData();
           } else {
