@@ -26,6 +26,7 @@
               'content@': {
                 templateUrl: '/frontend/app/app/app.html',
                 controller: 'AppController',
+                name: 'Aluehallinnan asetukset',
                 resolve: {
                   _holders: [
                     '$stateParams',

@@ -25,6 +25,7 @@
               'content@': {
                 templateUrl: '/frontend/app/holder/list.html',
                 controller: 'HolderListController',
+                name: 'Alueomistajat',
                 resolve: {
                   _items: [
                     'ListConfig',
@@ -72,6 +73,7 @@
               'content@': {
                 templateUrl: '/frontend/app/holder/holder.html',
                 controller: 'HolderController',
+                name: 'Alueomistajan tiedot',
                 resolve: {
                   _holder: [
                     '$stateParams',
@@ -108,6 +110,7 @@
               'content@': {
                 templateUrl: '/frontend/app/holder/add.html',
                 controller: 'HolderAddController',
+                name: 'Alueomistajan lisääminen',
                 resolve: {
                   _app: [
                     '$stateParams',

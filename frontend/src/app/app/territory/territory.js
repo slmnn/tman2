@@ -168,6 +168,16 @@
                     ) {
                       return AppModel.load();
                     }
+                  ],
+                  _stats: [
+                    '$stateParams',
+                    'StatModel',
+                    function resolve(
+                      $stateParams,
+                      StatModel
+                    ) {
+                      return StatModel.load();
+                    }
                   ]
                 }
               }

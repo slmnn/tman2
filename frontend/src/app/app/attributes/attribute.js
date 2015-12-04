@@ -26,6 +26,7 @@
               'content@': {
                 templateUrl: '/frontend/app/attributes/attributes.html',
                 controller: 'AttributesController',
+                name:'Attribuutit',
                 resolve: {
                   _attributes: [
                     '$stateParams',

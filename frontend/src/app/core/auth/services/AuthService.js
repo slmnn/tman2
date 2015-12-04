@@ -94,7 +94,7 @@
               .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
               .then(
                 function(response) {
-                  MessageService.success('You have been logged in.');
+                  MessageService.success('Sisäänkirjautuminen onnistui.');
 
                   $localStorage.credentials = response.data;
                 }
@@ -111,7 +111,7 @@
           logout: function logout() {
             $localStorage.$reset();
 
-            MessageService.success('You have been logged out.');
+            MessageService.success('Uloskirjautuminen onnistui.');
 
             $state.go('auth.login');
           }

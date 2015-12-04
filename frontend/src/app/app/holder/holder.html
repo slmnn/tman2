@@ -70,7 +70,7 @@
                     <dd>
                         <span data-editable-checkbox="holder.isArchived"
                             data-e-title="Alueomistaja ei ole käytössä">
-                            {{holder.isArchived ? 'Yes' : 'No'}}
+                            {{holder.isArchived ? 'Kyllä' : 'Ei'}}
                         </span>
                     </dd>
                 <dl>
@@ -99,7 +99,7 @@
             </div>
 
             <div class="col-sm-8">
-                <h4 class="text-muted">{{holder.territories.length ? 'Alueomistajan alueet' : 'Alueomistajalla ei ole yhtään aluetta'}}</h4>
+                <h4 class="text-muted top-buffer">{{holder.territories.length ? 'Alueomistajan alueet' : 'Alueomistajalla ei ole yhtään aluetta'}}</h4>
                 <table data-ng-if="holder.territories.length" class="table table-condensed table-hover">
                     <thead>
                         <tr>

@@ -155,7 +155,7 @@
           ],
           userlogin: [
             {
-              title: 'IP-address',
+              title: 'IP-osoite',
               column: 'ip',
               class: 'col-xs-2',
               searchable: true,
@@ -164,7 +164,7 @@
               inTitle: true
             },
             {
-              title: 'Browser',
+              title: 'Selain',
               column: 'browser',
               class: 'col-xs-2',
               searchable: true,
@@ -173,7 +173,7 @@
               inTitle: true
             },
             {
-              title: 'Operating System',
+              title: 'Käyttöjärjestelmä',
               column: 'os',
               class: 'col-xs-2',
               searchable: true,
@@ -182,7 +182,7 @@
               inTitle: true
             },
             {
-              title: 'Username',
+              title: 'Käyttäjänimi',
               column: false,
               class: 'col-xs-2',
               searchable: false,
@@ -191,7 +191,7 @@
               inTitle: true
             },
             {
-              title: 'Login time',
+              title: 'Kirjautumisaika',
               column: 'createdAt',
               class: 'col-xs-4',
               searchable: false,

@@ -1,31 +1,6 @@
 <div data-ng-show="!app">
-    <h3>App not found</h3>
+    <h3>Sovellusasetuksia ei löytynyt! Ota yhteyttä ylläpitäjään.</h3>
 </div>
-
-<!-- 
-              lastBackup : new Date(),
-              backupInterval : 7,
-              backupEmail : 'example.email.address@example.com',
-              lastStats : new Date(),
-              notCoveredLimit : 365,
-              notCoveredWarningEmailLimit : 100,  
-              holderNotChangedWarningLimit : 200,
-              holderChangePreventedIfLimitExeeded : false,
-              holderChangeToDefaultIfLimitExeeded : false,
--->
-
-<!--
-  var subjectTxt = in_template.title.replace("_holderName", in_holder.name);
-  subjectTxt = subjectTxt.replace("_territoryCode", in_territory.territoryCode);
-  var bodyHTML = in_template.body.replace("_territoryCode", in_territory.territoryCode);
-  bodyHTML = bodyHTML.replace("_territoryLat", in_territory.lat);
-  bodyHTML = bodyHTML.replace("_territoryLng", in_territory.lng);
-  var taken = new Date(in_territory.taken);
-  bodyHTML = bodyHTML.replace("_taken", taken.getFullYear() + "-" + (taken.getMonth()+1) + "-" + taken.getDate());
-  bodyHTML = bodyHTML.replace("_holderName", in_holder.name);
-  bodyHTML = bodyHTML.replace("_territoryDetails", in_territory.description);
-  bodyHTML = bodyHTML.replace("_listAllTerritoryCodes", in_listOfTerritories);
--->
 
 <div data-ng-show="app">
     <form class="form-vertical" role="form"
@@ -40,7 +15,7 @@
                         data-e-name="app.name"
                         data-e-required
                     >
-                        {{app.name}}
+                        {{app.name || 'Sovellukselle ei ole annettu nimeä'}}
                     </span>
 
                     <span class="pull-right"
@@ -48,33 +23,33 @@
                     >
                         <a href="#"
                            data-ng-click="editableForm.$show()"
-                           data-tooltip="Toggle edit mode"
+                           data-tooltip="Muuta asetuksia"
                         >
                             <i class="fa fa-wrench"></i>
                         </a>
                     </span>
                 </h3>
                 <dl>
-                    <dt>Default holder</dt>
+                    <dt>Alueiden oletusomistaja (yleensä aluepöytä tms.)</dt>
                     <dd>
                         <span data-editable-select="app.defaultHolder.id"
                             data-e-name="defaultHolder.id"
                             data-e-ng-options="holder.id as holder.name for holder in holders"
                             data-e-required>
-                            {{app.defaultHolder.name}}
+                            {{app.defaultHolder.name || 'Ei asetettu'}}
                         </span>
                     </dd>
-                    <dt>Backup email</dt>
+                    <dt>Sähköpostiosoite varmuuskopioiden vastaanottamiseen</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-text="app.backupEmail"
                             data-e-name="app.backupEmail"
                             data-e-required
                         >
-                            {{app.backupEmail}}
+                            {{app.backupEmail || 'Sähköpostiosoite puuttuu'}}
                         </span>
                     </dd>
-                    <dt>Backup interval (days)</dt>
+                    <dt>Varmuuskopioiden väli (päiviä)</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-number="app.backupInterval"
@@ -82,10 +57,10 @@
                             data-e-name="app.backupInterval"
                             data-e-required
                         >
-                            {{app.backupInterval}}
+                            {{app.backupInterval || 'Ei asetettu'}}
                         </span>
                     </dd>
-                    <dt>Limit for not covered territories (days)</dt>
+                    <dt>Aika, jonka jälkeen aluetta pidetään harvoin käytynä (päiviä)</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-number="app.notCoveredLimit"
@@ -93,10 +68,10 @@
                             data-e-name="app.notCoveredLimit"
                             data-e-required
                         >
-                            {{app.notCoveredLimit}}
+                            {{app.notCoveredLimit || 'Ei asetettu'}}
                         </span>
                     </dd>
-                    <dt>Limit for warning email about not covered territories (days)</dt>
+                    <dt>Aika, jonka jälkeen lähetetään muistutusviesti alueen käymisestä (päiviä)</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-number="app.notCoveredWarningEmailLimit"
@@ -104,10 +79,10 @@
                             data-e-name="app.notCoveredWarningEmailLimit"
                             data-e-required
                         >
-                            {{app.notCoveredWarningEmailLimit}}
+                            {{app.notCoveredWarningEmailLimit || 'Ei asetettu'}}
                         </span>
                     </dd>
-                    <dt>Limit for warning about not changed holder (days)</dt>
+                    <dt>Aika, jonka jälkeen alue on ollut liian kauan samalla omistajalla (päiviä)</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-number="app.holderNotChangedWarningLimit"
@@ -115,10 +90,10 @@
                             data-e-name="app.holderNotChangedWarningLimit"
                             data-e-required
                         >
-                            {{app.holderNotChangedWarningLimit}}
+                            {{app.holderNotChangedWarningLimit || 'Ei asetettu'}}
                         </span>
                     </dd>
-                    <dt>Default latitude</dt>
+                    <dt>Oletus leveyskoordinaatti (Suomessa noin 60-64)</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-number="app.defaultLatitude"
@@ -128,10 +103,10 @@
                             data-e-name="app.defaultLatitude"
                             data-e-required
                         >
-                            {{app.defaultLatitude}}
+                            {{app.defaultLatitude || 'Ei asetettu'}}
                         </span>
                     </dd>
-                    <dt>Default longitude</dt>
+                    <dt>Oletus pituuskoordinaatti (Suomessa noin 19-25)</dt>
                     <dd>
                         <span style="width: 100%;"
                             data-editable-number="app.defaultLongitude"
@@ -141,7 +116,7 @@
                             data-e-name="app.defaultLongitude"
                             data-e-required
                         >
-                            {{app.defaultLongitude}}
+                            {{app.defaultLongitude || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>Sähköposteissa toimivat avainkentät</dt>
@@ -164,7 +139,7 @@
                             data-e-name="app.notificationEmailNotCoveredTerritoryTitle"
                             data-e-required
                         >
-                            {{app.notificationEmailNotCoveredTerritoryTitle}}
+                            {{app.notificationEmailNotCoveredTerritoryTitle || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>Sähköpostipohja: muistutus alueen käymisestä</dt>
@@ -174,7 +149,7 @@
                             data-e-name="app.notificationEmailNotCoveredTerritory"
                             data-e-required
                         >
-                            {{app.notificationEmailNotCoveredTerritory}}
+                            {{app.notificationEmailNotCoveredTerritory || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>Sähköpostipohja: uuden alueen ottaminen, viestin aihe</dt>
@@ -184,7 +159,7 @@
                             data-e-name="app.notificationEmailNewTerritoryTitle"
                             data-e-required
                         >
-                            {{app.notificationEmailNewTerritoryTitle}}
+                            {{app.notificationEmailNewTerritoryTitle || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>Sähköpostipohja: uuden alueen ottaminen</dt>
@@ -194,7 +169,7 @@
                             data-e-name="app.notificationEmailNewTerritory"
                             data-e-required
                         >
-                            {{app.notificationEmailNewTerritory}}
+                            {{app.notificationEmailNewTerritory || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>Sähköpostipohja: alueen palautus aluepöytään, viestin aihe</dt>
@@ -204,7 +179,7 @@
                             data-e-name="app.notificationEmailRemovedTerritoryTitle"
                             data-e-required
                         >
-                            {{app.notificationEmailRemovedTerritoryTitle}}
+                            {{app.notificationEmailRemovedTerritoryTitle || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>Sähköpostipohja: alueen palautus aluepöytään</dt>
@@ -214,7 +189,7 @@
                             data-e-name="app.notificationEmailRemovedTerritory"
                             data-e-required
                         >
-                            {{app.notificationEmailRemovedTerritory}}
+                            {{app.notificationEmailRemovedTerritory || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>Lähtevän sähköpostin osoite</dt>
@@ -224,7 +199,7 @@
                             data-e-name="app.notificationEmailSenderAddress"
                             data-e-required
                         >
-                            {{app.notificationEmailSenderAddress}}
+                            {{app.notificationEmailSenderAddress || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>SMTP käyttäjänimi</dt>
@@ -234,7 +209,7 @@
                             data-e-name="app.smtpUsername"
                             data-e-required
                         >
-                            {{app.smtpUsername}}
+                            {{app.smtpUsername || 'Ei asetettu'}}
                         </span>
                     </dd>
                     <dt>SMTP salasana</dt>
@@ -244,7 +219,7 @@
                             data-e-name="app.smtpPassword"
                             data-e-required
                         >
-                            {{app.smtpPassword}}
+                            {{app.smtpPassword || 'Ei asetettu'}}
                         </span>
                     </dd>
                 <dl>
@@ -253,13 +228,13 @@
                         <button type="submit" class="btn btn-primary"
                             data-ng-disabled="editableForm.$waiting"
                         >
-                            Save
+                            Tallenna
                         </button>
                         <button type="button" class="btn btn-default"
                             data-ng-disabled="editableForm.$waiting"
                             data-ng-click="editableForm.$cancel()"
                         >
-                            Cancel
+                            Peruuta
                         </button>
                     </div>
                 </div>

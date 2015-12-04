@@ -1007,6 +1007,7 @@
       'StatModel',
       '_items',
       '_app',
+      '_stats',
       function controller(
         $scope, $q,
         _,
@@ -1014,7 +1015,8 @@
         SocketHelperService, UserService,
         StatModel,
         _items,
-        _app
+        _app,
+        _stats
       ) {
 
         var formDaysMonthsYearsObject = function(in_millisecs) {
