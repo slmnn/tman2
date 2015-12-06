@@ -30,8 +30,12 @@
           UserModel
             .update(data.id, data)
             .then(
-              function onSuccess() {
-                MessageService.success('User "' + $scope.user.username + '" updated successfully');
+              function onSuccess(value) {
+                if(value.status == 200) {
+                  MessageService.success('Käyttäjä "' + $scope.user.username + '" päivitettiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
               }
             )
           ;
@@ -46,11 +50,11 @@
           PasswordService.updatePassword(data)
           .then(
             function onSuccess() {
-              MessageService.success('User "' + $scope.user.username + '" password is now set!');
+              MessageService.success('Käyttäjän "' + $scope.user.username + '" salasana asetettiin.');
               $scope.password2 = '';
             },
             function onError(error) {
-              MessageService.error('User "' + $scope.user.username + '" password was not updated!');
+              MessageService.error('Käyttäjän "' + $scope.user.username + '" salasanan tallennus epäonnistui.');
             }
           );
         };

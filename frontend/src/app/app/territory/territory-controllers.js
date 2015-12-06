@@ -59,8 +59,12 @@
           TerritoryModel
             .create(data)
             .then(
-              function onSuccess() {
-                MessageService.success('New territory added successfully');
+              function onSuccess(value) {
+                if(value.status == 201) {
+                  MessageService.success('Uusi alue luotiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
                 $state.go($state.current, {reload: true});
                 initModel();
               }
@@ -96,6 +100,12 @@
 
         // Expose necessary data to the scope.
         $scope.user = UserService.user();
+        _territory.territoryHolderHistory = _.sortBy(_territory.territoryHolderHistory, function(i) {
+            if(!i.startDate) {
+                return 0;
+            }
+            return Date.parse(i.startDate);
+        });
         $scope.territory = angular.copy(_territory);
         $scope.holders = _holders;
         $scope.attributes = _attributes;
@@ -235,7 +245,7 @@
                 .update($scope.territory.id, { center : response.data.id })
                 .then(
                   function onSuccess() {
-                    MessageService.success('Territory "' + $scope.territory.territoryCode + '" updated successfully');
+                    MessageService.success('Alue "' + $scope.territory.territoryCode + '" päivitettiin.');
                     $state.go($state.current, {id: _territory.id}, {reload: true});
                   }
                 )
@@ -290,8 +300,12 @@
             holder: historyItem.holder
           })            
           .then(
-            function onSuccess() {
-              MessageService.success('Territory history item updated.');
+            function onSuccess(value) {
+              if(value.status == 200) {
+                MessageService.success('Aluehistoriatieto päivitettiin.');
+              } else {
+                MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+              }
             }
           );
         };
@@ -311,7 +325,7 @@
               .delete(territoryHolderHistoryItemToBeDeletedId)            
               .then(
                 function onSuccess() {
-                  MessageService.success('Territory holder history row deleted successfully');
+                  MessageService.success('Aluehistoriatieto poistettiin.');
                   territoryHolderHistoryItemToBeDeletedId = null;
                   $scope.deleteTerritoryHolderHistoryItemVisible = false;
                   $state.go($state.current, {id: _territory.id}, {reload: true});
@@ -377,8 +391,12 @@
               TerritoryHolderHistoryModel
                 .create(holderHistoryData)
                 .then(
-                  function onSuccess() {
-                    MessageService.success('Territory history for "' + $scope.territory.territoryCode + '" created successfully');
+                  function onSuccess(value) {
+                    if(value.status == 201) {
+                      MessageService.success('Aluehistoriatieto alueelle "' + $scope.territory.territoryCode + '" luotiin.');
+                    } else {
+                      MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                    }
                   }
                 )
               ;  
@@ -391,8 +409,12 @@
           TerritoryModel
             .update(data.id, data)
             .then(
-              function onSuccess() {
-                MessageService.success('Territory "' + $scope.territory.territoryCode + '" updated successfully');
+              function onSuccess(value) {
+                if(value.status == 200) {
+                  MessageService.success('Alue "' + $scope.territory.territoryCode + '" päivitettiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
                 $state.go($state.current, {id: _territory.id}, {reload: true});
               }
             )
@@ -407,7 +429,7 @@
             .delete($scope.territory.id)
             .then(
               function onSuccess() {
-                MessageService.success('Territory "' + $scope.territory.territoryCode + '" deleted successfully');
+                MessageService.success('Alue "' + $scope.territory.territoryCode + '" poistettiin.');
 
                 $state.go('app.territories');
               }
@@ -582,7 +604,7 @@
             $scope.suggestBackup = true;
           }
         };
-        $timeout(updateBackupSuggestion, 2500);
+        $timeout(updateBackupSuggestion, 50);
 
         $scope.runBackup = function runBackup() {
           MailService.backup().then(function() {
@@ -597,7 +619,7 @@
             $scope.mailsTotal = data.data.new_territory_taken_emails + data.data.territory_removed_emails + data.data.not_covered_territory_emails;
           });
         };
-        $timeout(updateMailCount, 5000);
+        $timeout(updateMailCount, 50);
 
         $scope.sendNotificationEmails = function sendNotificationEmails() {
           MailService.send(null).then(function(data) {

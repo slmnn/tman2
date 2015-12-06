@@ -38,7 +38,7 @@
             .delete(attribute.id)
             .then(
               function onSuccess() {
-                MessageService.success('Attribute removed successfully');
+                MessageService.success('Attribuutti poistettiin.');
                 $state.go($state.current, {}, {reload: true});
               }
             )
@@ -56,8 +56,12 @@
           AttributeModel
             .create(data)
             .then(
-              function onSuccess() {
-                MessageService.success('Attribute created successfully');
+              function onSuccess(value) {
+                if(value.status == 201) {
+                  MessageService.success('Uusi attribuutti luotiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
                 $state.go($state.current, {}, {reload: true});
               }
             )
@@ -75,8 +79,12 @@
           AttributeModel
             .update(data.id, data)
             .then(
-              function onSuccess() {
-                MessageService.success('Attribute updated successfully');
+              function onSuccess(value) {
+                if(value.status == 200) {
+                  MessageService.success('Attribuutti päivitettiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
                 $state.go($state.current, {}, {reload: true});
               }
             )

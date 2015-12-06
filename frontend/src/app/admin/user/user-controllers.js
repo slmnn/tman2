@@ -50,8 +50,12 @@
           UserModel
             .create(data)
             .then(
-              function onSuccess() {
-                MessageService.success('New user added successfully');
+              function onSuccess(value) {
+                if(value.status == 201) {
+                  MessageService.success('Uusi käyttäjä lisättiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
 
                 $state.go('admin.users', {reload: true});
               }
@@ -94,8 +98,12 @@
           UserModel
             .update(data.id, data)
             .then(
-              function onSuccess() {
-                MessageService.success('User "' + $scope.user.username + '" updated successfully');
+              function onSuccess(value) {
+                if(value.status == 200) {
+                  MessageService.success('Käyttäjän "' + $scope.user.username + '" tiedot päivitettiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
                 $state.go($state.current, {reload: true});
               }
             )

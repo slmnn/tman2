@@ -47,8 +47,12 @@
             }
           )
           .then(
-            function onSuccess() {
-              MessageService.success('App settings created successfully');
+            function onSuccess(value) {
+              if(value.status == 201) {
+                MessageService.success('Sovellusasetukset tallennettiin.');
+              } else {
+                MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+              }
               $state.go($state.current, {}, {reload: true});
             }
           );
@@ -69,8 +73,12 @@
           AppModel
             .update(data.id, data)
             .then(
-              function onSuccess() {
-                MessageService.success('App settings updated successfully');
+              function onSuccess(value) {
+              if(value.status == 200) {
+                MessageService.success('Sovellusasetukset päivitettiin.');
+              } else {
+                MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+              }
                 $state.go($state.current, {}, {reload: true});
               }
             )

@@ -38,8 +38,12 @@
           HolderModel
             .create(data)
             .then(
-              function onSuccess() {
-                MessageService.success('Uusi alueomistaja lisättiin!');
+              function onSuccess(value) {
+                if(value.status == 201) {
+                  MessageService.success('Uusi alueomistaja luotiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
                 initScope();
               }
             )
@@ -110,8 +114,12 @@
           HolderModel
             .update(data.id, data)
             .then(
-              function onSuccess() {
-                MessageService.success('Holder "' + $scope.holder.title + '" updated successfully');
+              function onSuccess(value) {
+                if(value.status == 200) {
+                  MessageService.success('Alueomistajan "' + $scope.holder.name + '" tiedot päivitettiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
               }
             )
           ;
@@ -126,7 +134,7 @@
             .delete($scope.holder.id)
             .then(
               function onSuccess() {
-                MessageService.success('holder "' + $scope.holder.title + '" deleted successfully');
+                MessageService.success('Alueomistaja "' + $scope.holder.name + '" poistettiin.');
 
                 $state.go('app.holders');
               }

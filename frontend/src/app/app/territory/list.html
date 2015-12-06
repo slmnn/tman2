@@ -1,6 +1,6 @@
 <div data-territory-sub-pages></div>
 
-<div class="alert alert-info top-buffer" data-ng-show="mailsTotal > 0">
+<div class="alert alert-info top-buffer email-warning" data-ng-show="mailsTotal > 0">
     <h4>
         <i class="fa fa-envelope"></i> Sähköpostimuistutukset
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -13,7 +13,7 @@
     <a class="btn btn-xs btn-primary" data-ng-click="sendNotificationEmails()">Lähetä</a>
 </div>
 
-<div class="alert alert-danger top-buffer" data-ng-show="suggestBackup">
+<div class="alert alert-danger top-buffer backup-warning" data-ng-show="suggestBackup">
     <h4>
         <i class="fa fa-exclamation-circle"></i> Varmuuskopiointi
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -21,8 +21,6 @@
     Edellisen varmuuskopion ottamisesta on kulunut jo tovi
     <a class="btn btn-xs btn-danger" data-ng-click="runBackup()">Varmuuskopioi</a>
 </div>
-
-
 
 <h3>
     {{'TERRITORIES' | translate}} ({{itemCount}})
@@ -122,7 +120,7 @@
             </tr>
             </thead>
             <tbody data-ng-repeat="territory in items">
-                <tr data-ng-class="territory.checked ? 'bg-info' : ''">
+                <tr data-ng-class="territory.checked ? 'bg-info' : (selectionDisabledFilter(territory) ? 'bg-tuned-down' : '')">
                     <td class="col-md-1 valign">
                         <h4><strong><a data-ui-sref="app.territory({id: territory.id})">
                             {{territory.territoryCode || territory.id}}
@@ -167,7 +165,7 @@
                             {{territory.holder.name}}
                         </a>
                     </td>
-                    <td data-ng-class="!isDefaultHolder(territory.holder.id) ? 'bg-tuned-down col-md-1 valign text-center' : 'col-md-1 valign text-center'">
+                    <td class="col-md-1 valign text-center">
                         <label class="whitespace-label">
                             <input type="checkbox" 
                                 class="big-checkbox"

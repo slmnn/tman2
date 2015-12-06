@@ -318,16 +318,6 @@
                       );
                     }
                   ],
-                  _territoryHolderHistory: [
-                    '$stateParams',
-                    'TerritoryHolderHistoryModel',
-                    function resolve(
-                      $stateParams,
-                      TerritoryHolderHistoryModel
-                    ) {
-                      return TerritoryHolderHistoryModel.load();
-                    }
-                  ],
                   _attributes: [
                     '$stateParams',
                     'AttributeModel',
