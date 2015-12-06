@@ -7,6 +7,7 @@
             data-ng-if="item.state"
             data-ng-show="auth.authorize(item.access)"
             data-ui-sref="{{item.state}}">
+            <span data-ng-if="item.icon" class="fa {{item.icon}}"></span>
             {{item.title}}
         </a>
 

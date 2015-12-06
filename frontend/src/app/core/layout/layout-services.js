@@ -15,17 +15,20 @@
           {
             state: 'app.about',
             title: 'Etusivu',
-            access: AccessLevels.anon
+            access: AccessLevels.anon,
+            icon: 'fa-home'
           },
           {
             state: 'app',
             title: 'Aluehallinta',
-            access: AccessLevels.user
+            access: AccessLevels.user,
+            icon: 'fa-map-o'
           },
           {
             state: 'admin',
             title: 'Käyttäjät',
-            access: AccessLevels.admin
+            access: AccessLevels.admin,
+            icon: 'fa-users'
           }
         ];
       }
@@ -42,22 +45,26 @@
             {
               state: 'app.territories',
               title: 'Alueet',
-              access: AccessLevels.user
+              access: AccessLevels.user,
+              icon: 'fa-list'
             },
             {
               state: 'app.holders',
               title: 'Alueomistajat',
-              access: AccessLevels.user
+              access: AccessLevels.user,
+              icon: 'fa-street-view'
             },
             {
               state: 'app.attributes',
               title: 'Attribuutit',
-              access: AccessLevels.admin
+              access: AccessLevels.admin,
+              icon: 'fa-flag'
             },
             {
               state: 'app.app',
               title: 'Aluehallinnan asetukset',
-              access: AccessLevels.admin
+              access: AccessLevels.admin,
+              icon: 'fa-cogs'
             }
           ],
           'admin': [

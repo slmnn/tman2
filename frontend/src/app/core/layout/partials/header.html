@@ -14,12 +14,18 @@
                     <li data-ui-sref-active="active"
                         data-ng-show="!auth.isAuthenticated()"
                     >
-                        <a href="#" data-ui-sref="auth.login">Kirjaudu sisään</a>
+                        <a href="#" data-ui-sref="auth.login">
+                            <span class="fa fa-sign-in"></span>
+                            Kirjaudu sisään
+                        </a>
                     </li>
 
                     <li data-ng-show="auth.isAuthenticated()"
                     >
-                        <a href="#" data-ng-click="logout()">Kirjaudu ulos</a>
+                        <a href="#" data-ng-click="logout()">
+                            <span class="fa fa-sign-out"></span>
+                            Kirjaudu ulos
+                        </a>
                     </li>
 
                     <li data-ui-sref-active="active"
@@ -38,7 +44,10 @@
                     >
                         <a href="#"
                             data-ui-sref="{{item.state}}"
-                        >{{item.title}}</a>
+                        >
+                            <span data-ng-if="item.icon" class="fa {{item.icon}}"></span>
+                            {{item.title}}
+                        </a>
                     </li>
                 </ul>
             </div>
