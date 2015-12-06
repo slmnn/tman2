@@ -50,6 +50,9 @@
                             data-e-ng-click="openPickers('coveredDateOpened')" 
                             data-e-is-open="pickers.coveredDateOpened" 
                             data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
                             data-e-name= "date" 
                         >
                             {{territory.covered | date : 'dd.MM.yyyy'}}
@@ -62,6 +65,9 @@
                             data-e-ng-click="openPickers('takenDateOpened')" 
                             data-e-is-open="pickers.takenDateOpened" 
                             data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
                             data-e-name= "date" 
                         >
                             {{territory.taken | date : 'dd.MM.yyyy'}}
@@ -195,6 +201,9 @@
                             data-e-ng-click="openPickers('thhStartDateOpened')" 
                             data-e-is-open="pickers.thhStartDateOpened" 
                             data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
                             data-e-name= "date" 
                             data-onaftersave="saveTerritoryHistoryItem(thh)"
                         >
@@ -210,6 +219,9 @@
                             data-editable-bsdate="thh.endDate" 
                             data-e-ng-click="openPickers('thhEndDateOpened')" 
                             data-e-is-open="pickers.thhEndDateOpened" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
                             data-e-datepicker-popup = "dd.MM.yyyy" 
                             data-onaftersave="saveTerritoryHistoryItem(thh)"
                             data-e-name= "date" 
@@ -311,10 +323,13 @@
             </tbody>
         </table>
         <div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible">
-            <label>{{'ADD_ATTRIBUTE' | translate}}:
-                <select ng-model="newAttribute" ng-options="a.name for a in attributes"></select>
-            </label>
-            <a class="btn btn-primary btn-xs" data-ng-click="addNewAttribute(newAttribute);">{{'ADD' | translate}}</a>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="newAttributeInput">{{'ADD_ATTRIBUTE' | translate}}</label>
+                    <select id="newAttributeInput" class="form-control input-sm" ng-model="newAttribute" ng-options="a.name for a in attributes"></select>
+                </div>
+                <a class="btn btn-primary btn-sm" data-ng-click="addNewAttribute(newAttribute);">{{'ADD' | translate}}</a>
+            </div>
         </div>
     </div>
 
@@ -414,20 +429,40 @@
             </tbody>
         </table>
         <div data-ng-if="deleteSpecialAddressItemVisible">
-            <label>Nimi:
-                <input type="text" maxlength="40" data-ng-model="specialAddress.name" />
-            </label>
-            <label>Osoite:
-                <input type="text" maxlength="100" data-ng-model="specialAddress.address" />
-            </label>
-            <label>Tyyppi:
-                <select data-ng-model="specialAddress.type">
-                    <option value="">-</option>
-                    <option value="Kielto">Kieltopaikka</option>
-                    <option value="Vierask">Vieraskielinen</option>
-                </select>
-            </label>
-            <a class="btn btn-primary btn-xs" data-ng-click="addSpecialAddress(specialAddress);">{{'ADD' | translate}}</a>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>Nimi:
+                        <input 
+                            class="form-control input-sm" 
+                            type="text" minlength="3" 
+                            required="required"
+                            maxlength="40" 
+                            data-ng-model="specialAddress.name" />
+                    </label>
+                    <label>Osoite:
+                        <input 
+                            class="form-control input-sm" 
+                            type="text" 
+                            minlength="3" 
+                            maxlength="100" 
+                            required="required"
+                            data-ng-model="specialAddress.address" />
+                    </label>
+                    <label>Tyyppi:
+                        <select class="form-control input-sm" data-ng-model="specialAddress.type">
+                            <option value="">-</option>
+                            <option value="Kielto">Kieltopaikka</option>
+                            <option value="Vierask">Vieraskielinen</option>
+                        </select>
+                    </label>
+                    <button class="btn btn-primary btn-sm" 
+                        data-ng-click="addSpecialAddress(specialAddress);"
+                        data-ng-disabled="!specialAddress.name || !specialAddress.address || specialAddress.type == ''"
+                    >
+                        {{'ADD' | translate}}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     </div>
