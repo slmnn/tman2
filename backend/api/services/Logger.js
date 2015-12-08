@@ -98,8 +98,8 @@ exports.request = function request(log, request, response) {
         body: log.diagnostic.bodyParams,
         protocol: log.protocol,
         ip: log.ip,
-        responseTime: log.responseTime,
-        middlewareLatency: log.diagnostic.middlewareLatency,
+        responseTime: log.responseTime || 0,
+        middlewareLatency: log.diagnostic.middlewareLatency || 0,
         user: userId
       })
       .exec(function exec(error) {
