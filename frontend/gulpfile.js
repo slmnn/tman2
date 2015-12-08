@@ -340,7 +340,7 @@ function dist(ext, name, opt) {
 
   return lazypipe()
     .pipe(g.concat, name + '.' + ext)
-    .pipe(gulp.dest, './dist')
+    //.pipe(gulp.dest, './dist')
     .pipe(opt.ngAnnotate ? g.ngAnnotate : noop)
     .pipe(opt.ngAnnotate ? g.rename : noop, name + '.annotated.' + ext)
     .pipe(opt.ngAnnotate ? gulp.dest : noop, './dist')
