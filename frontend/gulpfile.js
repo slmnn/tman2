@@ -157,10 +157,16 @@ gulp.task('fonts', function() {
   ;
 });
 
+gulp.task('fonts-bs', function() {
+  return gulp.src('./bower_components/bootstrap/fonts/**')
+    .pipe(gulp.dest('./dist/fonts'))
+  ;
+});
+
 /**
  * Dist
  */
-gulp.task('dist', ['vendors', 'assets', 'fonts', 'styles-dist', 'scripts-dist'], function() {
+gulp.task('dist', ['vendors', 'assets', 'fonts', 'fonts-bs', 'styles-dist', 'scripts-dist'], function() {
   return gulp.src('./src/app/index.html')
     .pipe(g.inject(gulp.src('./dist/vendors.min.{js,css}'), {
       ignorePath: 'dist',
