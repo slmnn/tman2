@@ -157,6 +157,7 @@
       ) {
         // Set usage of Bootstrap 3 CSS with angular-xeditable
         editableOptions.theme = 'bs3';
+        editableOptions.icon_set = 'font-awesome';
 
         /**
          * Route state change start event, this is needed for following:
@@ -175,7 +176,7 @@
           event.preventDefault();
 
           $injector.get('MessageService')
-            .error('Error loading the page');
+            .error('Virhe sivua ladattaessa.');
 
           $state.get('error').error = {
             event: event,
