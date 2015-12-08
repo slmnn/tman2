@@ -68,6 +68,16 @@
                       return UserModel.fetch($stateParams.id, {populate: 'holder'});
                     }
                   ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load({populate: 'defaultHolder'});
+                    }
+                  ],
                   _holders: [
                     '$stateParams',
                     'HolderModel',

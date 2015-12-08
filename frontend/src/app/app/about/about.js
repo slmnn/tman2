@@ -22,7 +22,19 @@
             views: {
               'content@': {
                 templateUrl: '/frontend/app/about/about.html',
-                controller: 'AboutController'
+                controller: 'AboutController',
+                resolve: {
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ]
+                }
               },
               'pageNavigation@': false
             }
@@ -33,11 +45,14 @@
     .controller('AboutController', [
       '$scope', '$state',
       'AuthService',
+      '_app',
       function controller(
         $scope, $state,
-        AuthService
+        AuthService,
+        _app
       ) {
         $scope.auth = AuthService;
+        $scope.name = _app[0].name;
       }
     ])
   ;

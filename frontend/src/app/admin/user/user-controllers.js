@@ -51,7 +51,7 @@
             .create(data)
             .then(
               function onSuccess(value) {
-                if(value.status == 201) {
+                if(value.status == 200) {
                   MessageService.success('Uusi käyttäjä lisättiin.');
                 } else {
                   MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
@@ -72,11 +72,11 @@
       '$scope', '$state',
       'UserService', 'MessageService',
       'UserModel',
-      '_user', '_holders',
+      '_user', '_holders', '_app',
       function controller(
         $scope, $state,
         UserService, MessageService,
-        UserModel, _user, _holders
+        UserModel, _user, _holders, _app
       ) {
 
         // Initialize scope data
@@ -90,8 +90,14 @@
          */
         $scope.saveUser = function saveUser() {
           var data = angular.copy($scope.user);
-          if(data.holder !== null && data.holder.id) {
+          if(data.holder != null && data.holder.id !== _app[0].defaultHolder.id) {
             data.holder = data.holder.id;
+          } 
+          else if(data.holder != null && data.holder.id === _app[0].defaultHolder.id) {
+            data.holder = null;
+          }
+          else {
+            data.holder = null;
           }
 
           // Make actual data update
