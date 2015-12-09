@@ -717,6 +717,9 @@
         // initial selection. It also disables territories if the user has limited
         // user right to territories.
         $scope.selectionDisabledFilter = function(territory) {
+          if(territory.archived) {
+            return true;
+          }
           if($scope.selectedTerritoryHolderId !== null && $scope.selectedTerritoryHolderId == territory.holder.id) {
             if($scope.user.holder 
               && territory.holder.id !== $scope.app.defaultHolder 

@@ -123,11 +123,13 @@
                 <tr data-ng-class="territory.checked ? 'bg-info' : (selectionDisabledFilter(territory) ? 'bg-tuned-down' : '')">
                     <td class="col-md-1 valign">
                         <h4><strong><a data-ui-sref="app.territory({id: territory.id})">
-                            {{territory.territoryCode || territory.id}}
+                            <span data-ng-if="!territory.archived">{{territory.territoryCode || territory.id}}</span>
+                            <span data-ng-if="territory.archived"><s>{{territory.territoryCode || territory.id}}</s></span>
                         </a></strong></h4>
                     </td>
                     <td class="col-md-1 valign mobile-hide">
                         {{territory.type}}
+                        <span data-ng-if="territory.archived">(arkistoitu)</span>
                     </td>
                     <td data-ng-class="isNotCoveredLimitExeeded(territory, app) ? 'bg-danger col-md-1 valign' : 'col-md-1 valign'">
                         <a
