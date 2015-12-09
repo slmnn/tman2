@@ -41,7 +41,7 @@
                       var parameters = {
                         populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
                         limit: config.itemsPerPage,
-                        sort: 'name ASC'
+                        sort: 'territoryCode ASC'
                       };
 
                       return TerritoryModel.load(parameters);
@@ -54,7 +54,12 @@
                       $stateParams,
                       HolderModel
                     ) {
-                      return HolderModel.load();
+                      return HolderModel.load({
+                        where: {
+                          isArchived:false
+                        },
+                        sort: 'name ASC'
+                      });
                     }
                   ],
                   _attributes: [
@@ -335,9 +340,9 @@
                       $stateParams,
                       HolderModel
                     ) {
-
-                      // Load all holders, later add isActive param.
-                      return HolderModel.load();
+                      return HolderModel.load({
+                        sort: 'name ASC'
+                      });
                     }
                   ],
                   _holdersCount: [
@@ -384,9 +389,12 @@
                       $stateParams,
                       HolderModel
                     ) {
-
-                      // Load all holders, later add isActive param.
-                      return HolderModel.load();
+                      return HolderModel.load({
+                        where: {
+                          isArchived: false
+                        },
+                        sort: 'name ASC'
+                      });
                     }
                   ],
                   _app: [

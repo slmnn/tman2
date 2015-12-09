@@ -24,6 +24,7 @@
             name: '',
             email: '',
             emailValid: true,
+            isArchived: false,
             territories: []
           };
         };

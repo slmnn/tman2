@@ -39,7 +39,7 @@
                       var parameters = {
                         populate: 'territories',
                         limit: config.itemsPerPage,
-                        sort: 'releaseDate DESC'
+                        sort: 'name ASC'
                       };
 
                       return HolderModel.load(parameters);
