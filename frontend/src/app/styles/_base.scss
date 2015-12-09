@@ -22,6 +22,18 @@ h1, h2, h3, h4, h5, h5 {
   margin-bottom: 0
 }
 
+.navbar-nav > li > a, .navbar-brand {
+    padding-top:4px !important; 
+    padding-bottom:0 !important;
+    height: 28px;
+}
+.navbar {min-height:28px !important;}
+.navbar-toggle {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding: 4px 5px;
+}
+
 .datepicker-noclear [ng-click="select(null)"] {
   display: none;
 } 

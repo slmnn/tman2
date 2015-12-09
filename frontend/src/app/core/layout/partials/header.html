@@ -31,7 +31,10 @@
                     <li data-ui-sref-active="active"
                         data-ng-show="auth.isAuthenticated()"
                     >
-                        <a href="#" data-ui-sref="profile.edit({id: user().id})">{{user().username}}</a>
+                        <a href="#" data-ui-sref="profile.edit({id: user().id})">
+                            <span class="fa fa-user"></span>
+                            {{user().username}}
+                        </a>
                     </li>
                 </ul>
 
