@@ -11,6 +11,16 @@
             <div class="collapse navbar-collapse" id="navbar-main">
 
                 <ul class="nav navbar-nav navbar-right">
+                    
+                    <li data-ui-sref-active="active"
+                        data-ng-show="auth.isAuthenticated()"
+                    >
+                        <a href="#" data-ui-sref="profile.edit({id: user().id})">
+                            <span class="fa fa-user"></span>
+                            {{user().username}}
+                        </a>
+                    </li>
+
                     <li data-ui-sref-active="active"
                         data-ng-show="!auth.isAuthenticated()"
                     >
@@ -28,14 +38,6 @@
                         </a>
                     </li>
 
-                    <li data-ui-sref-active="active"
-                        data-ng-show="auth.isAuthenticated()"
-                    >
-                        <a href="#" data-ui-sref="profile.edit({id: user().id})">
-                            <span class="fa fa-user"></span>
-                            {{user().username}}
-                        </a>
-                    </li>
                 </ul>
 
                 <ul class="nav navbar-nav">
