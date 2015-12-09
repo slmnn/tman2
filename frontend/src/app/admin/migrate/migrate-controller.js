@@ -100,7 +100,8 @@
                     covered: t.taken,
                     description: t.description,
                     holder: holderId,
-                    center: new_coordinateId
+                    center: new_coordinateId,
+                    archived: false
                   }
                 )
                 .then(

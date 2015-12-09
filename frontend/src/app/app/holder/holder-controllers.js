@@ -107,9 +107,8 @@
          */
         $scope.saveHolder = function saveHolder() {
           var data = angular.copy($scope.holder);
-
-          // Set territory id to update data
-          data.territory = $scope.selectTerritory;
+          data.isArchived = data.isArchived || false;
+          data.emailValid = data.emailValid || true;
 
           // Make actual data update
           HolderModel

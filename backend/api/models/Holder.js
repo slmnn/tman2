@@ -43,7 +43,8 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
 
     // Holder description
     description: {
-      type: 'text'
+      type: 'text',
+      required: false
     },
 
     // Below is all specification for relations to another models
