@@ -25,9 +25,9 @@
         $scope, $state,
         AuthService, FocusOnService
       ) {
-        // Already authenticated so redirect back to holders list
+        // Already authenticated so redirect back to territories list
         if (AuthService.isAuthenticated()) {
-          $state.go('app.holders');
+          $state.go('app.territories');
         }
 
         // Scope function to perform actual login request to server
@@ -36,7 +36,7 @@
             .login($scope.credentials)
             .then(
               function successCallback() {
-                $state.go('app.holders');
+                $state.go('app.territories');
               },
               function errorCallback() {
                 _reset();
