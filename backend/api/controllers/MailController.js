@@ -122,9 +122,9 @@ module.exports = {
             if(last_email_sent < reallyTaken && t_all[i].holder == app.defaultHolder) {
               territory_removed_emails++;
             } 
-            var taken = new Date(t_all[i].taken);
-            taken = taken.getTime();
-            if(not_covered_limit > taken 
+            var covered = new Date(t_all[i].covered);
+            covered = covered.getTime();
+            if(not_covered_limit > covered 
               && last_email_sent < (now - 30*1000*60*60*24)
               && t_all[i].holder != app.defaultHolder) {
               not_covered_territory_emails++;
@@ -217,9 +217,9 @@ module.exports = {
               }
 
               // not_covered_limit is expired and email is not sent
-              var taken = new Date(t_all[i].taken);
-              taken = taken.getTime();
-              if(not_covered_limit > taken && last_email_sent < (now - 30*1000*60*60*24) && t_all[i].holder != app.defaultHolder) {
+              var covered = new Date(t_all[i].covered);
+              covered = covered.getTime();
+              if(not_covered_limit > covered && last_email_sent < (now - 30*1000*60*60*24) && t_all[i].holder != app.defaultHolder) {
                 not_covered_territory_emails++;
                 t_to_be_updated.push(t_all[i]);
                 var mail = createEmailObject(t_all[i], t_all, h_all, app, 

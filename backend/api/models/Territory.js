@@ -53,7 +53,8 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
 
     // Holder of the territory
     holder: {
-      model: 'holder'
+      model: 'holder',
+      required: true
     },
 
     // Link to coordinates pointing to territory center.
