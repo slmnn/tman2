@@ -20,8 +20,8 @@
         $stateProvider
 
           // Single app
-          .state('app.app', {
-            url: '/app/app/',
+          .state('app.settings', {
+            url: '/app/settings/',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/app/app.html',

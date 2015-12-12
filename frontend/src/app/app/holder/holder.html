@@ -16,6 +16,7 @@
                         data-e-required
                     >
                         {{holder.name}}
+                        <span data-ng-if="holder.isArchived">(arkistoitu)</span>
                     </span>
 
 
@@ -31,7 +32,7 @@
                         </a>
                     </span>
                 </h3>
-                <dl>
+                <dl class="dl-horizontal">
                     <dt>{{'EMAIL' | translate}}</dt>
                     <dd>
                         <span style="width: 100%;"
@@ -120,7 +121,7 @@
                     <tbody data-ng-repeat="t in holder.territories">
                         <tr>
                             <td>
-                                <a data-ui-sref="app.territory({id: t.id})">
+                                <a data-ui-sref="app.territory.single({id: t.id})">
                                     {{t.territoryCode}}
                                 </a>
                             </td>                    

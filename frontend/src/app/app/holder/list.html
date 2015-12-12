@@ -72,7 +72,7 @@
             <tbody>
                 <tr data-ng-repeat="holder in items">
                     <td class="col-md-3">
-                        <a data-ui-sref="app.holder({id: holder.id})">
+                        <a data-ui-sref="app.holder.single({id: holder.id})">
                             <span data-ng-if="!holder.isArchived">{{holder.name}}</span>
                             <span data-ng-if="holder.isArchived"><s>{{holder.name}}</s> (arkistoitu)</span>
                         </a>

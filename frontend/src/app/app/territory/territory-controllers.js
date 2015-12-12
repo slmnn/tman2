@@ -10,13 +10,13 @@
   // Controller for new territory creation.
   angular.module('frontend.app.territory')
     .controller('TerritoryAddController', [
-      '$scope', '$state', 
+      '$scope', '$state', '$modalInstance',
       'HolderModel', 
       '_holders',
       '_app',
       'MessageService', 'TerritoryModel',
       function controller(
-        $scope, $state,
+        $scope, $state, $modalInstance,
         HolderModel, 
         _holders,
         _app,
@@ -37,6 +37,11 @@
           $scope.selectedHolder = $scope.app.defaultHolder;
         };
         initModel();
+
+        // Dismiss function for modal
+        $scope.dismiss = function dismiss() {
+          $modalInstance.dismiss();
+        };
 
         $scope.datePickerOpened = function datePickerOpened($event) {
           if ($event) {
@@ -84,6 +89,7 @@
       '_territory', '_holders', '_app', '_attributes',
       'TerritoryHolderHistoryModel',
       'TerritoryLinkAttributeModel',
+      'TerritoryHelper',
       'CoordinateModel', 'uiGmapGoogleMapApi',
       function controller(
         $scope, $state, _, $timeout,
@@ -92,6 +98,7 @@
         _territory, _holders, _app, _attributes,
         TerritoryHolderHistoryModel,
         TerritoryLinkAttributeModel,
+        TerritoryHelper,
         CoordinateModel, uiGmapGoogleMapApi
       ) {
         // Set current scope reference to models
@@ -106,6 +113,7 @@
             }
             return Date.parse(i.startDate);
         });
+
         $scope.territory = angular.copy(_territory);
         $scope.holders = _holders;
         $scope.attributes = _attributes;
@@ -130,6 +138,15 @@
           });
         };
 
+        $scope.isNotCoveredLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isNotCoveredRecently(territory, app);
+        };
+
+        $scope.isHolderNotChangedLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isHolderNotChangedLimitExeeded(territory, app);
+        };
+
+
         // Create Google Map settings for showing the center and border of the territory.
         // Copy the border path from territory.
         var path = [];
@@ -140,7 +157,7 @@
         // Describe the map.
         $scope.map = { 
           center: $scope.territory.center || { latitude: $scope.app.defaultLatitude, longitude: $scope.app.defaultLongitude},
-          zoom: 12, 
+          zoom: 16, 
           territoryCenterMarker : { 
             id: $scope.territory.center ? $scope.territory.center.id : 0,
             options: {
@@ -431,7 +448,7 @@
               function onSuccess() {
                 MessageService.success('Alue "' + $scope.territory.territoryCode + '" poistettiin.');
 
-                $state.go('app.territories');
+                $state.go('app.territory');
               }
             )
           ;
@@ -1019,6 +1036,8 @@
             )
           ;
         }
+
+        _triggerFetchData();
       }
     ])
   ;

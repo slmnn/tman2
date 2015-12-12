@@ -4,7 +4,7 @@
     <li class="vertical-list" data-ng-repeat="t in territories | orderBy  : 'territoryCode'">
       <h4>
         <a  
-          data-ui-sref="app.territory({id: t.id})" 
+          data-ui-sref="app.territory.single({id: t.id})" 
           data-ng-class="isDefaultHolder(t.holder.id) ? 'strong-text':''"
         >
           <span 

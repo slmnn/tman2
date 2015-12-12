@@ -18,8 +18,45 @@
       '$stateProvider',
       function config($stateProvider) {
         $stateProvider
+
+          .state('admin.user', {
+            url: '/admin/user/',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/admin/user/index.html',
+                controller: 'UsersController',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'UserModel',
+                    function resolve(
+                      ListConfig,
+                      UserModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        limit: config.itemsPerPage,
+                        sort: 'createdAt DESC',
+                        populate: 'holder'
+                      };
+
+                      return UserModel.load(parameters);
+                    }
+                  ],
+                  _count: [
+                    'UserModel',
+                    function resolve(UserModel) {
+                      return UserModel.count();
+                    }
+                  ],
+                }
+              }
+            }
+          })
+
           .state('admin.user.add', {
-            url: '/admin/user/add',
+            url: '/add',
             views: {
               'content@': {
                 templateUrl: '/frontend/admin/user/add.html',
@@ -51,8 +88,8 @@
           })
 
           // Single user
-          .state('admin.user', {
-            url: '/app/user/:id',
+          .state('admin.user.single', {
+            url: '/:id',
             views: {
               'content@': {
                 templateUrl: '/frontend/admin/user/user.html',
@@ -92,41 +129,7 @@
               }
             }
           })
-          .state('admin.users', {
-            url: '/admin/users/',
-            views: {
-              'content@': {
-                templateUrl: '/frontend/admin/user/index.html',
-                controller: 'UsersController',
-                resolve: {
-                  _items: [
-                    'ListConfig',
-                    'UserModel',
-                    function resolve(
-                      ListConfig,
-                      UserModel
-                    ) {
-                      var config = ListConfig.getConfig();
 
-                      var parameters = {
-                        limit: config.itemsPerPage,
-                        sort: 'createdAt DESC',
-                        populate: 'holder'
-                      };
-
-                      return UserModel.load(parameters);
-                    }
-                  ],
-                  _count: [
-                    'UserModel',
-                    function resolve(UserModel) {
-                      return UserModel.count();
-                    }
-                  ],
-                }
-              }
-            }
-          })
         ;
       }
     ])

@@ -57,7 +57,7 @@
                   MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
                 }
 
-                $state.go('admin.users', {reload: true});
+                $state.go('admin.user', {reload: true});
               }
             )
           ;
@@ -292,6 +292,8 @@
             )
           ;
         }
+
+        _triggerFetchData();
       }
     ])
   ;

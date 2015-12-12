@@ -44,7 +44,7 @@
                 controller: [
                   '$state',
                   function($state) {
-                    $state.go('app.territories');
+                    $state.go('app.territory');
                   }
                 ]
               },

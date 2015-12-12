@@ -19,8 +19,8 @@
       function config($stateProvider) {
         $stateProvider
           // holder list
-          .state('app.holders', {
-            url: '/app/holders',
+          .state('app.holder', {
+            url: '/app/holder',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/holder/list.html',
@@ -66,9 +66,36 @@
             }
           })
 
+          // Add new holder
+          .state('app.holder.add', {
+            url: '/add',
+            data: {
+              access: 2
+            },
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/holder/add.html',
+                controller: 'HolderAddController',
+                name: 'Alueomistajan lisääminen',
+                resolve: {
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
           // Single holder
-          .state('app.holder', {
-            url: '/app/holder/:id',
+          .state('app.holder.single', {
+            url: '/:id',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/holder/holder.html',
@@ -100,32 +127,6 @@
             }
           })
 
-          // Add new holder
-          .state('app.holder.add', {
-            url: '/app/holder/add',
-            data: {
-              access: 2
-            },
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/holder/add.html',
-                controller: 'HolderAddController',
-                name: 'Alueomistajan lisääminen',
-                resolve: {
-                  _app: [
-                    '$stateParams',
-                    'AppModel',
-                    function resolve(
-                      $stateParams,
-                      AppModel
-                    ) {
-                      return AppModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
         ;
       }
     ])

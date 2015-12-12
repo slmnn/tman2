@@ -21,8 +21,8 @@
         $stateProvider
 
           // Territorys list
-          .state('app.territories', {
-            url: '/app/territories',
+          .state('app.territory', {
+            url: '/app/territory',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/territory/list.html',
@@ -94,8 +94,8 @@
           })
 
           // S-13
-          .state('app.territories.s13', {
-            url: '/app/territories/s13',
+          .state('app.territory.s13', {
+            url: '/s13',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/territory/s13.html',
@@ -138,8 +138,8 @@
           })
 
           // Stats
-          .state('app.territories.stats', {
-            url: '/app/territories/stats',
+          .state('app.territory.stats', {
+            url: '/stats',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/territory/stats.html',
@@ -190,8 +190,8 @@
           })
 
           // Map
-          .state('app.territories.map', {
-            url: '/app/territories/map',
+          .state('app.territory.map', {
+            url: '/map',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/territory/map.html',
@@ -242,8 +242,8 @@
           })
 
           // Map
-          .state('app.territories.quickview', {
-            url: '/app/territories/quickview',
+          .state('app.territory.quickview', {
+            url: '/quickview',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/territory/quickview.html',
@@ -292,9 +292,48 @@
             }
           })
 
+          .state("app.territory.add", {
+              url: "/add",
+              data: {
+                access: 2
+              },
+              onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                  $modal.open({
+                      templateUrl: '/frontend/app/territory/add.html',
+                      resolve: {
+                        _holders: [
+                          'HolderModel',
+                          function resolve(
+                            HolderModel
+                          ) {
+                            return HolderModel.load({
+                              where: {
+                                isArchived: false
+                              },
+                              sort: 'name ASC'
+                            });
+                          }
+                        ],
+                        _app: [
+                          'AppModel',
+                          function resolve(
+                            AppModel
+                          ) {
+                            return AppModel.load();
+                          }
+                        ]
+                      },
+                      controller: 'TerritoryAddController',
+                      name: 'Uusi alue',
+                      }).result.finally(function() {
+                        $state.go('^');
+                  });
+              }]
+          })
+
           // Single territory
-          .state('app.territory', {
-            url: '/app/territory/:id',
+          .state('app.territory.single', {
+            url: '/:id',
             views: {
               'content@': {
                 templateUrl: '/frontend/app/territory/territory.html',
@@ -370,47 +409,81 @@
             }
           })
 
-          // Add new territory
-          .state('app.territory.add', {
-            url: '/app/territory/add',
-            data: {
-              access: 2
-            },
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/territory/add.html',
-                controller: 'TerritoryAddController',
-                name: 'Uusi alue',
-                resolve: {
-                  _holders: [
-                    '$stateParams',
-                    'HolderModel',
-                    function resolve(
-                      $stateParams,
-                      HolderModel
-                    ) {
-                      return HolderModel.load({
-                        where: {
-                          isArchived: false
-                        },
-                        sort: 'name ASC'
-                      });
-                    }
-                  ],
-                  _app: [
-                    '$stateParams',
-                    'AppModel',
-                    function resolve(
-                      $stateParams,
-                      AppModel
-                    ) {
-                      return AppModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
+          // Commented out to be continued
+          // The idea is to enable quick browsing of territory
+          // details via modals
+          // .state("app.territory.modal", {
+          //     url: "/app/territory/modal/:id",
+          //     onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+          //         $modal.open({
+          //             size: 'lg',
+          //             templateUrl: '/frontend/app/territory/territory-modal.html',
+          //             resolve: {
+          //               _territory: [
+          //                 'TerritoryModel',
+          //                 function resolve(
+          //                   TerritoryModel
+          //                 ) {
+          //                   return TerritoryModel.fetch(
+          //                     $stateParams.id, 
+          //                     {
+          //                       populate: [
+          //                         'holder', 
+          //                         'territoryHolderHistory', 
+          //                         'center', 
+          //                         'coordinates', 
+          //                         'territoryLinkAttribute',
+          //                         'specialAddress'
+          //                       ]
+          //                     }
+          //                   );
+          //                 }
+          //               ],
+          //               _attributes: [
+          //                 'AttributeModel',
+          //                 function resolve(
+          //                   AttributeModel
+          //                 ) {
+          //                   return AttributeModel.load();
+          //                 }
+          //               ],
+          //               _holders: [
+          //                 'HolderModel',
+          //                 function resolve(
+          //                   HolderModel
+          //                 ) {
+          //                   return HolderModel.load({
+          //                     sort: 'name ASC'
+          //                   });
+          //                 }
+          //               ],
+          //               _holdersCount: [
+          //                 'HolderModel',
+          //                 function resolve(
+          //                   HolderModel
+          //                 ) {
+          //                   return HolderModel.count({territory: $stateParams.id});
+          //                 }
+          //               ],
+          //               _app: [
+          //                 'AppModel',
+          //                 function resolve(
+          //                   AppModel
+          //                 ) {
+          //                   return AppModel.load();
+          //                 }
+          //               ]
+          //             },
+          //             controller: 'TerritoryController',
+          //             name: 'Alueen tiedot',
+          //           })
+          //           .result
+          //           .finally(function() {
+          //             $state.go('^');
+          //           });
+          //     }]
+          // })
+
         ;
       }
     ])

@@ -1,0 +1,130 @@
+        <h4>
+            <span data-ng-if="territory.specialAddress.length > 0">
+                Kieltopaikat ja vieraskieliset ({{territory.specialAddress.length}})
+            </span>
+            <span data-ng-if="territory.specialAddress.length === 0">
+                Alueella ei ole kieltopaikkoja tai vieraskielisiä
+            </span>
+            <span class="pull-right"
+                data-ng-show="!deleteSpecialAddressItemVisible"
+            >
+                <a href="#"
+                    data-ng-click="deleteSpecialAddressItemVisible = true"
+                    data-tooltip="{{'EDIT' | translate}}"
+                >
+                    <i class="fa fa-wrench"></i>
+                </a>
+            </span>
+        </h4>
+        <table class="table table-condensed table-hover" data-ng-if="territory.specialAddress.length > 0">
+            <thead>
+                <tr>
+                    <th class="col-xs-1 text-nowrap">
+                        Päiväys
+                    </th>
+                    <th class="col-xs-4 text-nowrap">
+                        Nimi
+                    </th>
+                    <th class="col-xs-5 text-nowrap">
+                        Osoite
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        Tyyppi
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        <!-- empty for buttons in edit mode -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-ng-repeat="sa in territory.specialAddress | filter : 'Kielto'">
+                <tr>
+                    <td>
+                        {{sa.added | date : 'dd.MM.yyyy'}}
+                    </td>                    
+                    <td>
+                        {{sa.name}}
+                    </td>
+                    <td>
+                        {{sa.address}}
+                    </td>
+                    <td>
+                        {{sa.type}}
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-if="user.admin"
+                            data-ng-show="deleteSpecialAddressItemVisible"
+                            data-ng-click="setSpecialAddressToBeDeleted(sa)"
+                            data-ng-bootbox-title="Vahvista toiminto"
+                            data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?"
+                            data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"
+                        >
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody data-ng-repeat="sa in territory.specialAddress | filter : 'Vierask'">
+                <tr>
+                    <td>
+                        {{sa.added | date : 'dd.MM.yyyy'}}
+                    </td>                    
+                    <td>
+                        {{sa.name}}
+                    </td>
+                    <td>
+                        {{sa.address}}
+                    </td>
+                    <td>
+                        {{sa.type}}
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-show="deleteSpecialAddressItemVisible"
+                            data-ng-click="setSpecialAddressToBeDeleted(sa)"
+                            data-ng-bootbox-title="Vahvista toiminto"
+                            data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?"
+                            data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"
+                        >
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div data-ng-if="deleteSpecialAddressItemVisible">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>Nimi:
+                        <input 
+                            class="form-control input-sm" 
+                            type="text" minlength="3" 
+                            required="required"
+                            maxlength="40" 
+                            data-ng-model="specialAddress.name" />
+                    </label>
+                    <label>Osoite:
+                        <input 
+                            class="form-control input-sm" 
+                            type="text" 
+                            minlength="3" 
+                            maxlength="100" 
+                            required="required"
+                            data-ng-model="specialAddress.address" />
+                    </label>
+                    <label>Tyyppi:
+                        <select class="form-control input-sm" data-ng-model="specialAddress.type">
+                            <option value="">-</option>
+                            <option value="Kielto">Kieltopaikka</option>
+                            <option value="Vierask">Vieraskielinen</option>
+                        </select>
+                    </label>
+                    <button class="btn btn-primary btn-sm" 
+                        data-ng-click="addSpecialAddress(specialAddress);"
+                        data-ng-disabled="!specialAddress.name || !specialAddress.address || specialAddress.type == ''"
+                    >
+                        {{'ADD' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>

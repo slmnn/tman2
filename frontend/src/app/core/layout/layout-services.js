@@ -43,13 +43,13 @@
         var items = {
           'app': [
             {
-              state: 'app.territories',
+              state: 'app.territory',
               title: 'Alueet',
               access: AccessLevels.user,
               icon: 'fa-list'
             },
             {
-              state: 'app.holders',
+              state: 'app.holder',
               title: 'Alueomistajat',
               access: AccessLevels.user,
               icon: 'fa-street-view'
@@ -61,7 +61,7 @@
               icon: 'fa-flag'
             },
             {
-              state: 'app.app',
+              state: 'app.settings',
               title: 'Aluehallinnan asetukset',
               access: AccessLevels.admin,
               icon: 'fa-cogs'
@@ -69,7 +69,7 @@
           ],
           'admin': [
             {
-              state: 'admin.users',
+              state: 'admin.user',
               title: 'Käyttäjät',
               access: AccessLevels.admin
             },
@@ -235,7 +235,7 @@
          * @type    {{}}
          */
         var data = {
-          'app.holders': {
+          'app.holder': {
             'Backend': [
               {
                 url: repository + 'backend/api/models/Holder.js',
@@ -276,7 +276,7 @@
               }
             ]
           },
-          'app.territories': {
+          'app.territory': {
             'Backend': [
               {
                 url: repository + 'backend/api/models/Territory.js',
@@ -416,8 +416,8 @@
             var files = data[state];
 
             switch (state) {
-              case 'app.holders':
-              case 'app.territories':
+              case 'app.holder':
+              case 'app.territory':
               case 'app.chat':
                 files = _.merge(files, generic.backend, generic.frontend);
                 break;

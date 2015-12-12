@@ -27,7 +27,7 @@
       ) {
         // Already authenticated so redirect back to territories list
         if (AuthService.isAuthenticated()) {
-          $state.go('app.territories');
+          $state.go('app.territory');
         }
 
         // Scope function to perform actual login request to server
@@ -36,7 +36,7 @@
             .login($scope.credentials)
             .then(
               function successCallback() {
-                $state.go('app.territories');
+                $state.go('app.territory');
               },
               function errorCallback() {
                 _reset();

@@ -277,7 +277,9 @@
               }
             )
           ;
-        }
+        };
+
+        _triggerFetchData();
       }
     ])
   ;

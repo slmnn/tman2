@@ -136,7 +136,7 @@
               function onSuccess() {
                 MessageService.success('Alueomistaja "' + $scope.holder.name + '" poistettiin.');
 
-                $state.go('app.holders');
+                $state.go('app.holder');
               }
             )
           ;
@@ -362,6 +362,8 @@
             )
           ;
         }
+
+        _triggerFetchData();
       }
     ])
   ;

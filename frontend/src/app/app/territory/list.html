@@ -122,10 +122,12 @@
             <tbody data-ng-repeat="territory in items">
                 <tr data-ng-class="territory.checked ? 'bg-info' : (selectionDisabledFilter(territory) ? 'bg-tuned-down' : '')">
                     <td class="col-md-1 valign">
-                        <h4><strong><a data-ui-sref="app.territory({id: territory.id})">
-                            <span data-ng-if="!territory.archived">{{territory.territoryCode || territory.id}}</span>
-                            <span data-ng-if="territory.archived"><s>{{territory.territoryCode || territory.id}}</s></span>
-                        </a></strong></h4>
+                        <h4><strong>
+                            <a data-ui-sref="app.territory.single({id: territory.id})">
+                                <span data-ng-if="!territory.archived">{{territory.territoryCode || territory.id}}</span>
+                                <span data-ng-if="territory.archived"><s>{{territory.territoryCode || territory.id}}</s></span>
+                            </a>
+                        </strong></h4>
                     </td>
                     <td class="col-md-1 valign mobile-hide">
                         {{territory.type}}
@@ -155,15 +157,17 @@
                         </ul>
                     </td>
                     <td class="col-md-3 valign mobile-hide">
-                        {{territory.description | limitTo : 40}}
-                        {{territory.description.length > 40 ? '...' : ''}}
+                        <a data-tooltip="{{territory.description}}">
+                            {{territory.description | limitTo : 40}}
+                            {{territory.description.length > 40 ? '...' : ''}}
+                        </a>
                     </td>
                     <td class="col-md-1 valign mobile-hide">
                         {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description | limitTo : 20}}
                         {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description.length > 20 ? '...' : ''}}
                     </td>
                     <td data-ng-class="!isDefaultHolder(territory.holder.id) ? 'bg-tuned-down col-md-2 valign' : 'col-md-2 valign'">
-                        <a data-ui-sref="app.holder({id: territory.holder.id})">
+                        <a data-ui-sref="app.holder.single({id: territory.holder.id})">
                             {{territory.holder.name}}
                         </a>
                     </td>
@@ -251,7 +255,7 @@
                 <ul class="list-inline">
                     <li class="vertical-list" data-ng-repeat="t in filteredItems = (items | filter : onlyCheckedTerritories)">
                         
-                        <a data-ui-sref="app.territory({id: t.id})">
+                        <a data-ui-sref="app.territory.single({id: t.id})">
                             <h3>{{t.territoryCode || t.id}}</h3>
                         </a>
                         

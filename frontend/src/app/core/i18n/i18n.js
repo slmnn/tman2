@@ -46,8 +46,8 @@
       NUMBER_OF_APARTMENTS: 'Asuntojen lukumäärä',
       ARCHIVED: 'Arkistoitu',
       DESCRIPTION: 'Alueen kuvaus',
-      NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED: 'Ei lasketa vuoteen käymättömiä alueita laskettaessa',
-      NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2: 'lasketaanko alue mukaan, kun lasketaan yhteen vuoteen käymättömät alueet?',
+      NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED: 'Lasketaanko vuoteen käymättömiä alueita laskettaessa',
+      NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2: 'Ohitetaanko alue, kun lasketaan yhteen vuoteen käymättömät alueet?',
 
       DELETING_TERRITORY_HISTORY_ROW: 'Olet poistamassa aluehistoriatietoa.',
       DELETING_TERRITORY: 'Olet poistamassa aluetta ',
@@ -99,10 +99,10 @@
       TERRITORY_LI_1: 'Valitse uusi alueomistaja alasvetovalikosta.',
       TERRITORY_LI_2: 'Vaihda alueomistaja ja merkitse alue käydyksi valitsemalla \'Vaihda alueomistajaa ja merkitse merkitse alue käydyksi\' -painike. Jos et halua että alue merkitään samalla käydyksi, valitse \'Vaihda alueomistajaa merkitsemättä aluetta käydyksi\'-painike.',
 
-      HOLDER_DESCRIPTION: 'Alueomistajaan liittyvät lisätiedot',
-      HOLDER_TELEPHONE: 'Alueomistajan puhelinnumero',
-      HOLDER_EMAIL: 'Alueomistajan sähköpostiosoite',
-      HOLDER_EMAIL_IN_USE: 'Alueomistajan sähköpostiosoite on käytössä',
+      HOLDER_DESCRIPTION: 'Lisätiedot',
+      HOLDER_TELEPHONE: 'Puhelinnumero',
+      HOLDER_EMAIL: 'Sähköpostiosoite',
+      HOLDER_EMAIL_IN_USE: 'Sähköpostiosoite käytössä',
       HOLDER_NAME: 'Alueomistajan nimi',
 
       HOLDER_NOT_FOUND: 'Alueomistajaa ei löydy',
