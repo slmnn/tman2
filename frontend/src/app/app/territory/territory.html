@@ -3,22 +3,538 @@
 </div>
 <div class="row">
     <div class="col-sm-6">
-        <div data-ng-include="'partials/territory-basic.html'"></div>
+        <div data-ng-show="territory">
+            <form 
+                class="form-vertical" 
+                role="form"
+                data-editable-form 
+                name="editableForm"
+                data-onaftersave="saveTerritory()"
+            >
+
+                <h3>
+                    <span style="width: 100%;"
+                        data-editable-text="territory.territoryCode"
+                        data-e-name="territory.territoryCode"
+                        data-e-required
+                    >
+                        {{territory.territoryCode}}
+                        <span data-ng-if="territory.archived">(arkistoitu)</span>
+                    </span>
+
+                    <span class="pull-right"
+                        data-ng-show="!editableForm.$visible && user.admin"
+                    >
+                        <a href="#"
+                            data-ng-click="editableForm.$show()"
+                            data-tooltip="{{'EDIT' | translate}}"
+                        >
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </span>
+                </h3>
+
+                <dl class="dl-horizontal">
+                    <dt>{{'HOLDER' | translate}}</dt>
+                    <dd>
+                        <span data-editable-select="territory.holder.id"
+                            data-e-name="holder.id"
+                            data-e-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
+                            data-e-required>
+                            {{territory.holder.name}}
+                        </span>
+                    </dd>
+                    <dt>{{'COVERED' | translate}}</dt>
+                    <dd>
+                        <span 
+                            data-editable-bsdate="territory.covered" 
+                            data-e-ng-click="openPickers('coveredDateOpened')" 
+                            data-e-is-open="pickers.coveredDateOpened" 
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
+                            data-e-name= "date" 
+                        >
+                        <a
+                            data-ng-class="isNotCoveredLimitExeeded(territory, app) ? 'bg-danger' : ''"
+                            data-tooltip="{{territory.covered | amTimeAgo}}">
+                            {{(territory.covered | date : 'dd.MM.yyyy') || 'Ei merkintää'}}
+                        </a>
+                        </span>
+                    </dd>
+                    <dt>{{'TAKEN' | translate}}</dt>
+                    <dd>
+                        <span 
+                            data-editable-bsdate="territory.taken" 
+                            data-e-ng-click="openPickers('takenDateOpened')" 
+                            data-e-is-open="pickers.takenDateOpened" 
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
+                            data-e-name= "date" 
+                        >
+                        <a 
+                            data-ng-class="isHolderNotChangedLimitExeeded(territory, app) ? 'bg-danger' : ''"
+                            data-tooltip="{{territory.taken | amTimeAgo}}">
+                            {{(territory.taken | date : 'dd.MM.yyyy') || 'Ei merkintää'}}
+                        </a>
+                        </span>
+                    </dd>
+                    <dt>{{'TYPE' | translate}}</dt>
+                    <dd>
+                        <span data-editable-text="territory.type"
+                                data-e-name="territory.type"
+                                data-e-required>
+                            {{territory.type}}
+                        </span>
+                    </dd>
+                    <dt>{{'NUMBER_OF_APARTMENTS' | translate}}</dt>
+                    <dd>
+                        <span data-editable-number="territory.apartmentCount"
+                                data-e-name="territory.apartmentCount"
+                                data-e-required>
+                            {{territory.apartmentCount}}
+                        </span>
+                    </dd>
+                    <dt>{{'ARCHIVED' | translate}}</dt>
+                    <dd>
+                        <span data-editable-checkbox="territory.archived"
+                            data-e-title="Alue ei ole enää käytössä?">
+                            {{territory.archived ? 'Kyllä' : 'Ei'}}
+                        </span>
+                    </dd>
+                    <dt>
+                        {{'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED' | translate}}
+                    </dt>
+                    <dd>
+                        <span data-editable-checkbox="territory.notCountedWhenCalculatingCoveredDuringLastYearTotal"
+                            data-e-title="{{'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2' | translate}}">
+                            <a 
+                                data-tooltip="Esimerkiksi puhelin- ja liikealueita ei yleensä lasketa vuoteen käymättömien alueiden joukkoon."
+                            >
+                                {{!territory.notCountedWhenCalculatingCoveredDuringLastYearTotal ? 'Kyllä' : 'Ei'}}
+                            </a>
+                        </span>
+                    </dd>
+                    <dt>{{'DESCRIPTION' | translate}}</dt>
+                    <dd>
+                        <pre style="white-space: pre-line"
+                            data-editable-textarea="territory.description"
+                            data-e-name="territory.description"
+                            data-e-required
+                        >
+                            {{territory.description}}
+                        </pre>
+                    </dd>
+                </dl>
+
+                <div>
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            {{'SAVE' | translate}}
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel(); editableMap = false;"
+                        >
+                            {{'CANCEL' | translate}}
+                        </button>
+                        <button type="button" class="btn btn-danger pull-right"
+                            data-ng-bootbox-title="Danger - Danger - Danger"
+                            data-ng-bootbox-custom-dialog="{{'DELETING_TERRITORY' | translate}} <strong>{{territory.territoryCode}}</strong>. {{'ARE_YOU_SURE' | translate}}"
+                            data-ng-bootbox-buttons="confirmButtonsDelete"
+                        >
+                            {{'DELETE' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length === 0">
         <h4>{{'NO_HOLDER_HISTORY' | translate}}</h4>
     </div>
     <div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length > 0">
-        <div data-ng-include="'partials/territory-holder-history.html'"></div>
+        <h4>
+            {{'HISTORY' | translate}} ({{territory.territoryHolderHistory.length}})
+            <span class="pull-right"
+                data-ng-show="!deleteTerritoryHolderHistoryItemVisible && user.admin"
+            >
+                <a href="#"
+                    data-ng-click="deleteTerritoryHolderHistoryItemVisible = true"
+                    data-tooltip="{{'EDIT' | translate}}"
+                >
+                    <i class="fa fa-wrench"></i>
+                </a>
+            </span>
+        </h4>
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="col-xs-3">
+                        {{'HOLDER' | translate}}
+                    </th>
+                    <th class="col-xs-2 text-nowrap">
+                        {{'START_DATE' | translate}}
+                    </th>
+                    <th class="col-xs-2 text-nowrap">
+                        {{'END_DATE' | translate}}
+                    </th>
+                    <th class="col-xs-4 text-nowrap">
+                        {{'ADDITIONAL_INFO' | translate}}
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        <!-- empty for buttons in edit mode -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-ng-repeat="thh in territory.territoryHolderHistory">
+                <tr>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-select="thh.holder"
+                            data-e-name="thh.holder.id"
+                            data-e-ng-options="holder.id as holder.name for holder in holders"
+                            data-e-required
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                        >
+                            {{getHolderNameWithId(thh.holder)}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            <a data-ui-sref="app.holder.single({id: thh.holder})">{{getHolderNameWithId(thh.holder)}}</a>
+                        </span>
+                    </td>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-bsdate="thh.startDate" 
+                            data-e-ng-click="openPickers('thhStartDateOpened')" 
+                            data-e-is-open="pickers.thhStartDateOpened" 
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
+                            data-e-name= "date" 
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                        >
+                            {{(thh.startDate | date : 'dd.MM.yyyy') || 'Ei alkupäivää'}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            {{thh.startDate | date : 'dd.MM.yyyy'}}
+                        </span>
+                    </td>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-bsdate="thh.endDate" 
+                            data-e-ng-click="openPickers('thhEndDateOpened')" 
+                            data-e-is-open="pickers.thhEndDateOpened" 
+                            data-e-current-text="Tänään"
+                            data-e-clear-text="Tyhjennä"
+                            data-e-close-text="Ok"
+                            data-e-datepicker-popup = "dd.MM.yyyy" 
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                            data-e-name= "date" 
+                        >
+                            {{(thh.endDate | date: 'dd.MM.yyyy') || 'Ei loppupäivää'}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            {{thh.endDate | date: 'dd.MM.yyyy'}}
+                        </span>
+                    </td>
+                    <td>
+                        <span 
+                            data-ng-if="user.admin"
+                            data-editable-text="thh.description"
+                            data-e-name="thh.description"
+                            data-onaftersave="saveTerritoryHistoryItem(thh)"
+                        >
+                            {{thh.description || 'Ei kommenttia'}}
+                        </span>
+                        <span data-ng-if="!user.admin">
+                            {{thh.description}}
+                        </span>
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-show="deleteTerritoryHolderHistoryItemVisible"
+                            data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)"
+                            data-ng-bootbox-title="{{'DELETING_TERRITORY_HISTORY_ROW' | translate}}"
+                            data-ng-bootbox-custom-dialog="{{'ARE_YOU_SURE' | translate}}"
+                            data-ng-bootbox-buttons="confirmHistoryButtonsDelete"
+                        >
+                            <span class="fa fa-trash fa-2x"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="col-sm-6">
-        <div data-ng-include="'partials/territory-attributes.html'"></div>
+        <h4>
+            <span data-ng-if="territory.territoryLinkAttribute.length > 0">
+                {{'ATTRIBUTES' | translate}} ({{territory.territoryLinkAttribute.length}})
+            </span>
+            <span data-ng-if="territory.territoryLinkAttribute.length === 0">
+                {{'NO_TERRITORY_ATTRIBUTES' | translate}}
+            </span>
+            <span class="pull-right"
+                data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"
+            >
+                <a href="#"
+                    data-ng-click="deleteTerritoryLinkAttributeItemVisible = true"
+                    data-tooltip="{{'EDIT' | translate}}"
+                >
+                    <i class="fa fa-wrench"></i>
+                </a>
+            </span>
+        </h4>
+        <table class="table table-condensed table-hover" data-ng-if="territory.territoryLinkAttribute.length > 0">
+            <thead>
+                <tr>
+                    <th class="col-xs-1">
+                        <!-- icon -->
+                    </th>
+                    <th class="col-xs-3 text-nowrap">
+                        {{'NAME' | translate}}
+                    </th>
+                    <th class="col-xs-7 text-nowrap">
+                        {{'ATTRIBUTE_DESCRIPTION' | translate}}
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        <!-- empty for buttons in edit mode -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-ng-repeat="tla in territory.territoryLinkAttribute">
+                <tr>
+                    <td>
+                        <span class="fa fa-{{getAttributeWithId(attributes, tla.attribute).icon}}"></span>
+                    </td>                    
+                    <td>
+                        {{getAttributeWithId(attributes, tla.attribute).name}}
+                    </td>
+                    <td>
+                        {{getAttributeWithId(attributes, tla.attribute).description}}
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-show="deleteTerritoryLinkAttributeItemVisible"
+                            data-ng-click="setTerritoryLinkAttributeToBeDeleted(tla)"
+                            data-ng-bootbox-title="You are about to delete a territory attribute"
+                            data-ng-bootbox-custom-dialog="Are you sure about the territory attribute delete?"
+                            data-ng-bootbox-buttons="confirmAttributeButtonsDelete"
+                        >
+                            <span class="fa fa-trash fa-2x"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="newAttributeInput">{{'ADD_ATTRIBUTE' | translate}}</label>
+                    <select id="newAttributeInput" class="form-control input-sm" ng-model="newAttribute" ng-options="a.name for a in attributes"></select>
+                </div>
+                <a class="btn btn-primary btn-sm" data-ng-click="addNewAttribute(newAttribute);">{{'ADD' | translate}}</a>
+            </div>
+        </div>
     </div>
 
     <div class="col-sm-6">
-        <div data-ng-include="'partials/territory-special-addresses.html'"></div>
+        <h4>
+            <span data-ng-if="territory.specialAddress.length > 0">
+                Kieltopaikat ja vieraskieliset ({{territory.specialAddress.length}})
+            </span>
+            <span data-ng-if="territory.specialAddress.length === 0">
+                Alueella ei ole kieltopaikkoja tai vieraskielisiä
+            </span>
+            <span class="pull-right"
+                data-ng-show="!deleteSpecialAddressItemVisible"
+            >
+                <a href="#"
+                    data-ng-click="deleteSpecialAddressItemVisible = true"
+                    data-tooltip="{{'EDIT' | translate}}"
+                >
+                    <i class="fa fa-wrench"></i>
+                </a>
+            </span>
+        </h4>
+        <table class="table table-condensed table-hover" data-ng-if="territory.specialAddress.length > 0">
+            <thead>
+                <tr>
+                    <th class="col-xs-1 text-nowrap">
+                        Päiväys
+                    </th>
+                    <th class="col-xs-4 text-nowrap">
+                        Nimi
+                    </th>
+                    <th class="col-xs-5 text-nowrap">
+                        Osoite
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        Tyyppi
+                    </th>
+                    <th class="col-xs-1 text-nowrap">
+                        <!-- empty for buttons in edit mode -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-ng-repeat="sa in territory.specialAddress | filter : 'Kielto'">
+                <tr>
+                    <td>
+                        {{sa.added | date : 'dd.MM.yyyy'}}
+                    </td>                    
+                    <td>
+                        {{sa.name}}
+                    </td>
+                    <td>
+                        {{sa.address}}
+                    </td>
+                    <td>
+                        {{sa.type}}
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-if="user.admin"
+                            data-ng-show="deleteSpecialAddressItemVisible"
+                            data-ng-click="setSpecialAddressToBeDeleted(sa)"
+                            data-ng-bootbox-title="Vahvista toiminto"
+                            data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?"
+                            data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"
+                        >
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody data-ng-repeat="sa in territory.specialAddress | filter : 'Vierask'">
+                <tr>
+                    <td>
+                        {{sa.added | date : 'dd.MM.yyyy'}}
+                    </td>                    
+                    <td>
+                        {{sa.name}}
+                    </td>
+                    <td>
+                        {{sa.address}}
+                    </td>
+                    <td>
+                        {{sa.type}}
+                    </td>
+                    <td>
+                        <a 
+                            data-ng-show="deleteSpecialAddressItemVisible"
+                            data-ng-click="setSpecialAddressToBeDeleted(sa)"
+                            data-ng-bootbox-title="Vahvista toiminto"
+                            data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?"
+                            data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"
+                        >
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div data-ng-if="deleteSpecialAddressItemVisible">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>Nimi:
+                        <input 
+                            class="form-control input-sm" 
+                            type="text" minlength="3" 
+                            required="required"
+                            maxlength="40" 
+                            data-ng-model="specialAddress.name" />
+                    </label>
+                    <label>Osoite:
+                        <input 
+                            class="form-control input-sm" 
+                            type="text" 
+                            minlength="3" 
+                            maxlength="100" 
+                            required="required"
+                            data-ng-model="specialAddress.address" />
+                    </label>
+                    <label>Tyyppi:
+                        <select class="form-control input-sm" data-ng-model="specialAddress.type">
+                            <option value="">-</option>
+                            <option value="Kielto">Kieltopaikka</option>
+                            <option value="Vierask">Vieraskielinen</option>
+                        </select>
+                    </label>
+                    <button class="btn btn-primary btn-sm" 
+                        data-ng-click="addSpecialAddress(specialAddress);"
+                        data-ng-disabled="!specialAddress.name || !specialAddress.address || specialAddress.type == ''"
+                    >
+                        {{'ADD' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div data-ng-include="'partials/map.html'"></div>
+<div data-ng-if="territory">
+    <h4>
+        Kartta
+        <span class="pull-right"
+            data-ng-show="!editableMap && user.admin"
+        >
+            <a href="#"
+                data-ng-click="toggleMapEditable()"
+                data-tooltip="{{'EDIT' | translate}}"
+            >
+                <i class="fa fa-wrench"></i>
+            </a>
+        </span>
+    </h4>
+    <a 
+        data-ng-show="editableMap" 
+        class="btn btn-danger pull-right" 
+        data-ng-click="replacePolylineWithDefault()"
+    >
+        {{'DELETE_BORDER' | translate}}
+    </a>
+    <a 
+        data-ng-show="editableMap" 
+        class="btn btn-primary" 
+        data-ng-click="saveMap(map)"
+    >
+        {{'SAVE_MAP' | translate}}
+    </a>
+    <ui-gmap-google-map 
+        center='map.center' 
+        zoom='map.zoom'
+    >
+        <ui-gmap-marker 
+            coords="map.territoryCenterMarker.coords" 
+            idkey="map.territoryCenterMarker.id"
+            options="map.territoryCenterMarker.options"
+            events="map.territoryCenterMarker.events"
+        >
+        </ui-gmap-marker>
+        <!-- polygon example -->
+        <ui-gmap-polygon 
+            editable="editableMap" 
+            static="false" 
+            ng-repeat="p in map.polygons track by p.id" 
+            path="p.path" 
+            stroke="p.stroke" 
+            visible="p.visible"
+            geodesic="p.geodesic" 
+            fill="p.fill" 
+            fit="false" 
+            draggable="p.draggable" 
+            events="map.polygonEvents"
+        >
+        </ui-gmap-polygon>
+    </ui-gmap-google-map>
+</div>
