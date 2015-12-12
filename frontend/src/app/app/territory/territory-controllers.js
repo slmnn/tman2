@@ -568,6 +568,7 @@
       'TerritoryHelper',
       'MessageService',
       'MailService',
+      'TerritoryLinkAttributeModel',
       'TerritoryHolderHistoryModel',
       'SocketHelperService', 'UserService', 'TerritoryModel',
       '_items', '_count', '_holders', '_app', '_attributes',
@@ -579,6 +580,7 @@
         TerritoryHelper,
         MessageService,
         MailService,
+        TerritoryLinkAttributeModel,
         TerritoryHolderHistoryModel,
         SocketHelperService, UserService, TerritoryModel,
         _items, _count, _holders, _app, _attributes
@@ -610,6 +612,35 @@
         $scope.filters = {
           searchWord: '',
           columns: $scope.titleItems
+        };
+
+        $scope.addAttributeLink = function addAttributeLink(territory, attributeId) {
+          TerritoryLinkAttributeModel.create({
+            territory: territory.id,
+            attribute: attributeId
+          }).then(function(value){
+            if(value.status == 201) {
+              MessageService.success("Attribuutti lisättiin alueelle " + territory.territoryCode);
+            } else {
+              MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
+            }
+            _triggerFetchData();
+          });
+        };
+
+        $scope.updateApartmentCount = function updateApartmentCount(territory, newCount) {
+          TerritoryModel.update(territory.id, 
+            {
+              apartmentCount : newCount
+            }
+          ).then(function(value){
+            if(value.status == 200) {
+              MessageService.success("Päivitettiin alueen " + territory.territoryCode + " asuntojen lukumäärä.");
+            } else {
+              MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
+            }
+            _triggerFetchData();
+          });
         };
 
         // Check if backup should be suggested

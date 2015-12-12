@@ -154,6 +154,15 @@
                                 >
                                 </span>
                             </li>
+                            <li data-ng-if="user.admin">
+                                <span 
+                                    data-editable-select="newAttributeLink"
+                                    data-e-ng-options="a.id as a.name for a in attributes"
+                                    data-onaftersave="addAttributeLink(territory, newAttributeLink)"
+                                >
+                                    <a class="fa fa-plus-circle" data-tooltip="Lisää uusi attribuutti"></a>
+                                </span>
+                            </li>
                         </ul>
                     </td>
                     <td class="col-md-3 valign mobile-hide">
@@ -161,6 +170,14 @@
                             {{territory.description | limitTo : 40}}
                             {{territory.description.length > 40 ? '...' : ''}}
                         </a>
+                        <span 
+                            class="pull-right"
+                            data-ng-if="user.admin"
+                            data-editable-number="territory.apartmentCount"
+                            data-onaftersave="updateApartmentCount(territory, territory.apartmentCount)"
+                        >
+                            <a data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä' : 'Asuntojen lukumäärä ei ole tiedossa'}}">{{territory.apartmentCount || '?'}}</a>
+                        </span>
                     </td>
                     <td class="col-md-1 valign mobile-hide">
                         {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description | limitTo : 20}}
