@@ -32,6 +32,18 @@ module.exports.policies = {
     '*':        ['authenticated']
   },
 
+  RequestLogController: {
+    '*':          false,
+    'statistics': ['authenticated', 'isAdmin'],
+    'count':      ['authenticated', 'isAdmin'],
+    'find':       ['authenticated', 'isAdmin'],
+    'findOne':    ['authenticated', 'isAdmin'],
+    'create':     false,
+    'update':     false,
+    'destroy':    false,
+    'add':        false,
+    'remove':     false
+  },
 
   // Territory controller
   TerritoryController: {
