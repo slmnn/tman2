@@ -206,7 +206,7 @@
         // Initialize default sort data
         $scope.sort = {
           column: 'name',
-          direction: 'ASC'
+          direction: true
         };
 
         // Initialize filters

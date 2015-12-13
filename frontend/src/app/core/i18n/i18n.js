@@ -40,12 +40,12 @@
       HOLDER_HISTORY_REMOVED_SUCCESS_2: ' historiatieto poistettu.',
 
       HOLDER: 'Alueomistaja',
-      COVERED: 'Merkitty käydyksi',
-      TAKEN: 'Annettu alueomistajalle',
-      TYPE: 'Aluetyyppi',
-      NUMBER_OF_APARTMENTS: 'Asuntojen lukumäärä',
+      COVERED: 'Käyty',
+      TAKEN: 'Omistajalle',
+      TYPE: 'Tyyppi',
+      NUMBER_OF_APARTMENTS: 'Asuntoja',
       ARCHIVED: 'Arkistoitu',
-      DESCRIPTION: 'Alueen kuvaus',
+      DESCRIPTION: 'Kuvaus',
       NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED: 'Lasketaanko vuoteen käymättömiä alueita laskettaessa',
       NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2: 'Ohitetaanko alue, kun lasketaan yhteen vuoteen käymättömät alueet?',
 

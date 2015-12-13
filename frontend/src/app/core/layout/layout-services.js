@@ -79,6 +79,11 @@
               access: AccessLevels.admin
             },
             {
+              state: 'admin.request-log',
+              title: 'Taustakyselyt',
+              access: AccessLevels.admin
+            },
+            {
               state: 'admin.migrate',
               title: 'Migraatio',
               access: AccessLevels.admin

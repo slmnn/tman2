@@ -166,6 +166,16 @@
                         </ul>
                     </td>
                     <td class="col-md-3 valign mobile-hide">
+                        <span 
+                            class="badge"
+                            data-ng-if="!user.admin && territory.apartmentCount"
+                        >
+                            <span
+                                data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä ' + territory.apartmentCount : 'Asuntojen lukumäärä ei ole tiedossa'}}"
+                            >
+                                {{territory.apartmentCount}}
+                            </span>
+                        </span>
                         <a data-tooltip="{{territory.description}}">
                             {{territory.description | limitTo : 50}}
                             {{territory.description.length > 50 ? '...' : ''}}
@@ -177,16 +187,6 @@
                             data-onaftersave="updateApartmentCount(territory, territory.apartmentCount)"
                         >
                             <a data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä ' : 'Asuntojen lukumäärä ei ole tiedossa'}}">{{territory.apartmentCount || '?'}}</a>
-                        </span>
-                        <span 
-                            class="pull-right badge"
-                            data-ng-if="!user.admin"
-                        >
-                            <span
-                                data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä' + territory.apartmentCount : 'Asuntojen lukumäärä ei ole tiedossa'}}"
-                            >
-                                {{territory.apartmentCount || '?'}}
-                            </span>
                         </span>
                     </td>
                     <td class="col-md-1 valign mobile-hide">

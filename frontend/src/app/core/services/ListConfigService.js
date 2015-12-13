@@ -153,6 +153,71 @@
               inTitle: true
             }
           ],
+          requestLog: [
+            {
+              title: 'Aika',
+              column: 'createdAt',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Metodi',
+              column: 'method',
+              class: 'col-xs-1',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Url',
+              column: 'url',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Sisältö',
+              column: 'body',
+              class: 'col-xs-3',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Käyttäjänimi',
+              column: 'user',
+              class: 'col-xs-2',
+              searchable: false,
+              sortable: false,
+              inSearch: false,
+              inTitle: true
+            },
+            {
+              title: 'Nimi',
+              column: 'firstName',
+              class: 'col-xs-1',
+              searchable: false,
+              sortable: false,
+              inSearch: false,
+              inTitle: true
+            },
+            {
+              title: 'Tyyppi',
+              column: 'user',
+              class: 'col-xs-2',
+              searchable: false,
+              sortable: false,
+              inSearch: false,
+              inTitle: true
+            }
+          ],
           userlogin: [
             {
               title: 'IP-osoite',
