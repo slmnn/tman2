@@ -72,6 +72,13 @@
         // Set current scope reference to model
         HolderModel.setScope($scope, 'holder');
 
+        _holder.territories = _.sortBy(_holder.territories, function(i) {
+            if(!i.territoryCode) {
+                return 0;
+            }
+            return i.territoryCode;
+        });
+
         // Initialize scope data
         $scope.user = UserService.user();
         $scope.holder = _holder;
@@ -199,7 +206,7 @@
         // Initialize default sort data
         $scope.sort = {
           column: 'name',
-          direction: false
+          direction: 'ASC'
         };
 
         // Initialize filters

@@ -113,6 +113,12 @@
             }
             return Date.parse(i.startDate);
         });
+        _attributes = _.sortBy(_attributes, function(i) {
+            if(!i.name) {
+                return 0;
+            }
+            return i.name;
+        });
 
         $scope.territory = angular.copy(_territory);
         $scope.holders = _holders;
@@ -624,7 +630,7 @@
             } else {
               MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
             }
-            _triggerFetchData();
+            _fetchData();
           });
         };
 
@@ -639,7 +645,7 @@
             } else {
               MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
             }
-            _triggerFetchData();
+            _fetchData();
           });
         };
 
@@ -787,6 +793,7 @@
           }
         };
 
+        // Makes necessary update and create operations for changed territory history.
         var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {
 
           var p = [];
@@ -913,6 +920,7 @@
           $scope.isAllCollapsed = false;
           $scope.selectedTerritoryHolderId = null;
           updateMailCount();
+          _fetchData();
         };
 
         $scope.isNotCoveredLimitExeeded = function(territory, app) {

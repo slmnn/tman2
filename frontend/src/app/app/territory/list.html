@@ -95,7 +95,7 @@
             data-previous-text="{{'PREVIOUS' | translate}}"
         ></pager>
 
-        <table class="table">
+        <table class="table table-hover">
             <thead class="noSelect">
             <tr>
                 <th class="text-nowrap {{item.class}}"
@@ -167,8 +167,8 @@
                     </td>
                     <td class="col-md-3 valign mobile-hide">
                         <a data-tooltip="{{territory.description}}">
-                            {{territory.description | limitTo : 40}}
-                            {{territory.description.length > 40 ? '...' : ''}}
+                            {{territory.description | limitTo : 50}}
+                            {{territory.description.length > 50 ? '...' : ''}}
                         </a>
                         <span 
                             class="pull-right"
@@ -176,7 +176,17 @@
                             data-editable-number="territory.apartmentCount"
                             data-onaftersave="updateApartmentCount(territory, territory.apartmentCount)"
                         >
-                            <a data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä' : 'Asuntojen lukumäärä ei ole tiedossa'}}">{{territory.apartmentCount || '?'}}</a>
+                            <a data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä ' : 'Asuntojen lukumäärä ei ole tiedossa'}}">{{territory.apartmentCount || '?'}}</a>
+                        </span>
+                        <span 
+                            class="pull-right badge"
+                            data-ng-if="!user.admin"
+                        >
+                            <span
+                                data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä' + territory.apartmentCount : 'Asuntojen lukumäärä ei ole tiedossa'}}"
+                            >
+                                {{territory.apartmentCount || '?'}}
+                            </span>
                         </span>
                     </td>
                     <td class="col-md-1 valign mobile-hide">
