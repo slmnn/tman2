@@ -391,9 +391,11 @@
             var now = new Date();
 
             // Update the last row with end time
-            if(data.territoryHolderHistory && 
+            if(
+              data.territoryHolderHistory && 
               data.territoryHolderHistory.length > 0 && 
-              !_.last(data.territoryHolderHistory).endTime) {
+              !_.last(data.territoryHolderHistory).endTime
+            ) {
               TerritoryHolderHistoryModel
               .update(
                 _.last(data.territoryHolderHistory).id,
@@ -426,7 +428,12 @@
             }          
           }
 
-          data.territoryHolderHistory = null;
+          // Remove populated data as update operation may mess it up.
+          delete data.territoryHolderHistory;
+          delete data.specialAddress;
+          delete data.center;
+          delete data.coordinates;
+          delete data.territoryLinkAttribute;
 
           // Make territory data update
           TerritoryModel

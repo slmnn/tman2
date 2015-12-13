@@ -41,7 +41,9 @@
                             data-e-name="holder.id"
                             data-e-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"
                             data-e-required>
-                            {{territory.holder.name}}
+                            <a data-ui-sref="app.holder.single({id: territory.holder.id})">
+                                {{territory.holder.name}}
+                            </a>
                         </span>
                     </dd>
                     <dt>{{'COVERED' | translate}}</dt>

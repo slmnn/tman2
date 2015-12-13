@@ -117,6 +117,9 @@
           data.isArchived = data.isArchived || false;
           data.emailValid = data.emailValid || true;
 
+          // Remove populate data that should not be changed to prevent errors.
+          delete data.territories;
+
           // Make actual data update
           HolderModel
             .update(data.id, data)
