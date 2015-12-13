@@ -22,7 +22,9 @@ module.exports = {
      * Defaults to all routes.
      */
     routesToLog: [
-      '/*'
+      'POST /*',
+      'PUT /*',
+      'DELETE /*',
     ],
 
     /**
@@ -30,7 +32,7 @@ module.exports = {
      * (e.g. "password")
      * If seen, they will be replaced with "*PROTECTED*"
      */
-    dontLogParams: ['password', 'token'],
+    dontLogParams: ['password1', 'password', 'token'],
 
     // When request starts
     onRequest: function onRequest(log, req, res) {
