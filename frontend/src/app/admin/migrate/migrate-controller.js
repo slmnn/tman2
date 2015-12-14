@@ -101,7 +101,9 @@
                     description: t.description,
                     holder: holderId,
                     center: new_coordinateId,
-                    archived: false
+                    archived: false,
+                    type: t.type == 'Normal' ? 'Tavallinen' : null,
+                    notCountedWhenCalculatingCoveredDuringLastYearTotal: t.type == 'Normal' ? false : true
                   }
                 )
                 .then(
