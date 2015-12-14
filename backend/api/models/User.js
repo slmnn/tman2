@@ -36,6 +36,21 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
       defaultsTo: false
     },
 
+    canAddAttributes: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    canAddApartmentCount: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    canAddSpecialAddresses: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
     // Below is all specification for relations to another models
 
     // Passport configurations

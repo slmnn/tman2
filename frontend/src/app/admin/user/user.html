@@ -64,6 +64,27 @@
                         </a>
                         -->
                     </dd>
+                    <dt>Voi lisätä attribuutteja alueille</dt>
+                    <dd>
+                        <span data-editable-checkbox="user.canAddAttributes"
+                            data-e-title="Käyttäjä voi lisätä attribuutteja alueille">
+                            {{user.canAddAttributes ? 'Kyllä' : 'Ei'}}
+                        </span>
+                    </dd>
+                    <dt>Voi lisätä ja muuttaa alueen asuntojen määrää</dt>
+                    <dd>
+                        <span data-editable-checkbox="user.canAddApartmentCount"
+                            data-e-title="Käyttäjä voi muuttaa alueen asuntojen lukumäärän">
+                            {{user.canAddApartmentCount ? 'Kyllä' : 'Ei'}}
+                        </span>
+                    </dd>
+                    <dt>Voi lisätä ja muuttaa alueen kieltopaikkoja ja vieraskielisiä osoitteita</dt>
+                    <dd>
+                        <span data-editable-checkbox="user.canAddSpecialAddresses"
+                            data-e-title="Käyttäjä voi muuttaa alueen kieltopaikkojen ja vieraskielisten paikkojen osoitteita">
+                            {{user.canAddSpecialAddresses ? 'Kyllä' : 'Ei'}}
+                        </span>
+                    </dd>
                     <dt>Arkistoitu</dt>
                     <dd>
                         <span data-editable-checkbox="user.archived"

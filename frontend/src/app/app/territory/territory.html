@@ -359,7 +359,7 @@
                 Alueella ei ole kieltopaikkoja tai vieraskielisiä
             </span>
             <span class="pull-right"
-                data-ng-show="!deleteSpecialAddressItemVisible"
+                data-ng-show="!deleteSpecialAddressItemVisible && (user.admin || user.canAddSpecialAddresses)"
             >
                 <a href="#"
                     data-ng-click="deleteSpecialAddressItemVisible = true"

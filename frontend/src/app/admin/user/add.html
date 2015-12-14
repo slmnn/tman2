@@ -45,6 +45,33 @@
                 />
             </div>
 
+            <div class="checkbox">
+                <label>
+                    <input                
+                        type="checkbox" 
+                        name="user.canAddAttributes" 
+                        data-ng-model="user.canAddAttributes"
+                    > Voi lisätä alueille attribuutteja
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input                  
+                        type="checkbox" 
+                        name="user.canAddAttributes" 
+                        data-ng-model="user.canAddApartmentCount"
+                    > Voi muokata alueiden asuntojen lukumääriä
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input                  
+                        type="checkbox" 
+                        name="user.canAddSpecialAddresses" 
+                        data-ng-model="user.canAddSpecialAddresses"
+                    > Voi muokata alueiden kieltopaikkojen ja vieraskielisten osoitteiden tietoja
+                </label>
+            </div>
             <div class="form-group">
                 Tunnukseen liitetty alueomistaja (jos valittu, rajoittaa toiminnot vain tälle omistajalle):
                 <select 
