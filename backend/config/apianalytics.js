@@ -32,7 +32,7 @@ module.exports = {
      * (e.g. "password")
      * If seen, they will be replaced with "*PROTECTED*"
      */
-    dontLogParams: ['password1', 'password', 'token'],
+    dontLogParams: ['password1', 'password2', 'password', 'token'],
 
     // When request starts
     onRequest: function onRequest(log, req, res) {
