@@ -4,12 +4,11 @@
             <div class="form-group">
                 <input 
                     id="textFilters"
-                    class="form-control input-sm col-sm-12" 
+                    class="form-control input-sm" 
                     type="text" 
                     placeholder="Hakutermit"
                     data-ng-model="filters.searchWord"
                 />
-
                 <select 
                     data-ng-if="holders.length"
                     id="filtersHolderSelect"
@@ -19,7 +18,18 @@
                 >
                     <option value="">-- valitse omistaja --</option>
                 </select>
-
+                <!-- TODO: Commented out to implement attribute queries later -->
+                <!--
+                <select 
+                    data-ng-if="attributes.length && false"
+                    id="filtersAttributeSelect"
+                    class="form-control input-sm"
+                    data-ng-model="filters.attributeLinkId"
+                    data-ng-options="attributeLink.id as attributeLink.name for attributeLink in attributes"
+                >
+                    <option value="">-- valitse attribuutti --</option>
+                </select>
+                -->
                 <button 
                     data-ng-click="filters.searchWord = ''; filters.holderId = null; filters.attributeId = null"
                     class="btn btn-xs"

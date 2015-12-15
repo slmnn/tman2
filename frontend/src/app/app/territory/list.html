@@ -61,6 +61,15 @@
                 <span class="fa fa-times"></span>
             </span>
         </span>
+
+        <span data-ng-if="filters.attributeLinkId">
+            &nbsp;Ainoastaan attribuutti:
+            <span class="label label-primary" data-ng-click="filters.attributeLinkId = null;">
+                <span class="fa fa-{{getAttributeWithId(attributes, filters.attributeLinkId).icon}}"></span>
+                {{getAttributeWithId(attributes, filters.attributeLinkId).name}}
+                <span class="fa fa-times"></span>
+            </span>
+        </span>
     </div>
 </div>
 

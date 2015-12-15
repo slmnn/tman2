@@ -764,6 +764,16 @@
           return '';
         };
 
+        $scope.getAttributeWithId = function getAttributeNameWithId(attributes, id) {
+          if(attributes && id) {
+            var result = _.find(attributes, function(a) {
+              return a.id === id;
+            });
+            return result;
+          }
+          return null;
+        };
+
         $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
           return _.find(attributes, function(a) {
             return a.id === id;
@@ -1039,6 +1049,11 @@
               commonParameters.where, 
               {holder: $scope.filters.holderId}
             );
+          }
+
+          if($scope.filters && $scope.filters.attributeLinkId) {
+            // TODO: look for all territories with said attribute,
+            // Add list of territory ids to where query
           }
 
           // Data query specified parameters
