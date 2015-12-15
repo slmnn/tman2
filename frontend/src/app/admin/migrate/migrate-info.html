@@ -1,0 +1,30 @@
+<p>Tällä sivulla voit tehdä migraation vanhasta aluesovelluksesta uuteen.</p>
+<p>
+	<ol>
+		<li>Tee ensin sovelluksen oletusomistaja (Aluepöytä) ja aseta se sovelluksen asetuksissa oletusomistajaksi.</li>
+		<li>Kopioi varmuuskopiosta alueomistajadata ylempään tekstiruutuun. Paina ko. ruudun alta "Tallenna".</li>
+		<li>Kopioi varmuuskopiosta aluedata alempaan tekstiruutuun. Paina alemman ruudun alta "Tallenna"</li>
+		<li>HUOM! Tarkista tietokannassa, että luontitieto on oikein tehdyillä alueilla ja alueomistajilla. Katso alta hyödyllisiä komentoja.</li>
+	</ol>
+
+	<ul>
+		<li>Kantaan:
+			<pre>use dbname</pre>
+		</li>
+		<li>Näytä taulut:
+			<pre>show collections</pre>
+		</li>
+		<li>Näytä käyttäjät:
+			<pre>show users</pre>
+		</li>
+		<li>Haku:
+			<pre>db.collectionname.find({kenttä:"arvo"})</pre>
+		</li>
+		<li>Hae alueet joilla luontitieto pielessä:
+			<pre>db.territory.find({createdId:null})</pre>
+		</li>
+		<li>Omistajan päivittäminen:
+			<pre>db.territory.update({holder: null}, { $set: { holder: ObjectId("56667e44c75ab9f1eed261a5")}}, false, true);</pre>
+		</li>
+	</ul>
+</p>

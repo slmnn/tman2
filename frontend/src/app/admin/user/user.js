@@ -25,6 +25,7 @@
               'content@': {
                 templateUrl: '/frontend/admin/user/index.html',
                 controller: 'UsersController',
+                name: 'Käyttäjät',
                 resolve: {
                   _items: [
                     'ListConfig',
@@ -61,6 +62,7 @@
               'content@': {
                 templateUrl: '/frontend/admin/user/add.html',
                 controller: 'UserAddController',
+                name: 'Käyttäjän lisääminen',
                 resolve: {
                   _app: [
                     '$stateParams',
@@ -94,6 +96,7 @@
               'content@': {
                 templateUrl: '/frontend/admin/user/user.html',
                 controller: 'UserController',
+                name: 'Käyttäjän tiedot',
                 resolve: {
                   _user: [
                     '$stateParams',

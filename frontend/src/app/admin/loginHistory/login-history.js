@@ -24,6 +24,7 @@
               'content@': {
                 templateUrl: '/frontend/admin/loginHistory/index.html',
                 controller: 'LoginHistoryController',
+                name: 'Kirjautumishistoria',
                 resolve: {
                   _items: [
                     'ListConfig',

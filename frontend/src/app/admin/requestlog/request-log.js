@@ -16,6 +16,7 @@
               'content@': {
                 templateUrl: '/frontend/admin/requestlog/index.html',
                 controller: 'RequestLogController',
+                name: 'Taustakyselyt',
                 resolve: {
                   _items: [
                     'ListConfig',

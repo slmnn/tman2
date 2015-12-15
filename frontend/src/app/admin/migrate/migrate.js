@@ -24,6 +24,7 @@
               'content@': {
                 templateUrl: '/frontend/admin/migrate/migrate.html',
                 controller: 'MigrateController',
+                name: 'Migraatio',
                 resolve: {
                   _territories: [
                     'TerritoryModel',
