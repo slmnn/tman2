@@ -153,6 +153,11 @@
                             data-tooltip="{{territory.taken | amTimeAgo}}">
                             {{territory.taken | date : 'dd.MM.yyyy'}}
                         </a>
+                        <a 
+                            data-ng-if="getLastTerritoryHolderHistory(territory).description"
+                            class="fa fa-comment"
+                            data-tooltip="{{getLastTerritoryHolderHistory(territory).description}}"
+                        ></a>
                     </td>
                     <td class="col-md-1 valign mobile-hide">
                         <ul class="list-inline">
@@ -174,7 +179,7 @@
                             </li>
                         </ul>
                     </td>
-                    <td class="col-md-3 valign mobile-hide">
+                    <td class="col-md-4 valign mobile-hide">
                         <span 
                             class="badge"
                             data-ng-if="!user.admin && territory.apartmentCount"
@@ -186,8 +191,8 @@
                             </span>
                         </span>
                         <a data-tooltip="{{territory.description}}">
-                            {{territory.description | limitTo : 50}}
-                            {{territory.description.length > 50 ? '...' : ''}}
+                            {{territory.description | limitTo : 60}}
+                            {{territory.description.length > 60 ? '...' : ''}}
                         </a>
                         <span 
                             class="pull-right"
@@ -197,10 +202,6 @@
                         >
                             <a data-tooltip="{{territory.apartmentCount ? 'Asuntojen lukumäärä ' : 'Asuntojen lukumäärä ei ole tiedossa'}}">{{territory.apartmentCount || '?'}}</a>
                         </span>
-                    </td>
-                    <td class="col-md-1 valign mobile-hide">
-                        {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description | limitTo : 20}}
-                        {{territory.territoryHolderHistory[territory.territoryHolderHistory.length - 1].description.length > 20 ? '...' : ''}}
                     </td>
                     <td data-ng-class="!isDefaultHolder(territory.holder.id) ? 'bg-tuned-down col-md-2 valign' : 'col-md-2 valign'">
                         <a data-ui-sref="app.holder.single({id: territory.holder.id})">

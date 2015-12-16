@@ -72,19 +72,10 @@
             {
               title: 'Kuvaus',
               column: 'description',
-              class: 'col-xs-3 mobile-hide',
+              class: 'col-xs-4 mobile-hide',
               searchable: true,
               sortable: true,
               inSearch: true,
-              inTitle: true
-            },
-            {
-              title: 'Kommentti',
-              column: false,
-              class: 'col-xs-1 mobile-hide',
-              searchable: false,
-              sortable: false,
-              inSearch: false,
               inTitle: true
             },
             {

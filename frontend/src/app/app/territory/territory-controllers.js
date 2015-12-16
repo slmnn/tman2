@@ -627,6 +627,16 @@
           columns: $scope.titleItems
         };
 
+        $scope.getLastTerritoryHolderHistory = function getLastTerritoryHolderHistory(territory) {
+          territory.territoryHolderHistory = _.sortBy(territory.territoryHolderHistory, function(i) {
+              if(!i.startDate) {
+                  return 0;
+              }
+              return Date.parse(i.startDate);
+          });
+          return _.last(territory.territoryHolderHistory);
+        };
+
         $scope.addAttributeLink = function addAttributeLink(territory, attributeId) {
           TerritoryLinkAttributeModel.create({
             territory: territory.id,

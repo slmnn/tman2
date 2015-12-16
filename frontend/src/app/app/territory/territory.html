@@ -120,18 +120,13 @@
                             </a>
                         </span>
                     </dd>
-                    <dt>{{'DESCRIPTION' | translate}}</dt>
-                    <dd>
-                        <pre style="white-space: pre-line"
-                            data-editable-textarea="territory.description"
-                            data-e-name="territory.description"
-                            data-e-required
-                        >
-                            {{territory.description}}
-                        </pre>
-                    </dd>
                 </dl>
-
+                <h4>{{'Alueen kuvaus' | translate}}</h4>
+                <pre style="white-space: pre-line"
+                    data-editable-textarea="territory.description"
+                    data-e-name="territory.description"
+                    data-e-required
+                >{{territory.description}}</pre>
                 <div>
                     <div data-ng-show="editableForm.$visible">
                         <button type="submit" class="btn btn-primary"
