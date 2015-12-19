@@ -221,20 +221,20 @@
           // Create simple rectangle          
           $scope.map.polygons[0].path = [];
           $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude + 0.005,
-            longitude: $scope.map.center.longitude + 0.005
+            latitude: $scope.map.center.latitude + 0.0005,
+            longitude: $scope.map.center.longitude + 0.0005
           });
           $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude + 0.005,
-            longitude: $scope.map.center.longitude - 0.005
+            latitude: $scope.map.center.latitude + 0.0005,
+            longitude: $scope.map.center.longitude - 0.0005
           });
           $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude - 0.005,
-            longitude: $scope.map.center.longitude - 0.005
+            latitude: $scope.map.center.latitude - 0.0005,
+            longitude: $scope.map.center.longitude - 0.0005
           });
           $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude - 0.005,
-            longitude: $scope.map.center.longitude + 0.005
+            latitude: $scope.map.center.latitude - 0.0005,
+            longitude: $scope.map.center.longitude + 0.0005
           });
 
           // Save to the backend.
@@ -243,37 +243,51 @@
 
         // Delete set of coordinates with ids;
         var deletePolylineCoordinates = function deletePolylineCoordinates(polyline) {
-            _.each(polyline, function(p){
-              if(p.id) {
-                CoordinateModel.delete(p.id);
-              }
-            });
+          var promises = [];
+          _.each(polyline, function(p){
+            if(p.id) {
+              promises.push(CoordinateModel.delete(p.id));
+            }
+          });
+          Promise.all(promises).then(function(values) {
+            MessageService.success("Alueen kartta nollattiin.");
+          });
         };
 
         // Save the map to the backend.
         $scope.saveMap = function saveMap() {
 
           // Save the marker either by updating or creating a new one.
-          var coords = $scope.map.territoryCenterMarker.coords;
+          var coords = {
+            latitude: $scope.map.territoryCenterMarker.coords.latitude,
+            longitude: $scope.map.territoryCenterMarker.coords.longitude,
+            type: 'center'
+          }
+
+          var promises = [];
+
           if($scope.map.territoryCenterMarker && 
             $scope.map.territoryCenterMarker.id && 
             $scope.map.territoryCenterMarker.id !== 0) {
-            coords.type = 'center';
-            CoordinateModel.update($scope.map.territoryCenterMarker.id, coords);
+            promises.push(
+              CoordinateModel
+              .update($scope.map.territoryCenterMarker.id, coords)
+            );
           } else {
-            coords.type = 'center';
-            CoordinateModel.create(coords)
-            .then(function onSuccess(response){
-              TerritoryModel
-                .update($scope.territory.id, { center : response.data.id })
-                .then(
-                  function onSuccess() {
-                    MessageService.success('Alue "' + $scope.territory.territoryCode + '" päivitettiin.');
-                    $state.go($state.current, {id: _territory.id}, {reload: true});
-                  }
-                )
-              ;
-            });
+            promises.push(
+              CoordinateModel
+              .create(coords)
+              .then(function onSuccess(response){
+                TerritoryModel
+                  .update($scope.territory.id, { center : response.data.id })
+                  .then(
+                    function onSuccess() {
+                      MessageService.success('Alueen "' + $scope.territory.territoryCode + '" keskikohta päivitettiin.');
+                    }
+                  )
+                ;
+              })
+            );
           }
 
           // Save the polyline.
@@ -283,22 +297,32 @@
             var path = [];
             var oldPathIds = [];
             _.each($scope.map.polygons[0].path, function(p) {
-              p.type = 'border';
-              p.territory = { id: $scope.territory.id };
-              path.push(p);
+              path.push({
+                type: 'border',
+                territory: $scope.territory.id,
+                latitude: p.latitude,
+                longitude: p.longitude
+              });
               if(p.id) {
                 oldPathIds.push(p.id);
               }
             });
             _.each(oldPathIds, function(oldId){
-              CoordinateModel.delete(oldId);
+              promises.push(
+                CoordinateModel.delete(oldId)
+              );
             });
             _.each(path, function(p){
-              CoordinateModel.create(p);
+              promises.push(
+                CoordinateModel.create(p)
+              );
             });
           }
-
-          $scope.toggleMapEditable();
+          Promise.all(promises).then(function(values) {
+            MessageService.success("Alueen kartta päivitettiin.");
+            $scope.toggleMapEditable();
+            $state.go($state.current, {id: _territory.id}, {reload: true});
+          });
         };
 
         $scope.saveTerritoryHistory = function saveTerritoryHistory() {
