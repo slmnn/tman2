@@ -22,6 +22,9 @@ var createEmailMessage = function(in_template, in_holder, in_territory, in_listO
   var subjectTxt = in_template.title.replace("_holderName", in_holder.name);
   subjectTxt = subjectTxt.replace("_territoryCode", in_territory.territoryCode);
   var bodyHTML = in_template.body.replace("_territoryCode", in_territory.territoryCode);
+
+  // Use defaults if center is missing
+  in_territory.center = in_territory.center || { latitude: app.defaultLatitude || 61, longitude: app.defaultLongitude || 23};
   bodyHTML = bodyHTML.replace("_territoryLat", in_territory.center.latitude);
   bodyHTML = bodyHTML.replace("_territoryLng", in_territory.center.longitude);
   var taken = new Date(in_territory.taken);
