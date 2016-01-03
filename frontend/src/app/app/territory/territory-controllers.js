@@ -12,12 +12,14 @@
     .controller('TerritoryAddController', [
       '$scope', '$state', '$modalInstance',
       'HolderModel', 
+      'CoordinateModel',
       '_holders',
       '_app',
       'MessageService', 'TerritoryModel',
       function controller(
         $scope, $state, $modalInstance,
         HolderModel, 
+        CoordinateModel,
         _holders,
         _app,
         MessageService, TerritoryModel
@@ -67,6 +69,24 @@
               function onSuccess(value) {
                 if(value.status == 201) {
                   MessageService.success('Uusi alue luotiin.');
+                  CoordinateModel
+                  .create({
+                    type:'center',
+                    latitude: $scope.map.territoryCenterMarker.coords.latitude,
+                    longitude: $scope.map.territoryCenterMarker.coords.longitude
+                  })
+                  .then(
+                    function onSuccess(response) {
+                      TerritoryModel
+                      .update(value.data.id, { center : response.data.id })
+                      .then(
+                        function onSuccess() {
+                          MessageService.success('Alueen "' + value.data.territoryCode + '" keskikohta asetettiin.');
+                        }
+                      );
+                    }
+                  );
+
                 } else {
                   MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
                 }
@@ -75,6 +95,29 @@
               }
             )
           ;
+        };
+
+        // Describe the map.
+        $scope.map = { 
+          center: { latitude: $scope.app.defaultLatitude || 61, longitude: $scope.app.defaultLongitude || 23},
+          zoom: 13, 
+          territoryCenterMarker : { 
+            id: 0,
+            options: {
+              draggable: true
+            },
+            coords: { latitude: $scope.app.defaultLatitude || 61, longitude: $scope.app.defaultLongitude || 23},
+            events: {
+              dragend: function () {
+                $scope.map.territoryCenterMarker.options = {
+                  draggable: true,
+                  labelContent: 'lat: ' + $scope.map.territoryCenterMarker.coords.latitude + ' ' + 'lon: ' + $scope.map.territoryCenterMarker.coords.longitude,
+                  labelAnchor: '100 0',
+                  labelClass: 'marker-labels'
+                };
+              }
+            }
+          }
         };
       }
     ])

@@ -51,6 +51,7 @@
                     <p class="input-group">
                         <input 
                             type="text" 
+                            required="required"
                             class="form-control" 
                             data-datepicker-popup="dd.MM.yyyy" 
                             data-is-open="coveredDatePickerIsOpen" 
@@ -76,6 +77,7 @@
                             type="text" 
                             class="form-control" 
                             data-datepicker-popup="dd.MM.yyyy" 
+                            required="required"
                             data-is-open="takenDatePickerIsOpen" 
                             data-ng-click="datePickerOpened($event); takenDatePickerIsOpen = true;" 
                             data-ng-model="territory.taken"
@@ -97,10 +99,49 @@
                     <select 
                         class="form-control"
                         data-ng-model="selectedHolder"
+                        required="required"
                         data-ng-options="holder.id as holder.name for holder in holders"
                     >
                     </select>
                 </div>
+
+                <div class="form-group" style="margin-top: 10px;">
+                    {{'Leveyskoordinaatti' | translate}}:
+                    <input type="number" 
+                        min="-90"
+                        max="90"
+                        step="0.0000000000000001"
+                        class="form-control" 
+                        name="map.territoryCenterMarker.coords.latitude" 
+                        required="required" 
+                        placeholder="Anna leveyskoordinaatti"
+                        data-ng-model="map.territoryCenterMarker.coords.latitude"
+                    />
+                    {{'Pituuskoordinaatti' | translate}}:
+                    <input type="number" 
+                        min="-180"
+                        max="180"
+                        step="0.0000000000000001"
+                        class="form-control" 
+                        name="map.territoryCenterMarker.coords.longitude" 
+                        required="required" 
+                        placeholder="Anna pituuskoordinaatti"
+                        data-ng-model="map.territoryCenterMarker.coords.longitude"
+                    />
+                </div>
+
+                <ui-gmap-google-map 
+                    center='map.center' 
+                    zoom='map.zoom'
+                >
+                    <ui-gmap-marker 
+                        coords="map.territoryCenterMarker.coords" 
+                        idkey="map.territoryCenterMarker.id"
+                        options="map.territoryCenterMarker.options"
+                        events="map.territoryCenterMarker.events"
+                    >
+                    </ui-gmap-marker>
+                </ui-gmap-google-map>
 
                 <button type="submit" class="btn btn-primary"
                     data-ng-disabled="!territoryForm.$valid"
