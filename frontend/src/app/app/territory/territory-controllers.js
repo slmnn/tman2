@@ -1442,9 +1442,9 @@
               return '/assets/images/red-dot.png';
             }
             if(territory.holder.id !== $scope.app.defaultHolder) {
-              return '/assets/images/green-dot.png';
+              return '/assets/images/green.png';
             }
-            return '/assets/images/green.png';           
+            return '/assets/images/green-dot.png';           
           } catch(err) {
             return '/assets/images/yellow.png';
           }
