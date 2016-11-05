@@ -2,7 +2,7 @@
     <h3>{{'TERRITORY_NOT_FOUND' | translate}}</h3>
 </div>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-6 col-print-6">
         <div data-ng-show="territory">
             <form 
                 class="form-vertical" 
@@ -26,6 +26,7 @@
                         data-ng-show="!editableForm.$visible && user.admin"
                     >
                         <a href="#"
+                            class="no-print"
                             data-ng-click="editableForm.$show()"
                             data-tooltip="{{'EDIT' | translate}}"
                         >
@@ -121,12 +122,14 @@
                         </span>
                     </dd>
                 </dl>
-                <h4>{{'Alueen kuvaus' | translate}}</h4>
-                <pre style="white-space: pre-line"
-                    data-editable-textarea="territory.description"
-                    data-e-name="territory.description"
-                    data-e-required
-                >{{territory.description}}</pre>
+                <div class="no-print">
+                    <h4>{{'Alueen kuvaus' | translate}}</h4>
+                    <pre style="white-space: pre-line"
+                        data-editable-textarea="territory.description"
+                        data-e-name="territory.description"
+                        data-e-required
+                    >{{territory.description}}</pre>
+                </div>
                 <div>
                     <div data-ng-show="editableForm.$visible">
                         <button type="submit" class="btn btn-primary"
@@ -162,6 +165,7 @@
                 data-ng-show="!deleteTerritoryHolderHistoryItemVisible && user.admin"
             >
                 <a href="#"
+                    class="no-print"
                     data-ng-click="deleteTerritoryHolderHistoryItemVisible = true"
                     data-tooltip="{{'EDIT' | translate}}"
                 >
@@ -273,7 +277,7 @@
         </table>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6 col-print-6">
         <h4>
             <span data-ng-if="territory.territoryLinkAttribute.length > 0">
                 {{'ATTRIBUTES' | translate}} ({{territory.territoryLinkAttribute.length}})
@@ -285,6 +289,7 @@
                 data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"
             >
                 <a href="#"
+                    class="no-print"
                     data-ng-click="deleteTerritoryLinkAttributeItemVisible = true"
                     data-tooltip="{{'EDIT' | translate}}"
                 >
@@ -345,7 +350,7 @@
         </div>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6 col-print-6">
         <h4>
             <span data-ng-if="territory.specialAddress.length > 0">
                 Kieltopaikat ja vieraskieliset ({{territory.specialAddress.length}})
@@ -357,6 +362,7 @@
                 data-ng-show="!deleteSpecialAddressItemVisible && (user.admin || user.canAddSpecialAddresses)"
             >
                 <a href="#"
+                    class="no-print"
                     data-ng-click="deleteSpecialAddressItemVisible = true"
                     data-tooltip="{{'EDIT' | translate}}"
                 >
@@ -479,6 +485,13 @@
     </div>
 </div>
 
+<div class="row print-only">
+    <div class="col-sm-12 col-print-12">
+        <h4>{{'Alueen kuvaus' | translate}}</h4>
+        <pre style="white-space: pre-line; width: 100%">{{territory.description}}</pre>
+    </div>
+</div>
+
 <div data-ng-if="territory">
     <h4>
         Kartta
@@ -486,6 +499,7 @@
             data-ng-show="!editableMap && user.admin"
         >
             <a href="#"
+                class="no-print"
                 data-ng-click="toggleMapEditable()"
                 data-tooltip="{{'EDIT' | translate}}"
             >
@@ -509,6 +523,7 @@
     </a>
     <ui-gmap-google-map 
         center='map.center' 
+        style="display: block"
         zoom='map.zoom'
     >
         <ui-gmap-marker 

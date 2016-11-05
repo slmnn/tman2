@@ -4,6 +4,7 @@
 @import "bootstrap";
 @import "angular";
 @import "mobile";
+@import "print";
 
 body {
   cursor: default;
@@ -15,6 +16,10 @@ h1, h2, h3, h4, h5, h5 {
   &:first-of-type :not(.alert > h4){
     margin-top: 10px;
   }
+}
+
+.print-only{
+  display: none;
 }
 
 .fieldset-nomargins > legend,
@@ -144,13 +149,6 @@ header .navbar-nav {
   page-break-after : always; page-break-inside: avoid; display : inline-block;
 }
 
-@media print
-{    
-    .no-print, .no-print *
-    {
-        display: none !important;
-    }
-}
 .ng-hide-add         { animation:0.5s lightSpeedOut ease; }
 
 .ng-hide-remove      { animation:0.5s flipInX ease; }
