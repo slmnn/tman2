@@ -18,6 +18,12 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     // Type of coordinate
     type: "STRING",
 
+    // order
+    order: {
+      type: "INTEGER",
+      defaultsTo: 0
+    },
+
     // Below is all specification for relations to another models
 
     // These Coordinates belong to a territory.

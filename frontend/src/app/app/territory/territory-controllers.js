@@ -199,7 +199,8 @@
         // Create Google Map settings for showing the center and border of the territory.
         // Copy the border path from territory.
         var path = [];
-        _.each(_territory.coordinates, function(c) {
+        var sortedCoordinates = _.sortBy(_territory.coordinates, "order")
+        _.each(sortedCoordinates, function(c) {
           path.push(c);
         });
 
@@ -265,19 +266,23 @@
           $scope.map.polygons[0].path = [];
           $scope.map.polygons[0].path.push({
             latitude: $scope.map.center.latitude + 0.0005,
-            longitude: $scope.map.center.longitude + 0.0005
+            longitude: $scope.map.center.longitude + 0.0005,
+            order: $scope.map.polygons[0].path.length
           });
           $scope.map.polygons[0].path.push({
             latitude: $scope.map.center.latitude + 0.0005,
-            longitude: $scope.map.center.longitude - 0.0005
+            longitude: $scope.map.center.longitude - 0.0005,
+            order: $scope.map.polygons[0].path.length            
           });
           $scope.map.polygons[0].path.push({
             latitude: $scope.map.center.latitude - 0.0005,
-            longitude: $scope.map.center.longitude - 0.0005
+            longitude: $scope.map.center.longitude - 0.0005,
+            order: $scope.map.polygons[0].path.length     
           });
           $scope.map.polygons[0].path.push({
             latitude: $scope.map.center.latitude - 0.0005,
-            longitude: $scope.map.center.longitude + 0.0005
+            longitude: $scope.map.center.longitude + 0.0005,
+            order: $scope.map.polygons[0].path.length     
           });
 
           // Save to the backend.
@@ -304,7 +309,8 @@
           var coords = {
             latitude: $scope.map.territoryCenterMarker.coords.latitude,
             longitude: $scope.map.territoryCenterMarker.coords.longitude,
-            type: 'center'
+            type: 'center',
+            order: 0
           }
 
           var promises = [];
@@ -339,12 +345,13 @@
             // Convert coordinates to backend compatible form.
             var path = [];
             var oldPathIds = [];
-            _.each($scope.map.polygons[0].path, function(p) {
+            _.each($scope.map.polygons[0].path, function(p, index) {
               path.push({
                 type: 'border',
                 territory: $scope.territory.id,
                 latitude: p.latitude,
-                longitude: p.longitude
+                longitude: p.longitude,
+                order: index
               });
               if(p.id) {
                 oldPathIds.push(p.id);

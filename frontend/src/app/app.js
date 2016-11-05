@@ -134,8 +134,8 @@
   )
   .config(function(uiGmapGoogleMapApiProvider) {
       uiGmapGoogleMapApiProvider.configure({
-          //    key: 'your api key',
-          v: '3.20', //defaults to latest 3.X anyhow
+          key: 'AIzaSyCEGiaZcIX3dFBOH5KLfrv6R8lvL-bdujQ',
+          v: '3.24', //defaults to latest 3.X anyhow
           libraries: 'weather,geometry,visualization'
       });
   })
