@@ -34,6 +34,32 @@ var createEmailMessage = function(in_template, in_holder, in_territory, in_listO
   bodyHTML = bodyHTML.replace("_holderName", in_holder.name);
   bodyHTML = bodyHTML.replace("_territoryDetails", in_territory.description);
   bodyHTML = bodyHTML.replace("_listAllTerritoryCodes", in_listOfTerritories);
+
+  if(in_territory.coordinates && in_territory.coordinates.length > 2) {
+
+    in_territory.coordinates.sort(function(a,b) {return (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0);} ); 
+
+    var path = "";
+    for(var i = 0; i < in_territory.coordinates.length; i++) {
+      path += in_territory.coordinates[i].latitude + "," + in_territory.coordinates[i].longitude + "%7C";
+    }
+    path += in_territory.coordinates[0].latitude + "," + in_territory.coordinates[0].longitude;
+
+    var staticMap = '<img src="https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
+      + in_territory.center.latitude + ',' + in_territory.center.longitude +
+      '&path=fillcolor:0x00FF0022%7Ccolor:0x00FF0066%7Cweight:5%7C'+ path + 
+      '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ" alt="Alueen kartta" />';
+    var staticMapSatellite = '<img src="https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
+      + in_territory.center.latitude + ',' + in_territory.center.longitude +
+      '&path=fillcolor:0x00FF0022%7Ccolor:0x00FF0066%7Cweight:5%7C'+ path + 
+      '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ&maptype=satellite" alt="Alueen kartta" />';
+    bodyHTML = bodyHTML.replace("_staticMap", staticMap);
+    bodyHTML = bodyHTML.replace("_staticMapSatellite", staticMapSatellite);
+  } else {
+    bodyHTML = bodyHTML.replace("_staticMap", "");
+    bodyHTML = bodyHTML.replace("_staticMapSatellite", "");
+  }
+
   var mailOptions = {
     from: app.notificationEmailSenderAddress, // sender address
     to: in_holder.email, // list of receivers
@@ -172,6 +198,7 @@ module.exports = {
         .find()
         .populate('territoryHolderHistory')
         .populate('center')
+        .populate('coordinates')
         .exec(function(err, t_all) {
         Holder.find().exec(function(err, h_all) {
           var new_territory_taken_emails = 0;
