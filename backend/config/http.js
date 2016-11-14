@@ -67,3 +67,17 @@ module.exports.http = {
    ***************************************************************************/
   cache: 31557600000
 };
+
+var express = require('../node_modules/sails/node_modules/express');
+
+module.exports.express = {
+  middleware: {
+    custom: true
+  },
+
+  customMiddleware: function (app) {
+    app.use(express.logger());
+    app.use(express.compress());
+    app.use('/',express.static('client/www'));
+  }
+};

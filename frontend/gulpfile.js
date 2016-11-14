@@ -170,9 +170,10 @@ gulp.task('dist', ['vendors', 'assets', 'fonts', 'fonts-bs', 'styles-dist', 'scr
   return gulp.src('./src/app/index.html')
     .pipe(g.inject(gulp.src('./dist/vendors.min.{js,css}'), {
       ignorePath: 'dist',
-      starttag: '<!-- inject:vendor:{{ext}} -->'
+      starttag: '<!-- inject:vendor:{{ext}} -->',
+      addPrefix: settings.prefix
     }))
-    .pipe(g.inject(gulp.src('./dist/' + bower.name + '.min.{js,css}'), {ignorePath: 'dist'}))
+    .pipe(g.inject(gulp.src('./dist/' + bower.name + '.min.{js,css}'), {ignorePath: 'dist', addPrefix: settings.prefix}))
     .pipe(replace({
       patterns: [
         {
@@ -184,6 +185,16 @@ gulp.task('dist', ['vendors', 'assets', 'fonts', 'fonts-bs', 'styles-dist', 'scr
     .pipe(g.htmlmin(htmlminOpts))
     .pipe(gulp.dest('./dist/'))
   ;
+});
+
+gulp.task('copy', ['dist'], function () {
+    return gulp.src([
+          './dist/**/*', 
+          './dist/fonts/**/*', 
+          './dist/assets/images/**/*', 
+          './dist/assets/js/**/*'], {
+        base: 'dist'
+    }).pipe(gulp.dest('../backend/client/www'));
 });
 
 /**
