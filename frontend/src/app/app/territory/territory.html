@@ -2,17 +2,15 @@
     <h3>{{'TERRITORY_NOT_FOUND' | translate}}</h3>
 </div>
 
-<div class="row only-print">
-    <div class="col-sm-12">
+<div class="row print-only">
+    <div class="col-sm-12 col-print-12">
         <h3>{{territory.territoryCode || 'Alueen koodi puuttuu'}}
             <span class="pull-right">{{territory.type}}</span>
         </h3>
-        <div class="col-print-12 print-only">
-            <pre style="white-space: pre-line; width: 100%">
-                {{territory.description}}
-            </pre>
-            <p ng-show="!!territory.apartmentCount">Alueen asuntojen yhteismäärä {{territory.apartmentCount}}</p>
-        </div>
+        <pre style="white-space: pre-line; width: 100%">
+            {{territory.description}}
+        </pre>
+        <p ng-show="!!territory.apartmentCount">Alueen asuntojen yhteismäärä {{territory.apartmentCount}}</p>
     </div>
 </div>
 
