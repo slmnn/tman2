@@ -247,6 +247,25 @@
           ]
         };
 
+        $scope.imgSrc = "";
+        if(path.length > 0) {
+          var imgPath = "";
+          for(var i = 0; i < path.length; i++) {
+            imgPath += path[i].latitude + "," + path[i].longitude + "%7C";
+          }
+          imgPath += path[0].latitude + "," + path[0].longitude;
+
+          $scope.imgSrc = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
+            + $scope.territory.center.latitude + ',' + $scope.territory.center.longitude +
+            '&maptype=hybrid&path=fillcolor:0x00FF0022%7Ccolor:0x00FF0066%7Cweight:5%7C'+ imgPath + 
+            '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ';
+        } else {
+            $scope.imgSrc = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
+            + $scope.territory.center.latitude + ',' + $scope.territory.center.longitude +
+            '&maptype=hybrid' + 
+            '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ';
+        }
+
         // Toggle the map status to be editable.
         $scope.editableMap = false;
         $scope.toggleMapEditable = function makeMapEditable() {

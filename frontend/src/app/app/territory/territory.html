@@ -1,8 +1,23 @@
 <div data-ng-show="!territory">
     <h3>{{'TERRITORY_NOT_FOUND' | translate}}</h3>
 </div>
+
+<div class="row only-print">
+    <div class="col-sm-12">
+        <h3>{{territory.territoryCode || 'Alueen koodi puuttuu'}}
+            <span class="pull-right">{{territory.type}}</span>
+        </h3>
+        <div class="col-print-12 print-only">
+            <pre style="white-space: pre-line; width: 100%">
+                {{territory.description}}
+            </pre>
+            <p ng-show="!!territory.apartmentCount">Alueen asuntojen yhteismäärä {{territory.apartmentCount}}</p>
+        </div>
+    </div>
+</div>
+
 <div class="row">
-    <div class="col-sm-6 col-print-6">
+    <div class="col-sm-6 no-print">
         <div data-ng-show="territory">
             <form 
                 class="form-vertical" 
@@ -35,7 +50,7 @@
                     </span>
                 </h3>
 
-                <dl class="dl-horizontal">
+                <dl class="dl-horizontal no-print">
                     <dt>{{'HOLDER' | translate}}</dt>
                     <dd>
                         <span data-editable-select="territory.holder.id"
@@ -277,12 +292,12 @@
         </table>
     </div>
 
-    <div class="col-sm-6 col-print-6">
+    <div class="col-sm-6">
         <h4>
             <span data-ng-if="territory.territoryLinkAttribute.length > 0">
                 {{'ATTRIBUTES' | translate}} ({{territory.territoryLinkAttribute.length}})
             </span>
-            <span data-ng-if="territory.territoryLinkAttribute.length === 0">
+            <span data-ng-if="territory.territoryLinkAttribute.length === 0" class="no-print">
                 {{'NO_TERRITORY_ATTRIBUTES' | translate}}
             </span>
             <span class="pull-right"
@@ -350,7 +365,7 @@
         </div>
     </div>
 
-    <div class="col-sm-6 col-print-6">
+    <div class="col-sm-6 no-print">
         <h4>
             <span data-ng-if="territory.specialAddress.length > 0">
                 Kieltopaikat ja vieraskieliset ({{territory.specialAddress.length}})
@@ -484,15 +499,7 @@
         </div>
     </div>
 </div>
-
-<div class="row print-only">
-    <div class="col-sm-12 col-print-12">
-        <h4>{{'Alueen kuvaus' | translate}}</h4>
-        <pre style="white-space: pre-line; width: 100%">{{territory.description}}</pre>
-    </div>
-</div>
-
-<div data-ng-if="territory">
+<div data-ng-if="territory" class="no-print">
     <h4>
         Kartta
         <span class="pull-right"
@@ -549,4 +556,7 @@
         >
         </ui-gmap-polygon>
     </ui-gmap-google-map>
+</div>
+<div class="col-print-12 print-only" style="page-break-before: always;">
+    <img ng-src="{{imgSrc}}" alt="Alueen kartta puuttuu" />
 </div>
