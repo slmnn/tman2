@@ -119,6 +119,49 @@
                             {{app.defaultLongitude || 'Ei asetettu'}}
                         </span>
                     </dd>
+                    <dt>Tulostettavan aluekartan tyyppi</dt>
+                    <dd>
+                        <span data-editable-select="app.printMapType"
+                            data-e-name="app.printMapType"
+                            data-e-ng-options="type as type for type in mapTypes"
+                            data-e-required
+                        >
+                            {{app.printMapType || 'Ei asetettu'}}
+                        </span>
+                    </dd>
+                    <dt>Tulostettavan aluekartan rajan väri</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.printMapLineColor"
+                            data-e-name="app.printMapLineColor"
+                            data-e-required
+                        >
+                            {{app.printMapLineColor || 'Asetus puuttuu'}}
+                        </span>
+                    </dd>
+                    <dt>Tulostettavan aluekartan alueen väri</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-text="app.printMapAreaFillColor"
+                            data-e-name="app.printMapAreaFillColor"
+                            data-e-required
+                        >
+                            {{app.printMapAreaFillColor || 'Asetus puuttuu'}}
+                        </span>
+                    </dd>
+                    <dt>Tulostettavan aluekartan skaalaus</dt>
+                    <dd>
+                        <span style="width: 100%;"
+                            data-editable-number="app.printMapScale"
+                            data-e-min="0"
+                            data-e-max="2"
+                            data-e-step="1"
+                            data-e-name="app.printMapScale"
+                            data-e-required
+                        >
+                            {{app.printMapScale || 'Asetus puuttuu'}}
+                        </span>
+                    </dd>
                     <dt>Sähköposteissa toimivat avainkentät</dt>
                     <dd>
 <pre>

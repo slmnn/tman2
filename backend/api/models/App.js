@@ -44,6 +44,12 @@ module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     notificationEmailRemovedTerritory : "string",
     notificationEmailRemovedTerritoryTitle : "string",
 
+    printMapType: "string",
+    printMapLineColor: "string",
+    printMapAreaFillColor: "string",
+    printMapScale: "INTEGER",
+    staticMapKey: "string",
+
   	defaultHolder : {
     	model: 'holder'
     }

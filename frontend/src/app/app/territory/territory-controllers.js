@@ -257,12 +257,15 @@
 
           $scope.imgSrc = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
             + $scope.territory.center.latitude + ',' + $scope.territory.center.longitude +
-            '&maptype=hybrid&path=fillcolor:0x00FF0022%7Ccolor:0x00FF0066%7Cweight:5%7C'+ imgPath + 
+            '&maptype='+$scope.app.printMapType+
+            '&path=fillcolor:'+$scope.app.printMapAreaFillColor+'%7Ccolor:'+$scope.app.printMapLineColor+'%7Cweight:5%7C'+ imgPath + 
+            '&scale='+$scope.app.printMapScale +
             '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ';
         } else {
             $scope.imgSrc = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
             + $scope.territory.center.latitude + ',' + $scope.territory.center.longitude +
-            '&maptype=hybrid' + 
+            '&maptype='+$scope.app.printMapType+
+            '&scale='+$scope.app.printMapScale+
             '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ';
         }
 

@@ -29,6 +29,7 @@
         $scope.user = UserService.user();
         $scope.app = _app[0];
         $scope.holders = _holders;
+        $scope.mapTypes = ["hybrid", "satellite", "roadmap", "terrain"];
 
         // If app is undefined, create one and reload.
         if(_app.length === 0) {
@@ -44,6 +45,10 @@
               holderNotChangedWarningLimit : 200,
               holderChangePreventedIfLimitExeeded : false,
               holderChangeToDefaultIfLimitExeeded : false,
+              printMapType: "hybrid",
+              printMapLineColor: "0x00FF0066",
+              printMapAreaFillColor: "0x00FF0022",
+              printMapScale: 1
             }
           )
           .then(
