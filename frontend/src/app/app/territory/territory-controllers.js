@@ -246,6 +246,7 @@
             }
           ]
         };
+        $scope.map.center.coordinates = [];
 
         $scope.imgSrc = "";
         if(path.length > 0) {
