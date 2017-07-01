@@ -30,6 +30,20 @@ module.exports.connections = {
     adapter: 'sails-disk'
   },
 
+  localmongo: {
+    adapter: 'sails-mongo',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    socketOptions: {
+      connectTimeoutMS: 30000,
+      socketTimeoutMS : 30000
+    },
+    poolSize: 5
+  },
+
   /**
    * MySQL is the world's most popular relational database.
    * http://en.wikipedia.org/wiki/MySQL

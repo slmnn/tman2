@@ -18,6 +18,5 @@ module.exports = {
 	hooktimeout: 120000,
   models: {
     connection: 'localmongo'
-
   }
 };
