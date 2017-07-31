@@ -1,5 +1,5 @@
 {
-  "backendUrl": "http://localhost:1337",
+  "backendUrl": "http://territorymanager.herokuapp.com",
   "prefix":"/",
   "frontend": {
     "ports": {
