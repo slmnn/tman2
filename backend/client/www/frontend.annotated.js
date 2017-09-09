@@ -825,32 +825,6 @@
 }());
 
 /**
- * This file contains all necessary Angular model definitions for 'frontend.app.territoryLinkAttribute
-' module.
- *
- * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
- * services that wraps all things together.
- */
-(function() {
-  'use strict';
-
-  // Define frontend.app.territoryLinkAttribute angular module
-  angular.module('frontend.app.territoryLinkAttribute', []);
-
-  /**
-   * Model for TerritoryLinkAttribute API, this is used to wrap all TerritoryLinkAttribute objects specified actions and data change actions.
-   */
-  angular.module('frontend.app.territoryLinkAttribute')
-    .service('TerritoryLinkAttributeModel', [
-      'DataModel',
-      function(DataModel) {
-        return new DataModel('territoryLinkAttribute');
-      }
-    ])
-  ;
-}());
-
-/**
  * Territory component to wrap all territory specified stuff together. This component is divided to following logical
  * components:
  *
@@ -1487,44 +1461,6 @@ $provide.value("$locale", {
     return fi;
 
 }));
-/**
- * Messages component which is divided to following logical components:
- *
- *  Controllers
- *
- * All of these are wrapped to 'frontend.auth.login' angular module.
- */
-(function() {
-  'use strict';
-
-  // Define frontend.auth.login angular module
-  angular.module('frontend.core.auth.login', []);
-
-  // Module configuration
-  angular.module('frontend.core.auth.login')
-    .config([
-      '$stateProvider',
-      function config($stateProvider) {
-        $stateProvider
-          // Login
-          .state('auth.login', {
-            url: '/login',
-            data: {
-              access: 0
-            },
-            views: {
-              'content@': {
-                templateUrl: '/frontend/core/auth/login/login.html',
-                controller: 'LoginController'
-              }
-            }
-          })
-        ;
-      }
-    ])
-  ;
-}());
-
 // Generic models angular module initialize.
 (function() {
   'use strict';
@@ -1567,6 +1503,32 @@ $provide.value("$locale", {
     'highcharts-ng',
     'pascalprecht.translate'
   ]);
+}());
+
+// Generic models angular module initialize.
+(function() {
+  'use strict';
+
+  angular.module('frontend.core.directives', []);
+
+  // Fixes datepicker showing ISO date instead of nicely formatted date.
+  angular.module('frontend.core.directives')
+	.directive('datepickerPopup', function (){
+    return {
+      restrict: 'EAC',
+      require: 'ngModel',
+      link: function(scope, element, attr, controller) {
+
+	      //remove the default formatter from the input directive to prevent conflict
+	      controller.$formatters.shift();
+  		}
+		}
+	})
+	.directive('territorySubPages', function (){
+	  return {
+	  	templateUrl: '/frontend/core/directives/partials/territorySubPages.html'
+	  }
+	});
 }());
 
 // Generic models angular module initialize.
@@ -1814,30 +1776,6 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/admin/requestlog/index-info.html',
-    '<p>Tällä sivulla voit selata taustajärjestelmään lähetettyjä POST-, PUT- ja DELETE pyyntöjä. Voit avata pyynnön sisällön "näytä / piilota" -linkistä</p>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/admin/requestlog/index.html',
-    '<h3>Taustakyselyhistoria ({{itemCount}})</h3><div class="row"><div class="col-sm-12 list-search"><list-search data-filters="filters" data-options="itemsPerPageOptions" data-items="itemsPerPage"></list-search></div></div><div class="row"><div class="col-sm-12"><pagination class="pagination-sm pull-right mobile-hide" data-total-items="itemCount" data-ng-model="currentPage" data-items-per-page="itemsPerPage" data-max-size="5" data-boundary-links="true" data-rotate="false" data-first-text="{{\'FIRST\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}" data-next-text="{{\'NEXT\' | translate}}" data-last-text="{{\'LAST\' | translate}}"></pagination><pager class="desktop-hide" total-items="itemCount" data-ng-model="currentPage" data-rotate="false" data-items-per-page="itemsPerPage" data-next-text="{{\'NEXT\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}"></pager></div></div><table class="table table-hover"><thead class="noSelect"><tr><th class="text-nowrap {{item.class}}" data-ng-repeat="item in titleItems"><a data-ng-show="item.column" data-ng-click="changeSort(item)" data-ng-bind-html="item.title"></a> <span data-ng-show="!item.column" data-ng-bind-html="item.title"></span> <i class="fa" data-ng-show="sort.column == item.column" data-ng-class="{\'fa-angle-down\': !sort.direction, \'fa-angle-up\': sort.direction}"></i></th></tr></thead><tbody><tr data-ng-repeat="item in items"><td class="col-xs-2">{{item.createdAt | date : \'dd.MM.yyyy\'}}, <span data-am-time-ago="item.createdAt"></span></td><td class="col-xs-1">{{item.method}}</td><td class="col-xs-2"><span data-ng-if="item.url.length > 100">{{item.url | limitTo : 100}} ...</span> <span data-ng-if="item.url.length <= 100">{{item.url}}</span></td><td class="col-xs-3"><a data-ng-if="item.body" data-ng-click="item.showBody = !item.showBody">näytä / piilota</a><pre data-ng-show="item.showBody" data-ng-if="item.body">{{item.body | json}}</pre></td><td class="col-xs-1">{{item.user.username || \'Ei käyttäjää\'}}</td><td class="col-xs-1">{{item.user.lastName}} {{item.user.firstName}}</td><td class="col-xs-2">{{item.user.admin ? \'Pääkäyttäjä\':\'Normaalikäyttäjä\'}}</td></tr><tr data-ng-if="items.length === 0"><td colspan="100%" class="text-center text-muted"><em>Ei taustakyselyjä</em></td></tr></tbody></table><div class="row"><div class="col-sm-12"><pagination class="pagination-sm pull-right mobile-hide" data-total-items="itemCount" data-ng-model="currentPage" data-items-per-page="itemsPerPage" data-max-size="5" data-boundary-links="true" data-rotate="false" data-first-text="{{\'FIRST\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}" data-next-text="{{\'NEXT\' | translate}}" data-last-text="{{\'LAST\' | translate}}"></pagination><pager class="desktop-hide" total-items="itemCount" data-ng-model="currentPage" data-rotate="false" data-items-per-page="itemsPerPage" data-next-text="{{\'NEXT\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}"></pager></div></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/admin/migrate/migrate-info.html',
     '<p>Tällä sivulla voit tehdä migraation vanhasta aluesovelluksesta uuteen.</p><p><ol><li>Tee ensin sovelluksen oletusomistaja (Aluepöytä) ja aseta se sovelluksen asetuksissa oletusomistajaksi.</li><li>Kopioi varmuuskopiosta alueomistajadata ylempään tekstiruutuun. Paina ko. ruudun alta "Tallenna".</li><li>Kopioi varmuuskopiosta aluedata alempaan tekstiruutuun. Paina alemman ruudun alta "Tallenna"</li><li>HUOM! Tarkista tietokannassa, että luontitieto on oikein tehdyillä alueilla ja alueomistajilla. Katso alta hyödyllisiä komentoja.</li></ol><ul><li>Kantaan:<pre>use dbname</pre></li><li>Näytä taulut:<pre>show collections</pre></li><li>Näytä käyttäjät:<pre>show users</pre></li><li>Haku:<pre>db.collectionname.find({kenttä:"arvo"})</pre></li><li>Hae alueet joilla luontitieto pielessä:<pre>db.territory.find({createdId:null})</pre></li><li>Omistajan päivittäminen:<pre>db.territory.update({createdUserId: null}, { $set: { createdUserId: ObjectId("56670a58ff3e4c41d81e9adb")}}, false, true);</pre></li></ul></p>');
 }]);
@@ -1856,6 +1794,30 @@ module.run(['$templateCache', function($templateCache) {
     '    </textarea><br><button type="submit" class="btn btn-primary">Tallenna</button></form><form class="form-vertical col-md-12" role="form" name="migrateForm" data-ng-submit="parseMigrationTerritories(migrationData)">Aluedata<br><textarea data-ng-model="migrationData.territories" cols="120" rows="10">\n' +
     '\n' +
     '    </textarea><br><button type="submit" class="btn btn-primary">Tallenna</button></form><hr><button data-ng-click="rollback()" class="btn btn-primary">Poista juuri luodut</button>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/admin/requestlog/index-info.html',
+    '<p>Tällä sivulla voit selata taustajärjestelmään lähetettyjä POST-, PUT- ja DELETE pyyntöjä. Voit avata pyynnön sisällön "näytä / piilota" -linkistä</p>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/admin/requestlog/index.html',
+    '<h3>Taustakyselyhistoria ({{itemCount}})</h3><div class="row"><div class="col-sm-12 list-search"><list-search data-filters="filters" data-options="itemsPerPageOptions" data-items="itemsPerPage"></list-search></div></div><div class="row"><div class="col-sm-12"><pagination class="pagination-sm pull-right mobile-hide" data-total-items="itemCount" data-ng-model="currentPage" data-items-per-page="itemsPerPage" data-max-size="5" data-boundary-links="true" data-rotate="false" data-first-text="{{\'FIRST\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}" data-next-text="{{\'NEXT\' | translate}}" data-last-text="{{\'LAST\' | translate}}"></pagination><pager class="desktop-hide" total-items="itemCount" data-ng-model="currentPage" data-rotate="false" data-items-per-page="itemsPerPage" data-next-text="{{\'NEXT\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}"></pager></div></div><table class="table table-hover"><thead class="noSelect"><tr><th class="text-nowrap {{item.class}}" data-ng-repeat="item in titleItems"><a data-ng-show="item.column" data-ng-click="changeSort(item)" data-ng-bind-html="item.title"></a> <span data-ng-show="!item.column" data-ng-bind-html="item.title"></span> <i class="fa" data-ng-show="sort.column == item.column" data-ng-class="{\'fa-angle-down\': !sort.direction, \'fa-angle-up\': sort.direction}"></i></th></tr></thead><tbody><tr data-ng-repeat="item in items"><td class="col-xs-2">{{item.createdAt | date : \'dd.MM.yyyy\'}}, <span data-am-time-ago="item.createdAt"></span></td><td class="col-xs-1">{{item.method}}</td><td class="col-xs-2"><span data-ng-if="item.url.length > 100">{{item.url | limitTo : 100}} ...</span> <span data-ng-if="item.url.length <= 100">{{item.url}}</span></td><td class="col-xs-3"><a data-ng-if="item.body" data-ng-click="item.showBody = !item.showBody">näytä / piilota</a><pre data-ng-show="item.showBody" data-ng-if="item.body">{{item.body | json}}</pre></td><td class="col-xs-1">{{item.user.username || \'Ei käyttäjää\'}}</td><td class="col-xs-1">{{item.user.lastName}} {{item.user.firstName}}</td><td class="col-xs-2">{{item.user.admin ? \'Pääkäyttäjä\':\'Normaalikäyttäjä\'}}</td></tr><tr data-ng-if="items.length === 0"><td colspan="100%" class="text-center text-muted"><em>Ei taustakyselyjä</em></td></tr></tbody></table><div class="row"><div class="col-sm-12"><pagination class="pagination-sm pull-right mobile-hide" data-total-items="itemCount" data-ng-model="currentPage" data-items-per-page="itemsPerPage" data-max-size="5" data-boundary-links="true" data-rotate="false" data-first-text="{{\'FIRST\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}" data-next-text="{{\'NEXT\' | translate}}" data-last-text="{{\'LAST\' | translate}}"></pagination><pager class="desktop-hide" total-items="itemCount" data-ng-model="currentPage" data-rotate="false" data-items-per-page="itemsPerPage" data-next-text="{{\'NEXT\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}"></pager></div></div>');
 }]);
 })();
 
@@ -1938,6 +1900,18 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/about/about.html',
+    '<h3>{{name || \'Aluehallintasovellus v2.0\'}}</h3><div class="row"><div class="col-sm-12"><p>Tämä aluehallintasovellus on tarkoitettu helpottamaan alueveljien työtä ja tarjoamaan ajantasaista tietoa seurakunnan aluetilanteesta.</p><h4>Tärkeimmät ominaisuudet</h4><ul><li>Alueiden merkitseminen eri omistajille ja käydyksi</li><li>Sopivien alueiden etsiminen eri attribuuttien mukaisesti</li><li>Käyttäjäoikeustasot, joiden avulla eri käyttäjien toimia voidaan hallita</li><li>Sähköpostimuistutukset alueiden käymisestä</li><li>Seurakunnan alueiden esittäminen havainnollisena karttana</li><li>S-13 -lomake</li></ul><h4>Suunnitteilla olevia ominaisuuksia</h4><ul><li>Alueiden antaminen julistajille linkkinä, sähköpostilla tai PDF-tiedostona</li></ul></div></div><h4 data-ng-show="!auth.isAuthenticated()">Jos sinulla on käyttäjätunnus, <a data-ui-sref="auth.login">kirjaudu sisään</a>.</h4><h4 data-ng-show="auth.isAuthenticated()">Olet kirjautunut sisään. Jatka <a data-ui-sref="app.territory">aluehallintaan</a>.</h4>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/app/app-info.html',
     '<p>Aluehallinnan asetukset vaikuttavat koko sovelluksen toimintaan.</p>');
 }]);
@@ -1973,8 +1947,20 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/about/about.html',
-    '<h3>{{name || \'Aluehallintasovellus v2.0\'}}</h3><div class="row"><div class="col-sm-12"><p>Tämä aluehallintasovellus on tarkoitettu helpottamaan alueveljien työtä ja tarjoamaan ajantasaista tietoa seurakunnan aluetilanteesta.</p><h4>Tärkeimmät ominaisuudet</h4><ul><li>Alueiden merkitseminen eri omistajille ja käydyksi</li><li>Sopivien alueiden etsiminen eri attribuuttien mukaisesti</li><li>Käyttäjäoikeustasot, joiden avulla eri käyttäjien toimia voidaan hallita</li><li>Sähköpostimuistutukset alueiden käymisestä</li><li>Seurakunnan alueiden esittäminen havainnollisena karttana</li><li>S-13 -lomake</li></ul><h4>Suunnitteilla olevia ominaisuuksia</h4><ul><li>Alueiden antaminen julistajille linkkinä, sähköpostilla tai PDF-tiedostona</li></ul></div></div><h4 data-ng-show="!auth.isAuthenticated()">Jos sinulla on käyttäjätunnus, <a data-ui-sref="auth.login">kirjaudu sisään</a>.</h4><h4 data-ng-show="auth.isAuthenticated()">Olet kirjautunut sisään. Jatka <a data-ui-sref="app.territory">aluehallintaan</a>.</h4>');
+  $templateCache.put('/frontend/app/attributes/attributes-info.html',
+    '<h4>Attribuutit</h4><p>Attribuutit ovat alueisiin liittyviä lisätietoja. Voit etsiä sopivia kuvakkeita <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome -kirjastosta</a>. Kirjoita kuvakkeen nimi ilman fa-etuliitettä.</p>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/attributes/attributes.html',
+    '<div data-ng-show="!attributes.length"><h3>Attributes not found</h3></div><div data-ng-show="attributes.length"><table class="table table-condensed table-hover"><thead><tr><th>Nimi</th><th>Kuvaus</th><th>Kuvakkeen nimi</th><th>Kuvake</th><th></th></tr></thead><tbody data-ng-repeat="a in attributes"><tr><td><span data-editable-text="a.name" data-e-name="a.name" data-e-required data-onaftersave="updateAttribute(a)">{{a.name}}</span></td><td><span data-editable-text="a.description" data-e-name="a.description" data-e-required data-onaftersave="updateAttribute(a)">{{a.description}}</span></td><td><span data-editable-text="a.icon" data-e-name="a.icon" data-e-required data-onaftersave="updateAttribute(a)">{{a.icon}}</span></td><td><span class="fa fa-{{a.icon}}"></span></td><td><a data-ng-click="deleteAttribute(a)" data-ng-if="user.admin"><span title="Remove attribute" class="fa fa-trash"></span></a></td></tr></tbody></table></div><div data-ng-if="user.admin"><h3>Lisää uusi attribuutti</h3><form class="form-verical col-md-4" name="newAttributeForm" data-ng-submit="createAttribute(newAttribute)"><div class="form-group"><label for="name">Nimi</label><input data-ng-model="newAttribute.name" required class="form-control" id="name" placeholder="Esim. Hissi"></div><div class="form-group"><label for="description">Kuvaus</label><input data-ng-model="newAttribute.description" max-length="100" required class="form-control" id="description" placeholder="Esim. Talossa on hissi"></div><div class="form-group"><label for="icon">Kuvakkeen nimi</label><input data-ng-model="newAttribute.icon" required class="form-control" id="icon" placeholder="Font Awesome kuvake, esim. arrows-v"></div><input type="submit" id="submit" value="Lisää" class="btn btn-primary"></form></div>');
 }]);
 })();
 
@@ -1999,30 +1985,6 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/chat/chat.html',
     '<div class="chat-enter" data-ng-show="!message.nick"><h4>Enter a nick</h4><div class="input-group col-md-4"><input id="nick" name="nick" class="form-control" placeholder="Enter a nickname" data-ng-model="nick" data-ui-keypress="{\'enter\': \'enterToChat($event)\'}"> <span class="input-group-btn"><button class="btn btn-primary" type="button" data-ng-click="enterToChat()">Enter to chat</button></span></div></div><div class="chat" data-ng-show="message.nick"><div class="row"><div id="messages" class="col-md-12 messages chat-screen"><ul class="list-unstyled"><li class="clearfix" data-ng-repeat="message in messages | orderBy: \'createdAt\'"><span class="pull-left time text-muted"><code>[{{message.createdAt | amDateFormat:\'YYYY-MM-DD HH:mm:ss\'}}]</code></span> <span class="pull-left message"><span class="text-info">{{message.nick}}</span> <span data-ng-bind-html="message.message | linky : \'_blank\'"></span></span></li></ul></div></div><div class="row"><div class="col-md-12 input-group"><div class="input-group-addon">{{message.nick}}</div><input id="message" name="message" class="form-control" placeholder="enter chat message" data-ng-model="message.message" data-ui-keypress="{\'enter\': \'postMessage($event)\'}"><div class="input-group-btn"><button class="btn btn-primary" type="button" data-ng-click="postMessage()">Send message</button> <button class="btn btn-danger" type="button" data-tooltip="Leave chat" data-ng-click="leaveChat()"><i class="fa fa-times"></i></button></div></div></div></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/attributes/attributes-info.html',
-    '<h4>Attribuutit</h4><p>Attribuutit ovat alueisiin liittyviä lisätietoja. Voit etsiä sopivia kuvakkeita <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome -kirjastosta</a>. Kirjoita kuvakkeen nimi ilman fa-etuliitettä.</p>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/attributes/attributes.html',
-    '<div data-ng-show="!attributes.length"><h3>Attributes not found</h3></div><div data-ng-show="attributes.length"><table class="table table-condensed table-hover"><thead><tr><th>Nimi</th><th>Kuvaus</th><th>Kuvakkeen nimi</th><th>Kuvake</th><th></th></tr></thead><tbody data-ng-repeat="a in attributes"><tr><td><span data-editable-text="a.name" data-e-name="a.name" data-e-required data-onaftersave="updateAttribute(a)">{{a.name}}</span></td><td><span data-editable-text="a.description" data-e-name="a.description" data-e-required data-onaftersave="updateAttribute(a)">{{a.description}}</span></td><td><span data-editable-text="a.icon" data-e-name="a.icon" data-e-required data-onaftersave="updateAttribute(a)">{{a.icon}}</span></td><td><span class="fa fa-{{a.icon}}"></span></td><td><a data-ng-click="deleteAttribute(a)" data-ng-if="user.admin"><span title="Remove attribute" class="fa fa-trash"></span></a></td></tr></tbody></table></div><div data-ng-if="user.admin"><h3>Lisää uusi attribuutti</h3><form class="form-verical col-md-4" name="newAttributeForm" data-ng-submit="createAttribute(newAttribute)"><div class="form-group"><label for="name">Nimi</label><input data-ng-model="newAttribute.name" required class="form-control" id="name" placeholder="Esim. Hissi"></div><div class="form-group"><label for="description">Kuvaus</label><input data-ng-model="newAttribute.description" max-length="100" required class="form-control" id="description" placeholder="Esim. Talossa on hissi"></div><div class="form-group"><label for="icon">Kuvakkeen nimi</label><input data-ng-model="newAttribute.icon" required class="form-control" id="icon" placeholder="Font Awesome kuvake, esim. arrows-v"></div><input type="submit" id="submit" value="Lisää" class="btn btn-primary"></form></div>');
 }]);
 })();
 
@@ -4308,6 +4270,32 @@ module.run(['$templateCache', function($templateCache) {
 }());
 
 /**
+ * This file contains all necessary Angular model definitions for 'frontend.app.territoryLinkAttribute
+' module.
+ *
+ * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
+ * services that wraps all things together.
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.app.territoryLinkAttribute angular module
+  angular.module('frontend.app.territoryLinkAttribute', []);
+
+  /**
+   * Model for TerritoryLinkAttribute API, this is used to wrap all TerritoryLinkAttribute objects specified actions and data change actions.
+   */
+  angular.module('frontend.app.territoryLinkAttribute')
+    .service('TerritoryLinkAttributeModel', [
+      'DataModel',
+      function(DataModel) {
+        return new DataModel('territoryLinkAttribute');
+      }
+    ])
+  ;
+}());
+
+/**
  * This file contains all necessary Angular controller definitions for 'frontend.app.territory
 ' module.
  *
@@ -5858,102 +5846,38 @@ angular.module('frontend.app.territory')
 }]);
 
 /**
- * Angular module for frontend.core.auth component. This component is divided to following logical components:
+ * Messages component which is divided to following logical components:
  *
- *  frontend.core.auth.login
- *  frontend.core.auth.services
+ *  Controllers
+ *
+ * All of these are wrapped to 'frontend.auth.login' angular module.
  */
 (function() {
   'use strict';
 
-  // Define frontend.auth module
-  angular.module('frontend.core.auth', [
-    'frontend.core.auth.login',
-    'frontend.core.auth.services'
-  ]);
+  // Define frontend.auth.login angular module
+  angular.module('frontend.core.auth.login', []);
 
   // Module configuration
-  angular.module('frontend.core.auth')
+  angular.module('frontend.core.auth.login')
     .config([
       '$stateProvider',
       function config($stateProvider) {
         $stateProvider
-          .state('auth', {
-            abstract: true,
-            parent: 'frontend',
+          // Login
+          .state('auth.login', {
+            url: '/login',
             data: {
-              access: 1
+              access: 0
+            },
+            views: {
+              'content@': {
+                templateUrl: '/frontend/core/auth/login/login.html',
+                controller: 'LoginController'
+              }
             }
           })
         ;
-      }
-    ])
-  ;
-}());
-
-/**
- * This file contains all necessary Angular controller definitions for 'frontend.auth.login' module.
- *
- * Note that this file should only contain controllers and nothing else.
- */
-(function() {
-  'use strict';
-
-  /**
-   * Login controller to handle user's login to application. Controller uses 'Auth' service to make actual HTTP
-   * request to server and try to authenticate user.
-   *
-   * After successfully login Auth service will store user data and JWT token via 'Storage' service where those are
-   * asked whenever needed in application.
-   *
-   * @todo
-   *  1) different authentication providers
-   *  2) user registration
-   */
-  angular.module('frontend.core.auth.login')
-    .controller('LoginController', [
-      '$scope', '$state',
-      'AuthService', 'FocusOnService',
-      function controller(
-        $scope, $state,
-        AuthService, FocusOnService
-      ) {
-        // Already authenticated so redirect back to territories list
-        if (AuthService.isAuthenticated()) {
-          $state.go('app.territory');
-        }
-
-        // Scope function to perform actual login request to server
-        $scope.login = function login() {
-          AuthService
-            .login($scope.credentials)
-            .then(
-              function successCallback() {
-                $state.go('app.territory');
-              },
-              function errorCallback() {
-                _reset();
-              }
-            )
-          ;
-        };
-
-        /**
-         * Private helper function to reset credentials and set focus to username input.
-         *
-         * @private
-         */
-        function _reset() {
-          FocusOnService.focus('username');
-
-          // Initialize credentials
-          $scope.credentials = {
-            identifier: '',
-            password: ''
-          };
-        }
-
-        _reset();
       }
     ])
   ;
@@ -6202,30 +6126,69 @@ angular.module('frontend.app.territory')
   ;
 }());
 
-// Generic models angular module initialize.
+/**
+ * Directive to create search component for lists. This is used generally in all lists on application. Basically
+ * this directive just manipulates given filters and items per page variables. Directive needs three attributes to
+ * work:
+ *  1) filters, filter data
+ *  2) options, items per page options
+ *  3) items, current items per page value
+ *
+ * Passed filters must be in following format:
+ *  $scope.filters = {
+ *    searchWord: '',
+ *    columns: $scope.items
+ *  };
+ *
+ * Where '$scope.items' is array of objects like:
+ *  $scope.items = [
+ *    {
+ *      title: 'Object',
+ *      column: 'objectName',
+ *      searchable: true,
+ *      sortable: true,
+ *      inSearch: true,
+ *      inTitle: true
+ *    },
+ *  ];
+ *
+ * Usage example:
+ *
+ *  <list-search
+ *      data-filters="filters"
+ *      data-options="itemsPerPageOptions"
+ *      data-items="itemsPerPage"
+ *  ></list-search>
+ */
 (function() {
   'use strict';
 
-  angular.module('frontend.core.directives', []);
-
-  // Fixes datepicker showing ISO date instead of nicely formatted date.
   angular.module('frontend.core.directives')
-	.directive('datepickerPopup', function (){
-    return {
-      restrict: 'EAC',
-      require: 'ngModel',
-      link: function(scope, element, attr, controller) {
+    .directive('listSearch', function directive() {
+      return {
+        restrict: 'E',
+        scope: {
+          filters: '=',
+          holders: '=',
+          attributes: '=',
+          items: '=',
+          options: '='
+        },
+        replace: true,
+        templateUrl: '/frontend/core/directives/partials/ListSearch.html',
+        controller: [
+          '$scope',
+          function controller($scope) {
+            $scope.id = Math.floor((Math.random() * 6) + 1);
 
-	      //remove the default formatter from the input directive to prevent conflict
-	      controller.$formatters.shift();
-  		}
-		}
-	})
-	.directive('territorySubPages', function (){
-	  return {
-	  	templateUrl: '/frontend/core/directives/partials/territorySubPages.html'
-	  }
-	});
+            $scope.inSearch = function inSearch(item) {
+              return (!angular.isUndefined(item.searchable)) ? item.searchable : false;
+            };
+          }
+        ]
+      };
+    })
+  ;
 }());
 
 /**
@@ -7595,7 +7558,7 @@ angular.module('frontend.app.territory')
             endPoint = endPoint + '/' + identifier;
           }
 
-          return BackendConfig.url + '/' + endPoint;
+          return BackendConfig.url + '/api/' + endPoint;
         }
 
         /**
@@ -8710,6 +8673,108 @@ angular.module('frontend.app.territory')
 }());
 
 /**
+ * Angular module for frontend.core.auth component. This component is divided to following logical components:
+ *
+ *  frontend.core.auth.login
+ *  frontend.core.auth.services
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.auth module
+  angular.module('frontend.core.auth', [
+    'frontend.core.auth.login',
+    'frontend.core.auth.services'
+  ]);
+
+  // Module configuration
+  angular.module('frontend.core.auth')
+    .config([
+      '$stateProvider',
+      function config($stateProvider) {
+        $stateProvider
+          .state('auth', {
+            abstract: true,
+            parent: 'frontend',
+            data: {
+              access: 1
+            }
+          })
+        ;
+      }
+    ])
+  ;
+}());
+
+/**
+ * This file contains all necessary Angular controller definitions for 'frontend.auth.login' module.
+ *
+ * Note that this file should only contain controllers and nothing else.
+ */
+(function() {
+  'use strict';
+
+  /**
+   * Login controller to handle user's login to application. Controller uses 'Auth' service to make actual HTTP
+   * request to server and try to authenticate user.
+   *
+   * After successfully login Auth service will store user data and JWT token via 'Storage' service where those are
+   * asked whenever needed in application.
+   *
+   * @todo
+   *  1) different authentication providers
+   *  2) user registration
+   */
+  angular.module('frontend.core.auth.login')
+    .controller('LoginController', [
+      '$scope', '$state',
+      'AuthService', 'FocusOnService',
+      function controller(
+        $scope, $state,
+        AuthService, FocusOnService
+      ) {
+        // Already authenticated so redirect back to territories list
+        if (AuthService.isAuthenticated()) {
+          $state.go('app.territory');
+        }
+
+        // Scope function to perform actual login request to server
+        $scope.login = function login() {
+          AuthService
+            .login($scope.credentials)
+            .then(
+              function successCallback() {
+                $state.go('app.territory');
+              },
+              function errorCallback() {
+                _reset();
+              }
+            )
+          ;
+        };
+
+        /**
+         * Private helper function to reset credentials and set focus to username input.
+         *
+         * @private
+         */
+        function _reset() {
+          FocusOnService.focus('username');
+
+          // Initialize credentials
+          $scope.credentials = {
+            identifier: '',
+            password: ''
+          };
+        }
+
+        _reset();
+      }
+    ])
+  ;
+}());
+
+/**
  * Angular module for app component. This component is divided to following logical components:
  *
  *  frontend.app.about
@@ -8812,71 +8877,6 @@ angular.module('frontend.app.territory')
     'frontend.core.services',
     'frontend.core.i18n'
   ]);
-}());
-
-/**
- * Directive to create search component for lists. This is used generally in all lists on application. Basically
- * this directive just manipulates given filters and items per page variables. Directive needs three attributes to
- * work:
- *  1) filters, filter data
- *  2) options, items per page options
- *  3) items, current items per page value
- *
- * Passed filters must be in following format:
- *  $scope.filters = {
- *    searchWord: '',
- *    columns: $scope.items
- *  };
- *
- * Where '$scope.items' is array of objects like:
- *  $scope.items = [
- *    {
- *      title: 'Object',
- *      column: 'objectName',
- *      searchable: true,
- *      sortable: true,
- *      inSearch: true,
- *      inTitle: true
- *    },
- *  ];
- *
- * Usage example:
- *
- *  <list-search
- *      data-filters="filters"
- *      data-options="itemsPerPageOptions"
- *      data-items="itemsPerPage"
- *  ></list-search>
- */
-(function() {
-  'use strict';
-
-  angular.module('frontend.core.directives')
-    .directive('listSearch', function directive() {
-      return {
-        restrict: 'E',
-        scope: {
-          filters: '=',
-          holders: '=',
-          attributes: '=',
-          items: '=',
-          options: '='
-        },
-        replace: true,
-        templateUrl: '/frontend/core/directives/partials/ListSearch.html',
-        controller: [
-          '$scope',
-          function controller($scope) {
-            $scope.id = Math.floor((Math.random() * 6) + 1);
-
-            $scope.inSearch = function inSearch(item) {
-              return (!angular.isUndefined(item.searchable)) ? item.searchable : false;
-            };
-          }
-        ]
-      };
-    })
-  ;
 }());
 
 /**
