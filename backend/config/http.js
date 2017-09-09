@@ -76,6 +76,9 @@ module.exports.express = {
   },
 
   customMiddleware: function (app) {
+    app.all(/^\/(?!api).*/, function(req, res) { 
+      res.redirect('/'); 
+    });
     app.use(express.logger());
     app.use(express.compress());
     app.use('/',express.static('client/www'));
