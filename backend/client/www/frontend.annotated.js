@@ -2021,30 +2021,6 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/messages/messages-info.html',
-    '<h4>General info</h4><p>This is an example page to demonstrate how this boilerplate handles errors with <em>$http</em> and <em>$sailsSocket</em> requests. Note that this <em>magic</em> is done automatically via the error interceptor so you don\'t have to do anything extra for error handling. The error handling is done via the error interceptor that is attached to <em>$http</em> and <em>$sailsSocket</em> services.</p><p>This interceptor will catch <em>all</em> errors from <em>$http</em> and <em>$sailsSocket</em> requests and show those to the user via the message service. Note that the message shown depends on the actual error response from the backend.</p><h4>Functions in this example</h4><dl class="dl-horizontal"><dt>Custom messages</dt><dd>Simple example to trigger different types of messages: <em>info, success, warning</em> and <em>error</em> with specified <em>title</em> and actual <em>message</em>.</dd><dt>$http / $sailsSocket</dt><dd>Examples to demonstrate invalid URL and not found record. These are handled automatically by <em>ErrorInterceptor</em>.</dd></dl><page-info-files data-files="{{files}}"></page-info-files>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/messages/messages.html',
-    '<h3>Messages</h3><p>This page demonstrates how you can use the <code>Message</code> service in your application. This service is automatically hooked to <code>$http</code> and <code>$sailsSocket</code> errors.</p><div class="row"><div class="col-md-4"><h5 class="col-md-offset-3">Message trigger from form data</h5><form name="customMessage" class="form-horizontal" role="form"><div class="form-group"><label for="title" class="col-md-3 control-label">Title</label><div class="col-md-9"><input id="title" name="title" class="form-control" placeholder="Enter title" required data-ng-model="title"></div></div><div class="form-group"><label for="message" class="col-md-3 control-label">Message</label><div class="col-md-9"><textarea id="message" name="message" class="form-control" data-ng-model="message"></textarea></div></div><div class="form-group"><label for="type" class="col-md-3 control-label">Type</label><div class="col-md-9"><select id="type" name="type" class="form-control" required data-ng-model="type" data-ng-options="messageType as messageType for messageType in messageTypes"></select></div></div><div class="form-group"><div class="col-md-9 col-md-offset-3"><button class="btn btn-primary" data-ng-disabled="!customMessage.$valid" data-ng-click="showMessage()">Show message</button></div></div></form></div><div class="col-md-4"><h5>Automatic message trigger via <code>$http</code></h5><div class="form-group"><button class="btn btn-primary" data-ng-click="makeInvalidHttpRequest(0)">Invalid URL</button> <button class="btn btn-primary" data-ng-click="makeInvalidHttpRequest(1)">Record not found</button></div><h5>Automatic message trigger via <code>$sailsSocket</code></h5><div class="form-group"><button class="btn btn-primary" data-ng-click="makeInvalidSailsSocketRequest(0)">Invalid URL</button> <button class="btn btn-primary" data-ng-click="makeInvalidSailsSocketRequest(1)">Record not found</button></div></div></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/holder/add-info.html',
     '<h4>Alueomistajan lisääminen</h4><p>Kirjoita tarvittavat tiedot ja paina tallenna.</p>');
 }]);
@@ -2107,6 +2083,30 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/holder/list.html',
     '<h3>Alueomistajat ({{itemCount}}) <a class="pull-right" data-ng-if="user.admin" data-ui-sref="app.holder.add" data-tooltip="Lisää uusi alueomistaja"><i class="fa fa-plus-circle"></i></a></h3><div class="row"><div class="col-sm-12 list-search"><list-search data-filters="filters" data-options="itemsPerPageOptions" data-items="itemsPerPage"></list-search></div></div><div class="row"><div class="col-sm-12"><pagination class="pagination-sm pull-right mobile-hide" data-total-items="itemCount" data-ng-model="currentPage" data-items-per-page="itemsPerPage" data-max-size="5" data-boundary-links="true" data-rotate="false" data-first-text="{{\'FIRST\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}" data-next-text="{{\'NEXT\' | translate}}" data-last-text="{{\'LAST\' | translate}}"></pagination><pager class="desktop-hide" total-items="itemCount" data-ng-model="currentPage" data-rotate="false" data-items-per-page="itemsPerPage" data-next-text="{{\'NEXT\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}"></pager></div></div><div class="row"><div class="col-sm-12"><table class="table table-hover"><thead class="noSelect"><tr><th class="text-nowrap {{item.class}}" data-ng-repeat="item in titleItems"><a data-ng-show="item.column" data-ng-click="changeSort(item)" data-ng-bind-html="item.title"></a> <span data-ng-show="!item.column" data-ng-bind-html="item.title"></span> <i class="fa" data-ng-show="sort.column == item.column" data-ng-class="{\'fa-angle-down\': !sort.direction, \'fa-angle-up\': sort.direction}"></i></th></tr></thead><tbody><tr data-ng-repeat="holder in items"><td class="col-md-3"><a data-ui-sref="app.holder.single({id: holder.id})"><span data-ng-if="!holder.isArchived">{{holder.name}}</span> <span data-ng-if="holder.isArchived"><s>{{holder.name}}</s> (arkistoitu)</span></a></td><td class="col-md-3 mobile-hide">{{holder.email}}</td><td class="col-md-2 mobile-hide">{{holder.telephone}}</td><td class="col-md-3">{{holder.description}}</td><td class="col-md-1">{{holder.territories.length}}</td></tr><tr data-ng-if="items.length === 0"><td colspan="100%" class="text-center text-muted"><em>Ei omistajia ...</em></td></tr></tbody></table></div></div><div class="row"><div class="col-sm-12"><pagination class="pagination-sm pull-right mobile-hide" data-total-items="itemCount" data-ng-model="currentPage" data-items-per-page="itemsPerPage" data-max-size="5" data-boundary-links="true" data-rotate="false" data-first-text="{{\'FIRST\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}" data-next-text="{{\'NEXT\' | translate}}" data-last-text="{{\'LAST\' | translate}}"></pagination><pager class="desktop-hide" total-items="itemCount" data-ng-model="currentPage" data-rotate="false" data-items-per-page="itemsPerPage" data-next-text="{{\'NEXT\' | translate}}" data-previous-text="{{\'PREVIOUS\' | translate}}"></pager></div></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/messages/messages-info.html',
+    '<h4>General info</h4><p>This is an example page to demonstrate how this boilerplate handles errors with <em>$http</em> and <em>$sailsSocket</em> requests. Note that this <em>magic</em> is done automatically via the error interceptor so you don\'t have to do anything extra for error handling. The error handling is done via the error interceptor that is attached to <em>$http</em> and <em>$sailsSocket</em> services.</p><p>This interceptor will catch <em>all</em> errors from <em>$http</em> and <em>$sailsSocket</em> requests and show those to the user via the message service. Note that the message shown depends on the actual error response from the backend.</p><h4>Functions in this example</h4><dl class="dl-horizontal"><dt>Custom messages</dt><dd>Simple example to trigger different types of messages: <em>info, success, warning</em> and <em>error</em> with specified <em>title</em> and actual <em>message</em>.</dd><dt>$http / $sailsSocket</dt><dd>Examples to demonstrate invalid URL and not found record. These are handled automatically by <em>ErrorInterceptor</em>.</dd></dl><page-info-files data-files="{{files}}"></page-info-files>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/messages/messages.html',
+    '<h3>Messages</h3><p>This page demonstrates how you can use the <code>Message</code> service in your application. This service is automatically hooked to <code>$http</code> and <code>$sailsSocket</code> errors.</p><div class="row"><div class="col-md-4"><h5 class="col-md-offset-3">Message trigger from form data</h5><form name="customMessage" class="form-horizontal" role="form"><div class="form-group"><label for="title" class="col-md-3 control-label">Title</label><div class="col-md-9"><input id="title" name="title" class="form-control" placeholder="Enter title" required data-ng-model="title"></div></div><div class="form-group"><label for="message" class="col-md-3 control-label">Message</label><div class="col-md-9"><textarea id="message" name="message" class="form-control" data-ng-model="message"></textarea></div></div><div class="form-group"><label for="type" class="col-md-3 control-label">Type</label><div class="col-md-9"><select id="type" name="type" class="form-control" required data-ng-model="type" data-ng-options="messageType as messageType for messageType in messageTypes"></select></div></div><div class="form-group"><div class="col-md-9 col-md-offset-3"><button class="btn btn-primary" data-ng-disabled="!customMessage.$valid" data-ng-click="showMessage()">Show message</button></div></div></form></div><div class="col-md-4"><h5>Automatic message trigger via <code>$http</code></h5><div class="form-group"><button class="btn btn-primary" data-ng-click="makeInvalidHttpRequest(0)">Invalid URL</button> <button class="btn btn-primary" data-ng-click="makeInvalidHttpRequest(1)">Record not found</button></div><h5>Automatic message trigger via <code>$sailsSocket</code></h5><div class="form-group"><button class="btn btn-primary" data-ng-click="makeInvalidSailsSocketRequest(0)">Invalid URL</button> <button class="btn btn-primary" data-ng-click="makeInvalidSailsSocketRequest(1)">Record not found</button></div></div></div>');
 }]);
 })();
 
@@ -2299,18 +2299,6 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/core/error/partials/error.html',
-    '<h3>Hups! Havaittiin moka.</h3><p>Aluesovelluksen rattaat ovat menneet solmuun, pahoittelut. Jos ongelma toistuu, ota yhteyttä ylläpitäjiin.</p><p data-ng-show="error.fromState.name"><a href="#" data-ng-click="goToPrevious()">Palaa siihen mitä olit tekemässä</a></p>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/directives/partials/ListSearch.html',
     '<div><div class="list-search-filters list-search pull-right"><form class="form-inline mobile-hide" role="form"><div class="form-group"><input id="textFilters" class="form-control input-sm" placeholder="Hakutermit" data-ng-model="filters.searchWord"><select data-ng-if="holders.length" id="filtersHolderSelect" class="form-control input-sm" data-ng-model="filters.holderId" data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"><option value="">-- valitse omistaja --</option></select><button data-ng-click="filters.searchWord = \'\'; filters.holderId = null; filters.attributeId = null" class="btn btn-xs" data-tooltip="Tyhjennä hakuehdot"><i class="fa fa-times text-info"></i></button><label>Rivejä:<select class="form-control input-sm" data-ng-model="items" data-ng-options="page for page in options"></select></label></div></form></div><form class="desktop-hide" role="form"><div class="form-group"><input id="textFilters" class="form-control" placeholder="Hakutermit" data-ng-model="filters.searchWord"><select data-ng-if="holders.length" id="filtersHolderSelect" class="form-control" data-ng-model="filters.holderId" data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"><option value="">-- valitse omistaja --</option></select><label class="pull-right">Rivejä:<select class="input-sm" data-ng-model="items" data-ng-options="page for page in options"></select></label></div></form></div>');
 }]);
@@ -2325,6 +2313,18 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/directives/partials/territorySubPages.html',
     '<div class="row"><div class="col-xs-12"><ul class="list-inline pull-right"><li><a data-ui-sref="app.territory.stats" data-tooltip="Tilastot"><span class="fa fa-line-chart"></span> Tilastot</a></li><li><a data-ui-sref="app.territory.s13" data-tooltip="S-13"><span class="fa fa-history"></span> S-13</a></li><li><a data-ui-sref="app.territory.map" data-tooltip="Kartta"><span class="fa fa-map-marker"></span> {{\'MAP\' | translate}}</a></li><li><a data-ui-sref="app.territory.quickview" data-tooltip="Alueiden pikatarkastelu"><span class="fa fa-eye"></span> {{\'QUICK_VIEW\' | translate}}</a></li></ul></div></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/core/error/partials/error.html',
+    '<h3>Hups! Havaittiin moka.</h3><p>Aluesovelluksen rattaat ovat menneet solmuun, pahoittelut. Jos ongelma toistuu, ota yhteyttä ylläpitäjiin.</p><p data-ng-show="error.fromState.name"><a href="#" data-ng-click="goToPrevious()">Palaa siihen mitä olit tekemässä</a></p>');
 }]);
 })();
 
@@ -7558,7 +7558,7 @@ angular.module('frontend.app.territory')
             endPoint = endPoint + '/' + identifier;
           }
 
-          return BackendConfig.url + '/' + endPoint;
+          return BackendConfig.url + '/api/' + endPoint;
         }
 
         /**
