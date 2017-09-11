@@ -825,32 +825,6 @@
 }());
 
 /**
- * This file contains all necessary Angular model definitions for 'frontend.app.territoryLinkAttribute
-' module.
- *
- * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
- * services that wraps all things together.
- */
-(function() {
-  'use strict';
-
-  // Define frontend.app.territoryLinkAttribute angular module
-  angular.module('frontend.app.territoryLinkAttribute', []);
-
-  /**
-   * Model for TerritoryLinkAttribute API, this is used to wrap all TerritoryLinkAttribute objects specified actions and data change actions.
-   */
-  angular.module('frontend.app.territoryLinkAttribute')
-    .service('TerritoryLinkAttributeModel', [
-      'DataModel',
-      function(DataModel) {
-        return new DataModel('territoryLinkAttribute');
-      }
-    ])
-  ;
-}());
-
-/**
  * Territory component to wrap all territory specified stuff together. This component is divided to following logical
  * components:
  *
@@ -1973,30 +1947,6 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/attributes/attributes-info.html',
-    '<h4>Attribuutit</h4><p>Attribuutit ovat alueisiin liittyviä lisätietoja. Voit etsiä sopivia kuvakkeita <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome -kirjastosta</a>. Kirjoita kuvakkeen nimi ilman fa-etuliitettä.</p>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/attributes/attributes.html',
-    '<div data-ng-show="!attributes.length"><h3>Attributes not found</h3></div><div data-ng-show="attributes.length"><table class="table table-condensed table-hover"><thead><tr><th>Nimi</th><th>Kuvaus</th><th>Kuvakkeen nimi</th><th>Kuvake</th><th></th></tr></thead><tbody data-ng-repeat="a in attributes"><tr><td><span data-editable-text="a.name" data-e-name="a.name" data-e-required data-onaftersave="updateAttribute(a)">{{a.name}}</span></td><td><span data-editable-text="a.description" data-e-name="a.description" data-e-required data-onaftersave="updateAttribute(a)">{{a.description}}</span></td><td><span data-editable-text="a.icon" data-e-name="a.icon" data-e-required data-onaftersave="updateAttribute(a)">{{a.icon}}</span></td><td><span class="fa fa-{{a.icon}}"></span></td><td><a data-ng-click="deleteAttribute(a)" data-ng-if="user.admin"><span title="Remove attribute" class="fa fa-trash"></span></a></td></tr></tbody></table></div><div data-ng-if="user.admin"><h3>Lisää uusi attribuutti</h3><form class="form-verical col-md-4" name="newAttributeForm" data-ng-submit="createAttribute(newAttribute)"><div class="form-group"><label for="name">Nimi</label><input data-ng-model="newAttribute.name" required class="form-control" id="name" placeholder="Esim. Hissi"></div><div class="form-group"><label for="description">Kuvaus</label><input data-ng-model="newAttribute.description" max-length="100" required class="form-control" id="description" placeholder="Esim. Talossa on hissi"></div><div class="form-group"><label for="icon">Kuvakkeen nimi</label><input data-ng-model="newAttribute.icon" required class="form-control" id="icon" placeholder="Font Awesome kuvake, esim. arrows-v"></div><input type="submit" id="submit" value="Lisää" class="btn btn-primary"></form></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/chat/chat-info.html',
     '<h4>General info</h4><p>This example demonstrates how to use sails.js and web sockets to pass updates between clients automatically. This simple <em>chat</em> application is perfect for this demonstration. All communications here are made via web sockets.</p><h4>Functions in this example</h4><dl class="dl-horizontal"><dt>Basic stuff</dt><dd>Enter / leave chat. Create new chat message. Message updates to all clients.</dd></dl><page-info-files data-files="{{files}}"></page-info-files>');
 }]);
@@ -2011,6 +1961,30 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/chat/chat.html',
     '<div class="chat-enter" data-ng-show="!message.nick"><h4>Enter a nick</h4><div class="input-group col-md-4"><input id="nick" name="nick" class="form-control" placeholder="Enter a nickname" data-ng-model="nick" data-ui-keypress="{\'enter\': \'enterToChat($event)\'}"> <span class="input-group-btn"><button class="btn btn-primary" type="button" data-ng-click="enterToChat()">Enter to chat</button></span></div></div><div class="chat" data-ng-show="message.nick"><div class="row"><div id="messages" class="col-md-12 messages chat-screen"><ul class="list-unstyled"><li class="clearfix" data-ng-repeat="message in messages | orderBy: \'createdAt\'"><span class="pull-left time text-muted"><code>[{{message.createdAt | amDateFormat:\'YYYY-MM-DD HH:mm:ss\'}}]</code></span> <span class="pull-left message"><span class="text-info">{{message.nick}}</span> <span data-ng-bind-html="message.message | linky : \'_blank\'"></span></span></li></ul></div></div><div class="row"><div class="col-md-12 input-group"><div class="input-group-addon">{{message.nick}}</div><input id="message" name="message" class="form-control" placeholder="enter chat message" data-ng-model="message.message" data-ui-keypress="{\'enter\': \'postMessage($event)\'}"><div class="input-group-btn"><button class="btn btn-primary" type="button" data-ng-click="postMessage()">Send message</button> <button class="btn btn-danger" type="button" data-tooltip="Leave chat" data-ng-click="leaveChat()"><i class="fa fa-times"></i></button></div></div></div></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/attributes/attributes-info.html',
+    '<h4>Attribuutit</h4><p>Attribuutit ovat alueisiin liittyviä lisätietoja. Voit etsiä sopivia kuvakkeita <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome -kirjastosta</a>. Kirjoita kuvakkeen nimi ilman fa-etuliitettä.</p>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/attributes/attributes.html',
+    '<div data-ng-show="!attributes.length"><h3>Attributes not found</h3></div><div data-ng-show="attributes.length"><table class="table table-condensed table-hover"><thead><tr><th>Nimi</th><th>Kuvaus</th><th>Kuvakkeen nimi</th><th>Kuvake</th><th></th></tr></thead><tbody data-ng-repeat="a in attributes"><tr><td><span data-editable-text="a.name" data-e-name="a.name" data-e-required data-onaftersave="updateAttribute(a)">{{a.name}}</span></td><td><span data-editable-text="a.description" data-e-name="a.description" data-e-required data-onaftersave="updateAttribute(a)">{{a.description}}</span></td><td><span data-editable-text="a.icon" data-e-name="a.icon" data-e-required data-onaftersave="updateAttribute(a)">{{a.icon}}</span></td><td><span class="fa fa-{{a.icon}}"></span></td><td><a data-ng-click="deleteAttribute(a)" data-ng-if="user.admin"><span title="Remove attribute" class="fa fa-trash"></span></a></td></tr></tbody></table></div><div data-ng-if="user.admin"><h3>Lisää uusi attribuutti</h3><form class="form-verical col-md-4" name="newAttributeForm" data-ng-submit="createAttribute(newAttribute)"><div class="form-group"><label for="name">Nimi</label><input data-ng-model="newAttribute.name" required class="form-control" id="name" placeholder="Esim. Hissi"></div><div class="form-group"><label for="description">Kuvaus</label><input data-ng-model="newAttribute.description" max-length="100" required class="form-control" id="description" placeholder="Esim. Talossa on hissi"></div><div class="form-group"><label for="icon">Kuvakkeen nimi</label><input data-ng-model="newAttribute.icon" required class="form-control" id="icon" placeholder="Font Awesome kuvake, esim. arrows-v"></div><input type="submit" id="submit" value="Lisää" class="btn btn-primary"></form></div>');
 }]);
 })();
 
@@ -4296,6 +4270,32 @@ module.run(['$templateCache', function($templateCache) {
 }());
 
 /**
+ * This file contains all necessary Angular model definitions for 'frontend.app.territoryLinkAttribute
+' module.
+ *
+ * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
+ * services that wraps all things together.
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.app.territoryLinkAttribute angular module
+  angular.module('frontend.app.territoryLinkAttribute', []);
+
+  /**
+   * Model for TerritoryLinkAttribute API, this is used to wrap all TerritoryLinkAttribute objects specified actions and data change actions.
+   */
+  angular.module('frontend.app.territoryLinkAttribute')
+    .service('TerritoryLinkAttributeModel', [
+      'DataModel',
+      function(DataModel) {
+        return new DataModel('territoryLinkAttribute');
+      }
+    ])
+  ;
+}());
+
+/**
  * This file contains all necessary Angular controller definitions for 'frontend.app.territory
 ' module.
  *
@@ -5976,7 +5976,7 @@ angular.module('frontend.app.territory')
            */
           login: function login(credentials) {
             return $http
-              .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
+              .post(BackendConfig.url + '/api/login', credentials, {withCredentials: true})
               .then(
                 function(response) {
                   MessageService.success('Sisäänkirjautuminen onnistui.');
@@ -8330,15 +8330,15 @@ angular.module('frontend.app.territory')
         return {
           count: function count() {
             return $sailsSocket
-              .get(BackendConfig.url + '/mail/count');
+              .get(BackendConfig.url + '/api/mail/count');
           },
           send: function send(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/send', data);
+              .post(BackendConfig.url + '/api/mail/send', data);
           },
           backup: function backup() {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/backup', null);
+              .post(BackendConfig.url + '/api/mail/backup', null);
           }
         };
       }
@@ -8472,7 +8472,7 @@ angular.module('frontend.app.territory')
         return {
           updatePassword: function updatePassword(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/user/password', data);
+              .post(BackendConfig.url + '/api/user/password', data);
           }
         };
       }
@@ -8673,76 +8673,6 @@ angular.module('frontend.app.territory')
 }());
 
 /**
- * Angular module for app component. This component is divided to following logical components:
- *
- *  frontend.app.about
- *  frontend.app.author
- *  frontend.app.holder
- *  frontend.app.chat
- *  frontend.app.messages
- *
- * Each component has it own configuration for ui-router.
- */
-(function() {
-  'use strict';
-
-  // Define frontend.admin module
-  angular.module('frontend.app', [
-    'frontend.app.about',
-    'frontend.app.territory',
-    'frontend.app.territoryHolderHistory',
-    'frontend.app.holder',
-    'frontend.app.coordinate',
-    'frontend.app.territoryLinkAttribute',
-    'frontend.app.specialAddress',
-    'frontend.app.attribute',
-    'frontend.app.app',
-    'frontend.app.stat',
-    'frontend.app.chat',
-    'frontend.app.messages'
-  ]);
-
-  // Module configuration
-  angular.module('frontend.app')
-    .config([
-      '$stateProvider',
-      function($stateProvider) {
-        $stateProvider
-          .state('app', {
-            parent: 'frontend',
-            data: {
-              access: 1
-            },
-            views: {
-              'content@': {
-                controller: [
-                  '$state',
-                  function($state) {
-                    $state.go('app.territory');
-                  }
-                ]
-              },
-              'pageNavigation@': {
-                templateUrl: '/frontend/core/layout/partials/navigation.html',
-                controller: 'NavigationController',
-                resolve: {
-                  _items: [
-                    'ContentNavigationItems',
-                    function resolve(ContentNavigationItems) {
-                      return ContentNavigationItems.getItems('app');
-                    }
-                  ]
-                }
-              }
-            }
-          })
-        ;
-      }
-    ])
-  ;
-}());
-
-/**
  * Angular module for frontend.core.auth component. This component is divided to following logical components:
  *
  *  frontend.core.auth.login
@@ -8839,6 +8769,76 @@ angular.module('frontend.app.territory')
         }
 
         _reset();
+      }
+    ])
+  ;
+}());
+
+/**
+ * Angular module for app component. This component is divided to following logical components:
+ *
+ *  frontend.app.about
+ *  frontend.app.author
+ *  frontend.app.holder
+ *  frontend.app.chat
+ *  frontend.app.messages
+ *
+ * Each component has it own configuration for ui-router.
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.admin module
+  angular.module('frontend.app', [
+    'frontend.app.about',
+    'frontend.app.territory',
+    'frontend.app.territoryHolderHistory',
+    'frontend.app.holder',
+    'frontend.app.coordinate',
+    'frontend.app.territoryLinkAttribute',
+    'frontend.app.specialAddress',
+    'frontend.app.attribute',
+    'frontend.app.app',
+    'frontend.app.stat',
+    'frontend.app.chat',
+    'frontend.app.messages'
+  ]);
+
+  // Module configuration
+  angular.module('frontend.app')
+    .config([
+      '$stateProvider',
+      function($stateProvider) {
+        $stateProvider
+          .state('app', {
+            parent: 'frontend',
+            data: {
+              access: 1
+            },
+            views: {
+              'content@': {
+                controller: [
+                  '$state',
+                  function($state) {
+                    $state.go('app.territory');
+                  }
+                ]
+              },
+              'pageNavigation@': {
+                templateUrl: '/frontend/core/layout/partials/navigation.html',
+                controller: 'NavigationController',
+                resolve: {
+                  _items: [
+                    'ContentNavigationItems',
+                    function resolve(ContentNavigationItems) {
+                      return ContentNavigationItems.getItems('app');
+                    }
+                  ]
+                }
+              }
+            }
+          })
+        ;
       }
     ])
   ;
