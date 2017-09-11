@@ -2299,6 +2299,18 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/core/error/partials/error.html',
+    '<h3>Hups! Havaittiin moka.</h3><p>Aluesovelluksen rattaat ovat menneet solmuun, pahoittelut. Jos ongelma toistuu, ota yhteyttä ylläpitäjiin.</p><p data-ng-show="error.fromState.name"><a href="#" data-ng-click="goToPrevious()">Palaa siihen mitä olit tekemässä</a></p>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/directives/partials/ListSearch.html',
     '<div><div class="list-search-filters list-search pull-right"><form class="form-inline mobile-hide" role="form"><div class="form-group"><input id="textFilters" class="form-control input-sm" placeholder="Hakutermit" data-ng-model="filters.searchWord"><select data-ng-if="holders.length" id="filtersHolderSelect" class="form-control input-sm" data-ng-model="filters.holderId" data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"><option value="">-- valitse omistaja --</option></select><button data-ng-click="filters.searchWord = \'\'; filters.holderId = null; filters.attributeId = null" class="btn btn-xs" data-tooltip="Tyhjennä hakuehdot"><i class="fa fa-times text-info"></i></button><label>Rivejä:<select class="form-control input-sm" data-ng-model="items" data-ng-options="page for page in options"></select></label></div></form></div><form class="desktop-hide" role="form"><div class="form-group"><input id="textFilters" class="form-control" placeholder="Hakutermit" data-ng-model="filters.searchWord"><select data-ng-if="holders.length" id="filtersHolderSelect" class="form-control" data-ng-model="filters.holderId" data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"><option value="">-- valitse omistaja --</option></select><label class="pull-right">Rivejä:<select class="input-sm" data-ng-model="items" data-ng-options="page for page in options"></select></label></div></form></div>');
 }]);
@@ -2313,18 +2325,6 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/directives/partials/territorySubPages.html',
     '<div class="row"><div class="col-xs-12"><ul class="list-inline pull-right"><li><a data-ui-sref="app.territory.stats" data-tooltip="Tilastot"><span class="fa fa-line-chart"></span> Tilastot</a></li><li><a data-ui-sref="app.territory.s13" data-tooltip="S-13"><span class="fa fa-history"></span> S-13</a></li><li><a data-ui-sref="app.territory.map" data-tooltip="Kartta"><span class="fa fa-map-marker"></span> {{\'MAP\' | translate}}</a></li><li><a data-ui-sref="app.territory.quickview" data-tooltip="Alueiden pikatarkastelu"><span class="fa fa-eye"></span> {{\'QUICK_VIEW\' | translate}}</a></li></ul></div></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/core/error/partials/error.html',
-    '<h3>Hups! Havaittiin moka.</h3><p>Aluesovelluksen rattaat ovat menneet solmuun, pahoittelut. Jos ongelma toistuu, ota yhteyttä ylläpitäjiin.</p><p data-ng-show="error.fromState.name"><a href="#" data-ng-click="goToPrevious()">Palaa siihen mitä olit tekemässä</a></p>');
 }]);
 })();
 
