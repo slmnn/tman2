@@ -1,5 +1,5 @@
 {
-  "backendUrl": "http://aluepoyta-nekala.herokuapp.com",
+  "backendUrl": "https://aluepoyta-nekala.herokuapp.com",
   "prefix":"/",
   "frontend": {
     "ports": {
