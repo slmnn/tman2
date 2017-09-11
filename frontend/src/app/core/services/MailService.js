@@ -19,15 +19,15 @@
         return {
           count: function count() {
             return $sailsSocket
-              .get(BackendConfig.url + '/mail/count');
+              .get(BackendConfig.url + '/api/mail/count');
           },
           send: function send(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/send', data);
+              .post(BackendConfig.url + '/api/mail/send', data);
           },
           backup: function backup() {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/backup', null);
+              .post(BackendConfig.url + '/api/mail/backup', null);
           }
         };
       }

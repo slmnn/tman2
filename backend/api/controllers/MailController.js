@@ -15,7 +15,7 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var nodemailer = require("nodemailer");
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 var async = require("async");
 
 var createEmailMessage = function(in_template, in_holder, in_territory, in_listOfTerritories, app) {
@@ -185,14 +185,7 @@ module.exports = {
 
       var app = apps[0];
 
-      // create reusable transport method (opens pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport({
-          service: "Gmail",
-          auth: {
-            user: app.smtpUsername,
-            pass: app.smtpPassword
-          }
-      });
+      var sgHelper = require('sendgrid').mail;
 
       Territory
         .find()
@@ -290,16 +283,26 @@ module.exports = {
           }, function(result) {
             console.log("trying to send mails", mails)
             async.each(mails, function(mail, callback) {
-              smtpTransport.sendMail(mail, function(error, response){
-                if(error){
-                  console.log(error);
-                }else{
-                  console.log("Message sent: " + response.message);
-                }
+
+              var from_email = new sgHelper.Email(mail.from);
+              var to_email = new sgHelper.Email(mail.to);
+              var subject = mail.subject;
+              var content = new sgHelper.Content('text/html', mail.html);
+              var mail = new sgHelper.Mail(from_email, subject, to_email, content);
+              var request = sg.emptyRequest({
+                method: 'POST',
+                path: '/v3/mail/send',
+                body: mail.toJSON(),
+              });
+
+              sg.API(request, function(error, response) {
+                console.log(response.statusCode);
+                console.log(response.body);
+                console.log(response.headers);
                 callback();
               });
+
             }, function() {
-              smtpTransport.close(); // shut down the connection pool, no more messages
               return response.json({
                 sentCount: mails.length
               });
@@ -320,15 +323,6 @@ module.exports = {
       if(err) return;
 
       var app = apps[0];
-
-      // create reusable transport method (opens pool of SMTP connections)
-      var smtpTransport = nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-          user: app.smtpUsername,
-          pass: app.smtpPassword
-        }
-      });
 
       var all_territories, all_holders, backup_email;
       var now = new Date();
@@ -390,7 +384,19 @@ module.exports = {
           "\n\n------- HOLDERS ------------\n\n" +
           JSON.stringify(all_holders),
         }
-        smtpTransport.sendMail(mail, function(error, res){
+
+        var from_email = new sgHelper.Email(mail.from);
+        var to_email = new sgHelper.Email(mail.to);
+        var subject = mail.subject;
+        var content = new sgHelper.Content('text/plain', mail.text);
+        var mail = new sgHelper.Mail(from_email, subject, to_email, content);
+        var request = sg.emptyRequest({
+          method: 'POST',
+          path: '/v3/mail/send',
+          body: mail.toJSON(),
+        });
+
+        sg.API(request, function(error, response) {
           if(error){
             console.log("Backup failed when sending mail", error);
             return response.json("error");
@@ -399,7 +405,7 @@ module.exports = {
             console.log("Backup email was sent");
             return response.json("Backup job was run");
           }
-        });      
+        });  
       });
     });
   },
