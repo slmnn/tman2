@@ -19,7 +19,7 @@
         return {
           updatePassword: function updatePassword(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/user/password', data);
+              .post(BackendConfig.url + '/api/user/password', data);
           }
         };
       }

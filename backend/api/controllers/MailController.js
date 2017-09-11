@@ -15,7 +15,7 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var sg = require('sendgrid')("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");
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 var async = require("async");
 
 var createEmailMessage = function(in_template, in_holder, in_territory, in_listOfTerritories, app) {
