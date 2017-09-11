@@ -825,6 +825,32 @@
 }());
 
 /**
+ * This file contains all necessary Angular model definitions for 'frontend.app.territoryLinkAttribute
+' module.
+ *
+ * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
+ * services that wraps all things together.
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.app.territoryLinkAttribute angular module
+  angular.module('frontend.app.territoryLinkAttribute', []);
+
+  /**
+   * Model for TerritoryLinkAttribute API, this is used to wrap all TerritoryLinkAttribute objects specified actions and data change actions.
+   */
+  angular.module('frontend.app.territoryLinkAttribute')
+    .service('TerritoryLinkAttributeModel', [
+      'DataModel',
+      function(DataModel) {
+        return new DataModel('territoryLinkAttribute');
+      }
+    ])
+  ;
+}());
+
+/**
  * Territory component to wrap all territory specified stuff together. This component is divided to following logical
  * components:
  *
@@ -2273,6 +2299,18 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/core/error/partials/error.html',
+    '<h3>Hups! Havaittiin moka.</h3><p>Aluesovelluksen rattaat ovat menneet solmuun, pahoittelut. Jos ongelma toistuu, ota yhteyttä ylläpitäjiin.</p><p data-ng-show="error.fromState.name"><a href="#" data-ng-click="goToPrevious()">Palaa siihen mitä olit tekemässä</a></p>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/directives/partials/ListSearch.html',
     '<div><div class="list-search-filters list-search pull-right"><form class="form-inline mobile-hide" role="form"><div class="form-group"><input id="textFilters" class="form-control input-sm" placeholder="Hakutermit" data-ng-model="filters.searchWord"><select data-ng-if="holders.length" id="filtersHolderSelect" class="form-control input-sm" data-ng-model="filters.holderId" data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"><option value="">-- valitse omistaja --</option></select><button data-ng-click="filters.searchWord = \'\'; filters.holderId = null; filters.attributeId = null" class="btn btn-xs" data-tooltip="Tyhjennä hakuehdot"><i class="fa fa-times text-info"></i></button><label>Rivejä:<select class="form-control input-sm" data-ng-model="items" data-ng-options="page for page in options"></select></label></div></form></div><form class="desktop-hide" role="form"><div class="form-group"><input id="textFilters" class="form-control" placeholder="Hakutermit" data-ng-model="filters.searchWord"><select data-ng-if="holders.length" id="filtersHolderSelect" class="form-control" data-ng-model="filters.holderId" data-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders"><option value="">-- valitse omistaja --</option></select><label class="pull-right">Rivejä:<select class="input-sm" data-ng-model="items" data-ng-options="page for page in options"></select></label></div></form></div>');
 }]);
@@ -2287,18 +2325,6 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/core/directives/partials/territorySubPages.html',
     '<div class="row"><div class="col-xs-12"><ul class="list-inline pull-right"><li><a data-ui-sref="app.territory.stats" data-tooltip="Tilastot"><span class="fa fa-line-chart"></span> Tilastot</a></li><li><a data-ui-sref="app.territory.s13" data-tooltip="S-13"><span class="fa fa-history"></span> S-13</a></li><li><a data-ui-sref="app.territory.map" data-tooltip="Kartta"><span class="fa fa-map-marker"></span> {{\'MAP\' | translate}}</a></li><li><a data-ui-sref="app.territory.quickview" data-tooltip="Alueiden pikatarkastelu"><span class="fa fa-eye"></span> {{\'QUICK_VIEW\' | translate}}</a></li></ul></div></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/core/error/partials/error.html',
-    '<h3>Hups! Havaittiin moka.</h3><p>Aluesovelluksen rattaat ovat menneet solmuun, pahoittelut. Jos ongelma toistuu, ota yhteyttä ylläpitäjiin.</p><p data-ng-show="error.fromState.name"><a href="#" data-ng-click="goToPrevious()">Palaa siihen mitä olit tekemässä</a></p>');
 }]);
 })();
 
@@ -4270,32 +4296,6 @@ module.run(['$templateCache', function($templateCache) {
 }());
 
 /**
- * This file contains all necessary Angular model definitions for 'frontend.app.territoryLinkAttribute
-' module.
- *
- * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
- * services that wraps all things together.
- */
-(function() {
-  'use strict';
-
-  // Define frontend.app.territoryLinkAttribute angular module
-  angular.module('frontend.app.territoryLinkAttribute', []);
-
-  /**
-   * Model for TerritoryLinkAttribute API, this is used to wrap all TerritoryLinkAttribute objects specified actions and data change actions.
-   */
-  angular.module('frontend.app.territoryLinkAttribute')
-    .service('TerritoryLinkAttributeModel', [
-      'DataModel',
-      function(DataModel) {
-        return new DataModel('territoryLinkAttribute');
-      }
-    ])
-  ;
-}());
-
-/**
  * This file contains all necessary Angular controller definitions for 'frontend.app.territory
 ' module.
  *
@@ -5976,7 +5976,7 @@ angular.module('frontend.app.territory')
            */
           login: function login(credentials) {
             return $http
-              .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
+              .post(BackendConfig.url + '/api/login', credentials, {withCredentials: true})
               .then(
                 function(response) {
                   MessageService.success('Sisäänkirjautuminen onnistui.');
@@ -8330,15 +8330,15 @@ angular.module('frontend.app.territory')
         return {
           count: function count() {
             return $sailsSocket
-              .get(BackendConfig.url + '/mail/count');
+              .get(BackendConfig.url + '/api/mail/count');
           },
           send: function send(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/send', data);
+              .post(BackendConfig.url + '/api/mail/send', data);
           },
           backup: function backup() {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/backup', null);
+              .post(BackendConfig.url + '/api/mail/backup', null);
           }
         };
       }
@@ -8472,7 +8472,7 @@ angular.module('frontend.app.territory')
         return {
           updatePassword: function updatePassword(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/user/password', data);
+              .post(BackendConfig.url + '/api/user/password', data);
           }
         };
       }
@@ -8673,6 +8673,76 @@ angular.module('frontend.app.territory')
 }());
 
 /**
+ * Angular module for app component. This component is divided to following logical components:
+ *
+ *  frontend.app.about
+ *  frontend.app.author
+ *  frontend.app.holder
+ *  frontend.app.chat
+ *  frontend.app.messages
+ *
+ * Each component has it own configuration for ui-router.
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.admin module
+  angular.module('frontend.app', [
+    'frontend.app.about',
+    'frontend.app.territory',
+    'frontend.app.territoryHolderHistory',
+    'frontend.app.holder',
+    'frontend.app.coordinate',
+    'frontend.app.territoryLinkAttribute',
+    'frontend.app.specialAddress',
+    'frontend.app.attribute',
+    'frontend.app.app',
+    'frontend.app.stat',
+    'frontend.app.chat',
+    'frontend.app.messages'
+  ]);
+
+  // Module configuration
+  angular.module('frontend.app')
+    .config([
+      '$stateProvider',
+      function($stateProvider) {
+        $stateProvider
+          .state('app', {
+            parent: 'frontend',
+            data: {
+              access: 1
+            },
+            views: {
+              'content@': {
+                controller: [
+                  '$state',
+                  function($state) {
+                    $state.go('app.territory');
+                  }
+                ]
+              },
+              'pageNavigation@': {
+                templateUrl: '/frontend/core/layout/partials/navigation.html',
+                controller: 'NavigationController',
+                resolve: {
+                  _items: [
+                    'ContentNavigationItems',
+                    function resolve(ContentNavigationItems) {
+                      return ContentNavigationItems.getItems('app');
+                    }
+                  ]
+                }
+              }
+            }
+          })
+        ;
+      }
+    ])
+  ;
+}());
+
+/**
  * Angular module for frontend.core.auth component. This component is divided to following logical components:
  *
  *  frontend.core.auth.login
@@ -8769,76 +8839,6 @@ angular.module('frontend.app.territory')
         }
 
         _reset();
-      }
-    ])
-  ;
-}());
-
-/**
- * Angular module for app component. This component is divided to following logical components:
- *
- *  frontend.app.about
- *  frontend.app.author
- *  frontend.app.holder
- *  frontend.app.chat
- *  frontend.app.messages
- *
- * Each component has it own configuration for ui-router.
- */
-(function() {
-  'use strict';
-
-  // Define frontend.admin module
-  angular.module('frontend.app', [
-    'frontend.app.about',
-    'frontend.app.territory',
-    'frontend.app.territoryHolderHistory',
-    'frontend.app.holder',
-    'frontend.app.coordinate',
-    'frontend.app.territoryLinkAttribute',
-    'frontend.app.specialAddress',
-    'frontend.app.attribute',
-    'frontend.app.app',
-    'frontend.app.stat',
-    'frontend.app.chat',
-    'frontend.app.messages'
-  ]);
-
-  // Module configuration
-  angular.module('frontend.app')
-    .config([
-      '$stateProvider',
-      function($stateProvider) {
-        $stateProvider
-          .state('app', {
-            parent: 'frontend',
-            data: {
-              access: 1
-            },
-            views: {
-              'content@': {
-                controller: [
-                  '$state',
-                  function($state) {
-                    $state.go('app.territory');
-                  }
-                ]
-              },
-              'pageNavigation@': {
-                templateUrl: '/frontend/core/layout/partials/navigation.html',
-                controller: 'NavigationController',
-                resolve: {
-                  _items: [
-                    'ContentNavigationItems',
-                    function resolve(ContentNavigationItems) {
-                      return ContentNavigationItems.getItems('app');
-                    }
-                  ]
-                }
-              }
-            }
-          })
-        ;
       }
     ])
   ;
