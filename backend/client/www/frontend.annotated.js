@@ -1487,6 +1487,44 @@ $provide.value("$locale", {
     return fi;
 
 }));
+/**
+ * Messages component which is divided to following logical components:
+ *
+ *  Controllers
+ *
+ * All of these are wrapped to 'frontend.auth.login' angular module.
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.auth.login angular module
+  angular.module('frontend.core.auth.login', []);
+
+  // Module configuration
+  angular.module('frontend.core.auth.login')
+    .config([
+      '$stateProvider',
+      function config($stateProvider) {
+        $stateProvider
+          // Login
+          .state('auth.login', {
+            url: '/login',
+            data: {
+              access: 0
+            },
+            views: {
+              'content@': {
+                templateUrl: '/frontend/core/auth/login/login.html',
+                controller: 'LoginController'
+              }
+            }
+          })
+        ;
+      }
+    ])
+  ;
+}());
+
 // Generic models angular module initialize.
 (function() {
   'use strict';
@@ -5846,38 +5884,102 @@ angular.module('frontend.app.territory')
 }]);
 
 /**
- * Messages component which is divided to following logical components:
+ * Angular module for frontend.core.auth component. This component is divided to following logical components:
  *
- *  Controllers
- *
- * All of these are wrapped to 'frontend.auth.login' angular module.
+ *  frontend.core.auth.login
+ *  frontend.core.auth.services
  */
 (function() {
   'use strict';
 
-  // Define frontend.auth.login angular module
-  angular.module('frontend.core.auth.login', []);
+  // Define frontend.auth module
+  angular.module('frontend.core.auth', [
+    'frontend.core.auth.login',
+    'frontend.core.auth.services'
+  ]);
 
   // Module configuration
-  angular.module('frontend.core.auth.login')
+  angular.module('frontend.core.auth')
     .config([
       '$stateProvider',
       function config($stateProvider) {
         $stateProvider
-          // Login
-          .state('auth.login', {
-            url: '/login',
+          .state('auth', {
+            abstract: true,
+            parent: 'frontend',
             data: {
-              access: 0
-            },
-            views: {
-              'content@': {
-                templateUrl: '/frontend/core/auth/login/login.html',
-                controller: 'LoginController'
-              }
+              access: 1
             }
           })
         ;
+      }
+    ])
+  ;
+}());
+
+/**
+ * This file contains all necessary Angular controller definitions for 'frontend.auth.login' module.
+ *
+ * Note that this file should only contain controllers and nothing else.
+ */
+(function() {
+  'use strict';
+
+  /**
+   * Login controller to handle user's login to application. Controller uses 'Auth' service to make actual HTTP
+   * request to server and try to authenticate user.
+   *
+   * After successfully login Auth service will store user data and JWT token via 'Storage' service where those are
+   * asked whenever needed in application.
+   *
+   * @todo
+   *  1) different authentication providers
+   *  2) user registration
+   */
+  angular.module('frontend.core.auth.login')
+    .controller('LoginController', [
+      '$scope', '$state',
+      'AuthService', 'FocusOnService',
+      function controller(
+        $scope, $state,
+        AuthService, FocusOnService
+      ) {
+        // Already authenticated so redirect back to territories list
+        if (AuthService.isAuthenticated()) {
+          $state.go('app.territory');
+        }
+
+        // Scope function to perform actual login request to server
+        $scope.login = function login() {
+          AuthService
+            .login($scope.credentials)
+            .then(
+              function successCallback() {
+                $state.go('app.territory');
+              },
+              function errorCallback() {
+                _reset();
+              }
+            )
+          ;
+        };
+
+        /**
+         * Private helper function to reset credentials and set focus to username input.
+         *
+         * @private
+         */
+        function _reset() {
+          FocusOnService.focus('username');
+
+          // Initialize credentials
+          $scope.credentials = {
+            identifier: '',
+            password: ''
+          };
+        }
+
+        _reset();
       }
     ])
   ;
@@ -5976,7 +6078,7 @@ angular.module('frontend.app.territory')
            */
           login: function login(credentials) {
             return $http
-              .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
+              .post(BackendConfig.url + '/api/login', credentials, {withCredentials: true})
               .then(
                 function(response) {
                   MessageService.success('Sisäänkirjautuminen onnistui.');
@@ -8330,15 +8432,15 @@ angular.module('frontend.app.territory')
         return {
           count: function count() {
             return $sailsSocket
-              .get(BackendConfig.url + '/mail/count');
+              .get(BackendConfig.url + '/api/mail/count');
           },
           send: function send(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/send', data);
+              .post(BackendConfig.url + '/api/mail/send', data);
           },
           backup: function backup() {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/backup', null);
+              .post(BackendConfig.url + '/api/mail/backup', null);
           }
         };
       }
@@ -8472,7 +8574,7 @@ angular.module('frontend.app.territory')
         return {
           updatePassword: function updatePassword(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/user/password', data);
+              .post(BackendConfig.url + '/api/user/password', data);
           }
         };
       }
@@ -8737,108 +8839,6 @@ angular.module('frontend.app.territory')
             }
           })
         ;
-      }
-    ])
-  ;
-}());
-
-/**
- * Angular module for frontend.core.auth component. This component is divided to following logical components:
- *
- *  frontend.core.auth.login
- *  frontend.core.auth.services
- */
-(function() {
-  'use strict';
-
-  // Define frontend.auth module
-  angular.module('frontend.core.auth', [
-    'frontend.core.auth.login',
-    'frontend.core.auth.services'
-  ]);
-
-  // Module configuration
-  angular.module('frontend.core.auth')
-    .config([
-      '$stateProvider',
-      function config($stateProvider) {
-        $stateProvider
-          .state('auth', {
-            abstract: true,
-            parent: 'frontend',
-            data: {
-              access: 1
-            }
-          })
-        ;
-      }
-    ])
-  ;
-}());
-
-/**
- * This file contains all necessary Angular controller definitions for 'frontend.auth.login' module.
- *
- * Note that this file should only contain controllers and nothing else.
- */
-(function() {
-  'use strict';
-
-  /**
-   * Login controller to handle user's login to application. Controller uses 'Auth' service to make actual HTTP
-   * request to server and try to authenticate user.
-   *
-   * After successfully login Auth service will store user data and JWT token via 'Storage' service where those are
-   * asked whenever needed in application.
-   *
-   * @todo
-   *  1) different authentication providers
-   *  2) user registration
-   */
-  angular.module('frontend.core.auth.login')
-    .controller('LoginController', [
-      '$scope', '$state',
-      'AuthService', 'FocusOnService',
-      function controller(
-        $scope, $state,
-        AuthService, FocusOnService
-      ) {
-        // Already authenticated so redirect back to territories list
-        if (AuthService.isAuthenticated()) {
-          $state.go('app.territory');
-        }
-
-        // Scope function to perform actual login request to server
-        $scope.login = function login() {
-          AuthService
-            .login($scope.credentials)
-            .then(
-              function successCallback() {
-                $state.go('app.territory');
-              },
-              function errorCallback() {
-                _reset();
-              }
-            )
-          ;
-        };
-
-        /**
-         * Private helper function to reset credentials and set focus to username input.
-         *
-         * @private
-         */
-        function _reset() {
-          FocusOnService.focus('username');
-
-          // Initialize credentials
-          $scope.credentials = {
-            identifier: '',
-            password: ''
-          };
-        }
-
-        _reset();
       }
     ])
   ;
