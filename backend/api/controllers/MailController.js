@@ -385,6 +385,7 @@ module.exports = {
           JSON.stringify(all_holders),
         }
 
+        var sgHelper = require('sendgrid').mail;
         var from_email = new sgHelper.Email(mail.from);
         var to_email = new sgHelper.Email(mail.to);
         var subject = mail.subject;
