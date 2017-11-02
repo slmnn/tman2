@@ -1510,6 +1510,18 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/about/about.html',
+    '<h3>{{name || \'Aluehallintasovellus v2.0\'}}</h3><div class="row"><div class="col-sm-12"><p>Tämä aluehallintasovellus on tarkoitettu helpottamaan alueveljien työtä ja tarjoamaan ajantasaista tietoa seurakunnan aluetilanteesta.</p><h4>Tärkeimmät ominaisuudet</h4><ul><li>Alueiden merkitseminen eri omistajille ja käydyksi</li><li>Sopivien alueiden etsiminen eri attribuuttien mukaisesti</li><li>Käyttäjäoikeustasot, joiden avulla eri käyttäjien toimia voidaan hallita</li><li>Sähköpostimuistutukset alueiden käymisestä</li><li>Seurakunnan alueiden esittäminen havainnollisena karttana</li><li>S-13 -lomake</li></ul><h4>Suunnitteilla olevia ominaisuuksia</h4><ul><li>Alueiden antaminen julistajille linkkinä, sähköpostilla tai PDF-tiedostona</li></ul></div></div><h4 data-ng-show="!auth.isAuthenticated()">Jos sinulla on käyttäjätunnus, <a data-ui-sref="auth.login">kirjaudu sisään</a>.</h4><h4 data-ng-show="auth.isAuthenticated()">Olet kirjautunut sisään. Jatka <a data-ui-sref="app.territory">aluehallintaan</a>.</h4>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/app/app-info.html',
     '<p>Aluehallinnan asetukset vaikuttavat koko sovelluksen toimintaan.</p>');
 }]);
@@ -1535,18 +1547,6 @@ module.run(['$templateCache', function($templateCache) {
     '"_staticMap" = alueen karttakuva (jos rajat piirretty)\n' +
     '"_staticMapSatellite" = alueen satelliittikuva (jos rajat piirretty)\n' +
     '</pre></dd><dt>Sähköpostipohja: muistutus alueen käymisestä, viestin aihe</dt><dd><span style="width: 100%" data-editable-text="app.notificationEmailNotCoveredTerritoryTitle" data-e-name="app.notificationEmailNotCoveredTerritoryTitle" data-e-required>{{app.notificationEmailNotCoveredTerritoryTitle || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: muistutus alueen käymisestä</dt><dd><span style="width: 100%" data-editable-textarea="app.notificationEmailNotCoveredTerritory" data-e-name="app.notificationEmailNotCoveredTerritory" data-e-required>{{app.notificationEmailNotCoveredTerritory || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: uuden alueen ottaminen, viestin aihe</dt><dd><span style="width: 100%" data-editable-text="app.notificationEmailNewTerritoryTitle" data-e-name="app.notificationEmailNewTerritoryTitle" data-e-required>{{app.notificationEmailNewTerritoryTitle || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: uuden alueen ottaminen</dt><dd><span style="width: 100%" data-editable-textarea="app.notificationEmailNewTerritory" data-e-name="app.notificationEmailNewTerritory" data-e-required>{{app.notificationEmailNewTerritory || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: alueen palautus aluepöytään, viestin aihe</dt><dd><span style="width: 100%" data-editable-text="app.notificationEmailRemovedTerritoryTitle" data-e-name="app.notificationEmailRemovedTerritoryTitle" data-e-required>{{app.notificationEmailRemovedTerritoryTitle || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: alueen palautus aluepöytään</dt><dd><span style="width: 100%" data-editable-textarea="app.notificationEmailRemovedTerritory" data-e-name="app.notificationEmailRemovedTerritory" data-e-required>{{app.notificationEmailRemovedTerritory || \'Ei asetettu\'}}</span></dd><dt>Lähtevän sähköpostin osoite</dt><dd><span style="width: 100%" data-editable-email="app.notificationEmailSenderAddress" data-e-name="app.notificationEmailSenderAddress" data-e-required>{{app.notificationEmailSenderAddress || \'Ei asetettu\'}}</span></dd><dt>SMTP käyttäjänimi</dt><dd><span style="width: 100%" data-editable-text="app.smtpUsername" data-e-name="app.smtpUsername" data-e-required>{{app.smtpUsername || \'Ei asetettu\'}}</span></dd><dt>SMTP salasana</dt><dd><span style="width: 100%" data-editable-text="app.smtpPassword" data-e-name="app.smtpPassword" data-e-required>{{app.smtpPassword || \'Ei asetettu\'}}</span></dd><dl><div><div data-ng-show="editableForm.$visible"><button type="submit" class="btn btn-primary" data-ng-disabled="editableForm.$waiting">Tallenna</button> <button type="button" class="btn btn-default" data-ng-disabled="editableForm.$waiting" data-ng-click="editableForm.$cancel()">Peruuta</button></div></div></dl></dl></div></div></form></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/about/about.html',
-    '<h3>{{name || \'Aluehallintasovellus v2.0\'}}</h3><div class="row"><div class="col-sm-12"><p>Tämä aluehallintasovellus on tarkoitettu helpottamaan alueveljien työtä ja tarjoamaan ajantasaista tietoa seurakunnan aluetilanteesta.</p><h4>Tärkeimmät ominaisuudet</h4><ul><li>Alueiden merkitseminen eri omistajille ja käydyksi</li><li>Sopivien alueiden etsiminen eri attribuuttien mukaisesti</li><li>Käyttäjäoikeustasot, joiden avulla eri käyttäjien toimia voidaan hallita</li><li>Sähköpostimuistutukset alueiden käymisestä</li><li>Seurakunnan alueiden esittäminen havainnollisena karttana</li><li>S-13 -lomake</li></ul><h4>Suunnitteilla olevia ominaisuuksia</h4><ul><li>Alueiden antaminen julistajille linkkinä, sähköpostilla tai PDF-tiedostona</li></ul></div></div><h4 data-ng-show="!auth.isAuthenticated()">Jos sinulla on käyttäjätunnus, <a data-ui-sref="auth.login">kirjaudu sisään</a>.</h4><h4 data-ng-show="auth.isAuthenticated()">Olet kirjautunut sisään. Jatka <a data-ui-sref="app.territory">aluehallintaan</a>.</h4>');
 }]);
 })();
 
@@ -6008,7 +6008,7 @@ module.run(['$templateCache', function($templateCache) {
             endPoint = endPoint + '/' + identifier;
           }
 
-          return BackendConfig.url + '/' + endPoint;
+          return BackendConfig.url + '/api/' + endPoint;
         }
 
         /**
