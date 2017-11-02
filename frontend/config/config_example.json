@@ -3,7 +3,7 @@
   "prefix":"/",
   "frontend": {
     "ports": {
-      "production": 3000,
+      "production": 80,
       "development": 3001
     }
   }

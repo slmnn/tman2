@@ -32,7 +32,7 @@
             endPoint = endPoint + '/' + identifier;
           }
 
-          return BackendConfig.url + '/' + endPoint;
+          return BackendConfig.url + '/api/' + endPoint;
         }
 
         /**
