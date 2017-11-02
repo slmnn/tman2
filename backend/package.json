@@ -44,7 +44,7 @@
     "chai": "3.3.0"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "4.8.4"
   },
   "scripts": {
     "start": "node app.js",
