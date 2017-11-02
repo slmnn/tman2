@@ -28,15 +28,15 @@ module.exports.routes = {
   },
 
   // Authentication routes
-  '/logout': 'AuthController.logout',
-  'POST /login': 'AuthController.callback',
-  'POST /login/:action': 'AuthController.callback',
-  'POST /auth/local': 'AuthController.callback',
-  'POST /auth/local/:action': 'AuthController.callback',
-  'POST /user/password' : 'UserController.updatePassword',
+  '/api/logout': 'AuthController.logout',
+  'POST /api/login': 'AuthController.callback',
+  'POST /api/login/:action': 'AuthController.callback',
+  'POST /api/auth/local': 'AuthController.callback',
+  'POST /api/auth/local/:action': 'AuthController.callback',
+  'POST /api/user/password' : 'UserController.updatePassword',
 
   // Mail
-  'POST /mail/send' : 'MailController.sendNotificationEmails',
-  'POST /mail/backup' : 'MailController.backupTerritoryData',
-  'GET /mail/count' : 'MailController.countNotificationEmails'
+  'POST /api/mail/send' : 'MailController.sendNotificationEmails',
+  'POST /api/mail/backup' : 'MailController.backupTerritoryData',
+  'GET /api/mail/count' : 'MailController.countNotificationEmails'
 };
