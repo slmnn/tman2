@@ -850,422 +850,6 @@
   ;
 }());
 
-/**
- * Territory component to wrap all territory specified stuff together. This component is divided to following logical
- * components:
- *
- *  Controllers
- *  Models
- *
- * All of these are wrapped to 'frontend.app.territory' angular module.
- */
-(function() {
-  'use strict';
-
-  // Define frontend.app.territory angular module
-  angular.module('frontend.app.territory', []);
-
-  // Module configuration
-  angular.module('frontend.app.territory')
-    .config([
-      '$stateProvider',
-      function config($stateProvider) {
-        $stateProvider
-
-          // Territorys list
-          .state('app.territory', {
-            url: '/app/territory',
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/territory/list.html',
-                controller: 'TerritoryListController',
-                name: 'Aluelistaus',
-                resolve: {
-                  _items: [
-                    'ListConfig',
-                    'TerritoryModel',
-                    function resolve(
-                      ListConfig,
-                      TerritoryModel
-                    ) {
-                      var config = ListConfig.getConfig();
-
-                      var parameters = {
-                        populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
-                        limit: config.itemsPerPage,
-                        sort: 'territoryCode ASC'
-                      };
-
-                      return TerritoryModel.load(parameters);
-                    }
-                  ],
-                  _holders: [
-                    '$stateParams',
-                    'HolderModel',
-                    function resolve(
-                      $stateParams,
-                      HolderModel
-                    ) {
-                      return HolderModel.load({
-                        where: {
-                          isArchived:false
-                        },
-                        sort: 'name ASC'
-                      });
-                    }
-                  ],
-                  _attributes: [
-                    '$stateParams',
-                    'AttributeModel',
-                    function resolve(
-                      $stateParams,
-                      AttributeModel
-                    ) {
-                      return AttributeModel.load();
-                    }
-                  ],
-                  _count: [
-                    'TerritoryModel',
-                    function resolve(TerritoryModel) {
-                      return TerritoryModel.count();
-                    }
-                  ],
-                  _app: [
-                    '$stateParams',
-                    'AppModel',
-                    function resolve(
-                      $stateParams,
-                      AppModel
-                    ) {
-                      return AppModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
-
-          // S-13
-          .state('app.territory.s13', {
-            url: '/s13',
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/territory/s13.html',
-                controller: 'TerritoryS13Controller',
-                name: 'S13-lomake',
-                resolve: {
-                  _items: [
-                    'ListConfig',
-                    'TerritoryModel',
-                    function resolve(
-                      ListConfig,
-                      TerritoryModel
-                    ) {
-                      var config = ListConfig.getConfig();
-
-                      var parameters = {
-                        populate: ['holder', 'territoryHolderHistory'],
-                        limit: 999,
-                        sort: 'territoryCode ASC'
-                      };
-
-                      return TerritoryModel.load(parameters);
-                    }
-                  ],
-                  _holders: [
-                    '$stateParams',
-                    'HolderModel',
-                    function resolve(
-                      $stateParams,
-                      HolderModel
-                    ) {
-
-                      // Load all holders, later add isActive param.
-                      return HolderModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
-
-          // Stats
-          .state('app.territory.stats', {
-            url: '/stats',
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/territory/stats.html',
-                controller: 'TerritoryStatsController',
-                name: 'Tilastot',
-                resolve: {
-                  _items: [
-                    'ListConfig',
-                    'TerritoryModel',
-                    function resolve(
-                      ListConfig,
-                      TerritoryModel
-                    ) {
-                      var config = ListConfig.getConfig();
-
-                      var parameters = {
-                        populate: ['territoryHolderHistory'],
-                        limit: 999,
-                        sort: 'territoryCode ASC'
-                      };
-
-                      return TerritoryModel.load(parameters);
-                    }
-                  ],
-                  _app: [
-                    '$stateParams',
-                    'AppModel',
-                    function resolve(
-                      $stateParams,
-                      AppModel
-                    ) {
-                      return AppModel.load();
-                    }
-                  ],
-                  _stats: [
-                    '$stateParams',
-                    'StatModel',
-                    function resolve(
-                      $stateParams,
-                      StatModel
-                    ) {
-                      return StatModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
-
-          // Map
-          .state('app.territory.map', {
-            url: '/map',
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/territory/map.html',
-                controller: 'TerritoryMapController',
-                name: 'Kartta',
-                resolve: {
-                  _items: [
-                    'ListConfig',
-                    'TerritoryModel',
-                    function resolve(
-                      ListConfig,
-                      TerritoryModel
-                    ) {
-                      var config = ListConfig.getConfig();
-
-                      var parameters = {
-                        populate: ['holder', 'center'],
-                        limit: 999,
-                        sort: 'name ASC'
-                      };
-
-                      return TerritoryModel.load(parameters);
-                    }
-                  ],
-                  _holders: [
-                    '$stateParams',
-                    'HolderModel',
-                    function resolve(
-                      $stateParams,
-                      HolderModel
-                    ) {
-                      return HolderModel.load();
-                    }
-                  ],
-                  _app: [
-                    '$stateParams',
-                    'AppModel',
-                    function resolve(
-                      $stateParams,
-                      AppModel
-                    ) {
-                      return AppModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
-
-          // Map
-          .state('app.territory.quickview', {
-            url: '/quickview',
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/territory/quickview.html',
-                controller: 'TerritoryQuickViewController',
-                name: 'Pikatarkastelu',
-                resolve: {
-                  _items: [
-                    'ListConfig',
-                    'TerritoryModel',
-                    function resolve(
-                      ListConfig,
-                      TerritoryModel
-                    ) {
-                      var config = ListConfig.getConfig();
-
-                      var parameters = {
-                        populate: ['holder', 'center'],
-                        sort: 'name ASC'
-                      };
-
-                      return TerritoryModel.load(parameters);
-                    }
-                  ],
-                  _holders: [
-                    '$stateParams',
-                    'HolderModel',
-                    function resolve(
-                      $stateParams,
-                      HolderModel
-                    ) {
-                      return HolderModel.load();
-                    }
-                  ],
-                  _app: [
-                    '$stateParams',
-                    'AppModel',
-                    function resolve(
-                      $stateParams,
-                      AppModel
-                    ) {
-                      return AppModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
-
-          .state("app.territory.add", {
-              url: "/add",
-              data: {
-                access: 2
-              },
-              onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
-                  $modal.open({
-                      templateUrl: '/frontend/app/territory/add.html',
-                      resolve: {
-                        _holders: [
-                          'HolderModel',
-                          function resolve(
-                            HolderModel
-                          ) {
-                            return HolderModel.load({
-                              where: {
-                                isArchived: false
-                              },
-                              sort: 'name ASC'
-                            });
-                          }
-                        ],
-                        _app: [
-                          'AppModel',
-                          function resolve(
-                            AppModel
-                          ) {
-                            return AppModel.load();
-                          }
-                        ]
-                      },
-                      controller: 'TerritoryAddController',
-                      name: 'Uusi alue',
-                      }).result.finally(function() {
-                        $state.go('^');
-                  });
-              }]
-          })
-
-          // Single territory
-          .state('app.territory.single', {
-            url: '/:id',
-            views: {
-              'content@': {
-                templateUrl: '/frontend/app/territory/territory.html',
-                controller: 'TerritoryController',
-                name: 'Alueen tiedot',
-                resolve: {
-                  _territory: [
-                    '$stateParams',
-                    'TerritoryModel',
-                    function resolve(
-                      $stateParams,
-                      TerritoryModel
-                    ) {
-                      return TerritoryModel.fetch(
-                        $stateParams.id, 
-                        {
-                          populate: [
-                            'holder', 
-                            'territoryHolderHistory', 
-                            'center', 
-                            'coordinates', 
-                            'territoryLinkAttribute',
-                            'specialAddress'
-                          ]
-                        }
-                      );
-                    }
-                  ],
-                  _attributes: [
-                    '$stateParams',
-                    'AttributeModel',
-                    function resolve(
-                      $stateParams,
-                      AttributeModel
-                    ) {
-                      return AttributeModel.load();
-                    }
-                  ],
-                  _holders: [
-                    '$stateParams',
-                    'HolderModel',
-                    function resolve(
-                      $stateParams,
-                      HolderModel
-                    ) {
-                      return HolderModel.load({
-                        sort: 'name ASC'
-                      });
-                    }
-                  ],
-                  _holdersCount: [
-                    '$stateParams',
-                    'HolderModel',
-                    function resolve(
-                      $stateParams,
-                      HolderModel
-                    ) {
-                      return HolderModel.count({territory: $stateParams.id});
-                    }
-                  ],
-                  _app: [
-                    '$stateParams',
-                    'AppModel',
-                    function resolve(
-                      $stateParams,
-                      AppModel
-                    ) {
-                      return AppModel.load();
-                    }
-                  ]
-                }
-              }
-            }
-          })
-        ;
-      }
-    ])
-  ;
-}());
-
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
 var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -1926,18 +1510,6 @@ try {
   module = angular.module('frontend-templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/frontend/app/about/about.html',
-    '<h3>{{name || \'Aluehallintasovellus v2.0\'}}</h3><div class="row"><div class="col-sm-12"><p>Tämä aluehallintasovellus on tarkoitettu helpottamaan alueveljien työtä ja tarjoamaan ajantasaista tietoa seurakunnan aluetilanteesta.</p><h4>Tärkeimmät ominaisuudet</h4><ul><li>Alueiden merkitseminen eri omistajille ja käydyksi</li><li>Sopivien alueiden etsiminen eri attribuuttien mukaisesti</li><li>Käyttäjäoikeustasot, joiden avulla eri käyttäjien toimia voidaan hallita</li><li>Sähköpostimuistutukset alueiden käymisestä</li><li>Seurakunnan alueiden esittäminen havainnollisena karttana</li><li>S-13 -lomake</li></ul><h4>Suunnitteilla olevia ominaisuuksia</h4><ul><li>Alueiden antaminen julistajille linkkinä, sähköpostilla tai PDF-tiedostona</li></ul></div></div><h4 data-ng-show="!auth.isAuthenticated()">Jos sinulla on käyttäjätunnus, <a data-ui-sref="auth.login">kirjaudu sisään</a>.</h4><h4 data-ng-show="auth.isAuthenticated()">Olet kirjautunut sisään. Jatka <a data-ui-sref="app.territory">aluehallintaan</a>.</h4>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('frontend-templates');
-} catch (e) {
-  module = angular.module('frontend-templates', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/app/app-info.html',
     '<p>Aluehallinnan asetukset vaikuttavat koko sovelluksen toimintaan.</p>');
 }]);
@@ -1951,7 +1523,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/app/app.html',
-    '<div data-ng-show="!app"><h3>Sovellusasetuksia ei löytynyt! Ota yhteyttä ylläpitäjään.</h3></div><div data-ng-show="app"><form class="form-vertical" role="form" data-editable-form name="editableForm" data-onaftersave="saveApp()"><div class="row"><div class="col-sm-8"><h3><span style="width: 100%" data-editable-text="app.name" data-e-name="app.name" data-e-required>{{app.name || \'Sovellukselle ei ole annettu nimeä\'}}</span> <span class="pull-right" data-ng-show="!editableForm.$visible && user.admin"><a href="#" data-ng-click="editableForm.$show()" data-tooltip="Muuta asetuksia"><i class="fa fa-wrench"></i></a></span></h3><dl><dt>Alueiden oletusomistaja (yleensä aluepöytä tms.)</dt><dd><span data-editable-select="app.defaultHolder.id" data-e-name="defaultHolder.id" data-e-ng-options="holder.id as holder.name for holder in holders" data-e-required>{{app.defaultHolder.name || \'Ei asetettu\'}}</span></dd><dt>Sähköpostiosoite varmuuskopioiden vastaanottamiseen</dt><dd><span style="width: 100%" data-editable-text="app.backupEmail" data-e-name="app.backupEmail" data-e-required>{{app.backupEmail || \'Sähköpostiosoite puuttuu\'}}</span></dd><dt>Varmuuskopioiden väli (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.backupInterval" data-e-min="1" data-e-name="app.backupInterval" data-e-required>{{app.backupInterval || \'Ei asetettu\'}}</span></dd><dt>Aika, jonka jälkeen aluetta pidetään harvoin käytynä (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.notCoveredLimit" data-e-min="1" data-e-name="app.notCoveredLimit" data-e-required>{{app.notCoveredLimit || \'Ei asetettu\'}}</span></dd><dt>Aika, jonka jälkeen lähetetään muistutusviesti alueen käymisestä (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.notCoveredWarningEmailLimit" data-e-min="1" data-e-name="app.notCoveredWarningEmailLimit" data-e-required>{{app.notCoveredWarningEmailLimit || \'Ei asetettu\'}}</span></dd><dt>Aika, jonka jälkeen alue on ollut liian kauan samalla omistajalla (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.holderNotChangedWarningLimit" data-e-min="1" data-e-name="app.holderNotChangedWarningLimit" data-e-required>{{app.holderNotChangedWarningLimit || \'Ei asetettu\'}}</span></dd><dt>Oletus leveyskoordinaatti (Suomessa noin 60-64)</dt><dd><span style="width: 100%" data-editable-number="app.defaultLatitude" data-e-min="-90" data-e-max="90" data-e-step="any" data-e-name="app.defaultLatitude" data-e-required>{{app.defaultLatitude || \'Ei asetettu\'}}</span></dd><dt>Oletus pituuskoordinaatti (Suomessa noin 19-25)</dt><dd><span style="width: 100%" data-editable-number="app.defaultLongitude" data-e-min="-180" data-e-max="180" data-e-step="any" data-e-name="app.defaultLongitude" data-e-required>{{app.defaultLongitude || \'Ei asetettu\'}}</span></dd><dt>Sähköposteissa toimivat avainkentät</dt><dd><pre>\n' +
+    '<div data-ng-show="!app"><h3>Sovellusasetuksia ei löytynyt! Ota yhteyttä ylläpitäjään.</h3></div><div data-ng-show="app"><form class="form-vertical" role="form" data-editable-form name="editableForm" data-onaftersave="saveApp()"><div class="row"><div class="col-sm-8"><h3><span style="width: 100%" data-editable-text="app.name" data-e-name="app.name" data-e-required>{{app.name || \'Sovellukselle ei ole annettu nimeä\'}}</span> <span class="pull-right" data-ng-show="!editableForm.$visible && user.admin"><a href="#" data-ng-click="editableForm.$show()" data-tooltip="Muuta asetuksia"><i class="fa fa-wrench"></i></a></span></h3><dl><dt>Alueiden oletusomistaja (yleensä aluepöytä tms.)</dt><dd><span data-editable-select="app.defaultHolder.id" data-e-name="defaultHolder.id" data-e-ng-options="holder.id as holder.name for holder in holders" data-e-required>{{app.defaultHolder.name || \'Ei asetettu\'}}</span></dd><dt>Sähköpostiosoite varmuuskopioiden vastaanottamiseen</dt><dd><span style="width: 100%" data-editable-text="app.backupEmail" data-e-name="app.backupEmail" data-e-required>{{app.backupEmail || \'Sähköpostiosoite puuttuu\'}}</span></dd><dt>Varmuuskopioiden väli (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.backupInterval" data-e-min="1" data-e-name="app.backupInterval" data-e-required>{{app.backupInterval || \'Ei asetettu\'}}</span></dd><dt>Aika, jonka jälkeen aluetta pidetään harvoin käytynä (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.notCoveredLimit" data-e-min="1" data-e-name="app.notCoveredLimit" data-e-required>{{app.notCoveredLimit || \'Ei asetettu\'}}</span></dd><dt>Aika, jonka jälkeen lähetetään muistutusviesti alueen käymisestä (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.notCoveredWarningEmailLimit" data-e-min="1" data-e-name="app.notCoveredWarningEmailLimit" data-e-required>{{app.notCoveredWarningEmailLimit || \'Ei asetettu\'}}</span></dd><dt>Aika, jonka jälkeen alue on ollut liian kauan samalla omistajalla (päiviä)</dt><dd><span style="width: 100%" data-editable-number="app.holderNotChangedWarningLimit" data-e-min="1" data-e-name="app.holderNotChangedWarningLimit" data-e-required>{{app.holderNotChangedWarningLimit || \'Ei asetettu\'}}</span></dd><dt>Oletus leveyskoordinaatti (Suomessa noin 60-64)</dt><dd><span style="width: 100%" data-editable-number="app.defaultLatitude" data-e-min="-90" data-e-max="90" data-e-step="any" data-e-name="app.defaultLatitude" data-e-required>{{app.defaultLatitude || \'Ei asetettu\'}}</span></dd><dt>Oletus pituuskoordinaatti (Suomessa noin 19-25)</dt><dd><span style="width: 100%" data-editable-number="app.defaultLongitude" data-e-min="-180" data-e-max="180" data-e-step="any" data-e-name="app.defaultLongitude" data-e-required>{{app.defaultLongitude || \'Ei asetettu\'}}</span></dd><dt>Tulostettavan aluekartan tyyppi</dt><dd><span data-editable-select="app.printMapType" data-e-name="app.printMapType" data-e-ng-options="type as type for type in mapTypes" data-e-required>{{app.printMapType || \'Ei asetettu\'}}</span></dd><dt>Tulostettavan aluekartan rajan väri</dt><dd><span style="width: 100%" data-editable-text="app.printMapLineColor" data-e-name="app.printMapLineColor" data-e-required>{{app.printMapLineColor || \'Asetus puuttuu\'}}</span></dd><dt>Tulostettavan aluekartan alueen väri</dt><dd><span style="width: 100%" data-editable-text="app.printMapAreaFillColor" data-e-name="app.printMapAreaFillColor" data-e-required>{{app.printMapAreaFillColor || \'Asetus puuttuu\'}}</span></dd><dt>Tulostettavan aluekartan skaalaus</dt><dd><span style="width: 100%" data-editable-number="app.printMapScale" data-e-min="0" data-e-max="2" data-e-step="1" data-e-name="app.printMapScale" data-e-required>{{app.printMapScale || \'Asetus puuttuu\'}}</span></dd><dt>Sähköposteissa toimivat avainkentät</dt><dd><pre>\n' +
     '"_holderName" = alueomistajan nimi\n' +
     '"_territoryCode" = alueen koodi\n' +
     '"_territoryLat", = alueen leveyskoordinaatti\n' +
@@ -1963,6 +1535,18 @@ module.run(['$templateCache', function($templateCache) {
     '"_staticMap" = alueen karttakuva (jos rajat piirretty)\n' +
     '"_staticMapSatellite" = alueen satelliittikuva (jos rajat piirretty)\n' +
     '</pre></dd><dt>Sähköpostipohja: muistutus alueen käymisestä, viestin aihe</dt><dd><span style="width: 100%" data-editable-text="app.notificationEmailNotCoveredTerritoryTitle" data-e-name="app.notificationEmailNotCoveredTerritoryTitle" data-e-required>{{app.notificationEmailNotCoveredTerritoryTitle || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: muistutus alueen käymisestä</dt><dd><span style="width: 100%" data-editable-textarea="app.notificationEmailNotCoveredTerritory" data-e-name="app.notificationEmailNotCoveredTerritory" data-e-required>{{app.notificationEmailNotCoveredTerritory || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: uuden alueen ottaminen, viestin aihe</dt><dd><span style="width: 100%" data-editable-text="app.notificationEmailNewTerritoryTitle" data-e-name="app.notificationEmailNewTerritoryTitle" data-e-required>{{app.notificationEmailNewTerritoryTitle || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: uuden alueen ottaminen</dt><dd><span style="width: 100%" data-editable-textarea="app.notificationEmailNewTerritory" data-e-name="app.notificationEmailNewTerritory" data-e-required>{{app.notificationEmailNewTerritory || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: alueen palautus aluepöytään, viestin aihe</dt><dd><span style="width: 100%" data-editable-text="app.notificationEmailRemovedTerritoryTitle" data-e-name="app.notificationEmailRemovedTerritoryTitle" data-e-required>{{app.notificationEmailRemovedTerritoryTitle || \'Ei asetettu\'}}</span></dd><dt>Sähköpostipohja: alueen palautus aluepöytään</dt><dd><span style="width: 100%" data-editable-textarea="app.notificationEmailRemovedTerritory" data-e-name="app.notificationEmailRemovedTerritory" data-e-required>{{app.notificationEmailRemovedTerritory || \'Ei asetettu\'}}</span></dd><dt>Lähtevän sähköpostin osoite</dt><dd><span style="width: 100%" data-editable-email="app.notificationEmailSenderAddress" data-e-name="app.notificationEmailSenderAddress" data-e-required>{{app.notificationEmailSenderAddress || \'Ei asetettu\'}}</span></dd><dt>SMTP käyttäjänimi</dt><dd><span style="width: 100%" data-editable-text="app.smtpUsername" data-e-name="app.smtpUsername" data-e-required>{{app.smtpUsername || \'Ei asetettu\'}}</span></dd><dt>SMTP salasana</dt><dd><span style="width: 100%" data-editable-text="app.smtpPassword" data-e-name="app.smtpPassword" data-e-required>{{app.smtpPassword || \'Ei asetettu\'}}</span></dd><dl><div><div data-ng-show="editableForm.$visible"><button type="submit" class="btn btn-primary" data-ng-disabled="editableForm.$waiting">Tallenna</button> <button type="button" class="btn btn-default" data-ng-disabled="editableForm.$waiting" data-ng-click="editableForm.$cancel()">Peruuta</button></div></div></dl></dl></div></div></form></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('frontend-templates');
+} catch (e) {
+  module = angular.module('frontend-templates', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('/frontend/app/about/about.html',
+    '<h3>{{name || \'Aluehallintasovellus v2.0\'}}</h3><div class="row"><div class="col-sm-12"><p>Tämä aluehallintasovellus on tarkoitettu helpottamaan alueveljien työtä ja tarjoamaan ajantasaista tietoa seurakunnan aluetilanteesta.</p><h4>Tärkeimmät ominaisuudet</h4><ul><li>Alueiden merkitseminen eri omistajille ja käydyksi</li><li>Sopivien alueiden etsiminen eri attribuuttien mukaisesti</li><li>Käyttäjäoikeustasot, joiden avulla eri käyttäjien toimia voidaan hallita</li><li>Sähköpostimuistutukset alueiden käymisestä</li><li>Seurakunnan alueiden esittäminen havainnollisena karttana</li><li>S-13 -lomake</li></ul><h4>Suunnitteilla olevia ominaisuuksia</h4><ul><li>Alueiden antaminen julistajille linkkinä, sähköpostilla tai PDF-tiedostona</li></ul></div></div><h4 data-ng-show="!auth.isAuthenticated()">Jos sinulla on käyttäjätunnus, <a data-ui-sref="auth.login">kirjaudu sisään</a>.</h4><h4 data-ng-show="auth.isAuthenticated()">Olet kirjautunut sisään. Jatka <a data-ui-sref="app.territory">aluehallintaan</a>.</h4>');
 }]);
 })();
 
@@ -2274,7 +1858,9 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/frontend/app/territory/territory.html',
-    '<div data-ng-show="!territory"><h3>{{\'TERRITORY_NOT_FOUND\' | translate}}</h3></div><div class="row"><div class="col-sm-6 col-print-6"><div data-ng-show="territory"><form class="form-vertical" role="form" data-editable-form name="editableForm" data-onaftersave="saveTerritory()"><h3><span style="width: 100%" data-editable-text="territory.territoryCode" data-e-name="territory.territoryCode" data-e-required>{{territory.territoryCode}} <span data-ng-if="territory.archived">(arkistoitu)</span></span> <span class="pull-right" data-ng-show="!editableForm.$visible && user.admin"><a href="#" class="no-print" data-ng-click="editableForm.$show()" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h3><dl class="dl-horizontal"><dt>{{\'HOLDER\' | translate}}</dt><dd><span data-editable-select="territory.holder.id" data-e-name="holder.id" data-e-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders" data-e-required><a data-ui-sref="app.holder.single({id: territory.holder.id})">{{territory.holder.name}}</a></span></dd><dt>{{\'COVERED\' | translate}}</dt><dd><span data-editable-bsdate="territory.covered" data-e-ng-click="openPickers(\'coveredDateOpened\')" data-e-is-open="pickers.coveredDateOpened" data-e-datepicker-popup="dd.MM.yyyy" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-name="date"><a data-ng-class="isNotCoveredLimitExeeded(territory, app) ? \'bg-danger\' : \'\'" data-tooltip="{{territory.covered | amTimeAgo}}">{{(territory.covered | date : \'dd.MM.yyyy\') || \'Ei merkintää\'}}</a></span></dd><dt>{{\'TAKEN\' | translate}}</dt><dd><span data-editable-bsdate="territory.taken" data-e-ng-click="openPickers(\'takenDateOpened\')" data-e-is-open="pickers.takenDateOpened" data-e-datepicker-popup="dd.MM.yyyy" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-name="date"><a data-ng-class="isHolderNotChangedLimitExeeded(territory, app) ? \'bg-danger\' : \'\'" data-tooltip="{{territory.taken | amTimeAgo}}">{{(territory.taken | date : \'dd.MM.yyyy\') || \'Ei merkintää\'}}</a></span></dd><dt>{{\'TYPE\' | translate}}</dt><dd><span data-editable-text="territory.type" data-e-name="territory.type" data-e-required>{{territory.type}}</span></dd><dt>{{\'NUMBER_OF_APARTMENTS\' | translate}}</dt><dd><span data-editable-number="territory.apartmentCount" data-e-name="territory.apartmentCount" data-e-required>{{territory.apartmentCount}}</span></dd><dt>{{\'ARCHIVED\' | translate}}</dt><dd><span data-editable-checkbox="territory.archived" data-e-title="Alue ei ole enää käytössä?">{{territory.archived ? \'Kyllä\' : \'Ei\'}}</span></dd><dt>{{\'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED\' | translate}}</dt><dd><span data-editable-checkbox="territory.notCountedWhenCalculatingCoveredDuringLastYearTotal" data-e-title="{{\'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2\' | translate}}"><a data-tooltip="Esimerkiksi puhelin- ja liikealueita ei yleensä lasketa vuoteen käymättömien alueiden joukkoon.">{{!territory.notCountedWhenCalculatingCoveredDuringLastYearTotal ? \'Kyllä\' : \'Ei\'}}</a></span></dd></dl><div class="no-print"><h4>{{\'Alueen kuvaus\' | translate}}</h4><pre style="white-space: pre-line" data-editable-textarea="territory.description" data-e-name="territory.description" data-e-required>{{territory.description}}</pre></div><div><div data-ng-show="editableForm.$visible"><button type="submit" class="btn btn-primary" data-ng-disabled="editableForm.$waiting">{{\'SAVE\' | translate}}</button> <button type="button" class="btn btn-default" data-ng-disabled="editableForm.$waiting" data-ng-click="editableForm.$cancel(); editableMap = false;">{{\'CANCEL\' | translate}}</button> <button type="button" class="btn btn-danger pull-right" data-ng-bootbox-title="Danger - Danger - Danger" data-ng-bootbox-custom-dialog="{{\'DELETING_TERRITORY\' | translate}} <strong>{{territory.territoryCode}}</strong>. {{\'ARE_YOU_SURE\' | translate}}" data-ng-bootbox-buttons="confirmButtonsDelete">{{\'DELETE\' | translate}}</button></div></div></form></div></div><div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length === 0"><h4>{{\'NO_HOLDER_HISTORY\' | translate}}</h4></div><div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length > 0"><h4>{{\'HISTORY\' | translate}} ({{territory.territoryHolderHistory.length}}) <span class="pull-right" data-ng-show="!deleteTerritoryHolderHistoryItemVisible && user.admin"><a href="#" class="no-print" data-ng-click="deleteTerritoryHolderHistoryItemVisible = true" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><table class="table table-condensed table-hover"><thead><tr><th class="col-xs-3">{{\'HOLDER\' | translate}}</th><th class="col-xs-2 text-nowrap">{{\'START_DATE\' | translate}}</th><th class="col-xs-2 text-nowrap">{{\'END_DATE\' | translate}}</th><th class="col-xs-4 text-nowrap">{{\'ADDITIONAL_INFO\' | translate}}</th><th class="col-xs-1 text-nowrap"></th></tr></thead><tbody data-ng-repeat="thh in territory.territoryHolderHistory"><tr><td><span data-ng-if="user.admin" data-editable-select="thh.holder" data-e-name="thh.holder.id" data-e-ng-options="holder.id as holder.name for holder in holders" data-e-required data-onaftersave="saveTerritoryHistoryItem(thh)">{{getHolderNameWithId(thh.holder)}}</span> <span data-ng-if="!user.admin"><a data-ui-sref="app.holder.single({id: thh.holder})">{{getHolderNameWithId(thh.holder)}}</a></span></td><td><span data-ng-if="user.admin" data-editable-bsdate="thh.startDate" data-e-ng-click="openPickers(\'thhStartDateOpened\')" data-e-is-open="pickers.thhStartDateOpened" data-e-datepicker-popup="dd.MM.yyyy" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-name="date" data-onaftersave="saveTerritoryHistoryItem(thh)">{{(thh.startDate | date : \'dd.MM.yyyy\') || \'Ei alkupäivää\'}}</span> <span data-ng-if="!user.admin">{{thh.startDate | date : \'dd.MM.yyyy\'}}</span></td><td><span data-ng-if="user.admin" data-editable-bsdate="thh.endDate" data-e-ng-click="openPickers(\'thhEndDateOpened\')" data-e-is-open="pickers.thhEndDateOpened" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-datepicker-popup="dd.MM.yyyy" data-onaftersave="saveTerritoryHistoryItem(thh)" data-e-name="date">{{(thh.endDate | date: \'dd.MM.yyyy\') || \'Ei loppupäivää\'}}</span> <span data-ng-if="!user.admin">{{thh.endDate | date: \'dd.MM.yyyy\'}}</span></td><td><span data-ng-if="user.admin" data-editable-text="thh.description" data-e-name="thh.description" data-onaftersave="saveTerritoryHistoryItem(thh)">{{thh.description || \'Ei kommenttia\'}}</span> <span data-ng-if="!user.admin">{{thh.description}}</span></td><td><a data-ng-show="deleteTerritoryHolderHistoryItemVisible" data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)" data-ng-bootbox-title="{{\'DELETING_TERRITORY_HISTORY_ROW\' | translate}}" data-ng-bootbox-custom-dialog="{{\'ARE_YOU_SURE\' | translate}}" data-ng-bootbox-buttons="confirmHistoryButtonsDelete"><span class="fa fa-trash fa-2x"></span></a></td></tr></tbody></table></div><div class="col-sm-6 col-print-6"><h4><span data-ng-if="territory.territoryLinkAttribute.length > 0">{{\'ATTRIBUTES\' | translate}} ({{territory.territoryLinkAttribute.length}})</span> <span data-ng-if="territory.territoryLinkAttribute.length === 0">{{\'NO_TERRITORY_ATTRIBUTES\' | translate}}</span> <span class="pull-right" data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"><a href="#" class="no-print" data-ng-click="deleteTerritoryLinkAttributeItemVisible = true" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><table class="table table-condensed table-hover" data-ng-if="territory.territoryLinkAttribute.length > 0"><thead><tr><th class="col-xs-1"></th><th class="col-xs-3 text-nowrap">{{\'NAME\' | translate}}</th><th class="col-xs-7 text-nowrap">{{\'ATTRIBUTE_DESCRIPTION\' | translate}}</th><th class="col-xs-1 text-nowrap"></th></tr></thead><tbody data-ng-repeat="tla in territory.territoryLinkAttribute"><tr><td><span class="fa fa-{{getAttributeWithId(attributes, tla.attribute).icon}}"></span></td><td>{{getAttributeWithId(attributes, tla.attribute).name}}</td><td>{{getAttributeWithId(attributes, tla.attribute).description}}</td><td><a data-ng-show="deleteTerritoryLinkAttributeItemVisible" data-ng-click="setTerritoryLinkAttributeToBeDeleted(tla)" data-ng-bootbox-title="You are about to delete a territory attribute" data-ng-bootbox-custom-dialog="Are you sure about the territory attribute delete?" data-ng-bootbox-buttons="confirmAttributeButtonsDelete"><span class="fa fa-trash fa-2x"></span></a></td></tr></tbody></table><div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible"><div class="form-inline"><div class="form-group"><label for="newAttributeInput">{{\'ADD_ATTRIBUTE\' | translate}}</label><select id="newAttributeInput" class="form-control input-sm" ng-model="newAttribute" ng-options="a.name for a in attributes"></select></div><a class="btn btn-primary btn-sm" data-ng-click="addNewAttribute(newAttribute);">{{\'ADD\' | translate}}</a></div></div></div><div class="col-sm-6 col-print-6"><h4><span data-ng-if="territory.specialAddress.length > 0">Kieltopaikat ja vieraskieliset ({{territory.specialAddress.length}})</span> <span data-ng-if="territory.specialAddress.length === 0">Alueella ei ole kieltopaikkoja tai vieraskielisiä</span> <span class="pull-right" data-ng-show="!deleteSpecialAddressItemVisible && (user.admin || user.canAddSpecialAddresses)"><a href="#" class="no-print" data-ng-click="deleteSpecialAddressItemVisible = true" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><table class="table table-condensed table-hover" data-ng-if="territory.specialAddress.length > 0"><thead><tr><th class="col-xs-1 text-nowrap">Päiväys</th><th class="col-xs-4 text-nowrap">Nimi</th><th class="col-xs-5 text-nowrap">Osoite</th><th class="col-xs-1 text-nowrap">Tyyppi</th><th class="col-xs-1 text-nowrap"></th></tr></thead><tbody data-ng-repeat="sa in territory.specialAddress | filter : \'Kielto\'"><tr><td>{{sa.added | date : \'dd.MM.yyyy\'}}</td><td>{{sa.name}}</td><td>{{sa.address}}</td><td>{{sa.type}}</td><td><a data-ng-if="user.admin" data-ng-show="deleteSpecialAddressItemVisible" data-ng-click="setSpecialAddressToBeDeleted(sa)" data-ng-bootbox-title="Vahvista toiminto" data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?" data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"><span class="fa fa-trash"></span></a></td></tr></tbody><tbody data-ng-repeat="sa in territory.specialAddress | filter : \'Vierask\'"><tr><td>{{sa.added | date : \'dd.MM.yyyy\'}}</td><td>{{sa.name}}</td><td>{{sa.address}}</td><td>{{sa.type}}</td><td><a data-ng-show="deleteSpecialAddressItemVisible" data-ng-click="setSpecialAddressToBeDeleted(sa)" data-ng-bootbox-title="Vahvista toiminto" data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?" data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"><span class="fa fa-trash"></span></a></td></tr></tbody></table><div data-ng-if="deleteSpecialAddressItemVisible"><div class="form-inline"><div class="form-group"><label>Nimi: <input class="form-control input-sm" minlength="3" required maxlength="40" data-ng-model="specialAddress.name"></label><label>Osoite: <input class="form-control input-sm" minlength="3" maxlength="100" required data-ng-model="specialAddress.address"></label><label>Tyyppi:<select class="form-control input-sm" data-ng-model="specialAddress.type"><option value="">-</option><option value="Kielto">Kieltopaikka</option><option value="Vierask">Vieraskielinen</option></select></label><button class="btn btn-primary btn-sm" data-ng-click="addSpecialAddress(specialAddress);" data-ng-disabled="!specialAddress.name || !specialAddress.address || specialAddress.type == \'\'">{{\'ADD\' | translate}}</button></div></div></div></div></div><div class="row print-only"><div class="col-sm-12 col-print-12"><h4>{{\'Alueen kuvaus\' | translate}}</h4><pre style="white-space: pre-line; width: 100%">{{territory.description}}</pre></div></div><div data-ng-if="territory"><h4>Kartta <span class="pull-right" data-ng-show="!editableMap && user.admin"><a href="#" class="no-print" data-ng-click="toggleMapEditable()" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><a data-ng-show="editableMap" class="btn btn-danger pull-right" data-ng-click="replacePolylineWithDefault()">{{\'DELETE_BORDER\' | translate}}</a> <a data-ng-show="editableMap" class="btn btn-primary" data-ng-click="saveMap(map)">{{\'SAVE_MAP\' | translate}}</a><ui-gmap-google-map center="map.center" style="display: block" zoom="map.zoom"><ui-gmap-marker coords="map.territoryCenterMarker.coords" idkey="map.territoryCenterMarker.id" options="map.territoryCenterMarker.options" events="map.territoryCenterMarker.events"></ui-gmap-marker><ui-gmap-polygon editable="editableMap" static="false" ng-repeat="p in map.polygons track by p.id" path="p.path" stroke="p.stroke" visible geodesic="p.geodesic" fill="p.fill" fit="false" draggable events="map.polygonEvents"></ui-gmap-polygon></ui-gmap-google-map></div>');
+    '<div data-ng-show="!territory"><h3>{{\'TERRITORY_NOT_FOUND\' | translate}}</h3></div><div class="row print-only"><div class="col-sm-12 col-print-12"><h3>{{territory.territoryCode || \'Alueen koodi puuttuu\'}} <span class="pull-right">{{territory.type}}</span></h3><pre style="white-space: pre-line; width: 100%">\n' +
+    '            {{territory.description}}\n' +
+    '        </pre><p ng-show="!!territory.apartmentCount">Alueen asuntojen yhteismäärä {{territory.apartmentCount}}</p></div></div><div class="row"><div class="col-sm-6 no-print"><div data-ng-show="territory"><form class="form-vertical" role="form" data-editable-form name="editableForm" data-onaftersave="saveTerritory()"><h3><span style="width: 100%" data-editable-text="territory.territoryCode" data-e-name="territory.territoryCode" data-e-required>{{territory.territoryCode}} <span data-ng-if="territory.archived">(arkistoitu)</span></span> <span class="pull-right" data-ng-show="!editableForm.$visible && user.admin"><a href="#" class="no-print" data-ng-click="editableForm.$show()" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h3><dl class="dl-horizontal no-print"><dt>{{\'HOLDER\' | translate}}</dt><dd><span data-editable-select="territory.holder.id" data-e-name="holder.id" data-e-ng-options="holder.id as holder.name for holder in holders | filter : onlyActiveHolders" data-e-required><a data-ui-sref="app.holder.single({id: territory.holder.id})">{{territory.holder.name}}</a></span></dd><dt>{{\'COVERED\' | translate}}</dt><dd><span data-editable-bsdate="territory.covered" data-e-ng-click="openPickers(\'coveredDateOpened\')" data-e-is-open="pickers.coveredDateOpened" data-e-datepicker-popup="dd.MM.yyyy" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-name="date"><a data-ng-class="isNotCoveredLimitExeeded(territory, app) ? \'bg-danger\' : \'\'" data-tooltip="{{territory.covered | amTimeAgo}}">{{(territory.covered | date : \'dd.MM.yyyy\') || \'Ei merkintää\'}}</a></span></dd><dt>{{\'TAKEN\' | translate}}</dt><dd><span data-editable-bsdate="territory.taken" data-e-ng-click="openPickers(\'takenDateOpened\')" data-e-is-open="pickers.takenDateOpened" data-e-datepicker-popup="dd.MM.yyyy" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-name="date"><a data-ng-class="isHolderNotChangedLimitExeeded(territory, app) ? \'bg-danger\' : \'\'" data-tooltip="{{territory.taken | amTimeAgo}}">{{(territory.taken | date : \'dd.MM.yyyy\') || \'Ei merkintää\'}}</a></span></dd><dt>{{\'TYPE\' | translate}}</dt><dd><span data-editable-text="territory.type" data-e-name="territory.type" data-e-required>{{territory.type}}</span></dd><dt>{{\'NUMBER_OF_APARTMENTS\' | translate}}</dt><dd><span data-editable-number="territory.apartmentCount" data-e-name="territory.apartmentCount" data-e-required>{{territory.apartmentCount}}</span></dd><dt>{{\'ARCHIVED\' | translate}}</dt><dd><span data-editable-checkbox="territory.archived" data-e-title="Alue ei ole enää käytössä?">{{territory.archived ? \'Kyllä\' : \'Ei\'}}</span></dd><dt>{{\'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED\' | translate}}</dt><dd><span data-editable-checkbox="territory.notCountedWhenCalculatingCoveredDuringLastYearTotal" data-e-title="{{\'NOT_COUNTED_WHEN_CALCULATING_POORLY_COVERED_2\' | translate}}"><a data-tooltip="Esimerkiksi puhelin- ja liikealueita ei yleensä lasketa vuoteen käymättömien alueiden joukkoon.">{{!territory.notCountedWhenCalculatingCoveredDuringLastYearTotal ? \'Kyllä\' : \'Ei\'}}</a></span></dd></dl><div class="no-print"><h4>{{\'Alueen kuvaus\' | translate}}</h4><pre style="white-space: pre-line" data-editable-textarea="territory.description" data-e-name="territory.description" data-e-required>{{territory.description}}</pre></div><div><div data-ng-show="editableForm.$visible"><button type="submit" class="btn btn-primary" data-ng-disabled="editableForm.$waiting">{{\'SAVE\' | translate}}</button> <button type="button" class="btn btn-default" data-ng-disabled="editableForm.$waiting" data-ng-click="editableForm.$cancel(); editableMap = false;">{{\'CANCEL\' | translate}}</button> <button type="button" class="btn btn-danger pull-right" data-ng-bootbox-title="Danger - Danger - Danger" data-ng-bootbox-custom-dialog="{{\'DELETING_TERRITORY\' | translate}} <strong>{{territory.territoryCode}}</strong>. {{\'ARE_YOU_SURE\' | translate}}" data-ng-bootbox-buttons="confirmButtonsDelete">{{\'DELETE\' | translate}}</button></div></div></form></div></div><div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length === 0"><h4>{{\'NO_HOLDER_HISTORY\' | translate}}</h4></div><div class="col-sm-6 no-print" data-ng-if="territory.territoryHolderHistory.length > 0"><h4>{{\'HISTORY\' | translate}} ({{territory.territoryHolderHistory.length}}) <span class="pull-right" data-ng-show="!deleteTerritoryHolderHistoryItemVisible && user.admin"><a href="#" class="no-print" data-ng-click="deleteTerritoryHolderHistoryItemVisible = true" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><table class="table table-condensed table-hover"><thead><tr><th class="col-xs-3">{{\'HOLDER\' | translate}}</th><th class="col-xs-2 text-nowrap">{{\'START_DATE\' | translate}}</th><th class="col-xs-2 text-nowrap">{{\'END_DATE\' | translate}}</th><th class="col-xs-4 text-nowrap">{{\'ADDITIONAL_INFO\' | translate}}</th><th class="col-xs-1 text-nowrap"></th></tr></thead><tbody data-ng-repeat="thh in territory.territoryHolderHistory"><tr><td><span data-ng-if="user.admin" data-editable-select="thh.holder" data-e-name="thh.holder.id" data-e-ng-options="holder.id as holder.name for holder in holders" data-e-required data-onaftersave="saveTerritoryHistoryItem(thh)">{{getHolderNameWithId(thh.holder)}}</span> <span data-ng-if="!user.admin"><a data-ui-sref="app.holder.single({id: thh.holder})">{{getHolderNameWithId(thh.holder)}}</a></span></td><td><span data-ng-if="user.admin" data-editable-bsdate="thh.startDate" data-e-ng-click="openPickers(\'thhStartDateOpened\')" data-e-is-open="pickers.thhStartDateOpened" data-e-datepicker-popup="dd.MM.yyyy" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-name="date" data-onaftersave="saveTerritoryHistoryItem(thh)">{{(thh.startDate | date : \'dd.MM.yyyy\') || \'Ei alkupäivää\'}}</span> <span data-ng-if="!user.admin">{{thh.startDate | date : \'dd.MM.yyyy\'}}</span></td><td><span data-ng-if="user.admin" data-editable-bsdate="thh.endDate" data-e-ng-click="openPickers(\'thhEndDateOpened\')" data-e-is-open="pickers.thhEndDateOpened" data-e-current-text="Tänään" data-e-clear-text="Tyhjennä" data-e-close-text="Ok" data-e-datepicker-popup="dd.MM.yyyy" data-onaftersave="saveTerritoryHistoryItem(thh)" data-e-name="date">{{(thh.endDate | date: \'dd.MM.yyyy\') || \'Ei loppupäivää\'}}</span> <span data-ng-if="!user.admin">{{thh.endDate | date: \'dd.MM.yyyy\'}}</span></td><td><span data-ng-if="user.admin" data-editable-text="thh.description" data-e-name="thh.description" data-onaftersave="saveTerritoryHistoryItem(thh)">{{thh.description || \'Ei kommenttia\'}}</span> <span data-ng-if="!user.admin">{{thh.description}}</span></td><td><a data-ng-show="deleteTerritoryHolderHistoryItemVisible" data-ng-click="setTerritoryHolderHistoryToBeDeleted(thh)" data-ng-bootbox-title="{{\'DELETING_TERRITORY_HISTORY_ROW\' | translate}}" data-ng-bootbox-custom-dialog="{{\'ARE_YOU_SURE\' | translate}}" data-ng-bootbox-buttons="confirmHistoryButtonsDelete"><span class="fa fa-trash fa-2x"></span></a></td></tr></tbody></table></div><div class="col-sm-6"><h4><span data-ng-if="territory.territoryLinkAttribute.length > 0">{{\'ATTRIBUTES\' | translate}} ({{territory.territoryLinkAttribute.length}})</span> <span data-ng-if="territory.territoryLinkAttribute.length === 0" class="no-print">{{\'NO_TERRITORY_ATTRIBUTES\' | translate}}</span> <span class="pull-right" data-ng-show="!deleteTerritoryLinkAttributeItemVisible && user.admin"><a href="#" class="no-print" data-ng-click="deleteTerritoryLinkAttributeItemVisible = true" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><table class="table table-condensed table-hover" data-ng-if="territory.territoryLinkAttribute.length > 0"><thead><tr><th class="col-xs-1"></th><th class="col-xs-3 text-nowrap">{{\'NAME\' | translate}}</th><th class="col-xs-7 text-nowrap">{{\'ATTRIBUTE_DESCRIPTION\' | translate}}</th><th class="col-xs-1 text-nowrap"></th></tr></thead><tbody data-ng-repeat="tla in territory.territoryLinkAttribute"><tr><td><span class="fa fa-{{getAttributeWithId(attributes, tla.attribute).icon}}"></span></td><td>{{getAttributeWithId(attributes, tla.attribute).name}}</td><td>{{getAttributeWithId(attributes, tla.attribute).description}}</td><td><a data-ng-show="deleteTerritoryLinkAttributeItemVisible" data-ng-click="setTerritoryLinkAttributeToBeDeleted(tla)" data-ng-bootbox-title="You are about to delete a territory attribute" data-ng-bootbox-custom-dialog="Are you sure about the territory attribute delete?" data-ng-bootbox-buttons="confirmAttributeButtonsDelete"><span class="fa fa-trash fa-2x"></span></a></td></tr></tbody></table><div data-ng-if="user.admin && deleteTerritoryLinkAttributeItemVisible"><div class="form-inline"><div class="form-group"><label for="newAttributeInput">{{\'ADD_ATTRIBUTE\' | translate}}</label><select id="newAttributeInput" class="form-control input-sm" ng-model="newAttribute" ng-options="a.name for a in attributes"></select></div><a class="btn btn-primary btn-sm" data-ng-click="addNewAttribute(newAttribute);">{{\'ADD\' | translate}}</a></div></div></div><div class="col-sm-6 no-print"><h4><span data-ng-if="territory.specialAddress.length > 0">Kieltopaikat ja vieraskieliset ({{territory.specialAddress.length}})</span> <span data-ng-if="territory.specialAddress.length === 0">Alueella ei ole kieltopaikkoja tai vieraskielisiä</span> <span class="pull-right" data-ng-show="!deleteSpecialAddressItemVisible && (user.admin || user.canAddSpecialAddresses)"><a href="#" class="no-print" data-ng-click="deleteSpecialAddressItemVisible = true" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><table class="table table-condensed table-hover" data-ng-if="territory.specialAddress.length > 0"><thead><tr><th class="col-xs-1 text-nowrap">Päiväys</th><th class="col-xs-4 text-nowrap">Nimi</th><th class="col-xs-5 text-nowrap">Osoite</th><th class="col-xs-1 text-nowrap">Tyyppi</th><th class="col-xs-1 text-nowrap"></th></tr></thead><tbody data-ng-repeat="sa in territory.specialAddress | filter : \'Kielto\'"><tr><td>{{sa.added | date : \'dd.MM.yyyy\'}}</td><td>{{sa.name}}</td><td>{{sa.address}}</td><td>{{sa.type}}</td><td><a data-ng-if="user.admin" data-ng-show="deleteSpecialAddressItemVisible" data-ng-click="setSpecialAddressToBeDeleted(sa)" data-ng-bootbox-title="Vahvista toiminto" data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?" data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"><span class="fa fa-trash"></span></a></td></tr></tbody><tbody data-ng-repeat="sa in territory.specialAddress | filter : \'Vierask\'"><tr><td>{{sa.added | date : \'dd.MM.yyyy\'}}</td><td>{{sa.name}}</td><td>{{sa.address}}</td><td>{{sa.type}}</td><td><a data-ng-show="deleteSpecialAddressItemVisible" data-ng-click="setSpecialAddressToBeDeleted(sa)" data-ng-bootbox-title="Vahvista toiminto" data-ng-bootbox-custom-dialog="Oletko varma että haluat poistaa merkinnän?" data-ng-bootbox-buttons="confirmSpecialAddressButtonsDelete"><span class="fa fa-trash"></span></a></td></tr></tbody></table><div data-ng-if="deleteSpecialAddressItemVisible"><div class="form-inline"><div class="form-group"><label>Nimi: <input class="form-control input-sm" minlength="3" required maxlength="40" data-ng-model="specialAddress.name"></label><label>Osoite: <input class="form-control input-sm" minlength="3" maxlength="100" required data-ng-model="specialAddress.address"></label><label>Tyyppi:<select class="form-control input-sm" data-ng-model="specialAddress.type"><option value="">-</option><option value="Kielto">Kieltopaikka</option><option value="Vierask">Vieraskielinen</option></select></label><button class="btn btn-primary btn-sm" data-ng-click="addSpecialAddress(specialAddress);" data-ng-disabled="!specialAddress.name || !specialAddress.address || specialAddress.type == \'\'">{{\'ADD\' | translate}}</button></div></div></div></div></div><div data-ng-if="territory" class="no-print"><h4>Kartta <span class="pull-right" data-ng-show="!editableMap && user.admin"><a href="#" class="no-print" data-ng-click="toggleMapEditable()" data-tooltip="{{\'EDIT\' | translate}}"><i class="fa fa-wrench"></i></a></span></h4><a data-ng-show="editableMap" class="btn btn-danger pull-right" data-ng-click="replacePolylineWithDefault()">{{\'DELETE_BORDER\' | translate}}</a> <a data-ng-show="editableMap" class="btn btn-primary" data-ng-click="saveMap(map)">{{\'SAVE_MAP\' | translate}}</a><ui-gmap-google-map center="map.center" style="display: block" zoom="map.zoom"><ui-gmap-marker coords="map.territoryCenterMarker.coords" idkey="map.territoryCenterMarker.id" options="map.territoryCenterMarker.options" events="map.territoryCenterMarker.events"></ui-gmap-marker><ui-gmap-polygon editable="editableMap" static="false" ng-repeat="p in map.polygons track by p.id" path="p.path" stroke="p.stroke" visible geodesic="p.geodesic" fill="p.fill" fit="false" draggable events="map.polygonEvents"></ui-gmap-polygon></ui-gmap-google-map></div><p class="no-print">{{"Voit tulostaa aluekartan painamalla Ctrl+P" | translate}}</p><div class="col-print-12 print-only territoryMap" style="page-break-before: always"><img ng-src="{{imgSrc}}" alt="Alueen kartta puuttuu"></div>');
 }]);
 })();
 
@@ -3414,6 +3000,7 @@ module.run(['$templateCache', function($templateCache) {
         $scope.user = UserService.user();
         $scope.app = _app[0];
         $scope.holders = _holders;
+        $scope.mapTypes = ["hybrid", "satellite", "roadmap", "terrain"];
 
         // If app is undefined, create one and reload.
         if(_app.length === 0) {
@@ -3429,6 +3016,10 @@ module.run(['$templateCache', function($templateCache) {
               holderNotChangedWarningLimit : 200,
               holderChangePreventedIfLimitExeeded : false,
               holderChangeToDefaultIfLimitExeeded : false,
+              printMapType: "hybrid",
+              printMapLineColor: "0x00FF0066",
+              printMapAreaFillColor: "0x00FF0022",
+              printMapScale: 1
             }
           )
           .then(
@@ -4289,1531 +3880,420 @@ module.run(['$templateCache', function($templateCache) {
 }());
 
 /**
- * This file contains all necessary Angular controller definitions for 'frontend.app.territory
-' module.
+ * Territory component to wrap all territory specified stuff together. This component is divided to following logical
+ * components:
  *
- * Note that this file should only contain controllers and nothing else.
+ *  Controllers
+ *  Models
+ *
+ * All of these are wrapped to 'frontend.app.territory' angular module.
  */
 (function() {
   'use strict';
 
-  // Controller for new territory creation.
+  // Define frontend.app.territory angular module
+  angular.module('frontend.app.territory', []);
+
+  // Module configuration
   angular.module('frontend.app.territory')
-    .controller('TerritoryAddController', [
-      '$scope', '$state', '$modalInstance',
-      'HolderModel', 
-      'CoordinateModel',
-      '_holders',
-      '_app',
-      'MessageService', 'TerritoryModel',
-      function controller(
-        $scope, $state, $modalInstance,
-        HolderModel, 
-        CoordinateModel,
-        _holders,
-        _app,
-        MessageService, TerritoryModel
-      ) {
-        $scope.holders = _holders;
-        $scope.app = _app[0];
+    .config([
+      '$stateProvider',
+      function config($stateProvider) {
+        $stateProvider
 
-        // Initialize territory model
-        var initModel = function() {
-          $scope.territory = {
-            name: '',
-            description: '',
-            type: '',
-            covered: new Date(),
-            taken: new Date()
-          };
-          $scope.selectedHolder = $scope.app.defaultHolder;
-        };
-        initModel();
-
-        // Dismiss function for modal
-        $scope.dismiss = function dismiss() {
-          $modalInstance.dismiss();
-        };
-
-        $scope.datePickerOpened = function datePickerOpened($event) {
-          if ($event) {
-              $event.preventDefault();
-              $event.stopPropagation(); // This is the magic
-          }
-        };
-
-        /**
-         * Scope function to store new territory to database. After successfully save user will be redirected
-         * to view that new created territory.
-         */
-        $scope.addTerritory = function addTerritory() {
-          var data = angular.copy($scope.territory);
-          if($scope.selectedHolder) {
-            data.holder = {id: $scope.selectedHolder};
-          } else {
-            data.holder = $scope.app.defaultHolder;
-          }
-          TerritoryModel
-            .create(data)
-            .then(
-              function onSuccess(value) {
-                if(value.status == 201) {
-                  MessageService.success('Uusi alue luotiin.');
-                  CoordinateModel
-                  .create({
-                    type:'center',
-                    latitude: $scope.map.territoryCenterMarker.coords.latitude,
-                    longitude: $scope.map.territoryCenterMarker.coords.longitude
-                  })
-                  .then(
-                    function onSuccess(response) {
+          // Territorys list
+          .state('app.territory', {
+            url: '/app/territory',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/territory/list.html',
+                controller: 'TerritoryListController',
+                name: 'Aluelistaus',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
                       TerritoryModel
-                      .update(value.data.id, { center : response.data.id })
-                      .then(
-                        function onSuccess() {
-                          MessageService.success('Alueen "' + value.data.territoryCode + '" keskikohta asetettiin.');
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
+                        limit: config.itemsPerPage,
+                        sort: 'territoryCode ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+                      return HolderModel.load({
+                        where: {
+                          isArchived:false
+                        },
+                        sort: 'name ASC'
+                      });
+                    }
+                  ],
+                  _attributes: [
+                    '$stateParams',
+                    'AttributeModel',
+                    function resolve(
+                      $stateParams,
+                      AttributeModel
+                    ) {
+                      return AttributeModel.load();
+                    }
+                  ],
+                  _count: [
+                    'TerritoryModel',
+                    function resolve(TerritoryModel) {
+                      return TerritoryModel.count();
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          // S-13
+          .state('app.territory.s13', {
+            url: '/s13',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/territory/s13.html',
+                controller: 'TerritoryS13Controller',
+                name: 'S13-lomake',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['holder', 'territoryHolderHistory'],
+                        limit: 999,
+                        sort: 'territoryCode ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+
+                      // Load all holders, later add isActive param.
+                      return HolderModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          // Stats
+          .state('app.territory.stats', {
+            url: '/stats',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/territory/stats.html',
+                controller: 'TerritoryStatsController',
+                name: 'Tilastot',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['territoryHolderHistory'],
+                        limit: 999,
+                        sort: 'territoryCode ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ],
+                  _stats: [
+                    '$stateParams',
+                    'StatModel',
+                    function resolve(
+                      $stateParams,
+                      StatModel
+                    ) {
+                      return StatModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          // Map
+          .state('app.territory.map', {
+            url: '/map',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/territory/map.html',
+                controller: 'TerritoryMapController',
+                name: 'Kartta',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['holder', 'center'],
+                        limit: 999,
+                        sort: 'name ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+                      return HolderModel.load();
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          // Map
+          .state('app.territory.quickview', {
+            url: '/quickview',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/territory/quickview.html',
+                controller: 'TerritoryQuickViewController',
+                name: 'Pikatarkastelu',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'TerritoryModel',
+                    function resolve(
+                      ListConfig,
+                      TerritoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        populate: ['holder', 'center'],
+                        sort: 'name ASC'
+                      };
+
+                      return TerritoryModel.load(parameters);
+                    }
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+                      return HolderModel.load();
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          .state("app.territory.add", {
+              url: "/add",
+              data: {
+                access: 2
+              },
+              onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                  $modal.open({
+                      templateUrl: '/frontend/app/territory/add.html',
+                      resolve: {
+                        _holders: [
+                          'HolderModel',
+                          function resolve(
+                            HolderModel
+                          ) {
+                            return HolderModel.load({
+                              where: {
+                                isArchived: false
+                              },
+                              sort: 'name ASC'
+                            });
+                          }
+                        ],
+                        _app: [
+                          'AppModel',
+                          function resolve(
+                            AppModel
+                          ) {
+                            return AppModel.load();
+                          }
+                        ]
+                      },
+                      controller: 'TerritoryAddController',
+                      name: 'Uusi alue',
+                      }).result.finally(function() {
+                        $state.go('^');
+                  });
+              }]
+          })
+
+          // Single territory
+          .state('app.territory.single', {
+            url: '/:id',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/app/territory/territory.html',
+                controller: 'TerritoryController',
+                name: 'Alueen tiedot',
+                resolve: {
+                  _territory: [
+                    '$stateParams',
+                    'TerritoryModel',
+                    function resolve(
+                      $stateParams,
+                      TerritoryModel
+                    ) {
+                      return TerritoryModel.fetch(
+                        $stateParams.id, 
+                        {
+                          populate: [
+                            'holder', 
+                            'territoryHolderHistory', 
+                            'center', 
+                            'coordinates', 
+                            'territoryLinkAttribute',
+                            'specialAddress'
+                          ]
                         }
                       );
                     }
-                  );
-
-                } else {
-                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
-                }
-                $state.go($state.current, {reload: true});
-                initModel();
-              }
-            )
-          ;
-        };
-
-        // Describe the map.
-        $scope.map = { 
-          center: { latitude: $scope.app.defaultLatitude || 61, longitude: $scope.app.defaultLongitude || 23},
-          zoom: 13, 
-          territoryCenterMarker : { 
-            id: 0,
-            options: {
-              draggable: true
-            },
-            coords: { latitude: $scope.app.defaultLatitude || 61, longitude: $scope.app.defaultLongitude || 23},
-            events: {
-              dragend: function () {
-                $scope.map.territoryCenterMarker.options = {
-                  draggable: true,
-                  labelContent: 'lat: ' + $scope.map.territoryCenterMarker.coords.latitude + ' ' + 'lon: ' + $scope.map.territoryCenterMarker.coords.longitude,
-                  labelAnchor: '100 0',
-                  labelClass: 'marker-labels'
-                };
-              }
-            }
-          }
-        };
-      }
-    ])
-  ;
-
-  // Controller to show single territory on GUI.
-  angular.module('frontend.app.territory')
-    .controller('TerritoryController', [
-      '$scope', '$state', '_', '$timeout',
-      'UserService', 'MessageService',
-      'TerritoryModel', 'HolderModel', 'SpecialAddressModel',
-      '_territory', '_holders', '_app', '_attributes',
-      'TerritoryHolderHistoryModel',
-      'TerritoryLinkAttributeModel',
-      'TerritoryHelper',
-      'CoordinateModel', 'uiGmapGoogleMapApi',
-      function controller(
-        $scope, $state, _, $timeout,
-        UserService, MessageService,
-        TerritoryModel, HolderModel, SpecialAddressModel,
-        _territory, _holders, _app, _attributes,
-        TerritoryHolderHistoryModel,
-        TerritoryLinkAttributeModel,
-        TerritoryHelper,
-        CoordinateModel, uiGmapGoogleMapApi
-      ) {
-        // Set current scope reference to models
-        TerritoryModel.setScope($scope, 'territory');
-        HolderModel.setScope($scope, false, 'holders', 'holdersCount');
-
-        // Expose necessary data to the scope.
-        $scope.user = UserService.user();
-        _territory.territoryHolderHistory = _.sortBy(_territory.territoryHolderHistory, function(i) {
-            if(!i.startDate) {
-                return 0;
-            }
-            return Date.parse(i.startDate);
-        });
-        _attributes = _.sortBy(_attributes, function(i) {
-            if(!i.name) {
-                return 0;
-            }
-            return i.name;
-        });
-
-        $scope.territory = angular.copy(_territory);
-        $scope.holders = _holders;
-        $scope.attributes = _attributes;
-        $scope.app = _app[0];
-
-        $scope.pickers = {};
-
-        $scope.pickers.thhEndDateOpened = false;
-        $scope.pickers.thhStartDateOpened = false;
-        $scope.pickers.coveredDateOpened = false;
-        $scope.pickers.takenDateOpened = false;
-
-        $scope.openPickers = function openPickers(key) {
-          $timeout(function() {
-            $scope.pickers[key] = true;
-          });
-        };
-        
-        $scope.closePickers = function closePickers(key) {
-          $timeout(function() {
-            $scope.pickers[key] = true;
-          });
-        };
-
-        $scope.isNotCoveredLimitExeeded = function(territory, app) {
-          return TerritoryHelper.isNotCoveredRecently(territory, app);
-        };
-
-        $scope.isHolderNotChangedLimitExeeded = function(territory, app) {
-          return TerritoryHelper.isHolderNotChangedLimitExeeded(territory, app);
-        };
-
-
-        // Create Google Map settings for showing the center and border of the territory.
-        // Copy the border path from territory.
-        var path = [];
-        var sortedCoordinates = _.sortBy(_territory.coordinates, "order")
-        _.each(sortedCoordinates, function(c) {
-          path.push(c);
-        });
-
-        // Describe the map.
-        $scope.map = { 
-          center: $scope.territory.center || { latitude: $scope.app.defaultLatitude, longitude: $scope.app.defaultLongitude},
-          zoom: 16, 
-          territoryCenterMarker : { 
-            id: $scope.territory.center ? $scope.territory.center.id : 0,
-            options: {
-              draggable: false
-            },
-            coords: $scope.territory.center || { latitude: $scope.app.defaultLatitude, longitude: $scope.app.defaultLongitude},
-            events: {
-              dragend: function () {
-                $scope.map.territoryCenterMarker.options = {
-                  draggable: true,
-                  labelContent: 'lat: ' + $scope.map.territoryCenterMarker.coords.latitude + ' ' + 'lon: ' + $scope.map.territoryCenterMarker.coords.longitude,
-                  labelAnchor: '100 0',
-                  labelClass: 'marker-labels'
-                };
-              }
-            }
-          },
-
-          // Create a polygon from coordinate array attached to the territory.
-          polygons: [
-            {
-              id: 1,
-              path: path,
-              stroke: {
-                color: '#33CDDC',
-                weight: 3
-              },
-              editable: true,
-              draggable: false,
-              geodesic: true,
-              visible: true,
-              fill: {
-                color: '#33CCCC',
-                opacity: 0.2
-              },
-            }
-          ]
-        };
-
-        // Toggle the map status to be editable.
-        $scope.editableMap = false;
-        $scope.toggleMapEditable = function makeMapEditable() {
-          $timeout(function() {
-            $scope.editableMap = !$scope.editableMap;
-            $scope.map.territoryCenterMarker.options.draggable = !$scope.map.territoryCenterMarker.options.draggable;
-          });
-        };
-
-        // Replace the polyline with a new one with calculated coordinates.
-        $scope.replacePolylineWithDefault = function replacePolylineWithDefault() {
-          
-          // Delete All
-          deletePolylineCoordinates(angular.copy($scope.territory.coordinates));
-
-          // Create simple rectangle          
-          $scope.map.polygons[0].path = [];
-          $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude + 0.0005,
-            longitude: $scope.map.center.longitude + 0.0005,
-            order: $scope.map.polygons[0].path.length
-          });
-          $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude + 0.0005,
-            longitude: $scope.map.center.longitude - 0.0005,
-            order: $scope.map.polygons[0].path.length            
-          });
-          $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude - 0.0005,
-            longitude: $scope.map.center.longitude - 0.0005,
-            order: $scope.map.polygons[0].path.length     
-          });
-          $scope.map.polygons[0].path.push({
-            latitude: $scope.map.center.latitude - 0.0005,
-            longitude: $scope.map.center.longitude + 0.0005,
-            order: $scope.map.polygons[0].path.length     
-          });
-
-          // Save to the backend.
-          $scope.saveMap($scope.map);
-        };
-
-        // Delete set of coordinates with ids;
-        var deletePolylineCoordinates = function deletePolylineCoordinates(polyline) {
-          var promises = [];
-          _.each(polyline, function(p){
-            if(p.id) {
-              promises.push(CoordinateModel.delete(p.id));
-            }
-          });
-          Promise.all(promises).then(function(values) {
-            MessageService.success("Alueen kartta nollattiin.");
-          });
-        };
-
-        // Save the map to the backend.
-        $scope.saveMap = function saveMap() {
-
-          // Save the marker either by updating or creating a new one.
-          var coords = {
-            latitude: $scope.map.territoryCenterMarker.coords.latitude,
-            longitude: $scope.map.territoryCenterMarker.coords.longitude,
-            type: 'center',
-            order: 0
-          }
-
-          var promises = [];
-
-          if($scope.map.territoryCenterMarker && 
-            $scope.map.territoryCenterMarker.id && 
-            $scope.map.territoryCenterMarker.id !== 0) {
-            promises.push(
-              CoordinateModel
-              .update($scope.map.territoryCenterMarker.id, coords)
-            );
-          } else {
-            promises.push(
-              CoordinateModel
-              .create(coords)
-              .then(function onSuccess(response){
-                TerritoryModel
-                  .update($scope.territory.id, { center : response.data.id })
-                  .then(
-                    function onSuccess() {
-                      MessageService.success('Alueen "' + $scope.territory.territoryCode + '" keskikohta päivitettiin.');
+                  ],
+                  _attributes: [
+                    '$stateParams',
+                    'AttributeModel',
+                    function resolve(
+                      $stateParams,
+                      AttributeModel
+                    ) {
+                      return AttributeModel.load();
                     }
-                  )
-                ;
-              })
-            );
-          }
-
-          // Save the polyline.
-          if($scope.map.polygons[0]) {
-
-            // Convert coordinates to backend compatible form.
-            var path = [];
-            var oldPathIds = [];
-            _.each($scope.map.polygons[0].path, function(p, index) {
-              path.push({
-                type: 'border',
-                territory: $scope.territory.id,
-                latitude: p.latitude,
-                longitude: p.longitude,
-                order: index
-              });
-              if(p.id) {
-                oldPathIds.push(p.id);
-              }
-            });
-            _.each(oldPathIds, function(oldId){
-              promises.push(
-                CoordinateModel.delete(oldId)
-              );
-            });
-            _.each(path, function(p){
-              promises.push(
-                CoordinateModel.create(p)
-              );
-            });
-          }
-          Promise.all(promises).then(function(values) {
-            MessageService.success("Alueen kartta päivitettiin.");
-            $scope.toggleMapEditable();
-            $state.go($state.current, {id: _territory.id}, {reload: true});
-          });
-        };
-
-        $scope.saveTerritoryHistory = function saveTerritoryHistory() {
-          _.each($scope.territory.territoryHolderHistory, function(thh) {
-            $scope.saveTerritoryHistoryItem(thh);
-          });
-          $timeout(function() {
-              $state.go($state.current, {id: _territory.id}, {reload: true});
-          }, 2000);
-        };
-
-        $scope.onlyActiveHolders = function onlyActiveHolders(holder) {
-          return holder.isArchived ? false : true;
-        };
-
-        $scope.saveTerritoryHistoryItem = function saveTerritoryHistoryItem(historyItem) {
-          TerritoryHolderHistoryModel
-          .update(historyItem.id, {
-            startDate: historyItem.startDate,
-            endDate: historyItem.endDate,
-            description: historyItem.description,
-            holder: historyItem.holder
-          })            
-          .then(
-            function onSuccess(value) {
-              if(value.status == 200) {
-                MessageService.success('Aluehistoriatieto päivitettiin.');
-              } else {
-                MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
-              }
-            }
-          );
-        };
-
-        var territoryHolderHistoryItemToBeDeletedId = null;
-        $scope.setTerritoryHolderHistoryToBeDeleted = function setTerritoryHolderHistoryToBeDeleted(historyItem) {
-          territoryHolderHistoryItemToBeDeletedId = historyItem.id;
-        };
-
-        // Territory delete dialog buttons configuration
-        $scope.confirmHistoryButtonsDelete = {
-          ok: {
-            label: 'Poista',
-            className: 'btn-danger',
-            callback: function callback() {
-              TerritoryHolderHistoryModel
-              .delete(territoryHolderHistoryItemToBeDeletedId)            
-              .then(
-                function onSuccess() {
-                  MessageService.success('Aluehistoriatieto poistettiin.');
-                  territoryHolderHistoryItemToBeDeletedId = null;
-                  $scope.deleteTerritoryHolderHistoryItemVisible = false;
-                  $state.go($state.current, {id: _territory.id}, {reload: true});
-                }
-              );
-            }
-          },
-          cancel: {
-            label: 'Peruuta',
-            className: 'btn-default pull-left',
-            callback: function callback() {
-              territoryHolderHistoryItemToBeDeletedId = null;
-            }
-          }
-        };
-
-        // Territory delete dialog buttons configuration
-        $scope.confirmButtonsDelete = {
-          ok: {
-            label: 'Poista',
-            className: 'btn-danger',
-            callback: function callback() {
-              $scope.deleteTerritory();
-            }
-          },
-          cancel: {
-            label: 'Peruuta',
-            className: 'btn-default pull-left'
-          }
-        };
-
-        // Scope function to save modified territory.
-        $scope.saveTerritory = function saveTerritory() {
-          var data = angular.copy($scope.territory);
-
-          data.holder = data.holder.id || $scope.app.defaultHolder;
-
-          // Add holder history item
-          if(!_territory.holder || data.holder !== _territory.holder.id) {
-            var now = new Date();
-
-            // Update the last row with end time
-            if(
-              data.territoryHolderHistory && 
-              data.territoryHolderHistory.length > 0 && 
-              !_.last(data.territoryHolderHistory).endTime
-            ) {
-              TerritoryHolderHistoryModel
-              .update(
-                _.last(data.territoryHolderHistory).id,
-                {
-                  endDate: now
-                }
-              );
-            }
-
-            // If the new holder is not default holder, add new row.
-            if(data.holder !== $scope.app.defaultHolder) {
-              var holderHistoryData = {
-                startDate: now,
-                holder: data.holder,
-                territory: data.id
-              };
-
-              TerritoryHolderHistoryModel
-                .create(holderHistoryData)
-                .then(
-                  function onSuccess(value) {
-                    if(value.status == 201) {
-                      MessageService.success('Aluehistoriatieto alueelle "' + $scope.territory.territoryCode + '" luotiin.');
-                    } else {
-                      MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                  ],
+                  _holders: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+                      return HolderModel.load({
+                        sort: 'name ASC'
+                      });
                     }
-                  }
-                )
-              ;  
-            }          
-          }
-
-          // Remove populated data as update operation may mess it up.
-          delete data.territoryHolderHistory;
-          delete data.specialAddress;
-          delete data.center;
-          delete data.coordinates;
-          delete data.territoryLinkAttribute;
-
-          // Make territory data update
-          TerritoryModel
-            .update(data.id, data)
-            .then(
-              function onSuccess(value) {
-                if(value.status == 200) {
-                  MessageService.success('Alue "' + $scope.territory.territoryCode + '" päivitettiin.');
-                } else {
-                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                  ],
+                  _holdersCount: [
+                    '$stateParams',
+                    'HolderModel',
+                    function resolve(
+                      $stateParams,
+                      HolderModel
+                    ) {
+                      return HolderModel.count({territory: $stateParams.id});
+                    }
+                  ],
+                  _app: [
+                    '$stateParams',
+                    'AppModel',
+                    function resolve(
+                      $stateParams,
+                      AppModel
+                    ) {
+                      return AppModel.load();
+                    }
+                  ]
                 }
-                $state.go($state.current, {id: _territory.id}, {reload: true});
               }
-            )
-          ;
-
-        };
-
-        // Scope function to delete territory
-
-        $scope.deleteTerritory = function deleteTerritory() {
-          TerritoryModel
-            .delete($scope.territory.id)
-            .then(
-              function onSuccess() {
-                MessageService.success('Alue "' + $scope.territory.territoryCode + '" poistettiin.');
-
-                $state.go('app.territory');
-              }
-            )
-          ;
-        };
-
-        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
-          return  _.result(
-              _.find(_holders, function(h) {
-                return h.id === holderId;
-              }), 
-              'name'
-            );
-        };
-
-        $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
-          return _.find(attributes, function(a) {
-            return a.id === id;
-          });
-        };
-
-        $scope.addNewAttribute = function addNewAttribute(attribute) {
-          TerritoryLinkAttributeModel.create({
-            attribute: attribute.id,
-            territory: _territory.id
-          })
-          .then(function onSuccess(){
-            MessageService.success('Attribuutti "' + attribute.name + '" lisättiin.');
-            $scope.deleteTerritoryLinkAttributeItemVisible = false;
-            $state.go($state.current, {id: _territory.id}, {reload: true});
-          });
-        };
-
-        var specialAddressToBeDeletedId = null;
-        $scope.setSpecialAddressToBeDeleted = function setSpecialAddressToBeDeleted(item) {
-          specialAddressToBeDeletedId = item.id;
-        };
-
-        var territoryLinkAttributeItemToBeDeletedId = null;
-        $scope.setTerritoryLinkAttributeToBeDeleted = function setTerritoryLinkAttributeToBeDeleted(item) {
-          territoryLinkAttributeItemToBeDeletedId = item.id;
-        };
-
-        $scope.addSpecialAddress = function addSpecialAddress(specialAddress) {
-          specialAddress.territory = _territory.id;
-          specialAddress.added = new Date();
-          SpecialAddressModel.create(specialAddress)
-          .then(function onSuccess(){
-            MessageService.success('Merkintä kieltopaikasta tai vieraskielisestä osoitteesta lisättiin.');
-            $scope.deleteSpecialAddressItemVisible = false;
-            $state.go($state.current, {id: _territory.id}, {reload: true});
-          });
-        };
-
-        $scope.confirmSpecialAddressButtonsDelete = {
-          ok: {
-            label: 'Poista',
-            className: 'btn-danger',
-            callback: function callback() {
-              SpecialAddressModel
-              .delete(specialAddressToBeDeletedId)            
-              .then(
-                function onSuccess() {
-                  MessageService.success('Merkintä poistettiin');
-                  specialAddressToBeDeletedId = null;
-                  $scope.deleteSpecialAddressItemVisible = false;
-                  $state.go($state.current, {id: _territory.id}, {reload: true});
-                }
-              );
-            }
-          },
-          cancel: {
-            label: 'Peruuta',
-            className: 'btn-default pull-left',
-            callback: function callback() {
-              specialAddressToBeDeletedId = null;
-            }
-          }
-        };
-
-        // Territory delete dialog buttons configuration
-        $scope.confirmAttributeButtonsDelete = {
-          ok: {
-            label: 'Delete',
-            className: 'btn-danger',
-            callback: function callback() {
-              TerritoryLinkAttributeModel
-              .delete(territoryLinkAttributeItemToBeDeletedId)            
-              .then(
-                function onSuccess() {
-                  MessageService.success('Attribuutti poistettiin');
-                  territoryLinkAttributeItemToBeDeletedId = null;
-                  $scope.deleteTerritoryLinkAttributeItemVisible = false;
-                  $state.go($state.current, {id: _territory.id}, {reload: true});
-                }
-              );
-            }
-          },
-          cancel: {
-            label: 'Cancel',
-            className: 'btn-default pull-left',
-            callback: function callback() {
-              territoryLinkAttributeItemToBeDeletedId = null;
-            }
-          }
-        };
-      }
-    ])
-  ;
-
-  // Controller which contains all necessary logic for territory list GUI on boilerplate application.
-  angular.module('frontend.app.territory')
-    .controller('TerritoryListController', [
-      '$scope', '$q', '$timeout',
-      '$ngBootbox',
-      '_',
-      'ListConfig',
-      'TerritoryHelper',
-      'MessageService',
-      'MailService',
-      'TerritoryLinkAttributeModel',
-      'TerritoryHolderHistoryModel',
-      'SocketHelperService', 'UserService', 'TerritoryModel',
-      '_items', '_count', '_holders', '_app', '_attributes',
-      function controller(
-        $scope, $q, $timeout,
-        $ngBootbox,
-        _,
-        ListConfig,
-        TerritoryHelper,
-        MessageService,
-        MailService,
-        TerritoryLinkAttributeModel,
-        TerritoryHolderHistoryModel,
-        SocketHelperService, UserService, TerritoryModel,
-        _items, _count, _holders, _app, _attributes
-      ) {
-        // Set current scope reference to model
-        TerritoryModel.setScope($scope, false, 'items', 'itemCount');
-
-        // Add default list configuration variable to current scope
-        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
-
-        // Set initial data
-        $scope.items = _items;
-        $scope.holders = _holders;
-        $scope.attributes = _attributes;
-        $scope.app = _app[0];
-        $scope.itemCount = _count.count;
-        $scope.user = UserService.user();
-
-        // Initialize used title items
-        $scope.titleItems = ListConfig.getTitleItems(TerritoryModel.endpoint);
-
-        // Initialize default sort data
-        $scope.sort = {
-          column: 'territoryCode',
-          direction: true
-        };
-
-        // Initialize filters
-        $scope.filters = {
-          searchWord: '',
-          columns: $scope.titleItems
-        };
-
-        $scope.getLastTerritoryHolderHistory = function getLastTerritoryHolderHistory(territory) {
-          territory.territoryHolderHistory = _.sortBy(territory.territoryHolderHistory, function(i) {
-              if(!i.startDate) {
-                  return 0;
-              }
-              return Date.parse(i.startDate);
-          });
-          return _.last(territory.territoryHolderHistory);
-        };
-
-        $scope.addAttributeLink = function addAttributeLink(territory, attributeId) {
-          TerritoryLinkAttributeModel.create({
-            territory: territory.id,
-            attribute: attributeId
-          }).then(function(value){
-            if(value.status == 201) {
-              MessageService.success("Attribuutti lisättiin alueelle " + territory.territoryCode);
-            } else {
-              MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
-            }
-            _fetchData();
-          });
-        };
-
-        $scope.updateApartmentCount = function updateApartmentCount(territory, newCount) {
-          TerritoryModel.update(territory.id, 
-            {
-              apartmentCount : newCount
-            }
-          ).then(function(value){
-            if(value.status == 200) {
-              MessageService.success("Päivitettiin alueen " + territory.territoryCode + " asuntojen lukumäärä.");
-            } else {
-              MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
-            }
-            _fetchData();
-          });
-        };
-
-        // Check if backup should be suggested
-        var updateBackupSuggestion = function updateBackupSuggestion() {
-          var lastBackup = new Date($scope.app.lastBackup);
-          var now = new Date();
-          $scope.suggestBackup = false;
-          if(now.getTime() - lastBackup.getTime() > $scope.app.backupInterval * 24 * 60 * 60 * 1000) {
-            $scope.suggestBackup = true;
-          }
-        };
-        $timeout(updateBackupSuggestion, 50);
-
-        $scope.runBackup = function runBackup() {
-          MailService.backup().then(function() {
-            MessageService.success('Tiedot varmuuskopioitiin.');
-            updateBackupSuggestion();
-          });
-        };
-
-        var updateMailCount = function updateMailCount() {
-          MailService.count().then(function(data) {
-            $scope.mails = data.data;
-            $scope.mailsTotal = data.data.new_territory_taken_emails + data.data.territory_removed_emails + data.data.not_covered_territory_emails;
-          });
-        };
-        $timeout(updateMailCount, 50);
-
-        $scope.sendNotificationEmails = function sendNotificationEmails() {
-          MailService.send(null).then(function(data) {
-            console.log(data);
-            MessageService.success('Sähköpostiviestit lähetettiin.');
-            updateMailCount();
-          });
-        };
-
-        // Initialize checked rows data.
-        $scope.onlyCheckedTerritories = function onlyCheckedTerritories(territory) {
-          return territory.checked;
-        };
-
-        $scope.onlyActiveHolders = function onlyActiveHolders(holder) {
-          return holder.isArchived ? false : true;
-        };
-
-        // Filter applies when the user is limited to one holder only
-        $scope.onlyAllowedHolders = function onlyAllowedHolders(holder) {
-          if($scope.user.holder && holder.id !== $scope.user.holder && !$scope.isDefaultHolder(holder.id)) {
-            return false;
-          }
-          return true;
-        };
-
-        $scope.isDefaultHolder = function isDefaultHolder(holderId) {
-          return holderId === $scope.app.defaultHolder;
-        };
-
-        $scope.selectedHolder = $scope.app.defaultHolder;
-
-        // Callback that is evaluated when user toggles a territory checkbox.
-        $scope.selectedTerritoryHolderId = null;
-        $scope.territoryChecked = function territoryChecked(territory, territories) {
-          $scope.territoryOperationChange();
-          $scope.selectedTerritoryHolderId = territory.holder.id;
-
-          // When default holder is selected only operation 3 is possible
-          // Otherwise no operation is checked, to prevent mistakes.
-          if($scope.isDefaultHolder(territory.holder.id)) {
-            $scope.operation = "3";
-          } else {
-            $scope.operation = null;
-          }
-
-          // Check if this was last unchecked
-          var atLeastOneIsChecked = false;
-          _.each(territories, function(t) {
-            if(t.checked === true) {
-              atLeastOneIsChecked = true;
-            }
-          });
-          if(!atLeastOneIsChecked) {
-            $scope.selectedTerritoryHolderId = null;
-          }
-        };
-
-        $scope.removeSearchWord = function removeSearchWord(word, index) {
-          var words = word.split(' ');
-          words.splice(index, 1);
-          $scope.filters.searchWord = words.join(' ');
-        }
-
-        $scope.clearSelected = function clearSelected(territories) {
-          _.each(territories, function(t) {
-            t.checked = false;
-          });
-          $scope.isCollapsed = true;
-          $scope.isAllCollapsed = false;
-          $scope.selectedTerritoryHolderId = null;
-        };
-
-        $scope.getHolderNameWithId = function getHolderWithId(holders, id) {
-          if(holders && id) {
-            var result = _.find(holders, function(a) {
-              return a.id === id;
-            });
-            return result.name;
-          }
-          return '';
-        };
-
-        $scope.getAttributeWithId = function getAttributeNameWithId(attributes, id) {
-          if(attributes && id) {
-            var result = _.find(attributes, function(a) {
-              return a.id === id;
-            });
-            return result;
-          }
-          return null;
-        };
-
-        $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
-          return _.find(attributes, function(a) {
-            return a.id === id;
-          });
-        };
-
-        $scope.territoryOperationChange = function territoryOperationChange(operation) {
-          $scope.selectedHolder = $scope.app.defaultHolder;
-        };
-
-        // Filter disables all territories that have different holder than the
-        // initial selection. It also disables territories if the user has limited
-        // user right to territories.
-        $scope.selectionDisabledFilter = function(territory) {
-          if(territory.archived) {
-            return true;
-          }
-          if($scope.selectedTerritoryHolderId !== null && $scope.selectedTerritoryHolderId == territory.holder.id) {
-            if($scope.user.holder 
-              && territory.holder.id !== $scope.app.defaultHolder 
-              && territory.holder.id !== $scope.user.holder) {
-              return true;
-            }
-            return false;
-          } else if ($scope.selectedTerritoryHolderId === null) {
-            if($scope.user.holder 
-              && territory.holder.id !== $scope.app.defaultHolder 
-              && territory.holder.id !== $scope.user.holder) {
-              return true;
-            }
-            return false;
-          } else {
-            return true;
-          }
-        };
-
-        // Makes necessary update and create operations for changed territory history.
-        var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {
-
-          var p = [];
-
-          // If the holder change was anything else but return to the default
-          // holder, add also row into history.
-          if(newHolderId !== $scope.app.defaultHolder) {
-            p.push(
-              TerritoryHolderHistoryModel
-              .create(
-                {
-                  startDate: new Date(),
-                  holder: newHolderId,
-                  territory: territory.id,
-                  description: comment
-                }
-              )
-              .then(function(value) {
-                if(value.status != 201) {
-                  MessageService.error("Aluehistoriatiedon lisäys epäonnistui alueelle " + territory.territoryCode);
-                }
-              })
-            );
-          }
-
-          // If there was a row in history, update the end time if it is not already defined.
-          if(
-            territory.territoryHolderHistory && 
-            territory.territoryHolderHistory.length > 0 && 
-            !_.last(territory.territoryHolderHistory).endTime
-          ) {
-            p.push(
-              TerritoryHolderHistoryModel
-              .update(
-                _.last(territory.territoryHolderHistory).id,
-                {
-                  endDate: new Date()
-                }
-              )
-              .then(function(value) {
-                if(value.status != 200) {
-                  MessageService.error("Aluehistoriatiedon muutos epäonnistui alueelle " + territory.territoryCode);
-                }
-              })
-            );
-          }
-
-          return p;
-        };
-
-        $scope.markTerritoriesAsCovered = function markTerritoriesAsCovered(territories, comment) {
-          var p = [];
-          _.each(territories, function(t) {
-            p.push(
-              TerritoryModel
-              .update(t.id, 
-                {
-                  covered: new Date()
-                }
-              )
-            );
-            makeHolderHistoryUpdate(t, comment, t.holder.id);
-          });
-          handleTerritoryChangePromises(p);
-
-        };
-
-        $scope.changeHolder = function changeHolder(territories, markAsCovered, newHolderId, comment) {
-          var errorSelection = false;
-          _.each(territories, function(t) {
-            if(t.holder && t.holder.id == newHolderId) {
-              MessageService.error('Yksi valituista alueista, ' + t.territoryCode + ', on jo merkitty tälle omistajalle.');
-              errorSelection = true;
-            }
-          });
-          if(errorSelection) {
-            return;
-          }
-          var p = [];
-          _.each(territories, function(t) {
-            if(!t.holder || (t.holder != newHolderId && t.holder.id != newHolderId)) {
-              var data = {
-                taken: new Date(),
-                holder: newHolderId
-              };
-              if(markAsCovered) {
-                data.covered = new Date();
-              }
-              p.push(
-                TerritoryModel
-                .update(t.id, data)
-              );
-
-              makeHolderHistoryUpdate(t, comment, newHolderId);
-            }
-          });
-          handleTerritoryChangePromises(p);
-        };
-
-        var handleTerritoryChangePromises = function handleTerritoryChangePromises(p) {
-          Promise.all(p).then(function(values) {
-            var msgPrefixSuccess = "Muutettiin alueita: ";
-            var msgPrefixFailed = "Muutos ei onnistunut alueille: ";
-            var msg = "";
-            _.each(values, function(v){
-              if(v.status == 200) {
-                msg += v.data.territoryCode + " ";
-              }
-            });
-            if(msg.length > 0) {
-              MessageService.success(msgPrefixSuccess + msg);
-            }
-            var msg2 = ""
-            _.each(values, function(v){
-              if(v.status != 200) {
-                msg2 += v.data.territoryCode + " ";
-              }
-            });
-            if(msg2.length > 0) {
-              MessageService.error(msgPrefixFailed + msg2);
-            }
-          });
-          $scope.isCollapsed = true;
-          $scope.isAllCollapsed = false;
-          $scope.selectedTerritoryHolderId = null;
-          updateMailCount();
-          _fetchData();
-        };
-
-        $scope.isNotCoveredLimitExeeded = function(territory, app) {
-          return TerritoryHelper.isNotCoveredRecently(territory, app);
-        };
-
-        $scope.isHolderNotChangedLimitExeeded = function(territory, app) {
-          return TerritoryHelper.isHolderNotChangedLimitExeeded(territory, app);
-        };
-
-        // Function to change sort column / direction on list
-        $scope.changeSort = function changeSort(item) {
-          var sort = $scope.sort;
-
-          if (sort.column === item.column) {
-            sort.direction = !sort.direction;
-          } else {
-            sort.column = item.column;
-            sort.direction = true;
-          }
-
-          _triggerFetchData();
-        };
-
-        /**
-         * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch territory data
-         * from server.
-         */
-        $scope.$watch('currentPage', function watcher(valueNew, valueOld) {
-          if (valueNew !== valueOld) {
-            _fetchData();
-          }
-        });
-
-        /**
-         * Simple watcher for 'itemsPerPage' scope variable. If this is changed we need to fetch territory data
-         * from server.
-         */
-        $scope.$watch('itemsPerPage', function watcher(valueNew, valueOld) {
-          if (valueNew !== valueOld) {
-            _triggerFetchData();
-          }
-        });
-
-        var searchWordTimer;
-
-        /**
-         * Watcher for 'filter' scope variable, which contains multiple values that we're interested
-         * within actual GUI. This will trigger new data fetch query to server if following conditions
-         * have been met:
-         *
-         *  1) Actual filter variable is different than old one
-         *  2) Search word have not been changed in 400ms
-         *
-         * If those are ok, then watcher will call 'fetchData' function.
-         */
-        $scope.$watch('filters', function watcher(valueNew, valueOld) {
-          if (valueNew !== valueOld) {
-            if (searchWordTimer) {
-              $timeout.cancel(searchWordTimer);
-            }
-
-            searchWordTimer = $timeout(_triggerFetchData, 400);
-          }
-        }, true);
-
-        /**
-         * Helper function to trigger actual data fetch from backend. This will just check current page
-         * scope variable and if it is 1 call 'fetchData' function right away. Any other case just set
-         * 'currentPage' scope variable to 1, which will trigger watcher to fetch data.
-         *
-         * @private
-         */
-        function _triggerFetchData() {
-          $scope.clearSelected($scope.items);
-          if ($scope.currentPage === 1) {
-            _fetchData();
-          } else {
-            $scope.currentPage = 1;
-          }
-        }
-
-        /**
-         * Helper function to fetch actual data for GUI from backend server with current parameters:
-         *  1) Current page
-         *  2) Search word
-         *  3) Sort order
-         *  4) Items per page
-         *
-         * Actually this function is doing two request to backend:
-         *  1) Data count by given filter parameters
-         *  2) Actual data fetch for current page with filter parameters
-         *
-         * These are fetched via 'TerritoryModel' service with promises.
-         *
-         * @private
-         */
-        function _fetchData() {
-          $scope.loading = true;
-
-          // Common parameters for count and data query
-          var commonParameters = {
-            where: SocketHelperService.getWhere($scope.filters)
-          };
-
-          if($scope.filters && $scope.filters.holderId) {
-            commonParameters.where = _.merge(
-              {}, 
-              commonParameters.where, 
-              {holder: $scope.filters.holderId}
-            );
-          }
-
-          if($scope.filters && $scope.filters.attributeLinkId) {
-            // TODO: look for all territories with said attribute,
-            // Add list of territory ids to where query
-          }
-
-          // Data query specified parameters
-          var parameters = {
-            populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
-            limit: $scope.itemsPerPage,
-            skip: ($scope.currentPage - 1) * $scope.itemsPerPage,
-            sort: $scope.sort.column + ' ' + ($scope.sort.direction ? 'ASC' : 'DESC')
-          };
-
-          // Fetch data count
-          var count = TerritoryModel
-            .count(commonParameters)
-            .then(
-              function onSuccess(response) {
-                $scope.itemCount = response.count;
-              }
-            )
-          ;
-
-          console.log(_.merge({}, commonParameters, parameters));
-
-          // Fetch actual data
-          var load = TerritoryModel
-            .load(_.merge({}, commonParameters, parameters))
-            .then(
-              function onSuccess(response) {
-                $scope.items = response;
-              }
-            )
-          ;
-
-          // And wrap those all to promise loading
-          $q
-            .all([count, load])
-            .finally(
-              function onFinally() {
-                $scope.loaded = true;
-                $scope.loading = false;
-              }
-            )
-          ;
-        }
-
-        _triggerFetchData();
-      }
-    ])
-  ;
-
-  angular.module('frontend.app.territory')
-    .controller('TerritoryStatsController', [
-      '$scope', '$q',
-      '_',
-      'ListConfig',
-      'SocketHelperService', 'UserService',
-      'StatModel',
-      '_items',
-      '_app',
-      '_stats',
-      function controller(
-        $scope, $q,
-        _,
-        ListConfig,
-        SocketHelperService, UserService,
-        StatModel,
-        _items,
-        _app,
-        _stats
-      ) {
-
-        var formDaysMonthsYearsObject = function(in_millisecs) {
-          var millisecondsPerDay = 1000 * 60 * 60 * 24;
-            var days = in_millisecs / millisecondsPerDay;
-            var months = days / 30;
-            var years = months / 12;
-            days = days % 30;
-            months = months % 12;
-            return {'days':Math.floor(days), 'months':Math.floor(months), 'years': Math.floor(years)};
-        }
-
-        // Set initial data
-        $scope.territories = _items;
-        $scope.app = _app[0];
-        $scope.user = UserService.user();
-
-        $scope.totalCount = 0;
-        $scope.notCoveredRecently = 0;
-        $scope.totalWithoutNotCountedWhenCalculatingCoveredDuringLastYearTotal = 0;
-        $scope.holderIsDefault = 0;
-        $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotal = 0;
-        $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotalNotCovered = 0;
-        $scope.averageCoveredTime = 0;
-        var totalCoveredTimeMs = 0;
-        var totalTimeOnSameHolder = 0;
-        var totalTimeOnSameHolderDivider = 0;
-        $scope.averageTimeBetweenHolderChange = 0;
-        $scope.holderChanges = 0;
-        $scope.territoryTypeCounts = [];
-        var now = new Date();
-        var NOT_COVERED_LIMIT_MS = 1000 * 60 * 60 * 24 * ($scope.app.notCoveredLimit || 365);
-        _.each($scope.territories, function(t) {
-
-          $scope.holderChanges += t.territoryHolderHistory ? t.territoryHolderHistory.length : 0;
-          _.each(t.territoryHolderHistory, function(thh) {
-            var start = new Date(Date.parse(thh.startDate || now));
-            var end = new Date(Date.parse(thh.endDate || now));
-            totalCoveredTimeMs += (end.getTime() - start.getTime());
-          });
-
-          if(t.holder !== $scope.app.defaultHolder && !t.archived) {
-            var taken = new Date(Date.parse(t.taken || now));
-            totalTimeOnSameHolder += (now.getTime() - taken.getTime());
-            totalTimeOnSameHolderDivider++;
-          }
-
-          var covered = new Date(Date.parse(t.covered));
-          if(now.getTime() - covered.getTime() > NOT_COVERED_LIMIT_MS 
-            && !t.notCountedWhenCalculatingCoveredDuringLastYearTotal
-            && !t.archived) {
-            $scope.notCoveredRecently++;
-          }
-           if(!t.archived) {
-            $scope.totalCount++;
-          }
-          if(t.notCountedWhenCalculatingCoveredDuringLastYearTotal
-            && !t.archived) {
-            $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotal++;
-            if(now.getTime() - covered.getTime() > NOT_COVERED_LIMIT_MS) {
-              $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotalNotCovered++;
-            }
-          }
-          if(t.holder === $scope.app.defaultHolder) {
-            $scope.holderIsDefault++;
-          }
-        });
-        var avCoveredTime = totalCoveredTimeMs / $scope.holderChanges;
-        var avCoveredObject = formDaysMonthsYearsObject(avCoveredTime);
-        $scope.averageCoveredTime = avCoveredObject.days + ' päivää, ' + avCoveredObject.months + ' kuukautta ja ' + avCoveredObject.years + ' vuotta.';
-
-        var avTimeSameHolder = totalTimeOnSameHolder / totalTimeOnSameHolderDivider;
-        var avTimeSameHolderObject = formDaysMonthsYearsObject(avTimeSameHolder);
-        $scope.averageTimeSameHolder = avTimeSameHolderObject.days + ' päivää, ' + avTimeSameHolderObject.months + ' kuukautta ja ' + avTimeSameHolderObject.years + ' vuotta.';
-
-        StatModel.create({
-          statisticDate: new Date(),
-          averageCoveredTime: avCoveredTime,
-          averageHoldingTime: avTimeSameHolder,
-          totalCount: $scope.totalCount,
-          notCoveredCount: $scope.notCoveredRecently,
-          availableCount: $scope.holderIsDefault,
-        });
-      }
-    ])
-  ;
-
-  angular.module('frontend.app.territory')
-    .controller('TerritoryS13Controller', [
-      '$scope', '$q',
-      '_',
-      'ListConfig',
-      'SocketHelperService', 'UserService',
-      '_items', '_holders',
-      function controller(
-        $scope, $q,
-        _,
-        ListConfig,
-        SocketHelperService, UserService,
-        _items, _holders
-      ) {
-
-        // Set initial data
-        $scope.territories = _items;
-        $scope.holders = _holders;
-        $scope.user = UserService.user();
-
-        _.each($scope.territories, function(t) {
-          var emptyHistoryLength = 20 - t.territoryHolderHistory.length;
-          emptyHistoryLength = emptyHistoryLength > 0 ? emptyHistoryLength : 0;
-          t.emptyArray = Array.apply(null, Array(emptyHistoryLength)).map(function (x, i) { return i; });
-        });
-
-        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
-          return  _.result(
-              _.find(_holders, function(h) {
-                return h.id === holderId;
-              }), 
-              'name'
-            );
-        };
-      }
-    ])
-  ;
-
-  angular.module('frontend.app.territory')
-    .controller('TerritoryQuickViewController', [
-      '$scope', '$q',
-      '_',
-      'ListConfig',
-      'TerritoryHelper',
-      'SocketHelperService', 'UserService',
-      '_items', '_holders', '_app',
-      function controller(
-        $scope, $q,
-        _,
-        ListConfig,
-        TerritoryHelper,
-        SocketHelperService, UserService,
-        _items, _holders, _app
-      ) {
-        // Add default list configuration variable to current scope
-        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
-
-        // Set initial data
-        $scope.territories = _items;
-        $scope.holders = _holders;
-        $scope.app = _app[0];
-        $scope.user = UserService.user();
-
-        $scope.isNotCoveredRecently = function isNotCoveredRecently(territory, app) {
-          return TerritoryHelper.isNotCoveredRecently(territory, app);
-        };
-
-        $scope.isDefaultHolder = function isDefaultHolder(holderId) {
-          return holderId === $scope.app.defaultHolder;
-        };
-
-        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
-          return  _.result(
-              _.find(_holders, function(h) {
-                return h.id === holderId;
-              }), 
-              'name'
-            );
-        };
-      }
-    ])
-  ;
-
-  // Controller which contains all necessary logic for territory list GUI on boilerplate application.
-  angular.module('frontend.app.territory')
-    .controller('TerritoryMapController', [
-      '$scope', '$q', '$filter',
-      '_',
-      'ListConfig',
-      'TerritoryHelper',
-      'SocketHelperService', 'UserService',
-      '_items', '_app',
-      function controller(
-        $scope, $q, $filter,
-        _,
-        ListConfig,
-        TerritoryHelper,
-        SocketHelperService, UserService,
-        _items, _app
-      ) {
-        // Add default list configuration variable to current scope
-        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
-
-        $scope.territories = _items;
-        $scope.app = _app[0];
-        $scope.user = UserService.user();
-
-        // Set initial data
-        $scope.map = {
-          center: {
-            latitude: $scope.app.defaultLatitude || $scope.app.defaultLatitude,
-            longitude: $scope.app.defaultLongitude || $scope.app.defaultLongitude
-          },
-          zoom: 10,
-          markersEvents: {},
-          window: {
-              marker: {},
-              show: false,
-              closeClick: function() {
-                  this.show = false;
-              },
-              options: {}, // define when map is ready
-              title: ''
-          }
-        };
-
-        var clickHandler = function clickHandler(marker, eventName, model) {
-            $scope.map.window.model = model;
-            $scope.map.window.title = model.title;
-            $scope.map.window.linkId = model.id;
-            $scope.map.window.covered = model.covered;
-            $scope.map.window.show = true;
-        };
-
-        $scope.map.markersEvents.click = clickHandler;
-
-        $scope.onClick = function onClick(marker) {
-          $scope.selectedMarker = marker.model;
-        };
-
-        var getIconUrl = function getIconUrl(territory) {
-          try {
-            if(TerritoryHelper.isNotCoveredRecently(territory, $scope.app)) {
-              if(territory.holder.id !== $scope.app.defaultHolder) {
-                return '/assets/images/red.png';
-              }
-              return '/assets/images/red-dot.png';
-            }
-            if(territory.holder.id !== $scope.app.defaultHolder) {
-              return '/assets/images/green.png';
-            }
-            return '/assets/images/green-dot.png';           
-          } catch(err) {
-            return '/assets/images/yellow.png';
-          }
-
-        };
-
-        $scope.closeClick = function () {
-            this.window = false;
-        };
-
-        $scope.territoryMarkers = [];
-        _.each($scope.territories, function(t) {
-          t.markerOptions = {
-            icon: { url: getIconUrl(t) }
-          }
-          $scope.territoryMarkers.push({
-            id: t.id,
-            title: t.territoryCode,
-            covered: t.covered,
-            latitude: t.center ? t.center.latitude : 61,
-            longitude: t.center ? t.center.longitude: 23,
-            icon: t.markerOptions.icon,
-            onClick: function() {
-              console.log("Clicked", this);
             }
           })
-        })
-
-
+        ;
       }
     ])
   ;
 }());
-
-/**
- * This file contains all necessary Angular model definitions for 'frontend.app.territory
-' module.
- *
- * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
- * services that wraps all things together.
- */
-(function() {
-  'use strict';
-
-  /**
-   * Model for Territory API, this is used to wrap all Territory objects specified actions and data change actions.
-   */
-  angular.module('frontend.app.territory')
-    .service('TerritoryModel', [
-      'DataModel',
-      function(DataModel) {
-        return new DataModel('territory');
-      }
-    ])
-  ;
-}());
-
-
-'use strict';
-
-angular.module('frontend.app.territory')
-.factory('TerritoryHelper', [function () {
-
-	var millisecondsInDay = 24 * 60 * 60 * 1000;
-
-	return {
-		isNotCoveredRecently : function(territory, appSettings) {
-			var limitInMilliseconds = millisecondsInDay * appSettings.notCoveredLimit;
-			var now = new Date();
-			return Date.parse(territory.covered) < (now.getTime() - limitInMilliseconds);
-		},
-		isHolderNotChangedLimitExeeded : function(territory, appSettings) {
-			var limitInMilliseconds = millisecondsInDay * appSettings.holderNotChangedWarningLimit;
-			var now = new Date();
-			return Date.parse(territory.taken) < (now.getTime() - limitInMilliseconds);
-		}
-	};
-
-}]);
 
 /**
  * Messages component which is divided to following logical components:
@@ -5946,7 +4426,7 @@ angular.module('frontend.app.territory')
            */
           login: function login(credentials) {
             return $http
-              .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
+              .post(BackendConfig.url + '/api/login', credentials, {withCredentials: true})
               .then(
                 function(response) {
                   MessageService.success('Sisäänkirjautuminen onnistui.');
@@ -8300,15 +6780,15 @@ angular.module('frontend.app.territory')
         return {
           count: function count() {
             return $sailsSocket
-              .get(BackendConfig.url + '/mail/count');
+              .get(BackendConfig.url + '/api/mail/count');
           },
           send: function send(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/send', data);
+              .post(BackendConfig.url + '/api/mail/send', data);
           },
           backup: function backup() {
             return $sailsSocket
-              .post(BackendConfig.url + '/mail/backup', null);
+              .post(BackendConfig.url + '/api/mail/backup', null);
           }
         };
       }
@@ -8442,7 +6922,7 @@ angular.module('frontend.app.territory')
         return {
           updatePassword: function updatePassword(data) {
             return $sailsSocket
-              .post(BackendConfig.url + '/user/password', data);
+              .post(BackendConfig.url + '/api/user/password', data);
           }
         };
       }
@@ -8643,74 +7123,1554 @@ angular.module('frontend.app.territory')
 }());
 
 /**
- * Angular module for app component. This component is divided to following logical components:
+ * This file contains all necessary Angular controller definitions for 'frontend.app.territory
+' module.
  *
- *  frontend.app.about
- *  frontend.app.author
- *  frontend.app.holder
- *  frontend.app.chat
- *  frontend.app.messages
- *
- * Each component has it own configuration for ui-router.
+ * Note that this file should only contain controllers and nothing else.
  */
 (function() {
   'use strict';
 
-  // Define frontend.admin module
-  angular.module('frontend.app', [
-    'frontend.app.about',
-    'frontend.app.territory',
-    'frontend.app.territoryHolderHistory',
-    'frontend.app.holder',
-    'frontend.app.coordinate',
-    'frontend.app.territoryLinkAttribute',
-    'frontend.app.specialAddress',
-    'frontend.app.attribute',
-    'frontend.app.app',
-    'frontend.app.stat',
-    'frontend.app.chat',
-    'frontend.app.messages'
-  ]);
+  // Controller for new territory creation.
+  angular.module('frontend.app.territory')
+    .controller('TerritoryAddController', [
+      '$scope', '$state', '$modalInstance',
+      'HolderModel', 
+      'CoordinateModel',
+      '_holders',
+      '_app',
+      'MessageService', 'TerritoryModel',
+      function controller(
+        $scope, $state, $modalInstance,
+        HolderModel, 
+        CoordinateModel,
+        _holders,
+        _app,
+        MessageService, TerritoryModel
+      ) {
+        $scope.holders = _holders;
+        $scope.app = _app[0];
 
-  // Module configuration
-  angular.module('frontend.app')
-    .config([
-      '$stateProvider',
-      function($stateProvider) {
-        $stateProvider
-          .state('app', {
-            parent: 'frontend',
-            data: {
-              access: 1
-            },
-            views: {
-              'content@': {
-                controller: [
-                  '$state',
-                  function($state) {
-                    $state.go('app.territory');
-                  }
-                ]
-              },
-              'pageNavigation@': {
-                templateUrl: '/frontend/core/layout/partials/navigation.html',
-                controller: 'NavigationController',
-                resolve: {
-                  _items: [
-                    'ContentNavigationItems',
-                    function resolve(ContentNavigationItems) {
-                      return ContentNavigationItems.getItems('app');
+        // Initialize territory model
+        var initModel = function() {
+          $scope.territory = {
+            name: '',
+            description: '',
+            type: '',
+            covered: new Date(),
+            taken: new Date()
+          };
+          $scope.selectedHolder = $scope.app.defaultHolder;
+        };
+        initModel();
+
+        // Dismiss function for modal
+        $scope.dismiss = function dismiss() {
+          $modalInstance.dismiss();
+        };
+
+        $scope.datePickerOpened = function datePickerOpened($event) {
+          if ($event) {
+              $event.preventDefault();
+              $event.stopPropagation(); // This is the magic
+          }
+        };
+
+        /**
+         * Scope function to store new territory to database. After successfully save user will be redirected
+         * to view that new created territory.
+         */
+        $scope.addTerritory = function addTerritory() {
+          var data = angular.copy($scope.territory);
+          if($scope.selectedHolder) {
+            data.holder = {id: $scope.selectedHolder};
+          } else {
+            data.holder = $scope.app.defaultHolder;
+          }
+          TerritoryModel
+            .create(data)
+            .then(
+              function onSuccess(value) {
+                if(value.status == 201) {
+                  MessageService.success('Uusi alue luotiin.');
+                  CoordinateModel
+                  .create({
+                    type:'center',
+                    latitude: $scope.map.territoryCenterMarker.coords.latitude,
+                    longitude: $scope.map.territoryCenterMarker.coords.longitude
+                  })
+                  .then(
+                    function onSuccess(response) {
+                      TerritoryModel
+                      .update(value.data.id, { center : response.data.id })
+                      .then(
+                        function onSuccess() {
+                          MessageService.success('Alueen "' + value.data.territoryCode + '" keskikohta asetettiin.');
+                        }
+                      );
                     }
-                  ]
+                  );
+
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
                 }
+                $state.go($state.current, {reload: true});
+                initModel();
+              }
+            )
+          ;
+        };
+
+        // Describe the map.
+        $scope.map = { 
+          center: { latitude: $scope.app.defaultLatitude || 61, longitude: $scope.app.defaultLongitude || 23},
+          zoom: 13, 
+          territoryCenterMarker : { 
+            id: 0,
+            options: {
+              draggable: true
+            },
+            coords: { latitude: $scope.app.defaultLatitude || 61, longitude: $scope.app.defaultLongitude || 23},
+            events: {
+              dragend: function () {
+                $scope.map.territoryCenterMarker.options = {
+                  draggable: true,
+                  labelContent: 'lat: ' + $scope.map.territoryCenterMarker.coords.latitude + ' ' + 'lon: ' + $scope.map.territoryCenterMarker.coords.longitude,
+                  labelAnchor: '100 0',
+                  labelClass: 'marker-labels'
+                };
               }
             }
+          }
+        };
+      }
+    ])
+  ;
+
+  // Controller to show single territory on GUI.
+  angular.module('frontend.app.territory')
+    .controller('TerritoryController', [
+      '$scope', '$state', '_', '$timeout',
+      'UserService', 'MessageService',
+      'TerritoryModel', 'HolderModel', 'SpecialAddressModel',
+      '_territory', '_holders', '_app', '_attributes',
+      'TerritoryHolderHistoryModel',
+      'TerritoryLinkAttributeModel',
+      'TerritoryHelper',
+      'CoordinateModel', 'uiGmapGoogleMapApi',
+      function controller(
+        $scope, $state, _, $timeout,
+        UserService, MessageService,
+        TerritoryModel, HolderModel, SpecialAddressModel,
+        _territory, _holders, _app, _attributes,
+        TerritoryHolderHistoryModel,
+        TerritoryLinkAttributeModel,
+        TerritoryHelper,
+        CoordinateModel, uiGmapGoogleMapApi
+      ) {
+        // Set current scope reference to models
+        TerritoryModel.setScope($scope, 'territory');
+        HolderModel.setScope($scope, false, 'holders', 'holdersCount');
+
+        // Expose necessary data to the scope.
+        $scope.user = UserService.user();
+        _territory.territoryHolderHistory = _.sortBy(_territory.territoryHolderHistory, function(i) {
+            if(!i.startDate) {
+                return 0;
+            }
+            return Date.parse(i.startDate);
+        });
+        _attributes = _.sortBy(_attributes, function(i) {
+            if(!i.name) {
+                return 0;
+            }
+            return i.name;
+        });
+
+        $scope.territory = angular.copy(_territory);
+        $scope.holders = _holders;
+        $scope.attributes = _attributes;
+        $scope.app = _app[0];
+
+        $scope.pickers = {};
+
+        $scope.pickers.thhEndDateOpened = false;
+        $scope.pickers.thhStartDateOpened = false;
+        $scope.pickers.coveredDateOpened = false;
+        $scope.pickers.takenDateOpened = false;
+
+        $scope.openPickers = function openPickers(key) {
+          $timeout(function() {
+            $scope.pickers[key] = true;
+          });
+        };
+        
+        $scope.closePickers = function closePickers(key) {
+          $timeout(function() {
+            $scope.pickers[key] = true;
+          });
+        };
+
+        $scope.isNotCoveredLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isNotCoveredRecently(territory, app);
+        };
+
+        $scope.isHolderNotChangedLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isHolderNotChangedLimitExeeded(territory, app);
+        };
+
+
+        // Create Google Map settings for showing the center and border of the territory.
+        // Copy the border path from territory.
+        var path = [];
+        var sortedCoordinates = _.sortBy(_territory.coordinates, "order")
+        _.each(sortedCoordinates, function(c) {
+          path.push(c);
+        });
+
+        // Describe the map.
+        $scope.map = { 
+          center: $scope.territory.center || { latitude: $scope.app.defaultLatitude, longitude: $scope.app.defaultLongitude},
+          zoom: 16, 
+          territoryCenterMarker : { 
+            id: $scope.territory.center ? $scope.territory.center.id : 0,
+            options: {
+              draggable: false
+            },
+            coords: $scope.territory.center || { latitude: $scope.app.defaultLatitude, longitude: $scope.app.defaultLongitude},
+            events: {
+              dragend: function () {
+                $scope.map.territoryCenterMarker.options = {
+                  draggable: true,
+                  labelContent: 'lat: ' + $scope.map.territoryCenterMarker.coords.latitude + ' ' + 'lon: ' + $scope.map.territoryCenterMarker.coords.longitude,
+                  labelAnchor: '100 0',
+                  labelClass: 'marker-labels'
+                };
+              }
+            }
+          },
+
+          // Create a polygon from coordinate array attached to the territory.
+          polygons: [
+            {
+              id: 1,
+              path: path,
+              stroke: {
+                color: '#33CDDC',
+                weight: 3
+              },
+              editable: true,
+              draggable: false,
+              geodesic: true,
+              visible: true,
+              fill: {
+                color: '#33CCCC',
+                opacity: 0.2
+              },
+            }
+          ]
+        };
+        $scope.map.center.coordinates = [];
+
+        $scope.imgSrc = "";
+        if(path.length > 0) {
+          var imgPath = "";
+          for(var i = 0; i < path.length; i++) {
+            imgPath += path[i].latitude + "," + path[i].longitude + "%7C";
+          }
+          imgPath += path[0].latitude + "," + path[0].longitude;
+
+          $scope.imgSrc = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
+            + $scope.territory.center.latitude + ',' + $scope.territory.center.longitude +
+            '&maptype='+$scope.app.printMapType+
+            '&path=fillcolor:'+$scope.app.printMapAreaFillColor+'%7Ccolor:'+$scope.app.printMapLineColor+'%7Cweight:5%7C'+ imgPath + 
+            '&scale='+$scope.app.printMapScale +
+            '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ';
+        } else {
+            $scope.imgSrc = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&markers=color:blue%7C'
+            + $scope.territory.center.latitude + ',' + $scope.territory.center.longitude +
+            '&maptype='+$scope.app.printMapType+
+            '&scale='+$scope.app.printMapScale+
+            '&key=AIzaSyDFdn9_nl-V2VywY_VsaZJmeXImTifATRQ';
+        }
+
+        // Toggle the map status to be editable.
+        $scope.editableMap = false;
+        $scope.toggleMapEditable = function makeMapEditable() {
+          $timeout(function() {
+            $scope.editableMap = !$scope.editableMap;
+            $scope.map.territoryCenterMarker.options.draggable = !$scope.map.territoryCenterMarker.options.draggable;
+          });
+        };
+
+        // Replace the polyline with a new one with calculated coordinates.
+        $scope.replacePolylineWithDefault = function replacePolylineWithDefault() {
+          
+          // Delete All
+          deletePolylineCoordinates(angular.copy($scope.territory.coordinates));
+
+          // Create simple rectangle          
+          $scope.map.polygons[0].path = [];
+          $scope.map.polygons[0].path.push({
+            latitude: $scope.map.center.latitude + 0.0005,
+            longitude: $scope.map.center.longitude + 0.0005,
+            order: $scope.map.polygons[0].path.length
+          });
+          $scope.map.polygons[0].path.push({
+            latitude: $scope.map.center.latitude + 0.0005,
+            longitude: $scope.map.center.longitude - 0.0005,
+            order: $scope.map.polygons[0].path.length            
+          });
+          $scope.map.polygons[0].path.push({
+            latitude: $scope.map.center.latitude - 0.0005,
+            longitude: $scope.map.center.longitude - 0.0005,
+            order: $scope.map.polygons[0].path.length     
+          });
+          $scope.map.polygons[0].path.push({
+            latitude: $scope.map.center.latitude - 0.0005,
+            longitude: $scope.map.center.longitude + 0.0005,
+            order: $scope.map.polygons[0].path.length     
+          });
+
+          // Save to the backend.
+          $scope.saveMap($scope.map);
+        };
+
+        // Delete set of coordinates with ids;
+        var deletePolylineCoordinates = function deletePolylineCoordinates(polyline) {
+          var promises = [];
+          _.each(polyline, function(p){
+            if(p.id) {
+              promises.push(CoordinateModel.delete(p.id));
+            }
+          });
+          Promise.all(promises).then(function(values) {
+            MessageService.success("Alueen kartta nollattiin.");
+          });
+        };
+
+        // Save the map to the backend.
+        $scope.saveMap = function saveMap() {
+
+          // Save the marker either by updating or creating a new one.
+          var coords = {
+            latitude: $scope.map.territoryCenterMarker.coords.latitude,
+            longitude: $scope.map.territoryCenterMarker.coords.longitude,
+            type: 'center',
+            order: 0
+          }
+
+          var promises = [];
+
+          if($scope.map.territoryCenterMarker && 
+            $scope.map.territoryCenterMarker.id && 
+            $scope.map.territoryCenterMarker.id !== 0) {
+            promises.push(
+              CoordinateModel
+              .update($scope.map.territoryCenterMarker.id, coords)
+            );
+          } else {
+            promises.push(
+              CoordinateModel
+              .create(coords)
+              .then(function onSuccess(response){
+                TerritoryModel
+                  .update($scope.territory.id, { center : response.data.id })
+                  .then(
+                    function onSuccess() {
+                      MessageService.success('Alueen "' + $scope.territory.territoryCode + '" keskikohta päivitettiin.');
+                    }
+                  )
+                ;
+              })
+            );
+          }
+
+          // Save the polyline.
+          if($scope.map.polygons[0]) {
+
+            // Convert coordinates to backend compatible form.
+            var path = [];
+            var oldPathIds = [];
+            _.each($scope.map.polygons[0].path, function(p, index) {
+              path.push({
+                type: 'border',
+                territory: $scope.territory.id,
+                latitude: p.latitude,
+                longitude: p.longitude,
+                order: index
+              });
+              if(p.id) {
+                oldPathIds.push(p.id);
+              }
+            });
+            _.each(oldPathIds, function(oldId){
+              promises.push(
+                CoordinateModel.delete(oldId)
+              );
+            });
+            _.each(path, function(p){
+              promises.push(
+                CoordinateModel.create(p)
+              );
+            });
+          }
+          Promise.all(promises).then(function(values) {
+            MessageService.success("Alueen kartta päivitettiin.");
+            $scope.toggleMapEditable();
+            $state.go($state.current, {id: _territory.id}, {reload: true});
+          });
+        };
+
+        $scope.saveTerritoryHistory = function saveTerritoryHistory() {
+          _.each($scope.territory.territoryHolderHistory, function(thh) {
+            $scope.saveTerritoryHistoryItem(thh);
+          });
+          $timeout(function() {
+              $state.go($state.current, {id: _territory.id}, {reload: true});
+          }, 2000);
+        };
+
+        $scope.onlyActiveHolders = function onlyActiveHolders(holder) {
+          return holder.isArchived ? false : true;
+        };
+
+        $scope.saveTerritoryHistoryItem = function saveTerritoryHistoryItem(historyItem) {
+          TerritoryHolderHistoryModel
+          .update(historyItem.id, {
+            startDate: historyItem.startDate,
+            endDate: historyItem.endDate,
+            description: historyItem.description,
+            holder: historyItem.holder
+          })            
+          .then(
+            function onSuccess(value) {
+              if(value.status == 200) {
+                MessageService.success('Aluehistoriatieto päivitettiin.');
+              } else {
+                MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+              }
+            }
+          );
+        };
+
+        var territoryHolderHistoryItemToBeDeletedId = null;
+        $scope.setTerritoryHolderHistoryToBeDeleted = function setTerritoryHolderHistoryToBeDeleted(historyItem) {
+          territoryHolderHistoryItemToBeDeletedId = historyItem.id;
+        };
+
+        // Territory delete dialog buttons configuration
+        $scope.confirmHistoryButtonsDelete = {
+          ok: {
+            label: 'Poista',
+            className: 'btn-danger',
+            callback: function callback() {
+              TerritoryHolderHistoryModel
+              .delete(territoryHolderHistoryItemToBeDeletedId)            
+              .then(
+                function onSuccess() {
+                  MessageService.success('Aluehistoriatieto poistettiin.');
+                  territoryHolderHistoryItemToBeDeletedId = null;
+                  $scope.deleteTerritoryHolderHistoryItemVisible = false;
+                  $state.go($state.current, {id: _territory.id}, {reload: true});
+                }
+              );
+            }
+          },
+          cancel: {
+            label: 'Peruuta',
+            className: 'btn-default pull-left',
+            callback: function callback() {
+              territoryHolderHistoryItemToBeDeletedId = null;
+            }
+          }
+        };
+
+        // Territory delete dialog buttons configuration
+        $scope.confirmButtonsDelete = {
+          ok: {
+            label: 'Poista',
+            className: 'btn-danger',
+            callback: function callback() {
+              $scope.deleteTerritory();
+            }
+          },
+          cancel: {
+            label: 'Peruuta',
+            className: 'btn-default pull-left'
+          }
+        };
+
+        // Scope function to save modified territory.
+        $scope.saveTerritory = function saveTerritory() {
+          var data = angular.copy($scope.territory);
+
+          data.holder = data.holder.id || $scope.app.defaultHolder;
+
+          // Add holder history item
+          if(!_territory.holder || data.holder !== _territory.holder.id) {
+            var now = new Date();
+
+            // Update the last row with end time
+            if(
+              data.territoryHolderHistory && 
+              data.territoryHolderHistory.length > 0 && 
+              !_.last(data.territoryHolderHistory).endTime
+            ) {
+              TerritoryHolderHistoryModel
+              .update(
+                _.last(data.territoryHolderHistory).id,
+                {
+                  endDate: now
+                }
+              );
+            }
+
+            // If the new holder is not default holder, add new row.
+            if(data.holder !== $scope.app.defaultHolder) {
+              var holderHistoryData = {
+                startDate: now,
+                holder: data.holder,
+                territory: data.id
+              };
+
+              TerritoryHolderHistoryModel
+                .create(holderHistoryData)
+                .then(
+                  function onSuccess(value) {
+                    if(value.status == 201) {
+                      MessageService.success('Aluehistoriatieto alueelle "' + $scope.territory.territoryCode + '" luotiin.');
+                    } else {
+                      MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                    }
+                  }
+                )
+              ;  
+            }          
+          }
+
+          // Remove populated data as update operation may mess it up.
+          delete data.territoryHolderHistory;
+          delete data.specialAddress;
+          delete data.center;
+          delete data.coordinates;
+          delete data.territoryLinkAttribute;
+
+          // Make territory data update
+          TerritoryModel
+            .update(data.id, data)
+            .then(
+              function onSuccess(value) {
+                if(value.status == 200) {
+                  MessageService.success('Alue "' + $scope.territory.territoryCode + '" päivitettiin.');
+                } else {
+                  MessageService.info('Odottamaton tulos, toiminto saattoi epäonnistua (' + value.status + ')');
+                }
+                $state.go($state.current, {id: _territory.id}, {reload: true});
+              }
+            )
+          ;
+
+        };
+
+        // Scope function to delete territory
+
+        $scope.deleteTerritory = function deleteTerritory() {
+          TerritoryModel
+            .delete($scope.territory.id)
+            .then(
+              function onSuccess() {
+                MessageService.success('Alue "' + $scope.territory.territoryCode + '" poistettiin.');
+
+                $state.go('app.territory');
+              }
+            )
+          ;
+        };
+
+        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
+          return  _.result(
+              _.find(_holders, function(h) {
+                return h.id === holderId;
+              }), 
+              'name'
+            );
+        };
+
+        $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
+          return _.find(attributes, function(a) {
+            return a.id === id;
+          });
+        };
+
+        $scope.addNewAttribute = function addNewAttribute(attribute) {
+          TerritoryLinkAttributeModel.create({
+            attribute: attribute.id,
+            territory: _territory.id
           })
-        ;
+          .then(function onSuccess(){
+            MessageService.success('Attribuutti "' + attribute.name + '" lisättiin.');
+            $scope.deleteTerritoryLinkAttributeItemVisible = false;
+            $state.go($state.current, {id: _territory.id}, {reload: true});
+          });
+        };
+
+        var specialAddressToBeDeletedId = null;
+        $scope.setSpecialAddressToBeDeleted = function setSpecialAddressToBeDeleted(item) {
+          specialAddressToBeDeletedId = item.id;
+        };
+
+        var territoryLinkAttributeItemToBeDeletedId = null;
+        $scope.setTerritoryLinkAttributeToBeDeleted = function setTerritoryLinkAttributeToBeDeleted(item) {
+          territoryLinkAttributeItemToBeDeletedId = item.id;
+        };
+
+        $scope.addSpecialAddress = function addSpecialAddress(specialAddress) {
+          specialAddress.territory = _territory.id;
+          specialAddress.added = new Date();
+          SpecialAddressModel.create(specialAddress)
+          .then(function onSuccess(){
+            MessageService.success('Merkintä kieltopaikasta tai vieraskielisestä osoitteesta lisättiin.');
+            $scope.deleteSpecialAddressItemVisible = false;
+            $state.go($state.current, {id: _territory.id}, {reload: true});
+          });
+        };
+
+        $scope.confirmSpecialAddressButtonsDelete = {
+          ok: {
+            label: 'Poista',
+            className: 'btn-danger',
+            callback: function callback() {
+              SpecialAddressModel
+              .delete(specialAddressToBeDeletedId)            
+              .then(
+                function onSuccess() {
+                  MessageService.success('Merkintä poistettiin');
+                  specialAddressToBeDeletedId = null;
+                  $scope.deleteSpecialAddressItemVisible = false;
+                  $state.go($state.current, {id: _territory.id}, {reload: true});
+                }
+              );
+            }
+          },
+          cancel: {
+            label: 'Peruuta',
+            className: 'btn-default pull-left',
+            callback: function callback() {
+              specialAddressToBeDeletedId = null;
+            }
+          }
+        };
+
+        // Territory delete dialog buttons configuration
+        $scope.confirmAttributeButtonsDelete = {
+          ok: {
+            label: 'Delete',
+            className: 'btn-danger',
+            callback: function callback() {
+              TerritoryLinkAttributeModel
+              .delete(territoryLinkAttributeItemToBeDeletedId)            
+              .then(
+                function onSuccess() {
+                  MessageService.success('Attribuutti poistettiin');
+                  territoryLinkAttributeItemToBeDeletedId = null;
+                  $scope.deleteTerritoryLinkAttributeItemVisible = false;
+                  $state.go($state.current, {id: _territory.id}, {reload: true});
+                }
+              );
+            }
+          },
+          cancel: {
+            label: 'Cancel',
+            className: 'btn-default pull-left',
+            callback: function callback() {
+              territoryLinkAttributeItemToBeDeletedId = null;
+            }
+          }
+        };
+      }
+    ])
+  ;
+
+  // Controller which contains all necessary logic for territory list GUI on boilerplate application.
+  angular.module('frontend.app.territory')
+    .controller('TerritoryListController', [
+      '$scope', '$q', '$timeout',
+      '$ngBootbox',
+      '_',
+      'ListConfig',
+      'TerritoryHelper',
+      'MessageService',
+      'MailService',
+      'TerritoryLinkAttributeModel',
+      'TerritoryHolderHistoryModel',
+      'SocketHelperService', 'UserService', 'TerritoryModel',
+      '_items', '_count', '_holders', '_app', '_attributes',
+      function controller(
+        $scope, $q, $timeout,
+        $ngBootbox,
+        _,
+        ListConfig,
+        TerritoryHelper,
+        MessageService,
+        MailService,
+        TerritoryLinkAttributeModel,
+        TerritoryHolderHistoryModel,
+        SocketHelperService, UserService, TerritoryModel,
+        _items, _count, _holders, _app, _attributes
+      ) {
+        // Set current scope reference to model
+        TerritoryModel.setScope($scope, false, 'items', 'itemCount');
+
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+        // Set initial data
+        $scope.items = _items;
+        $scope.holders = _holders;
+        $scope.attributes = _attributes;
+        $scope.app = _app[0];
+        $scope.itemCount = _count.count;
+        $scope.user = UserService.user();
+
+        // Initialize used title items
+        $scope.titleItems = ListConfig.getTitleItems(TerritoryModel.endpoint);
+
+        // Initialize default sort data
+        $scope.sort = {
+          column: 'territoryCode',
+          direction: true
+        };
+
+        // Initialize filters
+        $scope.filters = {
+          searchWord: '',
+          columns: $scope.titleItems
+        };
+
+        $scope.getLastTerritoryHolderHistory = function getLastTerritoryHolderHistory(territory) {
+          territory.territoryHolderHistory = _.sortBy(territory.territoryHolderHistory, function(i) {
+              if(!i.startDate) {
+                  return 0;
+              }
+              return Date.parse(i.startDate);
+          });
+          return _.last(territory.territoryHolderHistory);
+        };
+
+        $scope.addAttributeLink = function addAttributeLink(territory, attributeId) {
+          TerritoryLinkAttributeModel.create({
+            territory: territory.id,
+            attribute: attributeId
+          }).then(function(value){
+            if(value.status == 201) {
+              MessageService.success("Attribuutti lisättiin alueelle " + territory.territoryCode);
+            } else {
+              MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
+            }
+            _fetchData();
+          });
+        };
+
+        $scope.updateApartmentCount = function updateApartmentCount(territory, newCount) {
+          TerritoryModel.update(territory.id, 
+            {
+              apartmentCount : newCount
+            }
+          ).then(function(value){
+            if(value.status == 200) {
+              MessageService.success("Päivitettiin alueen " + territory.territoryCode + " asuntojen lukumäärä.");
+            } else {
+              MessageService.info("Odottamaton tulos. Toiminto saattoi epäonnistua (" + value.status + ")");
+            }
+            _fetchData();
+          });
+        };
+
+        // Check if backup should be suggested
+        var updateBackupSuggestion = function updateBackupSuggestion() {
+          var lastBackup = new Date($scope.app.lastBackup);
+          var now = new Date();
+          $scope.suggestBackup = false;
+          if(now.getTime() - lastBackup.getTime() > $scope.app.backupInterval * 24 * 60 * 60 * 1000) {
+            $scope.suggestBackup = true;
+          }
+        };
+        $timeout(updateBackupSuggestion, 50);
+
+        $scope.runBackup = function runBackup() {
+          MailService.backup().then(function() {
+            MessageService.success('Tiedot varmuuskopioitiin.');
+            updateBackupSuggestion();
+          });
+        };
+
+        var updateMailCount = function updateMailCount() {
+          MailService.count().then(function(data) {
+            $scope.mails = data.data;
+            $scope.mailsTotal = data.data.new_territory_taken_emails + data.data.territory_removed_emails + data.data.not_covered_territory_emails;
+          });
+        };
+        $timeout(updateMailCount, 50);
+
+        $scope.sendNotificationEmails = function sendNotificationEmails() {
+          MailService.send(null).then(function(data) {
+            console.log(data);
+            MessageService.success('Sähköpostiviestit lähetettiin.');
+            updateMailCount();
+          });
+        };
+
+        // Initialize checked rows data.
+        $scope.onlyCheckedTerritories = function onlyCheckedTerritories(territory) {
+          return territory.checked;
+        };
+
+        $scope.onlyActiveHolders = function onlyActiveHolders(holder) {
+          return holder.isArchived ? false : true;
+        };
+
+        // Filter applies when the user is limited to one holder only
+        $scope.onlyAllowedHolders = function onlyAllowedHolders(holder) {
+          if($scope.user.holder && holder.id !== $scope.user.holder && !$scope.isDefaultHolder(holder.id)) {
+            return false;
+          }
+          return true;
+        };
+
+        $scope.isDefaultHolder = function isDefaultHolder(holderId) {
+          return holderId === $scope.app.defaultHolder;
+        };
+
+        $scope.selectedHolder = $scope.app.defaultHolder;
+
+        // Callback that is evaluated when user toggles a territory checkbox.
+        $scope.selectedTerritoryHolderId = null;
+        $scope.territoryChecked = function territoryChecked(territory, territories) {
+          $scope.territoryOperationChange();
+          $scope.selectedTerritoryHolderId = territory.holder.id;
+
+          // When default holder is selected only operation 3 is possible
+          // Otherwise no operation is checked, to prevent mistakes.
+          if($scope.isDefaultHolder(territory.holder.id)) {
+            $scope.operation = "3";
+          } else {
+            $scope.operation = null;
+          }
+
+          // Check if this was last unchecked
+          var atLeastOneIsChecked = false;
+          _.each(territories, function(t) {
+            if(t.checked === true) {
+              atLeastOneIsChecked = true;
+            }
+          });
+          if(!atLeastOneIsChecked) {
+            $scope.selectedTerritoryHolderId = null;
+          }
+        };
+
+        $scope.removeSearchWord = function removeSearchWord(word, index) {
+          var words = word.split(' ');
+          words.splice(index, 1);
+          $scope.filters.searchWord = words.join(' ');
+        }
+
+        $scope.clearSelected = function clearSelected(territories) {
+          _.each(territories, function(t) {
+            t.checked = false;
+          });
+          $scope.isCollapsed = true;
+          $scope.isAllCollapsed = false;
+          $scope.selectedTerritoryHolderId = null;
+        };
+
+        $scope.getHolderNameWithId = function getHolderWithId(holders, id) {
+          if(holders && id) {
+            var result = _.find(holders, function(a) {
+              return a.id === id;
+            });
+            return result.name;
+          }
+          return '';
+        };
+
+        $scope.getAttributeWithId = function getAttributeNameWithId(attributes, id) {
+          if(attributes && id) {
+            var result = _.find(attributes, function(a) {
+              return a.id === id;
+            });
+            return result;
+          }
+          return null;
+        };
+
+        $scope.getAttributeWithId = function getAttributeWithId(attributes, id) {
+          return _.find(attributes, function(a) {
+            return a.id === id;
+          });
+        };
+
+        $scope.territoryOperationChange = function territoryOperationChange(operation) {
+          $scope.selectedHolder = $scope.app.defaultHolder;
+        };
+
+        // Filter disables all territories that have different holder than the
+        // initial selection. It also disables territories if the user has limited
+        // user right to territories.
+        $scope.selectionDisabledFilter = function(territory) {
+          if(territory.archived) {
+            return true;
+          }
+          if($scope.selectedTerritoryHolderId !== null && $scope.selectedTerritoryHolderId == territory.holder.id) {
+            if($scope.user.holder 
+              && territory.holder.id !== $scope.app.defaultHolder 
+              && territory.holder.id !== $scope.user.holder) {
+              return true;
+            }
+            return false;
+          } else if ($scope.selectedTerritoryHolderId === null) {
+            if($scope.user.holder 
+              && territory.holder.id !== $scope.app.defaultHolder 
+              && territory.holder.id !== $scope.user.holder) {
+              return true;
+            }
+            return false;
+          } else {
+            return true;
+          }
+        };
+
+        // Makes necessary update and create operations for changed territory history.
+        var makeHolderHistoryUpdate = function(territory, comment, newHolderId) {
+
+          var p = [];
+
+          // If the holder change was anything else but return to the default
+          // holder, add also row into history.
+          if(newHolderId !== $scope.app.defaultHolder) {
+            p.push(
+              TerritoryHolderHistoryModel
+              .create(
+                {
+                  startDate: new Date(),
+                  holder: newHolderId,
+                  territory: territory.id,
+                  description: comment
+                }
+              )
+              .then(function(value) {
+                if(value.status != 201) {
+                  MessageService.error("Aluehistoriatiedon lisäys epäonnistui alueelle " + territory.territoryCode);
+                }
+              })
+            );
+          }
+
+          // If there was a row in history, update the end time if it is not already defined.
+          if(
+            territory.territoryHolderHistory && 
+            territory.territoryHolderHistory.length > 0 && 
+            !_.last(territory.territoryHolderHistory).endTime
+          ) {
+            p.push(
+              TerritoryHolderHistoryModel
+              .update(
+                _.last(territory.territoryHolderHistory).id,
+                {
+                  endDate: new Date()
+                }
+              )
+              .then(function(value) {
+                if(value.status != 200) {
+                  MessageService.error("Aluehistoriatiedon muutos epäonnistui alueelle " + territory.territoryCode);
+                }
+              })
+            );
+          }
+
+          return p;
+        };
+
+        $scope.markTerritoriesAsCovered = function markTerritoriesAsCovered(territories, comment) {
+          var p = [];
+          _.each(territories, function(t) {
+            p.push(
+              TerritoryModel
+              .update(t.id, 
+                {
+                  covered: new Date()
+                }
+              )
+            );
+            makeHolderHistoryUpdate(t, comment, t.holder.id);
+          });
+          handleTerritoryChangePromises(p);
+
+        };
+
+        $scope.changeHolder = function changeHolder(territories, markAsCovered, newHolderId, comment) {
+          var errorSelection = false;
+          _.each(territories, function(t) {
+            if(t.holder && t.holder.id == newHolderId) {
+              MessageService.error('Yksi valituista alueista, ' + t.territoryCode + ', on jo merkitty tälle omistajalle.');
+              errorSelection = true;
+            }
+          });
+          if(errorSelection) {
+            return;
+          }
+          var p = [];
+          _.each(territories, function(t) {
+            if(!t.holder || (t.holder != newHolderId && t.holder.id != newHolderId)) {
+              var data = {
+                taken: new Date(),
+                holder: newHolderId
+              };
+              if(markAsCovered) {
+                data.covered = new Date();
+              }
+              p.push(
+                TerritoryModel
+                .update(t.id, data)
+              );
+
+              makeHolderHistoryUpdate(t, comment, newHolderId);
+            }
+          });
+          handleTerritoryChangePromises(p);
+        };
+
+        var handleTerritoryChangePromises = function handleTerritoryChangePromises(p) {
+          Promise.all(p).then(function(values) {
+            var msgPrefixSuccess = "Muutettiin alueita: ";
+            var msgPrefixFailed = "Muutos ei onnistunut alueille: ";
+            var msg = "";
+            _.each(values, function(v){
+              if(v.status == 200) {
+                msg += v.data.territoryCode + " ";
+              }
+            });
+            if(msg.length > 0) {
+              MessageService.success(msgPrefixSuccess + msg);
+            }
+            var msg2 = ""
+            _.each(values, function(v){
+              if(v.status != 200) {
+                msg2 += v.data.territoryCode + " ";
+              }
+            });
+            if(msg2.length > 0) {
+              MessageService.error(msgPrefixFailed + msg2);
+            }
+          });
+          $scope.isCollapsed = true;
+          $scope.isAllCollapsed = false;
+          $scope.selectedTerritoryHolderId = null;
+          updateMailCount();
+          _fetchData();
+        };
+
+        $scope.isNotCoveredLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isNotCoveredRecently(territory, app);
+        };
+
+        $scope.isHolderNotChangedLimitExeeded = function(territory, app) {
+          return TerritoryHelper.isHolderNotChangedLimitExeeded(territory, app);
+        };
+
+        // Function to change sort column / direction on list
+        $scope.changeSort = function changeSort(item) {
+          var sort = $scope.sort;
+
+          if (sort.column === item.column) {
+            sort.direction = !sort.direction;
+          } else {
+            sort.column = item.column;
+            sort.direction = true;
+          }
+
+          _triggerFetchData();
+        };
+
+        /**
+         * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch territory data
+         * from server.
+         */
+        $scope.$watch('currentPage', function watcher(valueNew, valueOld) {
+          if (valueNew !== valueOld) {
+            _fetchData();
+          }
+        });
+
+        /**
+         * Simple watcher for 'itemsPerPage' scope variable. If this is changed we need to fetch territory data
+         * from server.
+         */
+        $scope.$watch('itemsPerPage', function watcher(valueNew, valueOld) {
+          if (valueNew !== valueOld) {
+            _triggerFetchData();
+          }
+        });
+
+        var searchWordTimer;
+
+        /**
+         * Watcher for 'filter' scope variable, which contains multiple values that we're interested
+         * within actual GUI. This will trigger new data fetch query to server if following conditions
+         * have been met:
+         *
+         *  1) Actual filter variable is different than old one
+         *  2) Search word have not been changed in 400ms
+         *
+         * If those are ok, then watcher will call 'fetchData' function.
+         */
+        $scope.$watch('filters', function watcher(valueNew, valueOld) {
+          if (valueNew !== valueOld) {
+            if (searchWordTimer) {
+              $timeout.cancel(searchWordTimer);
+            }
+
+            searchWordTimer = $timeout(_triggerFetchData, 400);
+          }
+        }, true);
+
+        /**
+         * Helper function to trigger actual data fetch from backend. This will just check current page
+         * scope variable and if it is 1 call 'fetchData' function right away. Any other case just set
+         * 'currentPage' scope variable to 1, which will trigger watcher to fetch data.
+         *
+         * @private
+         */
+        function _triggerFetchData() {
+          $scope.clearSelected($scope.items);
+          if ($scope.currentPage === 1) {
+            _fetchData();
+          } else {
+            $scope.currentPage = 1;
+          }
+        }
+
+        /**
+         * Helper function to fetch actual data for GUI from backend server with current parameters:
+         *  1) Current page
+         *  2) Search word
+         *  3) Sort order
+         *  4) Items per page
+         *
+         * Actually this function is doing two request to backend:
+         *  1) Data count by given filter parameters
+         *  2) Actual data fetch for current page with filter parameters
+         *
+         * These are fetched via 'TerritoryModel' service with promises.
+         *
+         * @private
+         */
+        function _fetchData() {
+          $scope.loading = true;
+
+          // Common parameters for count and data query
+          var commonParameters = {
+            where: SocketHelperService.getWhere($scope.filters)
+          };
+
+          if($scope.filters && $scope.filters.holderId) {
+            commonParameters.where = _.merge(
+              {}, 
+              commonParameters.where, 
+              {holder: $scope.filters.holderId}
+            );
+          }
+
+          if($scope.filters && $scope.filters.attributeLinkId) {
+            // TODO: look for all territories with said attribute,
+            // Add list of territory ids to where query
+          }
+
+          // Data query specified parameters
+          var parameters = {
+            populate: ['holder', 'territoryHolderHistory', 'territoryLinkAttribute'],
+            limit: $scope.itemsPerPage,
+            skip: ($scope.currentPage - 1) * $scope.itemsPerPage,
+            sort: $scope.sort.column + ' ' + ($scope.sort.direction ? 'ASC' : 'DESC')
+          };
+
+          // Fetch data count
+          var count = TerritoryModel
+            .count(commonParameters)
+            .then(
+              function onSuccess(response) {
+                $scope.itemCount = response.count;
+              }
+            )
+          ;
+
+          console.log(_.merge({}, commonParameters, parameters));
+
+          // Fetch actual data
+          var load = TerritoryModel
+            .load(_.merge({}, commonParameters, parameters))
+            .then(
+              function onSuccess(response) {
+                $scope.items = response;
+              }
+            )
+          ;
+
+          // And wrap those all to promise loading
+          $q
+            .all([count, load])
+            .finally(
+              function onFinally() {
+                $scope.loaded = true;
+                $scope.loading = false;
+              }
+            )
+          ;
+        }
+
+        _triggerFetchData();
+      }
+    ])
+  ;
+
+  angular.module('frontend.app.territory')
+    .controller('TerritoryStatsController', [
+      '$scope', '$q',
+      '_',
+      'ListConfig',
+      'SocketHelperService', 'UserService',
+      'StatModel',
+      '_items',
+      '_app',
+      '_stats',
+      function controller(
+        $scope, $q,
+        _,
+        ListConfig,
+        SocketHelperService, UserService,
+        StatModel,
+        _items,
+        _app,
+        _stats
+      ) {
+
+        var formDaysMonthsYearsObject = function(in_millisecs) {
+          var millisecondsPerDay = 1000 * 60 * 60 * 24;
+            var days = in_millisecs / millisecondsPerDay;
+            var months = days / 30;
+            var years = months / 12;
+            days = days % 30;
+            months = months % 12;
+            return {'days':Math.floor(days), 'months':Math.floor(months), 'years': Math.floor(years)};
+        }
+
+        // Set initial data
+        $scope.territories = _items;
+        $scope.app = _app[0];
+        $scope.user = UserService.user();
+
+        $scope.totalCount = 0;
+        $scope.notCoveredRecently = 0;
+        $scope.totalWithoutNotCountedWhenCalculatingCoveredDuringLastYearTotal = 0;
+        $scope.holderIsDefault = 0;
+        $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotal = 0;
+        $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotalNotCovered = 0;
+        $scope.averageCoveredTime = 0;
+        var totalCoveredTimeMs = 0;
+        var totalTimeOnSameHolder = 0;
+        var totalTimeOnSameHolderDivider = 0;
+        $scope.averageTimeBetweenHolderChange = 0;
+        $scope.holderChanges = 0;
+        $scope.territoryTypeCounts = [];
+        var now = new Date();
+        var NOT_COVERED_LIMIT_MS = 1000 * 60 * 60 * 24 * ($scope.app.notCoveredLimit || 365);
+        _.each($scope.territories, function(t) {
+
+          $scope.holderChanges += t.territoryHolderHistory ? t.territoryHolderHistory.length : 0;
+          _.each(t.territoryHolderHistory, function(thh) {
+            var start = new Date(Date.parse(thh.startDate || now));
+            var end = new Date(Date.parse(thh.endDate || now));
+            totalCoveredTimeMs += (end.getTime() - start.getTime());
+          });
+
+          if(t.holder !== $scope.app.defaultHolder && !t.archived) {
+            var taken = new Date(Date.parse(t.taken || now));
+            totalTimeOnSameHolder += (now.getTime() - taken.getTime());
+            totalTimeOnSameHolderDivider++;
+          }
+
+          var covered = new Date(Date.parse(t.covered));
+          if(now.getTime() - covered.getTime() > NOT_COVERED_LIMIT_MS 
+            && !t.notCountedWhenCalculatingCoveredDuringLastYearTotal
+            && !t.archived) {
+            $scope.notCoveredRecently++;
+          }
+           if(!t.archived) {
+            $scope.totalCount++;
+          }
+          if(t.notCountedWhenCalculatingCoveredDuringLastYearTotal
+            && !t.archived) {
+            $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotal++;
+            if(now.getTime() - covered.getTime() > NOT_COVERED_LIMIT_MS) {
+              $scope.totalNotCountedWhenCalculatingCoveredDuringLastYearTotalNotCovered++;
+            }
+          }
+          if(t.holder === $scope.app.defaultHolder) {
+            $scope.holderIsDefault++;
+          }
+        });
+        var avCoveredTime = totalCoveredTimeMs / $scope.holderChanges;
+        var avCoveredObject = formDaysMonthsYearsObject(avCoveredTime);
+        $scope.averageCoveredTime = avCoveredObject.days + ' päivää, ' + avCoveredObject.months + ' kuukautta ja ' + avCoveredObject.years + ' vuotta.';
+
+        var avTimeSameHolder = totalTimeOnSameHolder / totalTimeOnSameHolderDivider;
+        var avTimeSameHolderObject = formDaysMonthsYearsObject(avTimeSameHolder);
+        $scope.averageTimeSameHolder = avTimeSameHolderObject.days + ' päivää, ' + avTimeSameHolderObject.months + ' kuukautta ja ' + avTimeSameHolderObject.years + ' vuotta.';
+
+        StatModel.create({
+          statisticDate: new Date(),
+          averageCoveredTime: avCoveredTime,
+          averageHoldingTime: avTimeSameHolder,
+          totalCount: $scope.totalCount,
+          notCoveredCount: $scope.notCoveredRecently,
+          availableCount: $scope.holderIsDefault,
+        });
+      }
+    ])
+  ;
+
+  angular.module('frontend.app.territory')
+    .controller('TerritoryS13Controller', [
+      '$scope', '$q',
+      '_',
+      'ListConfig',
+      'SocketHelperService', 'UserService',
+      '_items', '_holders',
+      function controller(
+        $scope, $q,
+        _,
+        ListConfig,
+        SocketHelperService, UserService,
+        _items, _holders
+      ) {
+
+        // Set initial data
+        $scope.territories = _items;
+        $scope.holders = _holders;
+        $scope.user = UserService.user();
+
+        _.each($scope.territories, function(t) {
+          var emptyHistoryLength = 20 - t.territoryHolderHistory.length;
+          emptyHistoryLength = emptyHistoryLength > 0 ? emptyHistoryLength : 0;
+          t.emptyArray = Array.apply(null, Array(emptyHistoryLength)).map(function (x, i) { return i; });
+        });
+
+        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
+          return  _.result(
+              _.find(_holders, function(h) {
+                return h.id === holderId;
+              }), 
+              'name'
+            );
+        };
+      }
+    ])
+  ;
+
+  angular.module('frontend.app.territory')
+    .controller('TerritoryQuickViewController', [
+      '$scope', '$q',
+      '_',
+      'ListConfig',
+      'TerritoryHelper',
+      'SocketHelperService', 'UserService',
+      '_items', '_holders', '_app',
+      function controller(
+        $scope, $q,
+        _,
+        ListConfig,
+        TerritoryHelper,
+        SocketHelperService, UserService,
+        _items, _holders, _app
+      ) {
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+        // Set initial data
+        $scope.territories = _items;
+        $scope.holders = _holders;
+        $scope.app = _app[0];
+        $scope.user = UserService.user();
+
+        $scope.isNotCoveredRecently = function isNotCoveredRecently(territory, app) {
+          return TerritoryHelper.isNotCoveredRecently(territory, app);
+        };
+
+        $scope.isDefaultHolder = function isDefaultHolder(holderId) {
+          return holderId === $scope.app.defaultHolder;
+        };
+
+        $scope.getHolderNameWithId = function getHolderNameWithId(holderId) {
+          return  _.result(
+              _.find(_holders, function(h) {
+                return h.id === holderId;
+              }), 
+              'name'
+            );
+        };
+      }
+    ])
+  ;
+
+  // Controller which contains all necessary logic for territory list GUI on boilerplate application.
+  angular.module('frontend.app.territory')
+    .controller('TerritoryMapController', [
+      '$scope', '$q', '$filter',
+      '_',
+      'ListConfig',
+      'TerritoryHelper',
+      'SocketHelperService', 'UserService',
+      '_items', '_app',
+      function controller(
+        $scope, $q, $filter,
+        _,
+        ListConfig,
+        TerritoryHelper,
+        SocketHelperService, UserService,
+        _items, _app
+      ) {
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+        $scope.territories = _items;
+        $scope.app = _app[0];
+        $scope.user = UserService.user();
+
+        // Set initial data
+        $scope.map = {
+          center: {
+            latitude: $scope.app.defaultLatitude || $scope.app.defaultLatitude,
+            longitude: $scope.app.defaultLongitude || $scope.app.defaultLongitude
+          },
+          zoom: 10,
+          markersEvents: {},
+          window: {
+              marker: {},
+              show: false,
+              closeClick: function() {
+                  this.show = false;
+              },
+              options: {}, // define when map is ready
+              title: ''
+          }
+        };
+
+        var clickHandler = function clickHandler(marker, eventName, model) {
+            $scope.map.window.model = model;
+            $scope.map.window.title = model.title;
+            $scope.map.window.linkId = model.id;
+            $scope.map.window.covered = model.covered;
+            $scope.map.window.show = true;
+        };
+
+        $scope.map.markersEvents.click = clickHandler;
+
+        $scope.onClick = function onClick(marker) {
+          $scope.selectedMarker = marker.model;
+        };
+
+        var getIconUrl = function getIconUrl(territory) {
+          try {
+            if(TerritoryHelper.isNotCoveredRecently(territory, $scope.app)) {
+              if(territory.holder.id !== $scope.app.defaultHolder) {
+                return '/assets/images/red.png';
+              }
+              return '/assets/images/red-dot.png';
+            }
+            if(territory.holder.id !== $scope.app.defaultHolder) {
+              return '/assets/images/green.png';
+            }
+            return '/assets/images/green-dot.png';           
+          } catch(err) {
+            return '/assets/images/yellow.png';
+          }
+
+        };
+
+        $scope.closeClick = function () {
+            this.window = false;
+        };
+
+        $scope.territoryMarkers = [];
+        _.each($scope.territories, function(t) {
+          t.markerOptions = {
+            icon: { url: getIconUrl(t) }
+          }
+          $scope.territoryMarkers.push({
+            id: t.id,
+            title: t.territoryCode,
+            covered: t.covered,
+            latitude: t.center ? t.center.latitude : 61,
+            longitude: t.center ? t.center.longitude: 23,
+            icon: t.markerOptions.icon,
+            onClick: function() {
+              console.log("Clicked", this);
+            }
+          })
+        })
+
+
       }
     ])
   ;
 }());
+
+/**
+ * This file contains all necessary Angular model definitions for 'frontend.app.territory
+' module.
+ *
+ * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
+ * services that wraps all things together.
+ */
+(function() {
+  'use strict';
+
+  /**
+   * Model for Territory API, this is used to wrap all Territory objects specified actions and data change actions.
+   */
+  angular.module('frontend.app.territory')
+    .service('TerritoryModel', [
+      'DataModel',
+      function(DataModel) {
+        return new DataModel('territory');
+      }
+    ])
+  ;
+}());
+
+
+'use strict';
+
+angular.module('frontend.app.territory')
+.factory('TerritoryHelper', [function () {
+
+	var millisecondsInDay = 24 * 60 * 60 * 1000;
+
+	return {
+		isNotCoveredRecently : function(territory, appSettings) {
+			var limitInMilliseconds = millisecondsInDay * appSettings.notCoveredLimit;
+			var now = new Date();
+			return Date.parse(territory.covered) < (now.getTime() - limitInMilliseconds);
+		},
+		isHolderNotChangedLimitExeeded : function(territory, appSettings) {
+			var limitInMilliseconds = millisecondsInDay * appSettings.holderNotChangedWarningLimit;
+			var now = new Date();
+			return Date.parse(territory.taken) < (now.getTime() - limitInMilliseconds);
+		}
+	};
+
+}]);
 
 /**
  * Angular module for frontend.core.auth component. This component is divided to following logical components:
@@ -8809,6 +8769,76 @@ angular.module('frontend.app.territory')
         }
 
         _reset();
+      }
+    ])
+  ;
+}());
+
+/**
+ * Angular module for app component. This component is divided to following logical components:
+ *
+ *  frontend.app.about
+ *  frontend.app.author
+ *  frontend.app.holder
+ *  frontend.app.chat
+ *  frontend.app.messages
+ *
+ * Each component has it own configuration for ui-router.
+ */
+(function() {
+  'use strict';
+
+  // Define frontend.admin module
+  angular.module('frontend.app', [
+    'frontend.app.about',
+    'frontend.app.territory',
+    'frontend.app.territoryHolderHistory',
+    'frontend.app.holder',
+    'frontend.app.coordinate',
+    'frontend.app.territoryLinkAttribute',
+    'frontend.app.specialAddress',
+    'frontend.app.attribute',
+    'frontend.app.app',
+    'frontend.app.stat',
+    'frontend.app.chat',
+    'frontend.app.messages'
+  ]);
+
+  // Module configuration
+  angular.module('frontend.app')
+    .config([
+      '$stateProvider',
+      function($stateProvider) {
+        $stateProvider
+          .state('app', {
+            parent: 'frontend',
+            data: {
+              access: 1
+            },
+            views: {
+              'content@': {
+                controller: [
+                  '$state',
+                  function($state) {
+                    $state.go('app.territory');
+                  }
+                ]
+              },
+              'pageNavigation@': {
+                templateUrl: '/frontend/core/layout/partials/navigation.html',
+                controller: 'NavigationController',
+                resolve: {
+                  _items: [
+                    'ContentNavigationItems',
+                    function resolve(ContentNavigationItems) {
+                      return ContentNavigationItems.getItems('app');
+                    }
+                  ]
+                }
+              }
+            }
+          })
+        ;
       }
     ])
   ;

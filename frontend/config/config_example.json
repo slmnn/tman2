@@ -1,5 +1,5 @@
 {
-  "backendUrl": "http://localhost:1337",
+  "backendUrl": "http://aluepoyta.herokuapp.com",
   "prefix":"/",
   "frontend": {
     "ports": {
